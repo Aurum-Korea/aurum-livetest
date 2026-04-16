@@ -1,4 +1,7 @@
-import { T, fUSD, fKRW, KR_GOLD_PREMIUM, AURUM_GOLD_PREMIUM, DON_IN_GRAMS, OZ_IN_GRAMS } from '../lib/index.jsx';
+import { T, fUSD, fKRW, KR_GOLD_PREMIUM, AURUM_GOLD_PREMIUM } from '../lib/index.jsx';
+
+const DON_IN_GRAMS = 3.75;
+const OZ_IN_GRAMS  = 31.1035;
 
 export default function Ticker({ prices, krwRate, dailyChanges, lang }) {
   const goldSpot   = prices.gold   || 3342.80;
