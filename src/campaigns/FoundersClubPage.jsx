@@ -383,6 +383,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
               <div style={{ width:32, height:1, background:T.gold }} />
               <span style={{ fontFamily:T.mono, fontSize:9, fontWeight:500, letterSpacing:'0.32em', textTransform:'uppercase', color:T.gold }}>Founders Club · 파운더스 클럽</span>
             </div>
+            <h1 style={{ fontFamily:T.serifKr, fontWeight:500, fontSize:isMobile?34:54, lineHeight:1.1, color:T.text, margin:'0 0 18px', letterSpacing:'-0.01em' }}>
               더 많이 구매할수록,<br />더 싸게 <span style={{ color:T.gold, fontFamily:T.serif, fontStyle:'italic' }}>영원히</span>.
             </h1>
             <div style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:17, color:T.goldDim, marginBottom:20, letterSpacing:'0.005em' }}>
