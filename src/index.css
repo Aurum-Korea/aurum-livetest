@@ -389,17 +389,33 @@ main { animation: pageIn 0.3s ease-out; }
 
 /* ─── Desktop font scale ─────────────────────────────────────────── */
 @media (min-width: 1024px) {
-  html { zoom: 1.15; }
-
-  /* Stats / mono values — make them legible */
+  /* Stats / mono values */
   .stat-bar-value { font-size: 26px; }
-
-  /* Explicit body copy boost — inline 13px shows as ~15px with zoom */
   body { font-size: 15px; }
 }
 
-@media (min-width: 1280px) {
-  html { zoom: 1.2; }
+
+
+
+/* ─── Card elevation tiers (Tier 5 design fix) ──────────────────── */
+.card-elevated {
+  background: #141414;
+  border: 1px solid #1e1e1e;
+  border-radius: 8px;
+}
+.card-elevated:hover {
+  border-color: rgba(197,165,114,0.25);
+  transition: border-color 0.2s;
+}
+.card-gold-accent {
+  background: #141414;
+  border: 1px solid rgba(197,165,114,0.3);
+  border-radius: 8px;
+}
+.card-gold-accent:hover {
+  border-color: rgba(197,165,114,0.6);
+  box-shadow: 0 0 16px rgba(197,165,114,0.08);
+  transition: all 0.25s;
 }
 
 /* ─── Ticker marquee animation ───────────────────────────────────── */
@@ -413,6 +429,7 @@ main { animation: pageIn 0.3s ease-out; }
   width: max-content;
   will-change: transform;
 }
+.ticker-track > div { cursor: pointer; }
 .ticker-track:hover {
   animation-play-state: paused;
 }
