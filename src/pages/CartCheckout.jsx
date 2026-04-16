@@ -101,6 +101,25 @@ export function CartPage({ lang, navigate, cart, removeFromCart, updateCartQty, 
 export function CheckoutPage({ lang, navigate, cart, clearCart, prices, krwRate, user, addOrder, toast, currency, setCurrency, initialPayMethod }) {
   const ko = lang === 'ko';
   const isMobile = useIsMobile();
+  // TIER 4 (8C): Gate unauthenticated users to account creation
+  if (!user) {
+    return (
+      <div style={{ minHeight:'70vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:20, padding:'60px 20px', textAlign:'center' }}>
+        <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:28, fontWeight:300, color:'#f5f0e8' }}>
+          {ko ? '계좌가 필요합니다' : 'Account Required'}
+        </div>
+        <div style={{ fontFamily:"'Outfit',sans-serif", fontSize:15, color:'#a09080', maxWidth:400, lineHeight:1.65 }}>
+          {ko ? 'Aurum 계좌 하나로 실물 금·은 매수와 AGP 적립 모두 이용할 수 있습니다.' : 'One Aurum account gives you access to physical metal purchases and AGP savings.'}
+        </div>
+        <button onClick={() => navigate('agp-enroll')} style={{ background:'linear-gradient(135deg,#c5a572,#8a6914)', color:'#fff', border:'none', padding:'14px 32px', fontSize:15, fontWeight:700, cursor:'pointer', fontFamily:"'Outfit',sans-serif", borderRadius:6 }}>
+          {ko ? '계좌 만들기 →' : 'Create Account →'}
+        </button>
+        <button onClick={() => navigate('cart')} style={{ background:'transparent', color:'#a09080', border:'1px solid #282828', padding:'12px 24px', fontSize:14, cursor:'pointer', fontFamily:"'Outfit',sans-serif", borderRadius:6 }}>
+          {ko ? '← 장바구니로' : '← Back to Cart'}
+        </button>
+      </div>
+    );
+  }
   const [step, setStep] = useState(1);
   const [payMethod, setPayMethod] = useState(initialPayMethod || 'toss');
   const [consents, setConsents] = useState({ terms:false, privacy:false, marketing:false });

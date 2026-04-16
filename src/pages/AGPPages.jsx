@@ -124,7 +124,7 @@ export function AGPIntroPage({ lang, navigate }) {
         {/* CTAs */}
         <div style={{ marginTop: 36, display: 'flex', gap: 12, flexDirection: 'column' }}>
           <button onClick={() => navigate('agp-enroll')} className="btn-primary" style={{ width: '100%', padding: '16px' }}>🚀 AGP 가입하기</button>
-          <button onClick={() => navigate('agp-report')} className="btn-outline" style={{ width: '100%', padding: '16px' }}>📊 오늘의 백업 리포트</button>
+          <button onClick={() => navigate('agp-report')} className="btn-outline" style={{ width: '100%', padding: '16px' }}>📊 오늘의 백킹 리포트</button>
         </div>
       </div>
     </div>
@@ -134,7 +134,7 @@ export function AGPIntroPage({ lang, navigate }) {
 /* ═══════════════════════════════════════════════════════════════════════
    AGP ENROLL — full sign-up form
    ═══════════════════════════════════════════════════════════════════════ */
-export function AGPEnrollPage({ lang, navigate }) {
+export function AGPEnrollPage({ lang, navigate, prices = { gold: 3400 }, krwRate = 1460 }) {
   const ko = lang === 'ko';
   const isMobile = useIsMobile();
   const [formStep, setFormStep] = useState(1);
@@ -150,7 +150,8 @@ export function AGPEnrollPage({ lang, navigate }) {
   const upd = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
   const fmtKRW = n => Math.round(n).toLocaleString('ko-KR');
-  const SPOT_PER_GRAM = 155000; // approximate KRW/g placeholder
+  // Note: AGP account also grants access to all physical shop products
+  const SPOT_PER_GRAM = Math.round(prices.gold * krwRate / 31.1035); // live KRW per gram
   const gramEstimate = (form.monthlyAmount / SPOT_PER_GRAM).toFixed(3);
 
   const handleEnroll = async () => {

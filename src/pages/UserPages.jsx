@@ -60,9 +60,9 @@ export function DashboardPage({ lang, navigate, prices, krwRate, user, orders, h
       {/* Summary cards */}
       <div style={{ display:'grid', gridTemplateColumns: isMobile?'1fr 1fr':'repeat(4,1fr)', gap: isMobile?10:16, marginBottom:16 }}>
         {[
-          { label:ko?'총 가치':'Total Value', value:fUSD(totalVal), sub:fKRW(totalVal*krwRate), col:T.gold },
-          { label:ko?'금':'Gold',           value:`${goldOz.toFixed(2)} oz`, sub:fUSD(goldVal), col:T.gold },
-          { label:ko?'은':'Silver',         value:`${silverOz.toFixed(0)} oz`, sub:fUSD(silverVal), col:'#aaa' },
+          { label:ko?'총 가치':'Total Value', value:fKRW(totalVal*krwRate), sub:fUSD(totalVal), col:T.gold },
+          { label:ko?'금':'Gold',           value:`${goldOz.toFixed(2)} oz`, sub:fKRW(goldVal*krwRate), col:T.gold },
+          { label:ko?'은':'Silver',         value:`${silverOz.toFixed(0)} oz`, sub:fKRW(silverVal*krwRate), col:'#aaa' },
           { label:'P&L', value:`${totalPnL>=0?'+':''}${fUSD(totalPnL)}`, sub:`${totalCost>0?((totalPnL/totalCost)*100).toFixed(1):'0'}%`, col: totalPnL>=0 ? T.green : T.red },
         ].map((c,i) => (
           <div key={i} style={{ background:T.bg1, border:`1px solid ${T.border}`, padding: isMobile?12:20 }}>
@@ -244,7 +244,8 @@ export function SellFlowPage({ lang, navigate, prices, krwRate, holdings, toast 
                     <div style={{ fontSize:11, color:T.textMuted, fontFamily:T.mono }}>{h.serial}</div>
                   </div>
                   <div style={{ textAlign:'right' }}>
-                    <div style={{ fontFamily:T.mono, fontSize:14, color:T.gold, fontWeight:600 }}>{fUSD(bid)}</div>
+                    <div style={{ fontFamily:T.mono, fontSize:14, color:T.gold, fontWeight:600 }}>{fKRW(bid*krwRate)}</div>
+                    <div style={{ fontFamily:T.mono, fontSize:11, color:T.textMuted }}>{fUSD(bid)}</div>
                     <div style={{ fontSize:10, color:'#555', fontFamily:T.sans }}>bid {((1-bidFactor)*100).toFixed(1)}% spread</div>
                   </div>
                 </div>
@@ -260,7 +261,8 @@ export function SellFlowPage({ lang, navigate, prices, krwRate, holdings, toast 
               <div style={{ display:'flex', justifyContent:'space-between' }}>
                 <span style={{ fontSize:14, color:T.text, fontFamily:T.sans, fontWeight:600 }}>{ko?'예상 정산금':'Expected Payout'}</span>
                 <div style={{ textAlign:'right' }}>
-                  <div style={{ fontFamily:T.mono, fontSize:20, color:T.green, fontWeight:700 }}>{fUSD(totalBid)}</div>
+                  <div style={{ fontFamily:T.mono, fontSize:20, color:T.green, fontWeight:700 }}>{fKRW(totalBid*krwRate)}</div>
+                  <div style={{ fontFamily:T.mono, fontSize:12, color:'#666' }}>{fUSD(totalBid)}</div>
                   <div style={{ fontFamily:T.mono, fontSize:11, color:'#666' }}>{fKRW(totalBid*krwRate)}</div>
                 </div>
               </div>

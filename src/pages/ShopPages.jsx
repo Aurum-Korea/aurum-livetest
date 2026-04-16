@@ -165,7 +165,7 @@ export function ProductPage({ product, lang, navigate, prices, krwRate, user, se
   const storageFee = storage === 'singapore' ? 0.15 : 0;
 
   const handleAdd = () => {
-    if (!user) { setShowLogin(true); return; }
+    if (!user) { navigate('agp-enroll'); return; }
     addToCart(product, qty, storage);
     toast(ko ? `${ko?product.nameKo:product.name} 장바구니에 추가됨` : `Added to cart`);
   };
