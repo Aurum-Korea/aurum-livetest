@@ -398,11 +398,23 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
             </div>
           </div>
 
-          {/* Col 2 — Gate Progress Widget (Image 8) */}
-          {!isMobile && <GateProgressWidget userGate={userGate} />}
+          {/* Col 2 — Gate Progress Widget — always visible */}
+          <div>
+            <div style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:9, color:'#c5a572', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:8, display:'flex', alignItems:'center', gap:6 }}>
+              <span style={{ width:4, height:4, borderRadius:'50%', background:'#c5a572', display:'inline-block' }} />
+              GMV 진행 현황 · FOUNDERS CLUB
+            </div>
+            <GateProgressWidget userGate={userGate} />
+          </div>
 
-          {/* Col 3 — Leaderboard Widget (Image 7) */}
-          {!isMobile && <LeaderboardWidget />}
+          {/* Col 3 — Leaderboard Widget — always visible */}
+          <div>
+            <div style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:9, color:'#4ade80', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:8, display:'flex', alignItems:'center', gap:6 }}>
+              <span style={{ width:4, height:4, borderRadius:'50%', background:'#4ade80', animation:'pulse 1.6s ease-in-out infinite', display:'inline-block' }} />
+              GMV KINGS · LIVE
+            </div>
+            <LeaderboardWidget />
+          </div>
         </div>
       </div>
 

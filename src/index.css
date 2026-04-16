@@ -371,10 +371,21 @@ main { animation: pageIn 0.3s ease-out; }
   }
 }
 
-/* ─── Desktop font sizes — explicit overrides ────────────────── */
+/* ─── Desktop font scale — matches aurum-test (zoom: 1.15) ──────── */
 @media (min-width: 1024px) {
-  .stat-bar-value { font-size: 24px; }
-  .panel-title    { font-size: 22px; }
-  .accordion-btn  { font-size: 16px; }
-  .tab-btn        { font-size: 15px; }
+  html { zoom: 1.15; }
+}
+
+/* ─── Ticker marquee animation ───────────────────────────────────── */
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-track {
+  display: flex;
+  animation: ticker-scroll 40s linear infinite;
+  width: max-content;
+}
+.ticker-track:hover {
+  animation-play-state: paused;
 }
