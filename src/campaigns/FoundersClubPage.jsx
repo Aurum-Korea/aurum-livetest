@@ -71,7 +71,7 @@ function GateProgressWidget({ userGate, krwRate = 1375 }) {
 }
 
 // ─── Leaderboard Mini Widget (Image 7) ───────────────────────────────────────
-function LeaderboardWidget() {
+function LeaderboardWidget({ krwRate = 1375 }) {
   return (
     <div style={{ background:T.bgCard, border:`1px solid ${T.goldBorder}`, padding:'20px 18px', position:'relative' }}>
       <div style={{ position:'absolute', top:0, left:0, right:0, height:1, background:`linear-gradient(90deg,transparent,${T.gold},transparent)` }} />
@@ -86,7 +86,7 @@ function LeaderboardWidget() {
             <div style={{ fontFamily:T.mono, fontSize:10, color:T.text, letterSpacing:'0.04em', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{row.name}</div>
             <div style={{ fontFamily:T.mono, fontSize:7, color:row.tier==='PATRON'?T.gold:T.goldDim, border:`1px solid ${row.tier==='PATRON'?T.goldBorder:T.border}`, padding:'1px 5px', display:'inline-block', marginTop:2, letterSpacing:'0.12em' }}>{row.tier}</div>
           </div>
-          <div style={{ fontFamily:T.mono, fontSize:11, color:T.gold, fontWeight:600, textAlign:'right' }}>${(row.gmv/1000).toFixed(0)}K</div>
+          <div style={{ fontFamily:T.mono, fontSize:11, color:T.gold, fontWeight:600, textAlign:'right' }}>₩{Math.round(row.gmv * krwRate / 1000000)}M</div>
           <div style={{ fontFamily:T.mono, fontSize:11, color:T.green, fontWeight:700, textAlign:'right', minWidth:36 }}>−{GATES[row.gate-1].discount}%</div>
         </div>
       ))}
@@ -94,7 +94,7 @@ function LeaderboardWidget() {
       <div style={{ display:'grid', gridTemplateColumns:'28px 1fr auto auto', gap:8, alignItems:'center', padding:'8px 8px', marginTop:4, background:`linear-gradient(90deg,rgba(197,165,114,0.08),transparent)`, borderLeft:`2px solid ${T.gold}`, marginLeft:-18, paddingLeft:20 }}>
         <div style={{ fontFamily:T.mono, fontSize:10, color:T.gold }}>#{USER.rank}</div>
         <div style={{ fontFamily:T.mono, fontSize:10, color:T.gold, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>YOU · {USER.name}</div>
-        <div style={{ fontFamily:T.mono, fontSize:11, color:T.gold, fontWeight:600, textAlign:'right' }}>${(USER.gmv/1000).toFixed(0)}K</div>
+        <div style={{ fontFamily:T.mono, fontSize:11, color:T.gold, fontWeight:600, textAlign:'right' }}>₩{Math.round(USER.gmv * krwRate / 1000000)}M</div>
         <div style={{ fontFamily:T.mono, fontSize:11, color:T.textMuted, textAlign:'right', minWidth:36 }}>−1.5%</div>
       </div>
     </div>
@@ -135,7 +135,7 @@ function GMVCalculator({ prices = { gold: 3342.80 }, krwRate = 1368 }) {
       <div style={{ background:T.bg2, border:`1px solid ${T.goldBorder}`, padding:'20px 24px' }}>
         <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr 1fr':'repeat(4,1fr)', gap:14, marginBottom:16 }}>
           {[
-            { label:'연간 총 GMV', value:fmtUSD(total), sub:`≈ ₩${fmt(total*krwRate)}` },
+            { label:'연간 총 GMV', value:`₩${fmt(total*krwRate)}`, sub:`≈ ${fmtUSD(total)}` },
             { label:'현재 게이트', value:gate?`Gate ${gate.num}`:'미달', sub:gate?gate.label:'₩7.2M 부터' },
             { label:'Founder Savings', value:gate?`−${gate.discount}%`:'−', sub:'on Listed Price · 평생', hl:true },
             { label:'연간 절약 (추정)', value:gate?fKRW(savings * krwRate):'−', sub:'프리미엄 기준' },
@@ -195,19 +195,19 @@ function DualSavingsPanel({ prices = { gold: 3342.80 }, krwRate = 1368 }) {
         <div style={{ background:T.bg1, border:`1px solid ${T.goldBorder}`, padding:'22px 24px' }}>
           <div style={{ fontFamily:T.mono, fontSize:9, color:T.gold, letterSpacing:'0.2em', textTransform:'uppercase', marginBottom:14 }}>🥇 실물 매수 · Physical</div>
           {[
-            { label:'한국금거래소 (KRX+VAT)',         value:`$${koreaPrice.toFixed(0)}`, color:'#888' },
-            { label:'Aurum 기본가 (프리미엄 +8%)',     value:`$${aurumBase.toFixed(0)}`, color:T.textSub },
-            { label:`Gate ${gate.num} 적용가 (−${gate.discount}%)`, value:`$${withSavings.toFixed(0)}`, color:T.goldBright, hl:true },
+            { label:'exgold 매도가 (VAT 포함)',         value:`₩${Math.round(koreaPrice*krwRate/31.1035).toLocaleString('ko-KR')}`, color:'#888' },
+            { label:'Aurum 기본가 (프리미엄 +8%)',     value:`₩${Math.round(aurumBase*krwRate/31.1035).toLocaleString('ko-KR')}`, color:T.textSub },
+            { label:`Gate ${gate.num} 적용가 (−${gate.discount}%)`, value:`₩${Math.round(withSavings*krwRate/31.1035).toLocaleString('ko-KR')}`, color:T.goldBright, hl:true },
           ].map((row,i)=>(
             <div key={i} style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', padding:'9px 0', borderBottom:i<2?`1px dashed ${T.border}`:'none' }}>
               <span style={{ fontFamily:T.sans, fontSize:12, color:T.textSub }}>{row.label}</span>
-              <span style={{ fontFamily:T.mono, fontSize:row.hl?18:13, color:row.color, fontWeight:row.hl?700:500 }}>{row.value}<span style={{ fontSize:10, color:T.textMuted, marginLeft:3 }}>/oz</span></span>
+              <span style={{ fontFamily:T.mono, fontSize:row.hl?18:13, color:row.color, fontWeight:row.hl?700:500 }}>{row.value}<span style={{ fontSize:10, color:T.textMuted, marginLeft:3 }}>/g</span></span>
             </div>
           ))}
           <div style={{ marginTop:14, background:'rgba(74,222,128,0.06)', border:'1px solid rgba(74,222,128,0.2)', padding:'12px 14px', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
             <span style={{ fontFamily:T.sans, fontSize:12, color:T.text }}>한국 대비 절약</span>
             <div style={{ textAlign:'right' }}>
-              <div style={{ fontFamily:T.mono, fontSize:16, color:T.green, fontWeight:700 }}>${savedVsKorea.toFixed(0)}/oz</div>
+              <div style={{ fontFamily:T.mono, fontSize:16, color:T.green, fontWeight:700 }}>₩{Math.round(savedVsKorea*krwRate/31.1035).toLocaleString('ko-KR')}/g</div>
               <div style={{ fontFamily:T.mono, fontSize:10, color:T.textMuted }}>{((savedVsKorea/koreaPrice)*100).toFixed(1)}% 절약</div>
             </div>
           </div>
@@ -402,7 +402,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
           {!isMobile && <GateProgressWidget userGate={userGate} krwRate={krwRate} />}
 
           {/* Col 3 — Leaderboard Widget (Image 7) */}
-          {!isMobile && <LeaderboardWidget />}
+          {!isMobile && <LeaderboardWidget krwRate={krwRate} />}
         </div>
       </div>
 

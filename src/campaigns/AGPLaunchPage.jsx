@@ -150,8 +150,8 @@ function GMVBonusTrack({ navigate }) {
             <div>
               <div style={{ display:'flex', gap:8, alignItems:'center', flexWrap:'wrap', marginBottom:3 }}>
                 <span style={{ fontFamily:T.mono, fontSize:8, color:T.gold, border:`1px solid ${T.goldBorder}`, padding:'2px 6px', letterSpacing:'0.14em' }}>GATE {row.gate}</span>
-                <span style={{ fontFamily:T.mono, fontSize:11, color:T.text, fontWeight:600 }}>{row.gmv}</span>
-                <span style={{ fontFamily:T.sansKr, fontSize:10, color:T.textMuted }}>≈ {row.gmvKR}</span>
+                <span style={{ fontFamily:T.mono, fontSize:11, color:T.text, fontWeight:600 }}>{row.gmvKR}</span>
+                <span style={{ fontFamily:T.sansKr, fontSize:10, color:T.textMuted }}>≈ {row.gmv}</span>
               </div>
               <div style={{ fontFamily:T.sansKr, fontSize:11, color:T.textSub, lineHeight:1.4 }}>{row.desc}</div>
             </div>
@@ -249,7 +249,7 @@ function CTAPanel() {
     e.preventDefault();
     if (!email) return;
     setSubmitting(true);
-    try { await API.campaign.signupBonus(email); setSubmitted(true); }
+    try { await API.campaign.signupBonus(email); setSubmitted(true); setTimeout(() => navigate('agp-enroll'), 1000); }
     finally { setSubmitting(false); }
   };
 
