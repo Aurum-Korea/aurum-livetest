@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { T, useIsMobile, fUSD, fKRW,
          KR_GOLD_PREMIUM, KR_SILVER_PREMIUM,
-         AURUM_GOLD_PREMIUM, AURUM_SILVER_PREMIUM,
-         OZ_IN_GRAMS, DON_IN_GRAMS } from '../lib/index.jsx';
+         AURUM_GOLD_PREMIUM, AURUM_SILVER_PREMIUM } from '../lib/index.jsx';
+
+const OZ_IN_GRAMS = 31.1035;
+const DON_IN_GRAMS = 3.75;
 import { StatBar, Accordion, SectionHead } from '../components/UI.jsx';
 
 // ─── Campaign panels — hero right column ─────────────────────────────────────
