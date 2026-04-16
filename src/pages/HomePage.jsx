@@ -251,25 +251,25 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
       {/* ── Campaigns teaser strip ── */}
       <div style={{ padding: isMobile ? '28px 20px' : '36px 80px', background: T.bg2, borderBottom:`1px solid ${T.border}` }}>
         <div style={{ maxWidth:980, margin:'0 auto', display:'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap:16 }}>
-          <div onClick={() => navigate('campaign-founding')} style={{ background:T.goldGlow, border:`1px solid ${T.goldBorder}`, padding:'24px 28px', cursor:'pointer', display:'flex', alignItems:'center', gap:20, transition:'all 0.25s' }}
+          <div onClick={() => navigate('campaign-agp-launch')} style={{ background:T.goldGlow, border:`1px solid ${T.goldBorder}`, padding:'24px 28px', cursor:'pointer', display:'flex', alignItems:'center', gap:20, transition:'all 0.25s' }}
             onMouseEnter={e=>e.currentTarget.style.borderColor=T.goldBorderStrong}
             onMouseLeave={e=>e.currentTarget.style.borderColor=T.goldBorder}>
             <div style={{ fontSize:36 }}>🎁</div>
             <div>
-              <div style={{ fontFamily:T.mono, fontSize:9, color:T.gold, letterSpacing:'0.24em', textTransform:'uppercase', marginBottom:6 }}>Founding Season · 사전예약</div>
-              <div style={{ fontFamily:T.serifKr, fontSize:18, color:T.text, marginBottom:4 }}>창립 선물 — ₩50,000 in gold</div>
-              <div style={{ fontFamily:T.sans, fontSize:12, color:T.textSub }}>첫 자동이체 시 실물 금 자동 적립. 한정 선착순.</div>
+              <div style={{ fontFamily:T.mono, fontSize:9, color:T.gold, letterSpacing:'0.24em', textTransform:'uppercase', marginBottom:6 }}>AGP 론치 이벤트 · 창립 한정</div>
+              <div style={{ fontFamily:T.serifKr, fontSize:18, color:T.text, marginBottom:4 }}>AGP 론치 이벤트 — 5단계 실물 금 기프트</div>
+              <div style={{ fontFamily:T.sans, fontSize:12, color:T.textSub }}>티어별 Launch Gift ₩50K~₩5M. 첫 결제 즉시 실물 적립.</div>
             </div>
             <span style={{ color:T.gold, marginLeft:'auto', fontSize:18 }}>→</span>
           </div>
-          <div onClick={() => navigate('campaign-referral')} style={{ background:T.goldGlow, border:`1px solid ${T.goldBorder}`, padding:'24px 28px', cursor:'pointer', display:'flex', alignItems:'center', gap:20, transition:'all 0.25s' }}
+          <div onClick={() => navigate('campaign-founders')} style={{ background:T.goldGlow, border:`1px solid ${T.goldBorder}`, padding:'24px 28px', cursor:'pointer', display:'flex', alignItems:'center', gap:20, transition:'all 0.25s' }}
             onMouseEnter={e=>e.currentTarget.style.borderColor=T.goldBorderStrong}
             onMouseLeave={e=>e.currentTarget.style.borderColor=T.goldBorder}>
             <div style={{ fontSize:36 }}>🚪</div>
             <div>
-              <div style={{ fontFamily:T.mono, fontSize:9, color:T.gold, letterSpacing:'0.24em', textTransform:'uppercase', marginBottom:6 }}>The Five Gates · 추천 프로그램</div>
-              <div style={{ fontFamily:T.serifKr, fontSize:18, color:T.text, marginBottom:4 }}>Founder Savings — 최대 −3.0%</div>
-              <div style={{ fontFamily:T.sans, fontSize:12, color:T.textSub }}>친구 추천 GMV가 쌓일수록 평생 할인율이 깊어집니다.</div>
+              <div style={{ fontFamily:T.mono, fontSize:9, color:T.gold, letterSpacing:'0.24em', textTransform:'uppercase', marginBottom:6 }}>Founders Club · GMV 멤버십</div>
+              <div style={{ fontFamily:T.serifKr, fontSize:18, color:T.text, marginBottom:4 }}>Founders Club — 최대 −3.0% 영구 할인</div>
+              <div style={{ fontFamily:T.sans, fontSize:12, color:T.textSub }}>내 구매 + 친구 구매 GMV가 5개 게이트를 통과할수록 가격이 낮아집니다.</div>
             </div>
             <span style={{ color:T.gold, marginLeft:'auto', fontSize:18 }}>→</span>
           </div>
