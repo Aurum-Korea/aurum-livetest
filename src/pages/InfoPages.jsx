@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { T, useIsMobile, useInView, fUSD, fKRW, WHY_GOLD_REASONS, WHY_GOLD_STATS, WHY_SILVER_STATS, WHY_SILVER_REASONS, EDUCATION_ARTICLES, EDUCATION_CATEGORIES, MARKET_FACTS } from '../lib/index.jsx';
+import { T, useIsMobile, useInView, fUSD, fKRW, WHY_GOLD_REASONS, WHY_GOLD_STATS, WHY_SILVER_STATS, WHY_SILVER_REASONS, EDUCATION_ARTICLES, EDUCATION_CATEGORIES, MARKET_FACTS, useNewsData } from '../lib/index.jsx';
 import { Badge, StatBar, SectionHead, Tabs, Accordion, FlagSG } from '../components/UI.jsx';
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -9,6 +9,7 @@ export function WhyGoldPage({ lang, navigate }) {
   const ko = lang === 'ko';
   const isMobile = useIsMobile();
   const [openArticle, setOpenArticle] = useState(null);
+  const { articles } = useNewsData();
 
   const reasonAccordion = WHY_GOLD_REASONS.map(r => ({
     icon: r.icon,
@@ -101,6 +102,30 @@ export function WhyGoldPage({ lang, navigate }) {
           <button onClick={() => navigate('agp-intro')} className="btn-outline">{ko ? 'AGP 월적립 시작' : 'Start AGP Monthly Plan'}</button>
         </div>
       </div>
+
+      {/* Market News — moved from HomePage */}
+      {articles.length > 0 && (
+        <div style={{ padding: isMobile ? '40px 20px' : '64px 80px', borderTop: `1px solid ${T.border}` }}>
+          <div style={{ maxWidth: 980, margin: '0 auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
+              <span style={{ fontFamily: T.mono, fontSize: 9, color: T.gold, letterSpacing: '0.28em', textTransform: 'uppercase', border: `1px solid ${T.goldBorder}`, padding: '4px 10px' }}>{ko ? '시장 뉴스' : 'Market News'}</span>
+              <span style={{ flex: 1, height: 1, background: `linear-gradient(to right, ${T.goldBorder}, transparent)` }} />
+            </div>
+            <h3 style={{ fontFamily: T.serifKr, fontSize: 'clamp(22px,3vw,34px)', fontWeight: 500, color: T.text, marginBottom: 32, lineHeight: 1.2 }}>{ko ? '최신 귀금속 동향' : 'Latest Precious Metals News'}</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 16 }}>
+              {articles.slice(0, 3).map((a, i) => (
+                <a key={i} href={a.link} target="_blank" rel="noopener noreferrer" style={{ background: T.bg1, border: `1px solid ${T.border}`, padding: '20px 20px', display: 'block', textDecoration: 'none', transition: 'border-color 0.2s' }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = T.goldBorder}
+                  onMouseLeave={e => e.currentTarget.style.borderColor = T.border}>
+                  <div style={{ fontFamily: T.mono, fontSize: 9, color: a.category === 'gold' ? T.gold : T.textMuted, letterSpacing: '0.2em', marginBottom: 10, textTransform: 'uppercase' }}>{a.source} · {a.category}</div>
+                  <div style={{ fontFamily: T.sansKr, fontSize: 14, color: T.text, lineHeight: 1.6, marginBottom: 10, fontWeight: 500 }}>{a.title}</div>
+                  {a.snippet && <p style={{ fontFamily: T.sans, fontSize: 12, color: T.textSub, lineHeight: 1.65 }}>{a.snippet.slice(0, 120)}...</p>}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
