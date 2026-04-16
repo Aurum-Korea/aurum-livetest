@@ -14,7 +14,8 @@ export default function Footer({ lang, navigate }) {
       { label: ko ? '보관 방식'   : 'Storage',    page: 'storage' },
       { label: ko ? '왜 금인가'  : 'Why Gold',   page: 'why' },
       { label: ko ? '교육 센터'  : 'Learn',      page: 'learn' },
-      { label: ko ? '창립 혜택'  : 'Founding',   page: 'campaign-founding' },
+      { label: ko ? '파운더스 클럽' : 'Founders Club', page: 'campaign-founders' },
+      { label: ko ? 'AGP 론치 이벤트' : 'AGP Launch', page: 'campaign-agp-launch' },
     ]},
     { title: ko ? '계정' : 'Account', links: [
       { label: ko ? '내 보유자산' : 'My Holdings',    page: 'dashboard' },
