@@ -98,7 +98,7 @@ export function WhyGoldPage({ lang, navigate }) {
           {ko ? '국제 현물가 기준, 싱가포르 완전 배분 보관, Lloyd\'s of London 보험.' : 'International spot pricing, fully allocated Singapore vault, Lloyd\'s of London insurance.'}
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button onClick={() => navigate('shop')} className="btn-primary">{ko ? '실물 금·은 구매' : 'Buy Physical Gold & Silver'}</button>
+          <button onClick={() => navigate('shop-physical')} className="btn-primary">{ko ? '실물 금·은 구매' : 'Buy Physical Gold & Silver'}</button>
           <button onClick={() => navigate('agp-intro')} className="btn-outline">{ko ? 'AGP 월적립 시작' : 'Start AGP Monthly Plan'}</button>
         </div>
       </div>
@@ -209,7 +209,7 @@ export function StoragePage({ lang, navigate }) {
 
       {/* CTA */}
       <div style={{ padding: pad, textAlign: 'center' }}>
-        <button onClick={() => navigate('shop')} className="btn-primary" style={{ marginRight: 12 }}>{ko ? '지금 구매 시작' : 'Start Buying'}</button>
+        <button onClick={() => navigate('shop-physical')} className="btn-primary" style={{ marginRight: 12 }}>{ko ? '지금 구매 시작' : 'Start Buying'}</button>
         <button onClick={() => navigate('why')} className="btn-outline">{ko ? '왜 금인가?' : 'Why Gold?'}</button>
       </div>
     </div>
