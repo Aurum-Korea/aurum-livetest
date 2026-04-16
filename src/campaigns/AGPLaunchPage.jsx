@@ -18,7 +18,7 @@ const GMV_BONUSES = [
   { gate:'V',  gmv:'$100K', gmvKR:'₩144M',  bonus:'+₩2,500K', bonusVal:2500000,  desc:'평생 표식 달성 기념 크레딧' },
 ];
 
-const SPOT = 3342.80, FX = 1368.00, SPOT_KRW_G = SPOT * FX / 31.1035, AURUM_UP = 0.02, KR_MULT = 1.184;
+const AURUM_UP = 0.02, KR_MULT = 1.184;
 
 function WaxSeal({ size=64 }) {
   return (
@@ -63,8 +63,9 @@ function Ingot({ activeTier }) {
 }
 
 // ─── Launch Calculator ────────────────────────────────────────────────────────
-function LaunchCalc({ activeTier, setActiveTier }) {
+function LaunchCalc({ activeTier, setActiveTier, prices = { gold: 3342.80 }, krwRate = 1368 }) {
   const [monthly, setMonthly] = useState(1000000);
+  const SPOT_KRW_G = prices.gold * krwRate / 31.1035; // KRW per gram, live
   const aurumUnit = SPOT_KRW_G * (1 + AURUM_UP);
   const grams = monthly / aurumUnit;
   const krCost = grams * SPOT_KRW_G * KR_MULT;
@@ -297,7 +298,7 @@ function CTAPanel() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-export default function AGPLaunchPage({ lang, navigate, user, setShowLogin }) {
+export default function AGPLaunchPage({ lang, navigate, user, setShowLogin, prices = { gold: 3342.80 }, krwRate = 1368 }) {
   const isMobile = useIsMobile();
   const [activeTier, setActiveTier] = useState(2);
   const pad = isMobile ? '48px 20px' : '80px 80px';
@@ -393,9 +394,8 @@ export default function AGPLaunchPage({ lang, navigate, user, setShowLogin }) {
               첫 달, 정확히 <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold }}>얼마나 받나요?</span>
             </h2>
           </div>
-          {/* SIDE BY SIDE: Calculator | GMV Bonuses */}
-          <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 1fr', gap:16, alignItems:'stretch' }}>
-            <LaunchCalc activeTier={activeTier} setActiveTier={setActiveTier} />
+            <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 1fr', gap:16, alignItems:'stretch' }}>
+            <LaunchCalc activeTier={activeTier} setActiveTier={setActiveTier} prices={prices} krwRate={krwRate} />
             <GMVBonusTrack navigate={navigate} />
           </div>
         </div>

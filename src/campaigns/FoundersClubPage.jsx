@@ -102,15 +102,21 @@ function LeaderboardWidget() {
 }
 
 // ─── GMV Calculator ───────────────────────────────────────────────────────────
-function GMVCalculator() {
+function GMVCalculator({ prices = { gold: 3342.80 }, krwRate = 1368 }) {
   const isMobile = useIsMobile();
   const [own, setOwn] = useState(500000), [ref, setRef] = useState(200000);
-  const KRW=1368, SPOT=3342.80;
-  const total = ((own+ref)*12)/KRW;
-  const gi = getGateIdx(total), gate = GATES[gi], next = GATES[gi+1];
-  const progress = next ? Math.min(((total-(gate?.gmv||0))/(next.gmv-(gate?.gmv||0)))*100,100) : 100;
-  const savings = total*((gate?.discount||0)/100);
-  const fmt = n=>Math.round(n).toLocaleString('ko-KR');
+
+  // Convert monthly KRW amounts to annual USD GMV using live exchange rate
+  const ownUSD = (own / krwRate) * 12;
+  const refUSD = (ref / krwRate) * 12;
+  const total  = ownUSD + refUSD;
+
+  const gi = getGateIdx(total), gate = GATES[gi], next = GATES[gi + 1];
+  const progress = next ? Math.min(((total - (gate?.gmv || 0)) / (next.gmv - (gate?.gmv || 0))) * 100, 100) : 100;
+  // Annual savings = total GMV * discount rate (customer saves this % off Aurum listed price)
+  const savings = total * ((gate?.discount || 0) / 100);
+  const fmt = n => Math.round(n).toLocaleString('ko-KR');
+  const fmtUSD = n => `$${Math.round(n).toLocaleString('en-US')}`;
 
   return (
     <div style={{ background:T.bgCard, border:`1px solid ${T.goldBorder}`, padding:isMobile?'24px 20px':'36px 44px', maxWidth:860, margin:'0 auto', position:'relative', overflow:'hidden' }}>
@@ -129,10 +135,10 @@ function GMVCalculator() {
       <div style={{ background:T.bg2, border:`1px solid ${T.goldBorder}`, padding:'20px 24px' }}>
         <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr 1fr':'repeat(4,1fr)', gap:14, marginBottom:16 }}>
           {[
-            { label:'연간 총 GMV', value:fUSD(total), sub:`₩${fmt(total*KRW)}` },
+            { label:'연간 총 GMV', value:fmtUSD(total), sub:`≈ ₩${fmt(total*krwRate)}` },
             { label:'현재 게이트', value:gate?`Gate ${gate.num}`:'미달', sub:gate?gate.label:'₩7.2M 부터' },
             { label:'Founder Savings', value:gate?`−${gate.discount}%`:'−', sub:'on Listed Price · 평생', hl:true },
-            { label:'연간 절약 (추정)', value:gate?fUSD(savings):'−', sub:'표시가 기준' },
+            { label:'연간 절약 (추정)', value:gate?fUSD(savings):'−', sub:'프리미엄 기준' },
           ].map((s,i)=>(
             <div key={i} style={{ textAlign:'center' }}>
               <div style={{ fontFamily:T.mono, fontSize:i===2?20:16, color:s.hl?T.goldBright:T.gold, fontWeight:700 }}>{s.value}</div>
@@ -158,15 +164,22 @@ function GMVCalculator() {
 }
 
 // ─── Dual Savings Panel ───────────────────────────────────────────────────────
-function DualSavingsPanel() {
+function DualSavingsPanel({ prices = { gold: 3342.80 }, krwRate = 1368 }) {
   const isMobile = useIsMobile();
   const [ag, setAg] = useState(2);
   const gate = GATES[ag];
-  const SPOT=3342.80, KRW=1368, spotKRW=SPOT*KRW, gPerG=spotKRW/31.1035;
-  const koreaPrice=SPOT*1.20, aurumBase=SPOT*1.08, withSavings=aurumBase*(1-gate.discount/100);
-  const savedVsKorea=koreaPrice-withSavings;
-  const monthly=1000000, gramsBase=monthly/(gPerG*1.08), gramsWithS=monthly/(gPerG*1.08*(1-gate.discount/100));
-  const bonusG=gramsWithS-gramsBase;
+  // Use live prices
+  const SPOT = prices.gold;
+  const gPerG = SPOT * krwRate / 31.1035; // KRW per gram
+  const koreaPrice  = SPOT * 1.20;                             // USD/oz Korea (VAT+margin)
+  const aurumBase   = SPOT * 1.08;                             // USD/oz Aurum base
+  const withSavings = aurumBase * (1 - gate.discount / 100);  // USD/oz with gate discount
+  const savedVsKorea = koreaPrice - withSavings;
+  // AGP per month ₩1,000,000
+  const monthly = 1000000;
+  const gramsBase   = monthly / (gPerG * 1.08);
+  const gramsWithS  = monthly / (gPerG * 1.08 * (1 - gate.discount / 100));
+  const bonusG      = gramsWithS - gramsBase;
 
   return (
     <div style={{ maxWidth:960, margin:'0 auto' }}>
@@ -348,7 +361,7 @@ function GateCards({ userGate }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-export default function FoundersClubPage({ lang, navigate, user, setShowLogin }) {
+export default function FoundersClubPage({ lang, navigate, user, setShowLogin, prices = { gold: 3342.80, silver: 32.90 }, krwRate = 1368 }) {
   const isMobile = useIsMobile();
   const [toastMsg, setToastMsg] = useState(null);
   const showToast = msg => { setToastMsg(msg); setTimeout(()=>setToastMsg(null),2400); };
@@ -362,7 +375,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin })
       <div style={{ padding:isMobile?'60px 20px 50px':'80px 60px 70px', background:`radial-gradient(ellipse at 80% 20%,rgba(197,165,114,0.10),transparent 55%),linear-gradient(180deg,${T.bg} 0%,${T.bg2} 100%)`, borderBottom:`1px solid ${T.goldBorder}`, position:'relative', overflow:'hidden' }}>
         <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', fontFamily:T.serif, fontStyle:'italic', fontSize:isMobile?80:260, fontWeight:600, letterSpacing:'0.04em', color:'rgba(197,165,114,0.015)', pointerEvents:'none', whiteSpace:'nowrap', userSelect:'none', zIndex:0 }}>FOUNDERS</div>
 
-        <div style={{ maxWidth:1340, margin:'0 auto', display:'grid', gridTemplateColumns:isMobile?'1fr':'minmax(0,1.2fr) minmax(0,0.48fr) minmax(0,0.68fr)', gap:isMobile?40:24, alignItems:'start', position:'relative', zIndex:1 }}>
+        <div style={{ maxWidth:1340, margin:'0 auto', display:'grid', gridTemplateColumns:isMobile?'1fr':'minmax(0,1.15fr) minmax(0,0.55fr) minmax(0,0.55fr)', gap:isMobile?40:22, alignItems:'start', position:'relative', zIndex:1 }}>
 
           {/* Col 1 — Hero text */}
           <div>
@@ -370,7 +383,6 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin })
               <div style={{ width:32, height:1, background:T.gold }} />
               <span style={{ fontFamily:T.mono, fontSize:9, fontWeight:500, letterSpacing:'0.32em', textTransform:'uppercase', color:T.gold }}>Founders Club · 파운더스 클럽</span>
             </div>
-            <h1 style={{ fontFamily:T.serifKr, fontWeight:500, fontSize:isMobile?34:52, lineHeight:1.12, color:T.text, margin:'0 0 18px', letterSpacing:'-0.005em' }}>
               더 많이 구매할수록,<br />더 싸게 <span style={{ color:T.gold, fontFamily:T.serif, fontStyle:'italic' }}>영원히</span>.
             </h1>
             <div style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:17, color:T.goldDim, marginBottom:20, letterSpacing:'0.005em' }}>
@@ -466,7 +478,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin })
           </h2>
           <p style={{ fontFamily:T.sans, fontSize:13, color:T.textSub, maxWidth:480, margin:'0 auto', lineHeight:1.7 }}>게이트별 절약액을 직접 확인하세요.</p>
         </div>
-        <DualSavingsPanel />
+        <DualSavingsPanel prices={prices} krwRate={krwRate} />
       </div>
 
       <div style={{ padding:pad, background:T.bg1, borderBottom:`1px solid ${T.border}` }}>
@@ -476,7 +488,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin })
             내 GMV, 직접 <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold }}>계산해 보세요</span>
           </h2>
         </div>
-        <GMVCalculator />
+        <GMVCalculator prices={prices} krwRate={krwRate} />
       </div>
 
       {/* ── CTA ── */}
