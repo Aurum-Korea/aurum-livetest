@@ -89,6 +89,77 @@ export function WhyGoldPage({ lang, navigate }) {
         </div>
       </div>
 
+      {/* Competition table — matches UserPages.jsx Task 8.1 exactly (image 2) */}
+      <div style={{ padding: pad, borderTop: `1px solid ${T.border}` }}>
+        <div style={{ maxWidth: 960, margin: '0 auto' }}>
+          <div className="reveal">
+            <div style={{ fontFamily: "'Outfit',sans-serif", fontSize: 10, color: '#c5a572', letterSpacing: 4, textTransform: 'uppercase', marginBottom: 8 }}>
+              비교 분석
+            </div>
+            <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: isMobile ? 26 : 38, color: '#f5f0e8', fontWeight: 300, margin: '0 0 28px' }}>
+              Aurum Korea vs 한국 금 투자 대안
+            </h3>
+            <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+              <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, minWidth: 560 }}>
+                <thead>
+                  <tr style={{ background: '#141414' }}>
+                    {[
+                      { label: '기능',         align: 'left',   gold: false },
+                      { label: 'AURUM KOREA',  align: 'center', gold: true  },
+                      { label: '한국 금거래소', align: 'center', gold: false },
+                      { label: 'KRX 금 ETF',   align: 'center', gold: false },
+                      { label: '일반 은행 예금', align: 'center', gold: false },
+                    ].map((h, i) => (
+                      <th key={i} style={{ padding: '14px 18px', textAlign: h.align, fontFamily: "'Outfit',sans-serif", fontSize: 10, letterSpacing: 1.5, textTransform: 'uppercase', color: h.gold ? '#c5a572' : '#a09080', borderBottom: h.gold ? '2px solid #c5a572' : '1px solid #1e1e1e', background: h.gold ? 'rgba(197,165,114,0.06)' : 'transparent' }}>
+                        {h.label}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ['실물 소유',              true,  true,  false, false],
+                    ['국제 현물가',            true,  false, false, false],
+                    ['배분 보관 (혼장 없음)',   true,  false, false, false],
+                    ['월 적립 (₩20만~)',       true,  false, false, true ],
+                    ['부가세 없음',            true,  false, false, true ],
+                    ['해외 FTZ 보관',          true,  false, false, false],
+                    ['실물 배송 가능',          true,  true,  false, false],
+                    ['금속 가격 연동',          true,  true,  true,  false],
+                  ].map((row, ri) => {
+                    const label = row[0]; const vals = row.slice(1);
+                    return (
+                      <tr key={ri} style={{ background: ri % 2 === 0 ? '#0a0a0a' : '#0d0d0d' }}
+                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(197,165,114,0.03)'}
+                        onMouseLeave={e => e.currentTarget.style.background = ri % 2 === 0 ? '#0a0a0a' : '#0d0d0d'}>
+                        <td style={{ padding: '13px 18px', fontFamily: "'Outfit',sans-serif", fontSize: 13, color: '#f5f0e8', borderBottom: '1px solid #1e1e1e' }}>{label}</td>
+                        {vals.map((val, ci) => (
+                          <td key={ci} style={{ padding: '13px 18px', textAlign: 'center', borderBottom: '1px solid #1e1e1e', background: ci === 0 ? 'rgba(197,165,114,0.03)' : 'transparent' }}>
+                            {val ? (
+                              <span style={{ display: 'inline-block', width: 8, height: 14, borderRight: '2px solid #4ade80', borderBottom: '2px solid #4ade80', transform: 'rotate(45deg)', marginTop: -4 }} />
+                            ) : (
+                              <span style={{ display: 'inline-block', width: 16, height: 1.5, background: 'rgba(100,100,100,0.3)', verticalAlign: 'middle' }} />
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            {/* CTA below table */}
+            <div style={{ marginTop: 36, textAlign: 'center' }}>
+              <p style={{ fontFamily: "'Outfit',sans-serif", fontSize: 14, color: '#8a7d6b', marginBottom: 20 }}>지금 바로 국제 현물가 기준으로 실물 금을 구매하세요</p>
+              <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexDirection: isMobile ? 'column' : 'row', maxWidth: 440, margin: '0 auto' }}>
+                <button onClick={() => navigate('shop-physical')} style={{ flex: 1, background: 'linear-gradient(135deg,#c5a572,#8a6914)', color: '#0a0a0a', border: 'none', padding: '14px 28px', fontSize: 15, fontFamily: "'Outfit',sans-serif", fontWeight: 700, borderRadius: 30, cursor: 'pointer' }}>지금 구매하기 →</button>
+                <button onClick={() => navigate('learn')} style={{ flex: 1, background: 'transparent', color: '#c5a572', border: '1px solid rgba(197,165,114,0.4)', padding: '14px 28px', fontSize: 15, fontFamily: "'Outfit',sans-serif", fontWeight: 600, borderRadius: 30, cursor: 'pointer' }}>투자 교육 보기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* CTA */}
       <div style={{ padding: pad, background: T.bg1, borderTop: `1px solid ${T.border}`, textAlign: 'center' }}>
         <h2 style={{ fontFamily: T.serifKr, fontSize: 'clamp(24px,3vw,38px)', fontWeight: 300, color: T.text, marginBottom: 12 }}>
@@ -98,7 +169,7 @@ export function WhyGoldPage({ lang, navigate }) {
           {ko ? '국제 현물가 기준, 싱가포르 완전 배분 보관, Lloyd\'s of London 보험.' : 'International spot pricing, fully allocated Singapore vault, Lloyd\'s of London insurance.'}
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button onClick={() => navigate('shop')} className="btn-primary">{ko ? '실물 금·은 구매' : 'Buy Physical Gold & Silver'}</button>
+          <button onClick={() => navigate('shop-physical')} className="btn-primary">{ko ? '실물 금·은 구매' : 'Buy Physical Gold & Silver'}</button>
           <button onClick={() => navigate('agp-intro')} className="btn-outline">{ko ? 'AGP 월적립 시작' : 'Start AGP Monthly Plan'}</button>
         </div>
       </div>
@@ -209,7 +280,7 @@ export function StoragePage({ lang, navigate }) {
 
       {/* CTA */}
       <div style={{ padding: pad, textAlign: 'center' }}>
-        <button onClick={() => navigate('shop')} className="btn-primary" style={{ marginRight: 12 }}>{ko ? '지금 구매 시작' : 'Start Buying'}</button>
+        <button onClick={() => navigate('shop-physical')} className="btn-primary" style={{ marginRight: 12 }}>{ko ? '지금 구매 시작' : 'Start Buying'}</button>
         <button onClick={() => navigate('why')} className="btn-outline">{ko ? '왜 금인가?' : 'Why Gold?'}</button>
       </div>
     </div>
