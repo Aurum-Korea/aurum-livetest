@@ -47,7 +47,12 @@ export default function Ticker({ lang, prices, krwRate, dailyChanges }) {
       borderRight: '1px solid rgba(197,165,114,0.10)',
       whiteSpace: 'nowrap', flexShrink: 0,
       height: isMob ? 'auto' : 36,
-    }}>
+      cursor: 'pointer',
+      transition: 'opacity 0.15s',
+    }}
+    onMouseEnter={e => e.currentTarget.style.opacity = '0.75'}
+    onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+    >
       <span style={{ fontFamily: "'Outfit',sans-serif", fontSize: isMob ? 9 : 10, color: '#a09080', letterSpacing: isMob ? 1 : 2, textTransform: 'uppercase' }}>{item.label}</span>
       <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: isMob ? 10 : 12, color: '#f5f0e8', fontWeight: 600 }}>{item.price}</span>
       {!item.noChange && item.change !== '—' && (

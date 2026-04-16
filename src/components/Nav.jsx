@@ -48,7 +48,7 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
     { page: 'campaign-founders',   ko: 'Founders Club',      en: 'Founders Club',      highlight: true  },
     { page: 'campaign-agp-launch', ko: 'AGP 론치 이벤트',    en: 'AGP Launch Event',   highlight: true  },
     { page: 'shop',                ko: '매장',                en: 'Shop',               highlight: false },
-    { page: 'agp',                 ko: 'AGP 적금',           en: 'AGP Savings',        highlight: false },
+    { page: 'agp',                 ko: 'AGP 적립',           en: 'AGP Savings',        highlight: false },
     { page: 'why',                 ko: '왜 금인가',           en: 'Why Gold',           highlight: false },
     { page: 'storage',             ko: '보관',                en: 'Storage',            highlight: false },
     { page: 'learn',               ko: '교육',                en: 'Learn',              highlight: false },
@@ -129,7 +129,7 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
               onClick={() => navigate('agp-enroll')}
               style={{ background: T.gold, border: 'none', color: '#0a0a0a', padding: '8px 18px', cursor: 'pointer', fontFamily: T.sans, fontSize: 12, fontWeight: 700, transition: 'all 0.2s' }}
             >
-              {ko ? 'AGP 적금 가입' : 'Start AGP'}
+              {ko ? 'AGP 적립 가입' : 'Start AGP'}
             </button>
           )}
 
@@ -161,7 +161,7 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
             onClick={() => { navigate('agp-enroll'); setMobileOpen(false); }}
             style={{ background: T.gold, border: 'none', color: '#0a0a0a', padding: '14px', cursor: 'pointer', fontFamily: T.sans, fontSize: 15, fontWeight: 700, marginTop: 10 }}
           >
-            {ko ? 'AGP 적금 가입하기' : 'Start AGP Savings'}
+            {ko ? 'AGP 적립 가입하기' : 'Start AGP Savings'}
           </button>
         </div>
       )}
