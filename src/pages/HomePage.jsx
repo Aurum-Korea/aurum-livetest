@@ -116,7 +116,7 @@ function CampaignPanels({ navigate, lang }) {
 export default function HomePage({ navigate, prices, krwRate, currency, setCurrency, lang }) {
   const isMobile = useIsMobile();
   const fP = usd => currency === 'KRW' ? fKRW(usd * krwRate) : fUSD(usd);
-  const pad = isMobile ? '44px 16px' : '80px 80px';
+  const pad = isMobile ? '40px 0' : '72px 0'; // horizontal handled by aurum-container
 
   // Pricing
   const goldKR  = prices.gold * krwRate * (1 + KR_GOLD_PREMIUM);
@@ -141,9 +141,9 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
   return (
     <div>
       {/* ① HERO — left text + right = price card (desktop) or campaign panels */}
-      <div style={{ position: 'relative', minHeight: isMobile ? 'auto' : 540, background: 'linear-gradient(135deg,#0a0a0a,#1a1510 40%,#0d0b08)', display: 'flex', alignItems: 'center', padding: isMobile ? '40px 16px' : '0 80px', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', minHeight: isMobile ? 'auto' : 540, background: 'linear-gradient(135deg,#0a0a0a,#1a1510 40%,#0d0b08)', display: 'flex', alignItems: 'center', padding: 0, overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, opacity: 0.03, backgroundImage: 'repeating-linear-gradient(45deg,#c5a572 0,#c5a572 1px,transparent 1px,transparent 40px)', pointerEvents: 'none' }} />
-        <div style={{ position: 'relative', zIndex: 1, display: isMobile ? 'block' : 'flex', alignItems: 'center', gap: 48, width: '100%', maxWidth: 1200 }}>
+        <div className="aurum-container" style={{ position: 'relative', zIndex: 1, display: isMobile ? 'block' : 'flex', alignItems: 'center', gap: 48, paddingTop: isMobile ? 40 : 80, paddingBottom: isMobile ? 40 : 80 }}>
           {/* Left: hero copy */}
           <div style={{ flex: 1, maxWidth: isMobile ? '100%' : 580 }}>
             <div style={{ fontFamily: "'Outfit',sans-serif", fontSize: isMobile ? 10 : 11, color: '#c5a572', letterSpacing: 4, textTransform: 'uppercase', marginBottom: 18 }}>
@@ -183,8 +183,8 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
 
       {/* ② Campaign panels — desktop only, below hero */}
       {!isMobile && (
-        <div style={{ padding: '0 80px 0', background: '#0a0a0a', borderBottom: '1px solid #1a1510' }}>
-          <div style={{ maxWidth: 1200, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, paddingBottom: 32, paddingTop: 20 }}>
+        <div style={{ background: '#0a0a0a', borderBottom: '1px solid #1a1510' }}>
+          <div className="aurum-container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, paddingBottom: 32, paddingTop: 20 }}>
             {[
               { route: 'campaign-agp-launch', badge: 'AGP 론치 이벤트 · LAUNCH EVENT',  headline: '시작하는 날,', sub: '금을 더 드립니다.',        desc: '브론즈 ₩50,000 → 소브린 ₩5,000,000 · 5단계 실물 금 기프트 · 첫 결제 즉시', cta: '지금 신청하기 →' },
               { route: 'campaign-founders',   badge: 'Founders Club · 파운더스 클럽',   headline: '더 많이 구매할수록,', sub: '더 싸게 — 영원히.', desc: 'GMV 5개 게이트 통과 시 표시가 자동 차감 · 최대 −3.0% · 평생',               cta: 'Founders Club 가입하기 →' },
@@ -208,7 +208,7 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
 
       {/* ③ Stats bar */}
       <div style={{ background: '#111008', borderBottom: '1px solid #1a1510' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4,1fr)' }}>
+        <div className="aurum-container" style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4,1fr)' }}>
           {[['100%', '완전 배분 보관'], ['+8%', 'Aurum 금 투명 프리미엄'], ["Lloyd's", '기관급 전액 보험'], ['LBMA', '승인 제련소']].map(([v, l], i) => (
             <div key={i} style={{ padding: isMobile ? '14px 12px' : '18px 24px', textAlign: 'center', borderRight: i < 3 ? '1px solid #1a1510' : 'none' }}>
               <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: isMobile ? 16 : 20, color: '#c5a572', fontWeight: 700 }}>{v}</div>
@@ -219,8 +219,8 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
       </div>
 
       {/* ④ Savings comparison — side by side */}
-      <div style={{ padding: pad, background: '#0a0a0a', borderBottom: '1px solid #1a1510' }}>
-        <div style={{ maxWidth: 960, margin: '0 auto' }}>
+      <div style={{ background: '#0a0a0a', borderBottom: '1px solid #1a1510' }}>
+        <div className="aurum-container" style={{ paddingTop: isMobile?40:72, paddingBottom: isMobile?32:60 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
             <div>
               <div style={{ fontFamily: "'Outfit',sans-serif", fontSize: 10, color: '#c5a572', letterSpacing: 4, textTransform: 'uppercase', marginBottom: 6 }}>가격 비교</div>
@@ -264,8 +264,8 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
       </div>
 
       {/* ⑤ Paper vs Physical */}
-      <div style={{ padding: pad, borderBottom: '1px solid #1a1510' }}>
-        <div style={{ maxWidth: 860, margin: '0 auto' }}>
+      <div style={{ borderBottom: '1px solid #1a1510' }}>
+        <div className="aurum-container">
           <div style={{ textAlign: 'center', marginBottom: 32 }}>
             <div style={{ fontFamily: "'Outfit',sans-serif", fontSize: 10, color: '#c5a572', letterSpacing: 4, textTransform: 'uppercase', marginBottom: 10 }}>근본적인 차이</div>
             <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: isMobile ? 28 : 38, color: '#f5f0e8', fontWeight: 300, margin: 0 }}>
@@ -304,8 +304,8 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
       </div>
 
       {/* ⑥ Why Aurum accordion */}
-      <div style={{ padding: pad, borderBottom: '1px solid #1a1510' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
+      <div style={{ borderBottom: '1px solid #1a1510' }}>
+        <div className="aurum-container">
           <div style={{ marginBottom: 28 }}>
             <div style={{ fontFamily: "'Outfit',sans-serif", fontSize: 10, color: '#c5a572', letterSpacing: 4, textTransform: 'uppercase', marginBottom: 6 }}>핵심 차별점</div>
             <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: isMobile ? 28 : 38, color: '#f5f0e8', fontWeight: 300, margin: 0 }}>왜 Aurum이어야 하는가</h2>
@@ -316,7 +316,7 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
 
       {/* ⑦ Shop cards */}
       <div style={{ padding: pad, background: '#111008', borderBottom: '1px solid #1a1510' }}>
-        <div style={{ maxWidth: 960, margin: '0 auto' }}>
+        <div className="aurum-container">
           <div style={{ textAlign: 'center', marginBottom: 28 }}>
             <div style={{ fontFamily: "'Outfit',sans-serif", fontSize: 10, color: '#c5a572', letterSpacing: 4, textTransform: 'uppercase', marginBottom: 6 }}>시작 방법</div>
             <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: isMobile ? 28 : 38, color: '#f5f0e8', fontWeight: 300, margin: 0 }}>어떻게 시작하시겠습니까?</h2>
@@ -358,8 +358,8 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
       </div>
 
       {/* ⑧ Trust strip */}
-      <div style={{ padding: isMobile ? '28px 16px' : '36px 80px' }}>
-        <div style={{ maxWidth: 960, margin: '0 auto', display: 'flex', justifyContent: 'center', gap: isMobile ? 20 : 44, flexWrap: 'wrap' }}>
+      <div style={{ padding: isMobile ? '28px 16px' : '36px 60px' }}>
+        <div className="aurum-container" style={{ display: 'flex', justifyContent: 'center', gap: isMobile ? 20 : 44, flexWrap: 'wrap', paddingTop: isMobile?28:36, paddingBottom: isMobile?28:36 }}>
           {[['🇸🇬', 'Singapore FTZ', 'Malca-Amit 보관'], ["🛡️", "Lloyd's of London", '기관 전액 보험'], ['✅', 'LBMA 승인', '귀금속 바'], ['🔒', 'AML/KYC', '싱가포르 등록'], ['📊', '매일 감사', '백킹 리포트']].map(([icon, title, sub], i) => (
             <div key={i} style={{ textAlign: 'center', minWidth: 80 }}>
               <div style={{ fontSize: 20, marginBottom: 5 }}>{icon}</div>

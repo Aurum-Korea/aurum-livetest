@@ -371,10 +371,57 @@ main { animation: pageIn 0.3s ease-out; }
   }
 }
 
-/* ─── Desktop font sizes — explicit overrides ────────────────── */
+/* ─── Universal page container — used by Nav AND all page sections ── */
+/* This is the ONLY alignment control. Everything aligns to this box.  */
+.aurum-container {
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 0 60px;
+  width: 100%;
+  box-sizing: border-box;
+}
+@media (max-width: 767px) {
+  .aurum-container { padding: 0 16px; }
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .aurum-container { padding: 0 40px; }
+}
+
+/* ─── Desktop font scale ─────────────────────────────────────────── */
 @media (min-width: 1024px) {
-  .stat-bar-value { font-size: 24px; }
-  .panel-title    { font-size: 22px; }
-  .accordion-btn  { font-size: 16px; }
-  .tab-btn        { font-size: 15px; }
+  html { zoom: 1.15; }
+
+  /* Stats / mono values — make them legible */
+  .stat-bar-value { font-size: 26px; }
+
+  /* Explicit body copy boost — inline 13px shows as ~15px with zoom */
+  body { font-size: 15px; }
+}
+
+@media (min-width: 1280px) {
+  html { zoom: 1.2; }
+}
+
+/* ─── Ticker marquee animation ───────────────────────────────────── */
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-track {
+  display: flex;
+  animation: ticker-scroll 40s linear infinite;
+  width: max-content;
+  will-change: transform;
+}
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Consistent page container ─────────────────────────────────── */
+.page-section {
+  padding-left: 60px;
+  padding-right: 60px;
+}
+@media (max-width: 767px) {
+  .page-section { padding-left: 16px; padding-right: 16px; }
 }

@@ -22,7 +22,7 @@ function Toast({ toasts }) {
       {toasts.map(t => {
         const [bg, col] = colors[t.type] || colors.success;
         return (
-          <div key={t.id} style={{ background:bg, border:`1px solid ${col}`, color:col, padding:"10px 16px", borderRadius:6, fontSize:13, fontFamily:"'Outfit',sans-serif", maxWidth:320, boxShadow:"0 4px 20px rgba(0,0,0,0.5)", backdropFilter:"blur(8px)" }}>
+          <div key={t.id} style={{ background:bg, border:`1px solid ${col}`, color:col, padding:"10px 20px", borderRadius:6, fontSize:13, fontFamily:"'Outfit',sans-serif", maxWidth:320, boxShadow:"0 4px 20px rgba(0,0,0,0.5)", backdropFilter:"blur(8px)" }}>
             {t.msg}
           </div>
         );
@@ -157,7 +157,7 @@ function Nav({ page, navigate, lang, setLang, user, setUser, setShowLogin, cart 
 
   // Mobile/narrow: hamburger menu
   if (shouldUseMobileNav) return (
-    <nav style={{ background:scrolled?"rgba(10,10,10,0.95)":"#0a0a0a", borderBottom:"1px solid #1e1e1e", padding:"10px 16px", display:"flex", justifyContent:"space-between", alignItems:"center", position:"sticky", top:0, zIndex:100, backdropFilter:scrolled?"blur(12px)":"none", transition:"backdrop-filter 0.3s" }}>
+    <nav style={{ background:scrolled?"rgba(10,10,10,0.95)":"#0a0a0a", borderBottom:"1px solid #1e1e1e", padding:"10px 20px", display:"flex", justifyContent:"space-between", alignItems:"center", position:"sticky", top:0, zIndex:100, backdropFilter:scrolled?"blur(12px)":"none", transition:"backdrop-filter 0.3s" }}>
       <Logo />
       <div style={{ display:"flex", alignItems:"center", gap:10 }}>
         <CartBtn />
@@ -201,9 +201,10 @@ function Nav({ page, navigate, lang, setLang, user, setUser, setShowLogin, cart 
     </nav>
   );
 
-  // Desktop nav
+  // Desktop nav — uses aurum-container so logo aligns with all page content
   return (
-    <nav style={{ background:scrolled?"rgba(10,10,10,0.95)":"#0a0a0a", borderBottom:"1px solid #1e1e1e", padding:"0 48px", display:"flex", justifyContent:"space-between", alignItems:"center", height:60, position:"sticky", top:0, zIndex:100, backdropFilter:scrolled?"blur(12px)":"none", transition:"backdrop-filter 0.3s" }}>
+    <nav style={{ background:scrolled?"rgba(10,10,10,0.95)":"#0a0a0a", borderBottom:"1px solid #1e1e1e", position:"sticky", top:0, zIndex:100, backdropFilter:scrolled?"blur(12px)":"none", transition:"backdrop-filter 0.3s" }}>
+      <div className="aurum-container" style={{ display:"flex", justifyContent:"space-between", alignItems:"center", height:60 }}>
       <Logo />
       <div style={{ display:"flex", alignItems:"center", gap:isNarrow?16:28 }}>
         {mainLinks.map(l => (
