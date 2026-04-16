@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { T, useIsMobile, MOCK_REFERRAL_DATA, fUSD, fKRW } from '../lib/index.jsx';
 
 const GATES = [
-  { num:'I',   label:'입문',  en:'Initiation',  gmv:5000,   gmvKR:'₩7.2M',   discount:1.0, mark:'스테인리스 마크',     card:'mc-stainless', apex:false },
-  { num:'II',  label:'신뢰',  en:'Trust',       gmv:15000,  gmvKR:'₩21.6M',  discount:1.5, mark:'일련번호 발급',       card:'mc-stainless', apex:false },
-  { num:'III', label:'정점',  en:'Apex',        gmv:35000,  gmvKR:'₩50.4M',  discount:2.0, mark:'10K 솔리드 골드 마크',card:'mc-gold',      apex:true  },
-  { num:'IV',  label:'수호',  en:'Guardian',    gmv:65000,  gmvKR:'₩93.6M',  discount:2.5, mark:'싱가포르 볼트 초대',  card:'mc-bronze',    apex:false },
-  { num:'V',   label:'영구',  en:'Perpetual',   gmv:100000, gmvKR:'₩144M',   discount:3.0, mark:'평생 창립 지위',      card:'mc-gold',      apex:false },
+  { num:'I',   label:'시작의 문',   gmv:5000,   gmvKR:'₩7.2M',   discount:1.0, mark:'스테인리스 마크', card:'mc-stainless', apex:false },
+  { num:'II',  label:'셋의 표식',   gmv:15000,  gmvKR:'₩21.6M',  discount:1.5, mark:'시리얼 번호',     card:'mc-stainless', apex:false },
+  { num:'III', label:'정점',        gmv:35000,  gmvKR:'₩50.4M',  discount:2.0, mark:'10K 솔리드 골드 마크', card:'mc-gold', apex:true  },
+  { num:'IV',  label:'볼트 순례',   gmv:65000,  gmvKR:'₩93.6M',  discount:2.5, mark:'싱가포르 볼트 방문', card:'mc-bronze', apex:false },
+  { num:'V',   label:'평생의 표식', gmv:100000, gmvKR:'₩144M',   discount:3.0, mark:'평생 표식',       card:'mc-gold',     apex:false },
 ];
 
 const LB = [
@@ -41,7 +41,7 @@ function SealDivider() {
 // ─── Gate Progress Widget (Image 8) ──────────────────────────────────────────
 function GateProgressWidget({ userGate }) {
   return (
-    <div style={{ background:T.bgCard, border:`1px solid ${T.goldBorder}`, padding:'20px 18px', position:'relative', height:'100%', display:'flex', flexDirection:'column' }}>
+    <div style={{ background:T.bgCard, border:`1px solid ${T.goldBorder}`, padding:'20px 18px', position:'relative' }}>
       <div style={{ position:'absolute', top:0, left:0, right:0, height:1, background:`linear-gradient(90deg,transparent,${T.gold},transparent)` }} />
       <div style={{ fontFamily:T.mono, fontSize:8, color:T.goldDim, letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:16 }}>GMV 진행 현황 (DEMO)</div>
       {GATES.map((g,i)=>{
@@ -73,7 +73,7 @@ function GateProgressWidget({ userGate }) {
 // ─── Leaderboard Mini Widget (Image 7) ───────────────────────────────────────
 function LeaderboardWidget() {
   return (
-    <div style={{ background:T.bgCard, border:`1px solid ${T.goldBorder}`, padding:'20px 18px', position:'relative', height:'100%', display:'flex', flexDirection:'column' }}>
+    <div style={{ background:T.bgCard, border:`1px solid ${T.goldBorder}`, padding:'20px 18px', position:'relative' }}>
       <div style={{ position:'absolute', top:0, left:0, right:0, height:1, background:`linear-gradient(90deg,transparent,${T.gold},transparent)` }} />
       <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
         <div style={{ fontFamily:T.mono, fontSize:8, color:T.goldDim, letterSpacing:'0.22em', textTransform:'uppercase' }}>GMV Kings</div>
@@ -135,10 +135,10 @@ function GMVCalculator({ prices = { gold: 3342.80 }, krwRate = 1368 }) {
       <div style={{ background:T.bg2, border:`1px solid ${T.goldBorder}`, padding:'20px 24px' }}>
         <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr 1fr':'repeat(4,1fr)', gap:14, marginBottom:16 }}>
           {[
-            { label:'연간 총 GMV', value:fKRW(total*krwRate), sub:`≈ $${Math.round(total).toLocaleString('en-US')}` },
+            { label:'연간 총 GMV', value:fmtUSD(total), sub:`≈ ₩${fmt(total*krwRate)}` },
             { label:'현재 게이트', value:gate?`Gate ${gate.num}`:'미달', sub:gate?gate.label:'₩7.2M 부터' },
             { label:'Founder Savings', value:gate?`−${gate.discount}%`:'−', sub:'on Listed Price · 평생', hl:true },
-            { label:'연간 절약 (추정)', value:gate?fKRW(savings*krwRate):'−', sub:'프리미엄 기준' },
+            { label:'연간 절약 (추정)', value:gate?fUSD(savings):'−', sub:'프리미엄 기준' },
           ].map((s,i)=>(
             <div key={i} style={{ textAlign:'center' }}>
               <div style={{ fontFamily:T.mono, fontSize:i===2?20:16, color:s.hl?T.goldBright:T.gold, fontWeight:700 }}>{s.value}</div>
@@ -151,7 +151,7 @@ function GMVCalculator({ prices = { gold: 3342.80 }, krwRate = 1368 }) {
           <div>
             <div style={{ display:'flex', justifyContent:'space-between', marginBottom:6 }}>
               <span style={{ fontFamily:T.sans, fontSize:12, color:T.textSub }}>다음 게이트: Gate {next.num} · {next.label} (−{next.discount}%)</span>
-              <span style={{ fontFamily:T.mono, fontSize:11, color:T.gold }}>{fKRW((next.gmv-total)*krwRate)} 남음</span>
+              <span style={{ fontFamily:T.mono, fontSize:11, color:T.gold }}>{fUSD(next.gmv-total)} 남음</span>
             </div>
             <div style={{ height:4, background:T.border, overflow:'hidden' }}>
               <div style={{ height:'100%', width:`${progress.toFixed(1)}%`, background:`linear-gradient(90deg,${T.gold},${T.goldBright})`, boxShadow:`0 0 10px ${T.gold}`, transition:'width 0.6s ease' }} />
@@ -195,9 +195,9 @@ function DualSavingsPanel({ prices = { gold: 3342.80 }, krwRate = 1368 }) {
         <div style={{ background:T.bg1, border:`1px solid ${T.goldBorder}`, padding:'22px 24px' }}>
           <div style={{ fontFamily:T.mono, fontSize:9, color:T.gold, letterSpacing:'0.2em', textTransform:'uppercase', marginBottom:14 }}>🥇 실물 매수 · Physical</div>
           {[
-            { label:'한국실금가 (국내 프리미엄+VAT)',   value:fKRW(koreaPrice * krwRate), color:'#a05050' },
-            { label:'Aurum 매입가 (+8% 프리미엄)',      value:fKRW(aurumBase * krwRate),  color:T.textSub },
-            { label:`Gate ${gate.num} 적용가 (−${gate.discount}%)`, value:fKRW(withSavings * krwRate), color:T.goldBright, hl:true },
+            { label:'한국금거래소 (KRX+VAT)',         value:`$${koreaPrice.toFixed(0)}`, color:'#888' },
+            { label:'Aurum 기본가 (프리미엄 +8%)',     value:`$${aurumBase.toFixed(0)}`, color:T.textSub },
+            { label:`Gate ${gate.num} 적용가 (−${gate.discount}%)`, value:`$${withSavings.toFixed(0)}`, color:T.goldBright, hl:true },
           ].map((row,i)=>(
             <div key={i} style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', padding:'9px 0', borderBottom:i<2?`1px dashed ${T.border}`:'none' }}>
               <span style={{ fontFamily:T.sans, fontSize:12, color:T.textSub }}>{row.label}</span>
@@ -207,7 +207,7 @@ function DualSavingsPanel({ prices = { gold: 3342.80 }, krwRate = 1368 }) {
           <div style={{ marginTop:14, background:'rgba(74,222,128,0.06)', border:'1px solid rgba(74,222,128,0.2)', padding:'12px 14px', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
             <span style={{ fontFamily:T.sans, fontSize:12, color:T.text }}>한국 대비 절약</span>
             <div style={{ textAlign:'right' }}>
-              <div style={{ fontFamily:T.mono, fontSize:16, color:T.green, fontWeight:700 }}>{fKRW(savedVsKorea * krwRate)}/oz</div>
+              <div style={{ fontFamily:T.mono, fontSize:16, color:T.green, fontWeight:700 }}>${savedVsKorea.toFixed(0)}/oz</div>
               <div style={{ fontFamily:T.mono, fontSize:10, color:T.textMuted }}>{((savedVsKorea/koreaPrice)*100).toFixed(1)}% 절약</div>
             </div>
           </div>
@@ -233,7 +233,7 @@ function DualSavingsPanel({ prices = { gold: 3342.80 }, krwRate = 1368 }) {
             </div>
           </div>
           <div style={{ marginTop:10, padding:'9px 12px', background:T.goldGlow, fontFamily:T.sans, fontSize:11, color:T.textSub, lineHeight:1.5 }}>
-            이 Founder Savings는 모든 미래 AGP 적립에 <strong style={{ color:T.text }}>평생</strong> 자동 적용됩니다.
+            이 할인율은 모든 미래 AGP 적립 <strong style={{ color:T.text }}>평생</strong> 적용됩니다.
           </div>
         </div>
       </div>
@@ -254,7 +254,7 @@ function GMVExplainer() {
     <div style={{ maxWidth:860, margin:'0 auto' }}>
       <div style={{ textAlign:'center', marginBottom:36 }}>
         <div style={{ fontFamily:T.serifKr, fontSize:'clamp(20px,3vw,34px)', color:T.text, fontWeight:500, marginBottom:10, lineHeight:1.2 }}>
-          GMV란 무엇인가? <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold }}>내 구매 + 친구의 구매</span>
+          GMV란 무엇인가? <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold }}>— 네 가지 원천</span>
         </div>
         <p style={{ fontFamily:T.sans, fontSize:13, color:T.textSub, lineHeight:1.8, maxWidth:560, margin:'0 auto' }}>
           GMV는 회원님이 Aurum 생태계에서 만들어낸 모든 거래의 합산입니다. 본인 구매 + 추천 구매 — 두 가지 모두 카운트됩니다.
@@ -292,7 +292,7 @@ function SharePanel({ toast }) {
       <div style={{ textAlign:'center', marginBottom:32 }}>
         <div style={{ fontFamily:T.mono, fontSize:9, color:T.gold, letterSpacing:'0.3em', textTransform:'uppercase', marginBottom:12 }}>Your Sigil · 초대 링크</div>
         <h2 style={{ fontFamily:T.serifKr, fontSize:'clamp(20px,3vw,32px)', fontWeight:500, color:T.text, marginBottom:10, lineHeight:1.2 }}>
-          친구를 초대할수록 <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold }}>게이트가 더 빨리 열립니다</span>
+          친구를 초대할수록 <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold }}>더 빨리 문이 열립니다</span>
         </h2>
         <p style={{ fontFamily:T.sans, fontSize:13, color:T.textSub, lineHeight:1.7 }}>친구의 첫 결제가 정산되면 그 금액이 내 GMV에 합산됩니다.</p>
       </div>
@@ -351,7 +351,7 @@ function GateCards({ userGate }) {
             <div style={{ paddingTop:12, borderTop:`1px solid ${T.goldBorder}` }}>
               <div style={{ fontFamily:T.mono, fontSize:8, color:T.textMuted, letterSpacing:'0.16em', textTransform:'uppercase', marginBottom:5 }}>Founder Savings</div>
               <div style={{ fontFamily:T.serif, fontSize:24, fontWeight:600, color:done?T.goldBright:T.gold }}>−{gate.discount}%</div>
-              <div style={{ fontFamily:T.sans, fontSize:9, color:T.textMuted, marginTop:2 }}>Aurum 표시가 기준 · 평생</div>
+              <div style={{ fontFamily:T.sans, fontSize:9, color:T.textMuted, marginTop:2 }}>on Listed Price · lifetime</div>
             </div>
           </div>
         );
@@ -375,7 +375,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
       <div style={{ padding:isMobile?'60px 20px 50px':'80px 60px 70px', background:`radial-gradient(ellipse at 80% 20%,rgba(197,165,114,0.10),transparent 55%),linear-gradient(180deg,${T.bg} 0%,${T.bg2} 100%)`, borderBottom:`1px solid ${T.goldBorder}`, position:'relative', overflow:'hidden' }}>
         <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', fontFamily:T.serif, fontStyle:'italic', fontSize:isMobile?80:260, fontWeight:600, letterSpacing:'0.04em', color:'rgba(197,165,114,0.015)', pointerEvents:'none', whiteSpace:'nowrap', userSelect:'none', zIndex:0 }}>FOUNDERS</div>
 
-        <div style={{ maxWidth:1340, margin:'0 auto', display:'grid', gridTemplateColumns:isMobile?'1fr':'minmax(0,1.1fr) minmax(0,0.6fr) minmax(0,0.6fr)', gap:isMobile?40:22, alignItems:'stretch', position:'relative', zIndex:1 }}>
+        <div style={{ maxWidth:1340, margin:'0 auto', display:'grid', gridTemplateColumns:isMobile?'1fr':'minmax(0,1.15fr) minmax(0,0.55fr) minmax(0,0.55fr)', gap:isMobile?40:22, alignItems:'start', position:'relative', zIndex:1 }}>
 
           {/* Col 1 — Hero text */}
           <div>
@@ -393,28 +393,16 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
               나의 구매 + 친구들의 구매 = GMV. GMV가 다섯 개의 문을 통과할 때마다 <strong style={{ color:T.text }}>표시가에서 자동 차감되는 Founder Savings</strong>가 깊어집니다. 실물 금 매수와 AGP 적립 모두 평생 적용.
             </p>
             <div style={{ display:'flex', gap:10, flexDirection:isMobile?'column':'row', flexWrap:'wrap' }}>
-              <button onClick={()=>navigate('agp-enroll')} style={{ background:T.gold, border:'none', color:'#0a0a0a', padding:'14px 28px', fontSize:14, fontWeight:700, cursor:'pointer', fontFamily:T.sans, flex:1, textAlign:'center' }}>Founders Club 가입하기 →</button>
-              <button onClick={()=>navigate('shop-physical')} style={{ background:'transparent', border:`1px solid ${T.goldBorder}`, color:T.textSub, padding:'14px 28px', fontSize:14, cursor:'pointer', fontFamily:T.sans, flex:1, textAlign:'center', fontWeight:500 }}>실물 매수로 시작하기</button>
+              <button onClick={()=>navigate('agp-enroll')} style={{ background:T.gold, border:'none', color:'#0a0a0a', padding:'14px 28px', fontSize:14, fontWeight:700, cursor:'pointer', fontFamily:T.sans }}>파운더스 클럽 가입 →</button>
+              <button onClick={()=>navigate('shop')} style={{ background:'transparent', border:`1px solid ${T.goldBorder}`, color:T.textSub, padding:'14px 20px', fontSize:13, cursor:'pointer', fontFamily:T.sans }}>실물 구매로 GMV 쌓기</button>
             </div>
           </div>
 
-          {/* Col 2 — Gate Progress Widget — always visible */}
-          <div>
-            <div style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:9, color:'#c5a572', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:8, display:'flex', alignItems:'center', gap:6 }}>
-              <span style={{ width:4, height:4, borderRadius:'50%', background:'#c5a572', display:'inline-block' }} />
-              GMV 진행 현황 · FOUNDERS CLUB
-            </div>
-            <GateProgressWidget userGate={userGate} />
-          </div>
+          {/* Col 2 — Gate Progress Widget (Image 8) */}
+          {!isMobile && <GateProgressWidget userGate={userGate} />}
 
-          {/* Col 3 — Leaderboard Widget — always visible */}
-          <div>
-            <div style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:9, color:'#4ade80', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:8, display:'flex', alignItems:'center', gap:6 }}>
-              <span style={{ width:4, height:4, borderRadius:'50%', background:'#4ade80', animation:'pulse 1.6s ease-in-out infinite', display:'inline-block' }} />
-              GMV KINGS · LIVE
-            </div>
-            <LeaderboardWidget />
-          </div>
+          {/* Col 3 — Leaderboard Widget (Image 7) */}
+          {!isMobile && <LeaderboardWidget />}
         </div>
       </div>
 
@@ -449,7 +437,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
           <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr 1fr':'repeat(4,1fr)', gap:24 }}>
             {[
               { n:'I',   t:'실제 GMV만 카운트',  d:'친구가 KYC를 통과하고 첫 결제가 정산되어야 GMV에 반영됩니다. 가짜 가입은 자동 차단.' },
-              { n:'II',  t:'한 번 열리면, 평생', d:'한 번 열린 게이트의 Founder Savings는 회수되지 않습니다. 이후 모든 구매에 영구 자동 적용.' },
+              { n:'II',  t:'한 번 열리면, 평생', d:'통과한 게이트의 Founder Savings는 회수되지 않습니다. 모든 미래 구매에 영구 적용.' },
               { n:'III', t:'정점은 −3.0%',       d:'Gate V를 넘는 추가 할인은 없습니다. 그러나 친구 초대는 언제나 환영합니다.' },
               { n:'IV',  t:'익명 기본 보호',     d:'리더보드는 이니셜 + ID 기본 표시. 본인 동의 시 실명 공개 가능. 통계는 비공개.' },
             ].map((r,i)=>(
@@ -514,8 +502,8 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
           </h2>
           <p style={{ fontFamily:T.sans, fontSize:14, color:T.textSub, lineHeight:1.8, maxWidth:480, margin:'0 auto 36px' }}>Founders Club 멤버십은 한정 모집입니다. 조기 마감 시 재오픈 일정은 미정.</p>
           <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap' }}>
-            <button onClick={()=>navigate('agp-enroll')} style={{ background:T.gold, border:'none', color:'#0a0a0a', padding:'16px 36px', fontSize:15, fontWeight:700, cursor:'pointer', fontFamily:T.sans }}>Founders Club 가입하기 →</button>
-            <button onClick={()=>navigate('shop-physical')} style={{ background:'transparent', border:`1px solid ${T.goldBorder}`, color:T.textSub, padding:'16px 36px', fontSize:15, cursor:'pointer', fontFamily:T.sans }}>실물 매수로 시작하기</button>
+            <button onClick={()=>navigate('agp-enroll')} style={{ background:T.gold, border:'none', color:'#0a0a0a', padding:'16px 36px', fontSize:15, fontWeight:700, cursor:'pointer', fontFamily:T.sans }}>파운더스 클럽 가입 →</button>
+            <button onClick={()=>navigate('shop')} style={{ background:'transparent', border:`1px solid ${T.goldBorder}`, color:T.textSub, padding:'16px 28px', fontSize:14, cursor:'pointer', fontFamily:T.sans }}>실물 구매로 시작</button>
           </div>
         </div>
       </div>

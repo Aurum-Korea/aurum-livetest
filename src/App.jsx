@@ -1,9 +1,11 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useLivePrices, useToast, MOCK_ORDERS_INIT, MOCK_HOLDINGS } from './lib/index.jsx';
 
-// Same import pattern as original aurum-test — all UI chrome from BaseUI.jsx
-import { Ticker, Nav, LoginModal, Toast } from './BaseUI.jsx';
+import Nav        from './components/Nav.jsx';
+import Ticker     from './components/Ticker.jsx';
 import Footer     from './components/Footer.jsx';
+import Toast      from './components/Toast.jsx';
+import LoginModal from './components/LoginModal.jsx';
 
 import HomePage                     from './pages/HomePage.jsx';
 import { ShopSelectorPage, ShopPage, ProductPage } from './pages/ShopPages.jsx';
@@ -32,7 +34,7 @@ export default function App() {
   const [orders, setOrders]     = useState(MOCK_ORDERS_INIT);
   const [holdings]              = useState(MOCK_HOLDINGS);
 
-  const { prices, krwRate, dailyChanges, priceError } = useLivePrices();
+  const { prices, krwRate, dailyChanges } = useLivePrices();
   const { toasts, show: toast }           = useToast();
 
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, [page]);
@@ -92,7 +94,6 @@ export default function App() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      {priceError && <div style={{ background:"#1a0808", borderBottom:"1px solid rgba(248,113,113,0.3)", padding:"6px 20px", fontSize:11, color:"#f87171", textAlign:"center", fontFamily:"'Outfit',sans-serif" }}>{priceError}</div>}
       <Ticker prices={prices} krwRate={krwRate} dailyChanges={dailyChanges} lang={lang} />
       <Nav page={page} navigate={navigate} lang={lang} setLang={setLang} user={user} setUser={setUser} setShowLogin={setShowLogin} cart={cart} />
       <main style={{ flex: 1 }}>{renderPage()}</main>
