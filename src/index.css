@@ -7,10 +7,10 @@
 :root {
   --bg:          #0a0a0a;
   --bg-1:        #111111;
-  --bg-2:        #0e0d09;
-  --bg-3:        #16140f;
-  --bg-elevated: #1a1814;
-  --bg-card:     #14120e;
+  --bg-2:        #0d0d0d;
+  --bg-3:        #141414;
+  --bg-elevated: #1a1a1a;
+  --bg-card:     #141414;
 
   --gold:        #C5A572;
   --gold-bright: #E3C187;
@@ -404,8 +404,8 @@ main { animation: pageIn 0.3s ease-out; }
 
 /* ─── Ticker marquee animation ───────────────────────────────────── */
 @keyframes ticker-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 }
 .ticker-track {
   display: flex;

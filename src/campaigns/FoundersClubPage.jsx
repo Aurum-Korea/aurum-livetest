@@ -39,7 +39,7 @@ function SealDivider() {
 }
 
 // ─── Gate Progress Widget (Image 8) ──────────────────────────────────────────
-function GateProgressWidget({ userGate }) {
+function GateProgressWidget({ userGate, krwRate = 1375 }) {
   return (
     <div style={{ background:T.bgCard, border:`1px solid ${T.goldBorder}`, padding:'20px 18px', position:'relative' }}>
       <div style={{ position:'absolute', top:0, left:0, right:0, height:1, background:`linear-gradient(90deg,transparent,${T.gold},transparent)` }} />
@@ -58,13 +58,13 @@ function GateProgressWidget({ userGate }) {
                 <div style={{ height:'100%', width:done?'100%':'0%', background:`linear-gradient(90deg,${T.gold},${T.goldBright})`, transition:'width 0.8s ease', boxShadow:done?`0 0 6px ${T.gold}`:'none' }} />
               </div>
             </div>
-            <span style={{ fontFamily:T.mono, fontSize:9, color:T.textMuted, flexShrink:0, minWidth:48, textAlign:'right' }}>${g.gmv.toLocaleString()}</span>
+            <span style={{ fontFamily:T.mono, fontSize:9, color:T.textMuted, flexShrink:0, minWidth:72, textAlign:'right' }}>₩{Math.round(g.gmv * krwRate / 1000000).toFixed(0)}M</span>
           </div>
         );
       })}
       <div style={{ marginTop:14, paddingTop:12, borderTop:`1px solid ${T.border}`, display:'flex', justifyContent:'space-between' }}>
         <span style={{ fontFamily:T.sans, fontSize:10, color:T.textMuted }}>현재 GMV</span>
-        <span style={{ fontFamily:T.mono, fontSize:13, color:T.gold, fontWeight:700 }}>${USER.gmv.toLocaleString()}</span>
+        <span style={{ fontFamily:T.mono, fontSize:13, color:T.gold, fontWeight:700 }}>₩{(USER.gmv * krwRate).toLocaleString('ko-KR')}</span>
       </div>
     </div>
   );
@@ -138,7 +138,7 @@ function GMVCalculator({ prices = { gold: 3342.80 }, krwRate = 1368 }) {
             { label:'연간 총 GMV', value:fmtUSD(total), sub:`≈ ₩${fmt(total*krwRate)}` },
             { label:'현재 게이트', value:gate?`Gate ${gate.num}`:'미달', sub:gate?gate.label:'₩7.2M 부터' },
             { label:'Founder Savings', value:gate?`−${gate.discount}%`:'−', sub:'on Listed Price · 평생', hl:true },
-            { label:'연간 절약 (추정)', value:gate?fUSD(savings):'−', sub:'프리미엄 기준' },
+            { label:'연간 절약 (추정)', value:gate?fKRW(savings * krwRate):'−', sub:'프리미엄 기준' },
           ].map((s,i)=>(
             <div key={i} style={{ textAlign:'center' }}>
               <div style={{ fontFamily:T.mono, fontSize:i===2?20:16, color:s.hl?T.goldBright:T.gold, fontWeight:700 }}>{s.value}</div>
@@ -151,7 +151,7 @@ function GMVCalculator({ prices = { gold: 3342.80 }, krwRate = 1368 }) {
           <div>
             <div style={{ display:'flex', justifyContent:'space-between', marginBottom:6 }}>
               <span style={{ fontFamily:T.sans, fontSize:12, color:T.textSub }}>다음 게이트: Gate {next.num} · {next.label} (−{next.discount}%)</span>
-              <span style={{ fontFamily:T.mono, fontSize:11, color:T.gold }}>{fUSD(next.gmv-total)} 남음</span>
+              <span style={{ fontFamily:T.mono, fontSize:11, color:T.gold }}>₩{Math.round((next.gmv-total) * krwRate).toLocaleString('ko-KR')} 남음</span>
             </div>
             <div style={{ height:4, background:T.border, overflow:'hidden' }}>
               <div style={{ height:'100%', width:`${progress.toFixed(1)}%`, background:`linear-gradient(90deg,${T.gold},${T.goldBright})`, boxShadow:`0 0 10px ${T.gold}`, transition:'width 0.6s ease' }} />
@@ -316,7 +316,7 @@ function SharePanel({ toast }) {
 }
 
 // ─── Gate Cards ───────────────────────────────────────────────────────────────
-function GateCards({ userGate }) {
+function GateCards({ userGate, krwRate = 1375 }) {
   const isMobile = useIsMobile();
   const cardBg = { 'mc-gold':'linear-gradient(135deg,#6a5a3a,#E3C187 50%,#6a5a3a)', 'mc-stainless':'linear-gradient(135deg,#4a4a4a,#b8b8b8 50%,#4a4a4a)', 'mc-bronze':'linear-gradient(135deg,#4a3520,#b8804a 50%,#4a3520)' };
   return (
@@ -334,7 +334,7 @@ function GateCards({ userGate }) {
             <div style={{ width:44, height:44, borderRadius:'50%', margin:'0 auto 14px', background:done?T.gold:T.bg2, border:`2px solid ${done?T.gold:cur?T.gold:T.goldDim}`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:T.serif, fontStyle:'italic', fontSize:18, color:done?T.bg:cur?T.gold:T.goldDim, boxShadow:done?'0 0 16px rgba(197,165,114,0.5)':cur?'0 0 0 4px rgba(197,165,114,0.12),0 0 20px rgba(197,165,114,0.5)':'none', animation:cur&&!done?'pulseRing 2s ease-in-out infinite':'none' }}>{gate.num}</div>
 
             <div style={{ fontFamily:T.mono, fontSize:8, color:gate.apex?T.gold:T.goldDim, letterSpacing:'0.18em', textTransform:'uppercase', marginBottom:8 }}>{gate.apex?'— APEX —':`— GATE ${gate.num} —`}</div>
-            <div style={{ fontFamily:T.mono, fontSize:18, fontWeight:700, color:done?T.goldBright:T.gold, marginBottom:3 }}>${gate.gmv.toLocaleString()}</div>
+            <div style={{ fontFamily:T.mono, fontSize:18, fontWeight:700, color:done?T.goldBright:T.gold, marginBottom:3 }}>₩{Math.round(gate.gmv * krwRate / 1000000).toFixed(0)}M</div>
             <div style={{ fontFamily:T.sansKr, fontSize:9, color:T.textMuted, marginBottom:14 }}>≈ {gate.gmvKR} GMV</div>
 
             <div style={{ height:54, display:'flex', alignItems:'center', justifyContent:'center', margin:'8px 0 12px' }}>
@@ -366,7 +366,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
   const [toastMsg, setToastMsg] = useState(null);
   const showToast = msg => { setToastMsg(msg); setTimeout(()=>setToastMsg(null),2400); };
   const userGate = USER.gate - 1;
-  const pad = isMobile ? '48px 20px' : '80px 80px';
+  const pad = isMobile ? '48px 20px' : '80px 60px';
 
   return (
     <div style={{ background:T.bg }}>
@@ -399,7 +399,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
           </div>
 
           {/* Col 2 — Gate Progress Widget (Image 8) */}
-          {!isMobile && <GateProgressWidget userGate={userGate} />}
+          {!isMobile && <GateProgressWidget userGate={userGate} krwRate={krwRate} />}
 
           {/* Col 3 — Leaderboard Widget (Image 7) */}
           {!isMobile && <LeaderboardWidget />}
@@ -412,7 +412,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
           {GATES.map((g,i)=>(
             <div key={i} style={{ textAlign:'center', padding:isMobile?'14px 8px':'18px 14px', borderRight:!isMobile&&i<4?`1px solid ${T.goldBorder}`:'none', borderBottom:isMobile&&i<3?`1px solid ${T.goldBorder}`:'none' }}>
               <div style={{ fontFamily:T.mono, fontSize:isMobile?14:20, color:T.gold, fontWeight:700 }}>−{g.discount}%</div>
-              <div style={{ fontFamily:T.sans, fontSize:9, color:T.textMuted, marginTop:4, letterSpacing:'0.05em' }}>Gate {g.num} · ${g.gmv.toLocaleString()}</div>
+              <div style={{ fontFamily:T.sans, fontSize:9, color:T.textMuted, marginTop:4, letterSpacing:'0.05em' }}>Gate {g.num} · ₩{Math.round(g.gmv * krwRate / 1000000).toFixed(0)}M</div>
             </div>
           ))}
         </div>
@@ -424,12 +424,12 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
       </div>
 
       {/* ── Share Panel (Image 4, top) ── */}
-      <div style={{ padding:isMobile?'44px 20px':'64px 80px', background:T.bg1, borderBottom:`1px solid ${T.border}` }}>
+      <div style={{ padding:isMobile?'44px 20px':'64px 60px', background:T.bg1, borderBottom:`1px solid ${T.border}` }}>
         <SharePanel toast={showToast} />
       </div>
 
       {/* ── Rules (Image 3 / Image 4 bottom) ── */}
-      <div style={{ padding:isMobile?'44px 20px':'64px 80px', background:T.bg3, borderTop:`1px solid ${T.goldBorder}`, borderBottom:`1px solid ${T.goldBorder}` }}>
+      <div style={{ padding:isMobile?'44px 20px':'64px 60px', background:T.bg3, borderTop:`1px solid ${T.goldBorder}`, borderBottom:`1px solid ${T.goldBorder}` }}>
         <div style={{ maxWidth:1100, margin:'0 auto' }}>
           <div style={{ textAlign:'center', marginBottom:40 }}>
             <h2 style={{ fontFamily:T.serifKr, fontSize:'clamp(22px,2.5vw,34px)', fontWeight:500, color:T.text }}>네 가지 원칙 <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold, fontWeight:400 }}>— 간단하고 공정합니다</span></h2>
@@ -466,7 +466,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
               게이트는 한 번 열리면 닫히지 않습니다. 실물 매수·AGP 적립·추천 GMV 모든 거래에 평생 자동 적용.
             </p>
           </div>
-          <GateCards userGate={userGate} />
+          <GateCards userGate={userGate} krwRate={krwRate} />
         </div>
       </div>
 
@@ -493,7 +493,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
       </div>
 
       {/* ── CTA ── */}
-      <div style={{ padding:isMobile?'72px 20px':'110px 80px', background:`radial-gradient(ellipse at 50% 100%,rgba(197,165,114,0.15),transparent 60%),${T.bg}`, textAlign:'center', borderTop:`1px solid ${T.goldBorder}`, position:'relative', overflow:'hidden' }}>
+      <div style={{ padding:isMobile?'72px 20px':'110px 60px', background:`radial-gradient(ellipse at 50% 100%,rgba(197,165,114,0.15),transparent 60%),${T.bg}`, textAlign:'center', borderTop:`1px solid ${T.goldBorder}`, position:'relative', overflow:'hidden' }}>
         <div style={{ position:'absolute', bottom:20, left:'50%', transform:'translateX(-50%)', fontFamily:T.serif, fontStyle:'italic', fontSize:isMobile?60:130, color:'rgba(197,165,114,0.022)', whiteSpace:'nowrap', userSelect:'none', letterSpacing:'0.12em' }}>FOUNDERS</div>
         <div style={{ position:'relative', zIndex:1 }}>
           <div style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:13, color:T.gold, letterSpacing:'0.3em', marginBottom:20, textTransform:'uppercase' }}>— Exclusive · First-Come, First-Served —</div>
@@ -509,7 +509,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
       </div>
 
       {/* T&C */}
-      <div style={{ background:T.bg2, padding:'32px 80px', borderTop:`1px solid ${T.goldBorder}` }}>
+      <div style={{ background:T.bg2, padding:'32px 60px', borderTop:`1px solid ${T.goldBorder}` }}>
         <p style={{ fontFamily:T.sansKr, fontSize:11, color:T.textMuted, lineHeight:1.85, maxWidth:880, margin:'0 auto', textAlign:'center' }}>
           ※ Founders Club는 Aurum Pte. Ltd.의 GMV 기반 멤버십 프로그램입니다. Founder Savings는 Aurum Listed Price 기준으로 적용되며 실제 조건은 출시 시점의 공식 약관을 따릅니다. GMV 산정은 정산 완료된 거래만을 대상으로 합니다. 모든 투자에는 원금 손실 가능성이 있습니다.
         </p>
