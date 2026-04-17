@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { T, useIsMobile } from '../lib/index.jsx';
 import Logo from './Logo.jsx';
 
-// SVG Cart icon — replaces emoji (prevents missized icon bug)
 function CartIcon({ size = 16 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block', flexShrink: 0 }}>
@@ -13,7 +12,6 @@ function CartIcon({ size = 16 }) {
   );
 }
 
-// SVG Hamburger / Close icon — replaces ☰ / ✕ emoji
 function MenuIcon({ open, size = 18 }) {
   if (open) return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -45,26 +43,18 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
   const ko = lang === 'ko';
 
   const links = [
-    { page: 'campaign-founders',   ko: 'Founders Club',      en: 'Founders Club',      highlight: true  },
-    { page: 'campaign-agp-launch', ko: 'AGP 론치 이벤트',    en: 'AGP Launch Event',   highlight: true  },
-    { page: 'shop',                ko: '매장',                en: 'Shop',               highlight: false },
-    { page: 'agp',                 ko: 'AGP 적립',           en: 'AGP Savings',        highlight: false },
-    { page: 'why',                 ko: '왜 금인가',           en: 'Why Gold',           highlight: false },
-    { page: 'storage',             ko: '보관',                en: 'Storage',            highlight: false },
-    { page: 'learn',               ko: '교육',                en: 'Learn',              highlight: false },
+    { page: 'campaign-founders',   ko: 'Founders Club',  en: 'Founders Club',    highlight: true  },
+    { page: 'campaign-agp-launch', ko: 'AGP 론치 이벤트', en: 'AGP Launch Event', highlight: true  },
+    { page: 'shop',                ko: '매장',             en: 'Shop',             highlight: false },
+    { page: 'agp',                 ko: 'AGP 적립',        en: 'AGP Savings',      highlight: false },
+    { page: 'why',                 ko: '왜 금인가',        en: 'Why Gold',         highlight: false },
+    { page: 'storage',             ko: '보관',             en: 'Storage',          highlight: false },
+    { page: 'learn',               ko: '교육',             en: 'Learn',            highlight: false },
   ];
 
-  // FIX 6: consistent button height for all right-side controls
+  // All right-side controls share BTN_H=34 for consistent height on both EN/KO
   const BTN_H = 34;
-  const btnBase = {
-    height: BTN_H,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-    transition: 'all 0.2s',
-    flexShrink: 0,
-  };
+  const btnBase = { height: BTN_H, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s', flexShrink: 0 };
 
   return (
     <nav style={{
@@ -78,24 +68,31 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
         <Logo onClick={e => { e.preventDefault(); navigate('home'); }} size={36} />
 
         {!isMobile && (
-          <div style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+          // flexShrink:0 prevents nav from compressing on lang toggle
+          <div style={{ display: 'flex', gap: 2, alignItems: 'center', flexShrink: 0 }}>
             {links.map(l => {
-              const isActive = page === l.page;
-              const isHL = l.highlight;
+              const isActive       = page === l.page;
+              const isHL           = l.highlight;
+              const isFirstRegular = !isHL && links.filter(x => !x.highlight).indexOf(l) === 0;
               return (
                 <button key={l.page} onClick={() => navigate(l.page)} style={{
                   background: isActive ? (isHL ? 'rgba(197,165,114,0.12)' : T.goldGlow) : 'none',
                   border: `1px solid ${isActive ? T.goldBorder : isHL ? 'rgba(197,165,114,0.18)' : 'transparent'}`,
                   color: isHL ? T.gold : (isActive ? T.gold : T.textMuted),
-                  // FIX 5: highlight pills get minWidth so both banners are same size
-                  padding: isHL ? '6px 14px' : '6px 12px',
-                  minWidth: isHL ? 148 : 'auto',
-                  justifyContent: isHL ? 'center' : 'flex-start',
+                  // Fixed widths — sized to longest text in either language so EN↔KO never shifts layout
+                  // HL: 164px fits "AGP Launch Event"; Regular: 96px fits "AGP Savings"
+                  width: isHL ? 164 : 96,
+                  padding: '6px 8px',
+                  justifyContent: 'center',
                   cursor: 'pointer',
                   fontFamily: T.sans, fontSize: 13, fontWeight: isHL ? 500 : 400,
                   letterSpacing: isHL ? '0.02em' : 0, transition: 'all 0.2s',
                   display: 'flex', alignItems: 'center', gap: 5,
                   borderBottom: isActive && !isHL ? `1px solid ${T.gold}` : undefined,
+                  // Visual gap + thin divider before first regular link
+                  marginLeft: isFirstRegular ? 14 : 0,
+                  borderLeft: isFirstRegular ? `1px solid ${T.goldBorder}` : undefined,
+                  paddingLeft: isFirstRegular ? 18 : undefined,
                 }}>
                   {isHL && <span style={{ width: 5, height: 5, borderRadius: '50%', background: T.gold, boxShadow: `0 0 6px ${T.gold}`, flexShrink: 0 }} />}
                   {ko ? l.ko : l.en}
@@ -105,19 +102,19 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
           </div>
         )}
 
-        {/* FIX 6: all right-side controls share BTN_H = 34px */}
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        {/* Right-side controls — all fixed widths so EN↔KO toggle never shifts anything */}
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
 
-          {/* Language toggle */}
+          {/* Language toggle — 44px fits "EN" and "KO" */}
           <button
             onClick={() => setLang(lang === 'ko' ? 'en' : 'ko')}
-            style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, padding: '0 10px', fontFamily: T.mono, fontSize: 11, letterSpacing: '0.1em' }}
+            style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, width: 44, fontFamily: T.mono, fontSize: 11, letterSpacing: '0.1em' }}
           >{lang === 'ko' ? 'EN' : 'KO'}</button>
 
-          {/* Cart */}
+          {/* Cart — 44px */}
           <button
             onClick={() => navigate('cart')}
-            style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, padding: '0 10px', gap: 4, position: 'relative' }}
+            style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, width: 44, gap: 4, position: 'relative' }}
           >
             <CartIcon size={15} />
             {cartCount > 0 && (
@@ -130,30 +127,31 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
               <button onClick={() => navigate('dashboard')} style={{ ...btnBase, background: T.goldGlow, border: `1px solid ${T.goldBorder}`, color: T.gold, padding: '0 12px', fontFamily: T.sans, fontSize: 12 }}>
                 {user.name || user.email}
               </button>
-              <button onClick={() => { setUser(null); navigate('home'); }} style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, padding: '0 8px', fontFamily: T.mono, fontSize: 11 }}>
+              <button onClick={() => { setUser(null); navigate('home'); }} style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, width: 64, fontFamily: T.mono, fontSize: 11 }}>
                 {ko ? '로그아웃' : 'Out'}
               </button>
             </div>
           ) : (
-            <button onClick={() => setShowLogin(true)} style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, padding: '0 14px', fontFamily: T.sans, fontSize: 12 }}>
+            /* 72px fits both "Login" and "로그인" */
+            <button onClick={() => setShowLogin(true)} style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, width: 72, fontFamily: T.sans, fontSize: 12 }}>
               {ko ? '로그인' : 'Login'}
             </button>
           )}
 
-          {/* Primary CTA */}
+          {/* CTA — 172px fits "Founder Enrollment" (longest across both languages) */}
           {!isMobile && (
             <button
               onClick={() => navigate('agp-enroll')}
-              style={{ ...btnBase, background: T.gold, border: 'none', color: '#0a0a0a', padding: '0 18px', fontFamily: T.sans, fontSize: 12, fontWeight: 700 }}
+              style={{ ...btnBase, background: T.gold, border: 'none', color: '#0a0a0a', width: 172, fontFamily: T.sans, fontSize: 12, fontWeight: 700 }}
             >
-              {ko ? 'AGP 적립 가입' : 'Start AGP'}
+              {ko ? 'AGP 적립 가입' : 'Founder Enrollment'}
             </button>
           )}
 
           {isMobile && (
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.text, padding: '0 10px' }}
+              style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.text, width: 44 }}
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             >
               <MenuIcon open={mobileOpen} size={16} />
@@ -178,7 +176,7 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
             onClick={() => { navigate('agp-enroll'); setMobileOpen(false); }}
             style={{ background: T.gold, border: 'none', color: '#0a0a0a', padding: '14px', cursor: 'pointer', fontFamily: T.sans, fontSize: 15, fontWeight: 700, marginTop: 10 }}
           >
-            {ko ? 'AGP 적립 가입하기' : 'Start AGP Savings'}
+            {ko ? 'AGP 적립 가입하기' : 'Founder Enrollment'}
           </button>
         </div>
       )}
