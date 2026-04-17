@@ -2,9 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useIsMobile } from '../lib/index.jsx';
 
-// Pricing constants — match BaseUI.jsx single source of truth
-const KR_GOLD_PREMIUM   = 0.20;  // 20% Korean retail (kimchi + VAT)
-const AURUM_GOLD_PREMIUM = 0.08; // 8% Aurum gold premium
+const KR_GOLD_PREMIUM    = 0.20;
+const AURUM_GOLD_PREMIUM = 0.08;
 const OZ_IN_GRAMS  = 31.1035;
 const DON_IN_GRAMS = 3.75;
 
@@ -15,31 +14,28 @@ export default function Ticker({ lang, prices, krwRate, dailyChanges }) {
   useEffect(() => {
     const ch = key => {
       const v = parseFloat(dailyChanges?.[key] || 0);
-      return dailyChanges?.[key]
-        ? `${v >= 0 ? '+' : ''}${dailyChanges[key]}%`
-        : '—';
+      return dailyChanges?.[key] ? `${v >= 0 ? '+' : ''}${dailyChanges[key]}%` : '—';
     };
     const up = key => parseFloat(dailyChanges?.[key] || 0) >= 0;
 
-    // Korean retail gold per 돈 (1돈 = 3.75g) — spot × KRW × (1 + 0.20) / 31.1035 × 3.75
     const donPrice = Math.round(
       (prices.gold || 3342) * krwRate * (1 + KR_GOLD_PREMIUM) / OZ_IN_GRAMS * DON_IN_GRAMS
     );
 
     setItems([
-      { label: lang === 'ko' ? '금'  : 'XAU/USD',   price: `$${(prices.gold || 3342).toFixed(2)}`,           change: ch('gold'),     up: up('gold') },
-      { label: lang === 'ko' ? '은'  : 'XAG/USD',   price: `$${(prices.silver || 32.15).toFixed(2)}`,        change: ch('silver'),   up: up('silver') },
-      { label: lang === 'ko' ? '백금': 'XPT/USD',   price: `$${(prices.platinum || 980).toFixed(2)}`,        change: ch('platinum'), up: up('platinum') },
-      { label: 'USD/KRW',                             price: `₩${(krwRate).toFixed(1)}`,                       change: '—', up: true, noChange: true },
+      { label: lang === 'ko' ? '금'  : 'XAU/USD', price: `$${(prices.gold || 3342).toFixed(2)}`,    change: ch('gold'),   up: up('gold')   },
+      { label: lang === 'ko' ? '은'  : 'XAG/USD', price: `$${(prices.silver || 32.15).toFixed(2)}`, change: ch('silver'), up: up('silver') },
+      // FIX: platinum removed
+      { label: 'USD/KRW', price: `₩${(krwRate).toFixed(1)}`, change: '—', up: true, noChange: true },
       {
-        label: lang === 'ko' ? 'exgold 매도가 (1돈 / 부가세 포함)' : 'exgold (VAT incl.)',
+        // FIX: label changed to 한국실금가 1돈 / KR Gold 1-don (no VAT mention)
+        label: lang === 'ko' ? '한국실금가 1돈' : 'KR Gold 1-don',
         price: `₩${donPrice.toLocaleString('ko-KR')}`,
         change: '—', up: true, noChange: true,
       },
     ]);
   }, [lang, prices, krwRate, dailyChanges]);
 
-  // Single ticker item (shared between mobile + desktop)
   const TickerItem = ({ item, isMob }) => (
     <div style={{
       display: 'flex', alignItems: 'center', gap: isMob ? 4 : 8,
@@ -61,7 +57,6 @@ export default function Ticker({ lang, prices, krwRate, dailyChanges }) {
     </div>
   );
 
-  // Mobile: horizontal scroll (no animation)
   if (isMobile) return (
     <div style={{ background: '#0d0d0d', borderBottom: '1px solid #1e1e1e', padding: '7px 0', overflow: 'hidden' }}>
       <div style={{ display: 'flex', overflowX: 'auto', WebkitOverflowScrolling: 'touch', gap: 0 }}>
@@ -70,19 +65,13 @@ export default function Ticker({ lang, prices, krwRate, dailyChanges }) {
     </div>
   );
 
-  // Desktop: CSS marquee — .ticker-track class in index.css
-  // Items duplicated for seamless infinite loop
-  // Scroll direction: left-to-right (translateX(-50%) → 0) per design spec
   return (
     <div style={{ background: '#0d0d0d', borderBottom: '1px solid #1e1e1e', height: 36, overflow: 'hidden', position: 'relative' }}>
-      {/* Gold accent left border */}
       <div style={{ position: 'absolute', left: 0, top: 0, width: 2, height: '100%', background: 'linear-gradient(180deg,#c5a572,#8a6914)', zIndex: 2, flexShrink: 0 }} />
-      {/* LIVE indicator */}
       <div style={{ position: 'absolute', right: 24, top: '50%', transform: 'translateY(-50%)', zIndex: 2, display: 'flex', alignItems: 'center', gap: 5, background: '#0d0d0d', paddingLeft: 8 }}>
         <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#4ade80', animation: 'pulse 2s ease-in-out infinite' }} />
         <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, color: '#4ade80', letterSpacing: 1 }}>LIVE</span>
       </div>
-      {/* Scrolling track — items duplicated for seamless loop */}
       <div className="ticker-track">
         {items.map((item, i) => <TickerItem key={`a-${i}`} item={item} />)}
         {items.map((item, i) => <TickerItem key={`b-${i}`} item={item} />)}
