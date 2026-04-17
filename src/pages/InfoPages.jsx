@@ -39,9 +39,12 @@ export function WhyGoldPage({ lang, navigate }) {
         <div style={{ position: 'absolute', top: 0, right: 0, width: '50%', height: '100%', background: 'radial-gradient(ellipse at 80% 50%, rgba(197,165,114,0.06), transparent 60%)', pointerEvents: 'none' }} />
         <div className="aurum-container" style={{ paddingTop: isMobile ? 48 : 80, paddingBottom: isMobile ? 40 : 72, position: 'relative' }}>
           <div style={{ maxWidth: 680 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-              <div style={{ width: 28, height: 1, background: T.gold }} />
-              <span style={{ fontFamily: T.mono, fontSize: 9, color: T.gold, letterSpacing: '0.32em', textTransform: 'uppercase' }}>{ko ? '투자 근거' : 'The Case For Gold'}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, flexWrap: 'nowrap', overflow: 'hidden' }}>
+              <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />
+              <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile ? 11 : 13, color: T.gold, letterSpacing: '0.04em' }}>The Case for Gold</span>
+              <span style={{ color: T.goldDim }}>·</span>
+              <span style={{ fontFamily: T.mono, fontSize: isMobile ? 10 : 11, color: T.gold, letterSpacing: '0.18em', textTransform: 'uppercase' }}>투자 근거</span>
+              {!isMobile && <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />}
             </div>
             <h1 style={{ fontFamily: T.serifKr, fontSize: 'clamp(32px,5vw,56px)', fontWeight: 500, color: T.text, margin: '0 0 20px', lineHeight: 1.12 }}>
               {ko ? '왜 금·은인가?' : 'Why Gold & Silver?'}
@@ -84,8 +87,17 @@ export function WhyGoldPage({ lang, navigate }) {
                 <div key="silver">
                   <SectionHead badge="은의 이중성" title="왜 은인가?" sub="산업 수요 + 귀금속 가치. 독특한 투자 자산." align="left" />
                   <Accordion items={silverAccordion} />
-                  <div style={{ marginTop: 40 }}>
-                    <StatBar stats={WHY_SILVER_STATS} cols={isMobile ? 2 : 4} />
+                  <div style={{ marginTop: 40, background: T.bgCard, border: `1px solid ${T.goldBorder}`, padding: '24px 28px', position: 'relative', overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, #c5a572, transparent)', pointerEvents: 'none' }} />
+                    <div style={{ fontFamily: T.mono, fontSize: 9, color: T.goldDim, letterSpacing: '0.26em', textTransform: 'uppercase', marginBottom: 16 }}>SILVER STATS · {MARKET_FACTS.lastVerified}</div>
+                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : `repeat(${WHY_SILVER_STATS.length}, 1fr)`, gap: 16 }}>
+                      {WHY_SILVER_STATS.map((s, i) => (
+                        <div key={i} style={{ textAlign: 'center', padding: '12px 0' }}>
+                          <div style={{ fontFamily: T.mono, fontSize: 20, color: T.gold, fontWeight: 700 }}>{s.value}</div>
+                          <div style={{ fontFamily: T.sans, fontSize: 11, color: T.textMuted, marginTop: 4 }}>{s.label}</div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>,
               ]}
@@ -113,7 +125,7 @@ export function WhyGoldPage({ lang, navigate }) {
                       { label: 'KRX 금 ETF',    align: 'center', gold: false },
                       { label: '일반 은행 예금', align: 'center', gold: false },
                     ].map((h, i) => (
-                      <th key={i} style={{ padding: isMobile ? '10px 10px' : '14px 18px', textAlign: h.align, fontFamily: T.mono, fontSize: isMobile ? 9 : 10, letterSpacing: 1.5, textTransform: 'uppercase', color: h.gold ? T.gold : T.textSub, borderBottom: h.gold ? `2px solid ${T.gold}` : `1px solid ${T.border}`, background: h.gold ? T.goldGlow : 'transparent' }}>
+                      <th key={i} style={{ padding: isMobile ? '10px 10px' : '14px 18px', textAlign: h.align, fontFamily: T.mono, fontSize: isMobile ? 9 : 13, letterSpacing: '0.12em', textTransform: 'uppercase', color: h.gold ? T.gold : T.textSub, borderBottom: h.gold ? `2px solid ${T.gold}` : `1px solid ${T.border}`, background: h.gold ? T.goldGlow : 'transparent' }}>
                         {h.label}
                       </th>
                     ))}
@@ -135,7 +147,7 @@ export function WhyGoldPage({ lang, navigate }) {
                       <tr key={ri} style={{ background: ri % 2 === 0 ? T.bg : T.bg2 }}
                         onMouseEnter={e => e.currentTarget.style.background = T.goldGlow}
                         onMouseLeave={e => e.currentTarget.style.background = ri % 2 === 0 ? T.bg : T.bg2}>
-                        <td style={{ padding: isMobile ? '10px 10px' : '13px 18px', fontFamily: T.sans, fontSize: isMobile ? 12 : 13, color: T.text, borderBottom: `1px solid ${T.border}` }}>{label}</td>
+                        <td style={{ padding: isMobile ? '10px 10px' : '13px 18px', fontFamily: T.sans, fontSize: isMobile ? 12 : 14, color: T.text, borderBottom: `1px solid ${T.border}` }}>{label}</td>
                         {vals.map((val, ci) => (
                           <td key={ci} style={{ padding: isMobile ? '10px 10px' : '13px 18px', textAlign: 'center', borderBottom: `1px solid ${T.border}`, background: ci === 0 ? T.goldGlow : 'transparent' }}>
                             {val ? (
@@ -170,9 +182,9 @@ export function WhyGoldPage({ lang, navigate }) {
           <p style={{ fontFamily: T.sans, fontSize: 15, color: T.textSub, marginBottom: 28, lineHeight: 1.7 }}>
             {ko ? "국제 현물가 기준, 싱가포르 완전 배분 보관, Lloyd's of London 보험." : "International spot pricing, fully allocated Singapore vault, Lloyd's of London insurance."}
           </p>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button onClick={() => navigate('shop-physical')} className="btn-primary">{ko ? '실물 금·은 구매' : 'Buy Physical Gold & Silver'}</button>
-            <button onClick={() => navigate('agp-intro')} className="btn-outline">{ko ? 'AGP 월적립 시작' : 'Start AGP Monthly Plan'}</button>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', alignItems: 'stretch' }}>
+            <button onClick={() => navigate('shop-physical')} className="btn-primary" style={{ minWidth: 180 }}>{ko ? '실물 금·은 구매' : 'Buy Physical Gold & Silver'}</button>
+            <button onClick={() => navigate('agp-intro')} className="btn-outline" style={{ minWidth: 180 }}>{ko ? 'AGP 월적립 시작' : 'Start AGP Monthly Plan'}</button>
           </div>
         </div>
       </div>
@@ -232,9 +244,12 @@ export function StoragePage({ lang, navigate }) {
       <div style={{ borderBottom: `1px solid ${T.border}`, background: `linear-gradient(135deg, ${T.bg}, ${T.bg2})` }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 48 : 80, paddingBottom: isMobile ? 40 : 72 }}>
           <div style={{ maxWidth: 660 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-              <div style={{ width: 28, height: 1, background: T.gold }} />
-              <span style={{ fontFamily: T.mono, fontSize: 9, color: T.gold, letterSpacing: '0.32em', textTransform: 'uppercase' }}>싱가포르 · Malca-Amit FTZ</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, flexWrap: 'nowrap', overflow: 'hidden' }}>
+              <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />
+              <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile ? 11 : 13, color: T.gold, letterSpacing: '0.04em' }}>Singapore Vault</span>
+              <span style={{ color: T.goldDim }}>·</span>
+              <span style={{ fontFamily: T.mono, fontSize: isMobile ? 10 : 11, color: T.gold, letterSpacing: '0.18em', textTransform: 'uppercase' }}>싱가포르 · Malca-Amit FTZ</span>
+              {!isMobile && <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />}
             </div>
             <h1 style={{ fontFamily: T.serifKr, fontSize: 'clamp(32px,5vw,54px)', fontWeight: 500, color: T.text, margin: '0 0 20px', lineHeight: 1.12 }}>
               {ko ? '귀하의 금속은\n안전하게 보관됩니다.' : 'Your metal.\nSafely stored.'}
@@ -289,8 +304,8 @@ export function StoragePage({ lang, navigate }) {
       <div style={{ textAlign: 'center' }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 40 : 64, paddingBottom: isMobile ? 40 : 64 }}>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', alignItems: 'stretch', flexWrap: 'wrap' }}>
-            <button onClick={() => navigate('shop-physical')} className="btn-primary" style={{ minWidth: 180 }}>{ko ? '지금 구매 시작' : 'Start Buying'}</button>
-            <button onClick={() => navigate('why')} className="btn-outline" style={{ minWidth: 180 }}>{ko ? '왜 금인가?' : 'Why Gold?'}</button>
+            <button onClick={() => navigate('shop-physical')} className="btn-primary" style={{ minWidth: 180, padding: '16px 36px' }}>{ko ? '지금 구매 시작' : 'Start Buying'}</button>
+            <button onClick={() => navigate('why')} className="btn-outline" style={{ minWidth: 180, padding: '16px 36px' }}>{ko ? '왜 금인가?' : 'Why Gold?'}</button>
           </div>
         </div>
       </div>
@@ -318,9 +333,12 @@ export function AGPPage({ lang, navigate }) {
       <div style={{ borderBottom: `1px solid ${T.border}` }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 48 : 80, paddingBottom: isMobile ? 40 : 72 }}>
           <div style={{ maxWidth: 680 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-              <div style={{ width: 28, height: 1, background: T.gold }} />
-              <span style={{ fontFamily: T.mono, fontSize: 9, color: T.gold, letterSpacing: '0.32em', textTransform: 'uppercase' }}>Aurum Gold Plan · AGP</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, flexWrap: 'nowrap', overflow: 'hidden' }}>
+              <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />
+              <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile ? 11 : 13, color: T.gold, letterSpacing: '0.04em' }}>Aurum Gold Plan</span>
+              <span style={{ color: T.goldDim }}>·</span>
+              <span style={{ fontFamily: T.mono, fontSize: isMobile ? 10 : 11, color: T.gold, letterSpacing: '0.18em', textTransform: 'uppercase' }}>AGP 골드 플랜</span>
+              {!isMobile && <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />}
             </div>
             <h1 style={{ fontFamily: T.serifKr, fontSize: 'clamp(32px,5vw,56px)', fontWeight: 500, color: T.text, margin: '0 0 20px', lineHeight: 1.1 }}>
               월 20만원으로<br /><span style={{ color: T.gold }}>진짜 금</span>을 모으세요.
@@ -467,21 +485,27 @@ export function LearnPage({ lang, navigate }) {
   return (
     <div style={{ background: T.bg, minHeight: '85vh' }}>
       <div className="aurum-container" style={{ paddingTop: isMobile ? 40 : 60, paddingBottom: isMobile ? 40 : 72 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-          <div style={{ width: 28, height: 1, background: T.gold }} />
-          <span style={{ fontFamily: T.mono, fontSize: 9, color: T.gold, letterSpacing: '0.32em', textTransform: 'uppercase' }}>{ko ? '교육 센터' : 'Education Center'}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, flexWrap: 'nowrap', overflow: 'hidden' }}>
+          <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />
+          <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile ? 11 : 13, color: T.gold, letterSpacing: '0.04em' }}>Education Center</span>
+          <span style={{ color: T.goldDim }}>·</span>
+          <span style={{ fontFamily: T.mono, fontSize: isMobile ? 10 : 11, color: T.gold, letterSpacing: '0.18em', textTransform: 'uppercase' }}>교육 센터</span>
+          {!isMobile && <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />}
         </div>
         <h1 style={{ fontFamily: T.serifKr, fontSize: 'clamp(28px,4vw,44px)', fontWeight: 500, color: T.text, margin: '0 0 12px' }}>{ko ? '귀금속 투자 가이드' : 'Precious Metals Investment Guide'}</h1>
         <p style={{ fontFamily: T.sans, fontSize: 15, color: T.textSub, lineHeight: 1.7, marginBottom: 36 }}>{ko ? '실물 금·은 투자의 기초부터 세금·법률까지. 올바른 판단을 위한 지식.' : 'From fundamentals to tax and legal. Knowledge for informed decisions.'}</p>
 
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 32 }}>
-          {EDUCATION_CATEGORIES.map(c => (
-            <button key={c} onClick={() => setActiveCategory(c)} style={{
-              background: activeCategory === c ? T.gold : 'transparent', color: activeCategory === c ? '#0a0a0a' : T.textMuted,
-              border: `1px solid ${activeCategory === c ? T.gold : T.border}`, padding: '6px 16px', borderRadius: 20,
-              cursor: 'pointer', fontSize: 12, fontFamily: T.sans, fontWeight: activeCategory === c ? 600 : 400,
-            }}>{c}</button>
-          ))}
+          {(() => {
+            const categoryMap = { '전체':'All', '기초':'Basics', '가격':'Pricing', '구매':'Buying', '보관':'Storage', '세금법률':'Tax & Legal', '용어집':'Glossary' };
+            return EDUCATION_CATEGORIES.map(c => (
+              <button key={c} onClick={() => setActiveCategory(c)} style={{
+                background: activeCategory === c ? T.gold : 'transparent', color: activeCategory === c ? '#0a0a0a' : T.textMuted,
+                border: `1px solid ${activeCategory === c ? T.gold : T.border}`, padding: '6px 16px', borderRadius: 20,
+                cursor: 'pointer', fontSize: 12, fontFamily: T.sans, fontWeight: activeCategory === c ? 600 : 400,
+              }}>{ko ? c : (categoryMap[c] || c)}</button>
+            ));
+          })()}
         </div>
 
         <div style={{ maxWidth: 960, margin: '0 auto' }}>
