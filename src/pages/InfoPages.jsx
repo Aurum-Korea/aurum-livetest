@@ -2,12 +2,10 @@ import { useState, useRef } from 'react';
 import { T, useIsMobile, useInView, fUSD, fKRW, WHY_GOLD_REASONS, WHY_GOLD_STATS, WHY_SILVER_STATS, WHY_SILVER_REASONS, EDUCATION_ARTICLES, EDUCATION_CATEGORIES, MARKET_FACTS, useNewsData } from '../lib/index.jsx';
 import { Badge, StatBar, SectionHead, Tabs, Accordion, FlagSG } from '../components/UI.jsx';
 
-// D-5: shared gold top-line accent
 const GOLD_LINE = { position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, #c5a572, transparent)', pointerEvents: 'none', zIndex: 1 };
 
 /* ═══════════════════════════════════════════════════════════════════════
    WHY GOLD PAGE
-   M-14 hero padding | M-15 table cells | D-1 aurum-container | D-3 buttons | D-4 eyebrow | D-5 news cards
    ═══════════════════════════════════════════════════════════════════════ */
 export function WhyGoldPage({ lang, navigate }) {
   const ko = lang === 'ko';
@@ -37,12 +35,10 @@ export function WhyGoldPage({ lang, navigate }) {
 
   return (
     <div style={{ background: T.bg }}>
-      {/* Hero — M-14: 48px top mobile (was 60px), D-1: aurum-container */}
       <div style={{ borderBottom: `1px solid ${T.border}`, position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: 0, right: 0, width: '50%', height: '100%', background: 'radial-gradient(ellipse at 80% 50%, rgba(197,165,114,0.06), transparent 60%)', pointerEvents: 'none' }} />
         <div className="aurum-container" style={{ paddingTop: isMobile ? 48 : 80, paddingBottom: isMobile ? 40 : 72, position: 'relative' }}>
           <div style={{ maxWidth: 680 }}>
-            {/* D-4: standardized eyebrow with line */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
               <div style={{ width: 28, height: 1, background: T.gold }} />
               <span style={{ fontFamily: T.mono, fontSize: 9, color: T.gold, letterSpacing: '0.32em', textTransform: 'uppercase' }}>{ko ? '투자 근거' : 'The Case For Gold'}</span>
@@ -59,14 +55,11 @@ export function WhyGoldPage({ lang, navigate }) {
 
       <StatBar stats={WHY_GOLD_STATS} cols={isMobile ? 2 : 4} />
 
-      {/* Tabs: Gold / Silver — D-1: aurum-container */}
       <div style={{ borderBottom: `1px solid ${T.border}` }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 40 : 72, paddingBottom: isMobile ? 40 : 64 }}>
           <div style={{ maxWidth: 800, margin: '0 auto' }}>
-            {/* D-16: removed emoji from tab labels for premium aesthetic */}
             <Tabs tabs={[ko ? '금 (Gold)' : 'Gold', ko ? '은 (Silver)' : 'Silver']}>
               {[
-                /* Gold tab */
                 <div key="gold">
                   <SectionHead badge="금의 가치" title="왜 금인가?" sub="6가지 핵심 근거를 클릭해서 알아보세요." align="left" />
                   <Accordion items={reasonAccordion} />
@@ -87,12 +80,12 @@ export function WhyGoldPage({ lang, navigate }) {
                     </div>
                   </div>
                 </div>,
-                /* Silver tab */
+                /* FIX 48: Silver tab — StatBar moved BELOW Accordion to match Gold tab structure */
                 <div key="silver">
                   <SectionHead badge="은의 이중성" title="왜 은인가?" sub="산업 수요 + 귀금속 가치. 독특한 투자 자산." align="left" />
-                  <StatBar stats={WHY_SILVER_STATS} cols={isMobile ? 2 : 4} />
-                  <div style={{ marginTop: 28 }}>
-                    <Accordion items={silverAccordion} />
+                  <Accordion items={silverAccordion} />
+                  <div style={{ marginTop: 40 }}>
+                    <StatBar stats={WHY_SILVER_STATS} cols={isMobile ? 2 : 4} />
                   </div>
                 </div>,
               ]}
@@ -101,14 +94,11 @@ export function WhyGoldPage({ lang, navigate }) {
         </div>
       </div>
 
-      {/* Competition table — D-1: aurum-container, M-15: tighter mobile cell padding */}
+      {/* Competition table */}
       <div style={{ borderTop: `1px solid ${T.border}`, borderBottom: `1px solid ${T.border}` }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 40 : 72, paddingBottom: isMobile ? 40 : 64 }}>
           <div className="reveal">
-            {/* D-4: standardized eyebrow */}
-            <div style={{ fontFamily: T.mono, fontSize: 9, color: T.goldDim, letterSpacing: '0.26em', textTransform: 'uppercase', marginBottom: 10 }}>
-              비교 분석
-            </div>
+            <div style={{ fontFamily: T.mono, fontSize: 9, color: T.goldDim, letterSpacing: '0.26em', textTransform: 'uppercase', marginBottom: 10 }}>비교 분석</div>
             <h3 style={{ fontFamily: T.serif, fontSize: isMobile ? 26 : 38, color: T.text, fontWeight: 300, margin: '0 0 28px' }}>
               Aurum Korea vs 한국 금 투자 대안
             </h3>
@@ -123,7 +113,6 @@ export function WhyGoldPage({ lang, navigate }) {
                       { label: 'KRX 금 ETF',    align: 'center', gold: false },
                       { label: '일반 은행 예금', align: 'center', gold: false },
                     ].map((h, i) => (
-                      // M-15: reduced table header padding on mobile
                       <th key={i} style={{ padding: isMobile ? '10px 10px' : '14px 18px', textAlign: h.align, fontFamily: T.mono, fontSize: isMobile ? 9 : 10, letterSpacing: 1.5, textTransform: 'uppercase', color: h.gold ? T.gold : T.textSub, borderBottom: h.gold ? `2px solid ${T.gold}` : `1px solid ${T.border}`, background: h.gold ? T.goldGlow : 'transparent' }}>
                         {h.label}
                       </th>
@@ -146,7 +135,6 @@ export function WhyGoldPage({ lang, navigate }) {
                       <tr key={ri} style={{ background: ri % 2 === 0 ? T.bg : T.bg2 }}
                         onMouseEnter={e => e.currentTarget.style.background = T.goldGlow}
                         onMouseLeave={e => e.currentTarget.style.background = ri % 2 === 0 ? T.bg : T.bg2}>
-                        {/* M-15: tighter mobile cell padding */}
                         <td style={{ padding: isMobile ? '10px 10px' : '13px 18px', fontFamily: T.sans, fontSize: isMobile ? 12 : 13, color: T.text, borderBottom: `1px solid ${T.border}` }}>{label}</td>
                         {vals.map((val, ci) => (
                           <td key={ci} style={{ padding: isMobile ? '10px 10px' : '13px 18px', textAlign: 'center', borderBottom: `1px solid ${T.border}`, background: ci === 0 ? T.goldGlow : 'transparent' }}>
@@ -163,11 +151,9 @@ export function WhyGoldPage({ lang, navigate }) {
                 </tbody>
               </table>
             </div>
-            {/* CTA below table — D-3: borderRadius 4 (not 30) */}
             <div style={{ marginTop: 36, textAlign: 'center' }}>
               <p style={{ fontFamily: T.sans, fontSize: 14, color: T.goldDim, marginBottom: 20 }}>지금 바로 국제 현물가 기준으로 실물 금을 구매하세요</p>
               <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexDirection: isMobile ? 'column' : 'row', maxWidth: 440, margin: '0 auto' }}>
-                {/* D-3: borderRadius 4 replacing 30 */}
                 <button onClick={() => navigate('shop-physical')} style={{ flex: 1, background: `linear-gradient(135deg,${T.gold},#8a6914)`, color: '#0a0a0a', border: 'none', padding: '14px 28px', fontSize: 15, fontFamily: T.sans, fontWeight: 700, borderRadius: 4, cursor: 'pointer' }}>지금 구매하기 →</button>
                 <button onClick={() => navigate('learn')} style={{ flex: 1, background: 'transparent', color: T.gold, border: `1px solid rgba(197,165,114,0.4)`, padding: '14px 28px', fontSize: 15, fontFamily: T.sans, fontWeight: 600, borderRadius: 4, cursor: 'pointer' }}>투자 교육 보기</button>
               </div>
@@ -176,7 +162,6 @@ export function WhyGoldPage({ lang, navigate }) {
         </div>
       </div>
 
-      {/* CTA — D-1: aurum-container */}
       <div style={{ background: T.bg1, borderBottom: `1px solid ${T.border}`, textAlign: 'center' }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 40 : 64, paddingBottom: isMobile ? 40 : 64 }}>
           <h2 style={{ fontFamily: T.serifKr, fontSize: 'clamp(24px,3vw,38px)', fontWeight: 300, color: T.text, marginBottom: 12 }}>
@@ -192,7 +177,6 @@ export function WhyGoldPage({ lang, navigate }) {
         </div>
       </div>
 
-      {/* Market News — D-1: aurum-container, D-5: gold top-line on news cards */}
       {articles.length > 0 && (
         <div style={{ borderTop: `1px solid ${T.border}` }}>
           <div className="aurum-container" style={{ paddingTop: isMobile ? 40 : 64, paddingBottom: isMobile ? 40 : 64 }}>
@@ -203,7 +187,6 @@ export function WhyGoldPage({ lang, navigate }) {
             <h3 style={{ fontFamily: T.serifKr, fontSize: 'clamp(22px,3vw,34px)', fontWeight: 500, color: T.text, marginBottom: 32, lineHeight: 1.2 }}>{ko ? '최신 귀금속 동향' : 'Latest Precious Metals News'}</h3>
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 16 }}>
               {articles.slice(0, 3).map((a, i) => (
-                // D-5: news cards upgraded to goldBorder + gold top-line
                 <a key={i} href={a.link} target="_blank" rel="noopener noreferrer" style={{ background: T.bgCard, border: `1px solid ${T.goldBorder}`, padding: '20px 20px', display: 'block', textDecoration: 'none', transition: 'border-color 0.2s', position: 'relative', overflow: 'hidden' }}
                   onMouseEnter={e => e.currentTarget.style.borderColor = T.goldBorderStrong}
                   onMouseLeave={e => e.currentTarget.style.borderColor = T.goldBorder}>
@@ -223,7 +206,6 @@ export function WhyGoldPage({ lang, navigate }) {
 
 /* ═══════════════════════════════════════════════════════════════════════
    STORAGE PAGE
-   M-17 6-feature 2-col mobile | M-18 card padding 28px | D-1 container | D-5 gold lines
    ═══════════════════════════════════════════════════════════════════════ */
 export function StoragePage({ lang, navigate }) {
   const ko = lang === 'ko';
@@ -247,11 +229,9 @@ export function StoragePage({ lang, navigate }) {
 
   return (
     <div style={{ background: T.bg }}>
-      {/* Hero — M-14: 48px top mobile, D-1: aurum-container */}
       <div style={{ borderBottom: `1px solid ${T.border}`, background: `linear-gradient(135deg, ${T.bg}, ${T.bg2})` }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 48 : 80, paddingBottom: isMobile ? 40 : 72 }}>
           <div style={{ maxWidth: 660 }}>
-            {/* D-4: standardized eyebrow with gold line */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
               <div style={{ width: 28, height: 1, background: T.gold }} />
               <span style={{ fontFamily: T.mono, fontSize: 9, color: T.gold, letterSpacing: '0.32em', textTransform: 'uppercase' }}>싱가포르 · Malca-Amit FTZ</span>
@@ -280,14 +260,11 @@ export function StoragePage({ lang, navigate }) {
         { value: '매일', label: '감사 리포트 공개 주기' },
       ]} cols={isMobile ? 2 : 4} />
 
-      {/* 6 Features grid — M-17: 2-col on mobile, M-18: 28px padding, D-5: gold lines */}
       <div style={{ borderBottom: `1px solid ${T.border}` }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 40 : 72, paddingBottom: isMobile ? 40 : 64 }}>
           <SectionHead badge="보관 시스템" title={ko ? '6가지 보안 레이어' : '6 Layers of Security'} />
-          {/* M-17: repeat(2,1fr) on mobile instead of 1fr — fewer stacked cards */}
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)', gap: 16 }}>
             {features.map((f, i) => (
-              // M-18: padding 28px, D-5: gold top-line, upgraded border to goldBorder
               <div key={i} className="lift-card" style={{ background: T.bgCard, border: `1px solid ${T.goldBorder}`, padding: 28, position: 'relative', overflow: 'hidden' }}>
                 <div style={GOLD_LINE} />
                 <div style={{ fontSize: isMobile ? 20 : 28, marginBottom: 14 }}>{f.icon}</div>
@@ -299,7 +276,6 @@ export function StoragePage({ lang, navigate }) {
         </div>
       </div>
 
-      {/* FAQ — D-1: aurum-container */}
       <div style={{ background: T.bg1, borderBottom: `1px solid ${T.border}` }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 40 : 64, paddingBottom: isMobile ? 40 : 64 }}>
           <div style={{ maxWidth: 760, margin: '0 auto' }}>
@@ -309,11 +285,13 @@ export function StoragePage({ lang, navigate }) {
         </div>
       </div>
 
-      {/* CTA */}
+      {/* FIX 49: CTA buttons — equal width + height */}
       <div style={{ textAlign: 'center' }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 40 : 64, paddingBottom: isMobile ? 40 : 64 }}>
-          <button onClick={() => navigate('shop-physical')} className="btn-primary" style={{ marginRight: 12 }}>{ko ? '지금 구매 시작' : 'Start Buying'}</button>
-          <button onClick={() => navigate('why')} className="btn-outline">{ko ? '왜 금인가?' : 'Why Gold?'}</button>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', alignItems: 'stretch', flexWrap: 'wrap' }}>
+            <button onClick={() => navigate('shop-physical')} className="btn-primary" style={{ minWidth: 180 }}>{ko ? '지금 구매 시작' : 'Start Buying'}</button>
+            <button onClick={() => navigate('why')} className="btn-outline" style={{ minWidth: 180 }}>{ko ? '왜 금인가?' : 'Why Gold?'}</button>
+          </div>
         </div>
       </div>
     </div>
@@ -322,7 +300,6 @@ export function StoragePage({ lang, navigate }) {
 
 /* ═══════════════════════════════════════════════════════════════════════
    AGP INFO PAGE
-   D-1 aurum-container | D-3 buttons | D-4 eyebrow
    ═══════════════════════════════════════════════════════════════════════ */
 export function AGPPage({ lang, navigate }) {
   const ko = lang === 'ko';
@@ -338,11 +315,9 @@ export function AGPPage({ lang, navigate }) {
 
   return (
     <div style={{ background: T.bg }}>
-      {/* Hero — M-14 + D-1 */}
       <div style={{ borderBottom: `1px solid ${T.border}` }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 48 : 80, paddingBottom: isMobile ? 40 : 72 }}>
           <div style={{ maxWidth: 680 }}>
-            {/* D-4: standardized eyebrow */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
               <div style={{ width: 28, height: 1, background: T.gold }} />
               <span style={{ fontFamily: T.mono, fontSize: 9, color: T.gold, letterSpacing: '0.32em', textTransform: 'uppercase' }}>Aurum Gold Plan · AGP</span>
@@ -353,9 +328,10 @@ export function AGPPage({ lang, navigate }) {
             <p style={{ fontFamily: T.sans, fontSize: isMobile ? 14 : 16, color: T.textSub, lineHeight: 1.85, maxWidth: 520, marginBottom: 36 }}>
               {ko ? '그램 단위 자동 적립 — 100g 도달 시 LBMA 승인 실물 바로 무료 전환. 국제 현물가 + 2% 투명 프리미엄. 언제든 해지 가능.' : 'Automated gram accumulation. Free conversion to LBMA bar at 100g. International spot + 2% transparent premium. Exit anytime.'}
             </p>
-            <div style={{ display: 'flex', gap: 12, flexDirection: isMobile ? 'column' : 'row' }}>
-              <button onClick={() => navigate('agp-intro')} className="btn-primary">{ko ? 'AGP 가입하기' : 'Start AGP'}</button>
-              <button onClick={() => navigate('agp-report')} className="btn-outline">{ko ? '오늘의 백킹 리포트' : "Today's Backing Report"}</button>
+            {/* FIX 43: equal buttons — flex:1, minWidth:180, alignItems:stretch */}
+            <div style={{ display: 'flex', gap: 12, flexDirection: isMobile ? 'column' : 'row', alignItems: 'stretch' }}>
+              <button onClick={() => navigate('agp-intro')} className="btn-primary" style={{ flex: 1, minWidth: 180 }}>{ko ? 'AGP 가입하기' : 'Start AGP'}</button>
+              <button onClick={() => navigate('agp-report')} className="btn-outline" style={{ flex: 1, minWidth: 180 }}>{ko ? '오늘의 백킹 리포트' : "Today's Backing Report"}</button>
             </div>
           </div>
         </div>
@@ -368,24 +344,26 @@ export function AGPPage({ lang, navigate }) {
         { value: '0원',      label: '해지 수수료' },
       ]} cols={isMobile ? 2 : 4} />
 
-      {/* How it works — D-1 */}
       <div style={{ borderBottom: `1px solid ${T.border}` }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 40 : 72, paddingBottom: isMobile ? 40 : 64 }}>
           <div style={{ maxWidth: 900, margin: '0 auto' }}>
             <SectionHead badge="작동 방식" title="AGP는 이렇게 작동합니다" />
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(5, 1fr)', gap: 0, position: 'relative' }}>
               {[
-                { icon: '✍️', kr: '가입', desc: '10분 내 온라인 KYC 완료.' },
-                { icon: '💰', kr: '입금', desc: '토스뱅크 · 카드 · 암호화폐.' },
-                { icon: '⚖️', kr: '그램 적립', desc: '현물가 + 2%로 그램 전환.' },
-                { icon: '📊', kr: '관리', desc: '대시보드에서 실시간 확인.' },
-                { icon: '🥇', kr: '전환', desc: '100g → 실물 바 무료 전환.' },
+                { icon: '✍️', kr: '가입',    en: 'Sign Up',   desc: ko ? '10분 내 온라인 KYC 완료.' : 'Online KYC in 10 minutes.' },
+                { icon: '💰', kr: '입금',    en: 'Deposit',   desc: ko ? '토스뱅크 · 카드 · 암호화폐.' : 'Toss Bank · Card · Crypto.' },
+                { icon: '⚖️', kr: '그램 적립', en: 'Accumulate', desc: ko ? '현물가 + 2%로 그램 전환.' : 'Converted at spot + 2%.' },
+                { icon: '📊', kr: '관리',    en: 'Track',     desc: ko ? '대시보드에서 실시간 확인.' : 'Monitor live on dashboard.' },
+                { icon: '🥇', kr: '전환',    en: 'Convert',   desc: ko ? '100g → 실물 바 무료 전환.' : '100g → free physical bar.' },
               ].map((s, i) => (
                 <div key={i} style={{ textAlign: 'center', padding: '28px 12px', borderRight: !isMobile && i < 4 ? `1px dashed ${T.border}` : 'none', borderBottom: isMobile && i < 4 ? `1px dashed ${T.border}` : 'none' }}>
                   <div style={{ fontSize: 28, marginBottom: 10 }}>{s.icon}</div>
-                  <div style={{ fontFamily: T.mono, fontSize: 10, color: T.gold, marginBottom: 8, letterSpacing: '0.12em' }}>0{i + 1}</div>
-                  <div style={{ fontFamily: T.sans, fontSize: 14, color: T.text, fontWeight: 600, marginBottom: 8 }}>{s.kr}</div>
-                  <div style={{ fontFamily: T.sans, fontSize: 12, color: T.textMuted, lineHeight: 1.65 }}>{s.desc}</div>
+                  {/* FIX 45: fontSize:10 → 14 */}
+                  <div style={{ fontFamily: T.mono, fontSize: 14, color: T.gold, marginBottom: 8, letterSpacing: '0.12em' }}>0{i + 1}</div>
+                  {/* FIX 46: fontSize:14 → 16 */}
+                  <div style={{ fontFamily: T.sans, fontSize: 16, color: T.text, fontWeight: 600, marginBottom: 8 }}>{ko ? s.kr : s.en}</div>
+                  {/* FIX 47: fontSize:12 → 13 */}
+                  <div style={{ fontFamily: T.sans, fontSize: 13, color: T.textMuted, lineHeight: 1.65 }}>{s.desc}</div>
                 </div>
               ))}
             </div>
@@ -393,7 +371,6 @@ export function AGPPage({ lang, navigate }) {
         </div>
       </div>
 
-      {/* FAQ — D-1 */}
       <div style={{ background: T.bg1, borderBottom: `1px solid ${T.border}` }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 40 : 64, paddingBottom: isMobile ? 40 : 64 }}>
           <div style={{ maxWidth: 760, margin: '0 auto' }}>
@@ -403,7 +380,6 @@ export function AGPPage({ lang, navigate }) {
         </div>
       </div>
 
-      {/* CTA */}
       <div style={{ textAlign: 'center' }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 40 : 64, paddingBottom: isMobile ? 40 : 64 }}>
           <h2 style={{ fontFamily: T.serifKr, fontSize: 'clamp(26px,3vw,40px)', fontWeight: 300, color: T.text, marginBottom: 12 }}>
@@ -420,7 +396,7 @@ export function AGPPage({ lang, navigate }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   AGP BACKING REPORT — D-1 aurum-container
+   AGP BACKING REPORT
    ═══════════════════════════════════════════════════════════════════════ */
 export function AGPBackingReport({ lang, navigate }) {
   const ko = lang === 'ko';
@@ -431,12 +407,10 @@ export function AGPBackingReport({ lang, navigate }) {
     <div style={{ background: T.bg, minHeight: '80vh' }}>
       <div className="aurum-container" style={{ paddingTop: isMobile ? 40 : 60, paddingBottom: isMobile ? 40 : 72 }}>
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
-          {/* D-4: eyebrow */}
           <div style={{ fontFamily: T.mono, fontSize: 9, color: T.goldDim, letterSpacing: '0.26em', marginBottom: 10, textTransform: 'uppercase' }}>AGP · 일일 백킹 리포트</div>
           <h1 style={{ fontFamily: T.serifKr, fontSize: 'clamp(26px,4vw,40px)', fontWeight: 500, color: T.text, margin: '0 0 8px' }}>Daily Backing Report</h1>
           <div style={{ fontFamily: T.mono, fontSize: 12, color: T.textMuted, marginBottom: 36 }}>{today} · MMXXVI</div>
 
-          {/* Status — D-5: gold top-line */}
           <div style={{ background: 'rgba(74,222,128,0.06)', border: '1px solid rgba(74,222,128,0.25)', padding: '20px 24px', marginBottom: 28, display: 'flex', alignItems: 'center', gap: 16, position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, #4ade80, transparent)' }} />
             <span className="live-dot" />
@@ -480,7 +454,7 @@ export function AGPBackingReport({ lang, navigate }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   LEARN / EDUCATION PAGE — D-1 aurum-container
+   LEARN PAGE
    ═══════════════════════════════════════════════════════════════════════ */
 export function LearnPage({ lang, navigate }) {
   const ko = lang === 'ko';
@@ -493,7 +467,6 @@ export function LearnPage({ lang, navigate }) {
   return (
     <div style={{ background: T.bg, minHeight: '85vh' }}>
       <div className="aurum-container" style={{ paddingTop: isMobile ? 40 : 60, paddingBottom: isMobile ? 40 : 72 }}>
-        {/* D-4: standardized eyebrow */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
           <div style={{ width: 28, height: 1, background: T.gold }} />
           <span style={{ fontFamily: T.mono, fontSize: 9, color: T.gold, letterSpacing: '0.32em', textTransform: 'uppercase' }}>{ko ? '교육 센터' : 'Education Center'}</span>
@@ -501,7 +474,6 @@ export function LearnPage({ lang, navigate }) {
         <h1 style={{ fontFamily: T.serifKr, fontSize: 'clamp(28px,4vw,44px)', fontWeight: 500, color: T.text, margin: '0 0 12px' }}>{ko ? '귀금속 투자 가이드' : 'Precious Metals Investment Guide'}</h1>
         <p style={{ fontFamily: T.sans, fontSize: 15, color: T.textSub, lineHeight: 1.7, marginBottom: 36 }}>{ko ? '실물 금·은 투자의 기초부터 세금·법률까지. 올바른 판단을 위한 지식.' : 'From fundamentals to tax and legal. Knowledge for informed decisions.'}</p>
 
-        {/* Category filter */}
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 32 }}>
           {EDUCATION_CATEGORIES.map(c => (
             <button key={c} onClick={() => setActiveCategory(c)} style={{
