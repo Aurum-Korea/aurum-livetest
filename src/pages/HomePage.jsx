@@ -98,9 +98,11 @@ function CampaignPanels({ navigate, lang }) {
     { route: 'campaign-founders',   badge: 'Founders Club · 파운더스 클럽',   headline: '더 많이 구매할수록,', sub: '더 싸게 — 영원히.', desc: 'GMV 5개 게이트 통과 시 표시가 자동 차감 · 최대 −3.0% · 평생', cta: 'Founders Club 가입하기 →', gold: true },
   ];
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', border: '1px solid rgba(197,165,114,0.2)', overflow: 'hidden', borderRadius: 0 }}>
+    // Mobile: one box with scrollable interior — both panels visible by scrolling
+    <div style={{ border: '1px solid rgba(197,165,114,0.2)', overflow: 'hidden', borderRadius: 0, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ overflowY: isMobile ? 'auto' : 'visible', maxHeight: isMobile ? 260 : 'none', display: 'flex', flexDirection: 'column' }}>
       {panels.map((p, i) => (
-        <div key={i} onClick={() => navigate(p.route)} style={{ background: p.gold ? 'rgba(197,165,114,0.06)' : '#16140f', borderBottom: i === 0 ? '1px solid rgba(197,165,114,0.2)' : 'none', padding: '20px 22px', cursor: 'pointer', transition: 'background 0.2s' }}
+        <div key={i} onClick={() => navigate(p.route)} style={{ background: p.gold ? 'rgba(197,165,114,0.06)' : '#16140f', borderBottom: '1px solid rgba(197,165,114,0.2)', padding: '20px 22px', cursor: 'pointer', transition: 'background 0.2s', flexShrink: 0 }}
           onMouseEnter={e => e.currentTarget.style.background = 'rgba(197,165,114,0.11)'}
           onMouseLeave={e => e.currentTarget.style.background = p.gold ? 'rgba(197,165,114,0.06)' : '#16140f'}>
           {/* D-4: standardized eyebrow */}
@@ -114,6 +116,7 @@ function CampaignPanels({ navigate, lang }) {
           </button>
         </div>
       ))}
+      </div>
       <div style={{ background: '#0a0a0a', padding: '10px 14px', borderTop: '1px solid #1e1e1e', display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center' }}>
         {['SG FTZ', "Lloyd's", 'LBMA', 'PSPM 2019'].map((t, i) => (
           <span key={i} style={{ fontFamily: MONO, fontSize: 8, color: '#555', letterSpacing: '0.08em' }}>{t}</span>

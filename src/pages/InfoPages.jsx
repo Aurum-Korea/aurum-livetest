@@ -89,9 +89,9 @@ export function WhyGoldPage({ lang, navigate }) {
                 </div>,
                 /* Silver tab */
                 <div key="silver">
+                  <SectionHead badge="은의 이중성" title="왜 은인가?" sub="산업 수요 + 귀금속 가치. 독특한 투자 자산." align="left" />
                   <StatBar stats={WHY_SILVER_STATS} cols={isMobile ? 2 : 4} />
                   <div style={{ marginTop: 28 }}>
-                    <SectionHead badge="은의 이중성" title="왜 은인가?" sub="산업 수요 + 귀금속 가치. 독특한 투자 자산." align="left" />
                     <Accordion items={silverAccordion} />
                   </div>
                 </div>,
@@ -278,7 +278,7 @@ export function StoragePage({ lang, navigate }) {
         { value: '0.15%', label: '연간 보관료 (투명 공개)' },
         { value: "Lloyd's", label: '보험사 (전액 보장)' },
         { value: '매일', label: '감사 리포트 공개 주기' },
-      ]} />
+      ]} cols={isMobile ? 2 : 4} />
 
       {/* 6 Features grid — M-17: 2-col on mobile, M-18: 28px padding, D-5: gold lines */}
       <div style={{ borderBottom: `1px solid ${T.border}` }}>
@@ -366,7 +366,7 @@ export function AGPPage({ lang, navigate }) {
         { value: '100g',     label: '실물 전환 기준' },
         { value: '+2.0%',    label: 'Aurum 프리미엄 (투명 공개)' },
         { value: '0원',      label: '해지 수수료' },
-      ]} />
+      ]} cols={isMobile ? 2 : 4} />
 
       {/* How it works — D-1 */}
       <div style={{ borderBottom: `1px solid ${T.border}` }}>
