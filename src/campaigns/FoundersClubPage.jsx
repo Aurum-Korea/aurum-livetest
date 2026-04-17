@@ -28,7 +28,7 @@ const USER = { name:'WOOSUNG K.', rank:247, gate:2, gmv:18000, code:'woosung-k-7
 
 function getGateIdx(gmv) { for(let i=GATES.length-1;i>=0;i--) if(gmv>=GATES[i].gmv) return i; return -1; }
 
-function WaxSeal({ size=64 }) {
+export function WaxSeal({ size=64 }) {
   return (
     <div style={{ width:size, height:size, borderRadius:'50%', background:'radial-gradient(circle at 35% 30%,rgba(255,220,150,0.4),transparent 50%),linear-gradient(135deg,#6a5a3a 0%,#C5A572 45%,#8a6f3a 100%)', display:'flex', alignItems:'center', justifyContent:'center', position:'relative', boxShadow:'inset 0 2px 4px rgba(255,255,255,0.2),inset 0 -2px 6px rgba(0,0,0,0.4),0 4px 14px rgba(0,0,0,0.5)', flexShrink:0 }}>
       <div style={{ position:'absolute', inset:size*0.06, border:'1px solid rgba(20,14,8,0.4)', borderRadius:'50%' }} />
@@ -36,7 +36,7 @@ function WaxSeal({ size=64 }) {
     </div>
   );
 }
-function SealDivider() {
+export function SealDivider() {
   return (
     <div style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'40px 32px', gap:28 }}>
       <div style={{ flex:1, maxWidth:360, height:1, background:`linear-gradient(to right,transparent,${T.goldBorderStrong},transparent)` }} />
@@ -129,6 +129,11 @@ function GMVCalculator({ prices = { gold: 3342.80 }, krwRate = 1368, lang = 'ko'
   const savings = total * ((gate?.discount || 0) / 100);
   const fmt = n => Math.round(n).toLocaleString('ko-KR');
   const fmtUSD = n => `$${Math.round(n).toLocaleString('en-US')}`;
+  // B2-20: currency-aware formatter — KRW in Korean, USD in English
+  const showKRW = ko;
+  const fVal = (krwAmount) => showKRW
+    ? `₩${Math.round(krwAmount).toLocaleString('ko-KR')}`
+    : `$${Math.round(krwAmount / krwRate).toLocaleString('en-US')}`;
 
   return (
     <div style={{ background:T.bgCard, border:`1px solid ${T.goldBorder}`, padding:isMobile?'24px 20px':'36px 44px', maxWidth:860, margin:'0 auto', position:'relative', overflow:'hidden' }}>
@@ -143,7 +148,7 @@ function GMVCalculator({ prices = { gold: 3342.80 }, krwRate = 1368, lang = 'ko'
           <div key={i}>
             {/* FIX 20: fontSize:9 → 12 */}
             <div style={{ fontFamily:T.mono, fontSize:12, color:T.goldDim, letterSpacing:'0.2em', textTransform:'uppercase', marginBottom:12 }}>{item.label}</div>
-            <div style={{ fontFamily:T.mono, fontSize:26, fontWeight:700, color:T.text, marginBottom:14 }}>₩{fmt(item.value)}</div>
+            <div style={{ fontFamily:T.mono, fontSize:26, fontWeight:700, color:T.text, marginBottom:14 }}>{fVal(item.value)}</div>
             <input type="range" min="0" max="5000000" step="100000" value={item.value} style={{ '--pct':`${(item.value/5000000*100).toFixed(1)}%` }} onChange={e=>item.set(+e.target.value)} />
             {/* FIX 21: fontSize:11 → 13 */}
             <div style={{ fontFamily:T.sans, fontSize:13, color:T.textMuted, marginTop:6 }}>{item.hint}</div>
@@ -153,10 +158,10 @@ function GMVCalculator({ prices = { gold: 3342.80 }, krwRate = 1368, lang = 'ko'
       <div style={{ background:T.bg2, border:`1px solid ${T.goldBorder}`, padding:'20px 24px' }}>
         <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr 1fr':'repeat(4,1fr)', gap:14, marginBottom:16 }}>
           {[
-            { label: ko ? '연간 총 GMV' : 'Annual Total GMV', value:`₩${fmt(total*krwRate)}`, sub:`≈ ${fmtUSD(total)}` },
+            { label: ko ? '연간 총 GMV' : 'Annual Total GMV', value:fVal(total*krwRate), sub:showKRW?`≈ ${fmtUSD(total)}`:`≈ ₩${Math.round(total*krwRate).toLocaleString('ko-KR')}` },
             { label: ko ? '현재 게이트' : 'Current Gate', value:gate?`Gate ${gate.num}`:(ko?'미달':'None'), sub:gate?(ko?gate.label:gate.labelEn):(ko?'₩7.2M 부터':'From ₩7.2M') },
             { label:'Founder Savings', value:gate?`−${gate.discount}%`:'−', sub: ko ? 'on Listed Price · 평생' : 'on Listed Price · lifetime', hl:true },
-            { label: ko ? '연간 절약 (추정)' : 'Annual Savings (est.)', value:gate?fKRW(savings * krwRate):'−', sub: ko ? '프리미엄 기준' : 'vs listed price' },
+            { label: ko ? '연간 절약 (추정)' : 'Annual Savings (est.)', value:gate?fVal(savings * krwRate):'−', sub: ko ? '프리미엄 기준' : 'vs listed price' },
           ].map((s,i)=>(
             <div key={i} style={{ textAlign:'center' }}>
               <div style={{ fontFamily:T.mono, fontSize:i===2?20:16, color:s.hl?T.goldBright:T.gold, fontWeight:700 }}>{s.value}</div>
@@ -172,7 +177,7 @@ function GMVCalculator({ prices = { gold: 3342.80 }, krwRate = 1368, lang = 'ko'
             <div style={{ display:'flex', justifyContent:'space-between', marginBottom:6 }}>
               {/* FIX 24: fontSize:12 → 13 */}
               <span style={{ fontFamily:T.sans, fontSize:13, color:T.textSub }}>{ko ? `다음 게이트: Gate ${next.num} · ${next.label} (−${next.discount}%)` : `Next gate: Gate ${next.num} · ${next.labelEn} (−${next.discount}%)`}</span>
-              <span style={{ fontFamily:T.mono, fontSize:11, color:T.gold }}>₩{Math.round((next.gmv-total) * krwRate).toLocaleString('ko-KR')} {ko ? '남음' : 'to go'}</span>
+              <span style={{ fontFamily:T.mono, fontSize:11, color:T.gold }}>{fVal((next.gmv-total) * krwRate)} {ko ? '남음' : 'to go'}</span>
             </div>
             <div style={{ height:4, background:T.border, overflow:'hidden' }}>
               <div style={{ height:'100%', width:`${progress.toFixed(1)}%`, background:`linear-gradient(90deg,${T.gold},${T.goldBright})`, boxShadow:`0 0 10px ${T.gold}`, transition:'width 0.6s ease' }} />
@@ -207,7 +212,7 @@ function DualSavingsPanel({ prices = { gold: 3342.80 }, krwRate = 1368, lang = '
       <div style={{ display:'flex', gap:0, marginBottom:24, borderBottom:`1px solid ${T.border}` }}>
         {GATES.map((g,i)=>(
           <button key={i} onClick={()=>setAg(i)} style={{ flex:1, background:'none', border:'none', cursor:'pointer', padding:'9px 4px', fontFamily:T.mono, fontSize:isMobile?11:13, color:ag===i?T.gold:T.textMuted, borderBottom:ag===i?`2px solid ${T.gold}`:'2px solid transparent', transition:'all 0.2s', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>
-            {g.num} · {ko ? g.label : g.labelEn}
+            {g.num}
           </button>
         ))}
       </div>
@@ -270,10 +275,10 @@ function GMVExplainer({ lang = 'ko' }) {
   const isMobile = useIsMobile();
   const ko = lang === 'ko';
   const sources = [
-    { icon:'🥇', label: ko ? '내 실물 매수'   : 'My Physical',   desc: ko ? '금·은 바, 코인 직접 구매액' : 'Direct gold & silver purchases' },
-    { icon:'📈', label: ko ? '내 AGP 적립액'  : 'My AGP',        desc: ko ? '월간 자동이체 누적 총액'   : 'Monthly auto-debit cumulative total' },
-    { icon:'👥', label: ko ? '추천 실물 GMV'  : 'Referral Physical', desc: ko ? '초대한 친구의 실물 매수액' : 'Friends\' physical purchase amounts' },
-    { icon:'📊', label: ko ? '추천 AGP GMV'   : 'Referral AGP',  desc: ko ? '초대한 친구의 AGP 월 약정 합산' : 'Friends\' AGP monthly commitments' },
+    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c5a572" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2"/><circle cx="12" cy="14" r="2"/></svg>, label: ko ? '내 실물 매수' : 'My Physical', desc: ko ? '금·은 바, 코인 직접 구매액' : 'Direct gold & silver purchases' },
+    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c5a572" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>, label: ko ? '내 AGP 적립액' : 'My AGP', desc: ko ? '월간 자동이체 누적 총액' : 'Monthly auto-debit cumulative total' },
+    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c5a572" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>, label: ko ? '추천 실물 GMV' : 'Referral Physical', desc: ko ? '초대한 친구의 실물 매수액' : 'Friends\' physical purchase amounts' },
+    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c5a572" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>, label: ko ? '추천 AGP GMV' : 'Referral AGP', desc: ko ? '초대한 친구의 AGP 월 약정 합산' : 'Friends\' AGP monthly commitments' },
   ];
   return (
     <div style={{ maxWidth:860, margin:'0 auto' }}>
@@ -307,7 +312,7 @@ function GMVExplainer({ lang = 'ko' }) {
             fontFamily:['=','+'].includes(item)?T.serif:T.mono,
             fontStyle:item==='='?'italic':'normal',
             // FIX 15: responsive — was fixed fontSize causing mobile overflow
-            fontSize:item==='='?(isMobile?22:28):item==='Total GMV'?(isMobile?13:16):(isMobile?12:14),
+            fontSize:item==='+'?(isMobile?36:42):item==='='?(isMobile?22:28):item==='Total GMV'?(isMobile?13:16):(isMobile?12:14),
             color:item==='+'||item==='='?T.goldDim:item==='Total GMV'?T.goldBright:T.text,
             fontWeight:item==='Total GMV'?700:400,
             textTransform:'uppercase',
@@ -387,9 +392,8 @@ function GateCards({ userGate, krwRate = 1375, lang = 'ko' }) {
             <div style={{ fontFamily:T.serifKr, fontSize:14, color:T.text, fontWeight:600, marginBottom:3, lineHeight:1.3 }}>{ko ? gate.label : gate.labelEn}</div>
             <div style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:10, color:T.goldDim, marginBottom:14 }}>{gate.mark}</div>
             <div style={{ paddingTop:12, borderTop:`1px solid ${T.goldBorder}` }}>
-              <div style={{ fontFamily:T.mono, fontSize:8, color:T.textMuted, letterSpacing:'0.16em', textTransform:'uppercase', marginBottom:5 }}>Founder Savings</div>
+              <div style={{ fontFamily:T.mono, fontSize:12, color:T.goldDim, letterSpacing:'0.16em', textTransform:'uppercase', marginBottom:5 }}>Founder Savings</div>
               <div style={{ fontFamily:T.serif, fontSize:24, fontWeight:600, color:done?T.goldBright:T.gold }}>−{gate.discount}%</div>
-              <div style={{ fontFamily:T.sans, fontSize:9, color:T.textMuted, marginTop:2 }}>on Listed Price · {ko?'평생':'lifetime'}</div>
             </div>
           </div>
         );
@@ -412,20 +416,20 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
     <div style={{ background:T.bg }}>
 
       {/* ══ HERO ══ */}
-      <div style={{ padding:isMobile?'60px 20px 50px':'80px 60px 70px', background:`radial-gradient(ellipse at 80% 20%,rgba(197,165,114,0.10),transparent 55%),linear-gradient(180deg,${T.bg} 0%,${T.bg2} 100%)`, borderBottom:`1px solid ${T.goldBorder}`, position:'relative', overflow:'hidden' }}>
+      <div style={{ padding:isMobile?'60px 20px 50px':'80px 80px 70px', background:`radial-gradient(ellipse at 80% 20%,rgba(197,165,114,0.10),transparent 55%),linear-gradient(180deg,${T.bg} 0%,${T.bg2} 100%)`, borderBottom:`1px solid ${T.goldBorder}`, position:'relative', overflow:'hidden' }}>
         <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', fontFamily:T.serif, fontStyle:'italic', fontSize:isMobile?80:260, fontWeight:600, letterSpacing:'0.04em', color:'rgba(197,165,114,0.015)', pointerEvents:'none', whiteSpace:'nowrap', userSelect:'none', zIndex:0 }}>FOUNDERS</div>
 
         {/* FIX 11: alignItems:'start' → 'stretch' */}
-        <div style={{ maxWidth:1340, margin:'0 auto', display:'grid', gridTemplateColumns:isMobile?'1fr':'minmax(0,1.15fr) minmax(0,0.55fr) minmax(0,0.55fr)', gap:isMobile?40:22, alignItems:'stretch', position:'relative', zIndex:1 }}>
+        <div style={{ maxWidth:1340, margin:'0 auto', display:'grid', gridTemplateColumns:isMobile?'1fr':'minmax(0,1.15fr) minmax(0,0.55fr) minmax(0,0.55fr)', gap:isMobile?40:40, alignItems:'stretch', position:'relative', zIndex:1 }}>
 
           {/* Col 1 — Hero text */}
           <div>
-            <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:24 }}>
-              <div style={{ width:32, height:1, background:T.gold }} />
-              {/* FIX 9: fontSize:9 → 13 */}
-              <span style={{ fontFamily:T.mono, fontSize:13, fontWeight:500, letterSpacing:'0.22em', textTransform:'uppercase', color:T.gold }}>
-                {ko ? 'Founders Club · 파운더스 클럽' : 'Founders Club · Permanent Savings'}
-              </span>
+            <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:24, flexWrap:'nowrap', overflow:'hidden' }}>
+              <div style={{ width:32, height:1, background:T.gold, flexShrink:0 }} />
+              <span style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:isMobile?11:13, color:T.gold, letterSpacing:'0.04em' }}>Founders Club</span>
+              <span style={{ color:T.goldDim }}>·</span>
+              <span style={{ fontFamily:T.mono, fontSize:isMobile?10:11, color:T.gold, letterSpacing:'0.18em', textTransform:'uppercase' }}>파운더스 클럽</span>
+              {!isMobile && <div style={{ width:32, height:1, background:T.gold, flexShrink:0 }} />}
             </div>
             <h1 style={{ fontFamily:T.serifKr, fontWeight:500, fontSize:isMobile?34:54, lineHeight:1.1, color:T.text, margin:'0 0 18px', letterSpacing:'-0.01em' }}>
               {ko ? <>더 많이 구매할수록,<br />더 싸게 <span style={{ color:T.gold, fontFamily:T.serif, fontStyle:'italic' }}>영원히</span>.</> : <>The more you buy,<br />the cheaper — <span style={{ color:T.gold, fontFamily:T.serif, fontStyle:'italic' }}>forever</span>.</>}
@@ -481,7 +485,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
         <div style={{ maxWidth:1100, margin:'0 auto' }}>
           <div style={{ textAlign:'center', marginBottom:40 }}>
             <h2 style={{ fontFamily:T.serifKr, fontSize:'clamp(22px,2.5vw,34px)', fontWeight:500, color:T.text }}>
-              {ko ? <>네 가지 원칙 <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold, fontWeight:400 }}>— 간단하고 공정합니다</span></> : <>Four Principles <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold, fontWeight:400 }}>— simple and fair</span></>}
+              {ko ? <>4가지 원칙 <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold, fontWeight:400 }}>— 간단하고 공정합니다</span></> : <>4 Principles <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold, fontWeight:400 }}>— simple and fair</span></>}
             </h2>
           </div>
           {/* FIX 16: alignItems:'stretch' on grid */}
@@ -494,7 +498,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
             // FIX 16: display:flex flexDirection:column on each card
             ].map((r,i)=>(
               <div key={i} style={{ paddingTop:20, borderTop:`1px solid ${T.goldBorderStrong}`, display:'flex', flexDirection:'column' }}>
-                <div style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:28, color:T.gold, marginBottom:10 }}>{r.n}</div>
+                <div style={{ width:36, height:36, borderRadius:'50%', border:`1px solid ${T.goldBorderStrong}`, background:T.goldGlow, display:'flex', alignItems:'center', justifyContent:'center', marginBottom:16, fontFamily:T.mono, fontSize:15, fontWeight:700, color:T.gold, boxShadow:`0 0 12px rgba(197,165,114,0.15)` }}>{i+1}</div>
                 <div style={{ fontFamily:T.sansKr, fontSize:15, fontWeight:600, color:T.text, marginBottom:8 }}>{r.t}</div>
                 {/* FIX 16: flex:1 on description so all cards same height */}
                 <div style={{ fontFamily:T.sansKr, fontSize:12, color:T.textSub, lineHeight:1.7, flex:1 }}>{r.d}</div>
@@ -550,7 +554,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
       <div style={{ padding:isMobile?'72px 20px':'110px 60px', background:`radial-gradient(ellipse at 50% 100%,rgba(197,165,114,0.15),transparent 60%),${T.bg}`, textAlign:'center', borderTop:`1px solid ${T.goldBorder}`, position:'relative', overflow:'hidden' }}>
         <div style={{ position:'absolute', bottom:20, left:'50%', transform:'translateX(-50%)', fontFamily:T.serif, fontStyle:'italic', fontSize:isMobile?60:130, color:'rgba(197,165,114,0.022)', whiteSpace:'nowrap', userSelect:'none', letterSpacing:'0.12em' }}>FOUNDERS</div>
         <div style={{ position:'relative', zIndex:1 }}>
-          <div style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:13, color:T.gold, letterSpacing:'0.3em', marginBottom:20, textTransform:'uppercase' }}>— Exclusive · First-Come, First-Served —</div>
+          <div style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:18, color:T.gold, letterSpacing:'0.2em', marginBottom:20, textTransform:'uppercase' }}>— Exclusive · First-Come, First-Served —</div>
           <h2 style={{ fontFamily:T.serifKr, fontSize:isMobile?28:46, fontWeight:500, color:T.text, marginBottom:16, lineHeight:1.15 }}>
             {ko ? <>지금 가입하면<br /><span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold }}>첫날부터 게이트가 시작됩니다</span></> : <>Join now and your <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold }}>gates start from day one</span></>}
           </h2>
