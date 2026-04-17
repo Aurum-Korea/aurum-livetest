@@ -442,3 +442,57 @@ main { animation: pageIn 0.3s ease-out; }
 @media (max-width: 767px) {
   .page-section { padding-left: 16px; padding-right: 16px; }
 }
+
+/* ─── Gold top-line accent — universal card pattern ────────────── */
+/* Applied via .card-gold-line class — matches AGP Launch template  */
+.card-gold-line {
+  position: relative;
+  overflow: hidden;
+}
+.card-gold-line::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Eyebrow label — universal standard (matches AGP Launch) ──── */
+.eyebrow-mono {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* ─── Mobile: stats bar 2-column bottom border ──────────────────── */
+@media (max-width: 767px) {
+  .stats-bar-mobile-row-1 {
+    border-bottom: 1px solid var(--border);
+  }
+  /* Trust badges centered on mobile */
+  .trust-badges-row {
+    justify-content: center;
+  }
+  /* Info page hero: tighter top padding on mobile */
+  .info-hero { padding-top: 48px !important; }
+}
+
+/* ─── Feature card — matches AGP card standard ────────────────── */
+.feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--gold-border);
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--transition);
+}
+.feature-card:hover {
+  border-color: var(--gold-border-strong);
+}

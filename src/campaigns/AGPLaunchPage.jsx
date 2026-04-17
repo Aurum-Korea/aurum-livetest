@@ -91,7 +91,8 @@ function LaunchCalc({ activeTier, setActiveTier, prices = { gold: 3342.80 }, krw
           <span style={{ marginLeft:'auto', fontFamily:T.sans, fontSize:11, color:T.goldDim, background:T.goldGlow, border:`1px solid ${T.goldBorder}`, padding:'3px 10px', whiteSpace:'nowrap' }}>{tier.nameKR} 티어</span>
         </div>
         <input type="range" min="200000" max="5000000" step="100000" value={monthly} style={{ '--pct':`${pct}%` }} onChange={e=>setMonthly(+e.target.value)} />
-        <div style={{ display:'flex', justifyContent:'space-between', marginTop:6, fontFamily:T.mono, fontSize:8, color:T.textMuted, letterSpacing:'0.12em' }}>
+        {/* M-20: slider tick labels fontSize 8→10 for mobile readability */}
+        <div style={{ display:'flex', justifyContent:'space-between', marginTop:6, fontFamily:T.mono, fontSize:10, color:T.textMuted, letterSpacing:'0.10em' }}>
           <span>₩200K</span><span>₩1M</span><span>₩2M</span><span>₩3M</span><span>₩5M</span>
         </div>
       </div>
@@ -172,11 +173,13 @@ function GMVBonusTrack({ navigate }) {
 function TierCards({ activeTier, setActiveTier }) {
   const isMobile = useIsMobile();
   return (
-    <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':'repeat(5,1fr)', gap:12 }}>
+    // M-19: 2-column grid on mobile (was full stack 1-col). Featured card spans both columns.
+    <div style={{ display:'grid', gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(5,1fr)', gap:12 }}>
       {AGP_TIERS.map((tier,i)=>{
         const isActive = activeTier===i;
         return (
-          <div key={i} onClick={()=>setActiveTier(i)} style={{ background:tier.featured?`linear-gradient(180deg,${T.goldGlow},${T.bg})`:T.bg, border:`1px solid ${isActive?T.goldBorderStrong:tier.featured?T.goldBorder:T.border}`, padding:'28px 16px', textAlign:'center', position:'relative', overflow:'hidden', cursor:'pointer', transform:isActive?'translateY(-4px)':'none', boxShadow:isActive?`0 10px 32px rgba(197,165,114,0.15)`:'none', transition:'all 0.3s cubic-bezier(0.2,0.8,0.2,1)' }}>
+          // M-19: featured card (index 2) spans full width on mobile for emphasis
+          <div key={i} onClick={()=>setActiveTier(i)} style={{ gridColumn: isMobile && tier.featured ? '1 / -1' : 'auto', background:tier.featured?`linear-gradient(180deg,${T.goldGlow},${T.bg})`:T.bg, border:`1px solid ${isActive?T.goldBorderStrong:tier.featured?T.goldBorder:T.border}`, padding: isMobile ? (tier.featured ? '24px 20px' : '20px 12px') : '28px 16px', textAlign:'center', position:'relative', overflow:'hidden', cursor:'pointer', transform:isActive?'translateY(-4px)':'none', boxShadow:isActive?`0 10px 32px rgba(197,165,114,0.15)`:'none', transition:'all 0.3s cubic-bezier(0.2,0.8,0.2,1)' }}>
             {tier.featured && <div style={{ position:'absolute', top:0, left:0, right:0, height:1, background:`linear-gradient(90deg,transparent,${T.gold},transparent)` }} />}
             {tier.featured && <div style={{ position:'absolute', top:10, right:10, fontFamily:T.mono, fontSize:7, color:T.bg, background:T.gold, padding:'2px 7px', letterSpacing:'0.18em' }}>추천</div>}
 
@@ -301,7 +304,7 @@ function CTAPanel() {
 export default function AGPLaunchPage({ lang, navigate, user, setShowLogin, prices = { gold: 3342.80 }, krwRate = 1368 }) {
   const isMobile = useIsMobile();
   const [activeTier, setActiveTier] = useState(2);
-  const pad = isMobile ? '48px 20px' : '80px 80px';
+  // D-1: all horizontal padding handled by aurum-container class
 
   const faqItems = [
     { icon:'🥇', title:'Launch Gift는 현금인가요, 금인가요?', content:'금입니다. 적립 시점의 국제 시세 기준 해당 금액의 그램이 회원님 계정에 즉시 적립됩니다. 싱가포르 Malca-Amit FTZ 금고에 실물로 배분 보관됩니다.' },
@@ -314,9 +317,9 @@ export default function AGPLaunchPage({ lang, navigate, user, setShowLogin, pric
     <div style={{ background:T.bg }}>
 
       {/* ══ HERO ══ */}
-      <div style={{ padding:isMobile?'70px 20px 60px':'100px 80px 90px', background:`radial-gradient(ellipse at 75% 30%,rgba(197,165,114,0.10),transparent 55%),linear-gradient(180deg,${T.bg} 0%,${T.bg2} 100%)`, borderBottom:`1px solid ${T.goldBorder}`, position:'relative', overflow:'hidden' }}>
+      <div style={{ paddingTop:isMobile?70:100, paddingBottom:isMobile?60:90, background:`radial-gradient(ellipse at 75% 30%,rgba(197,165,114,0.10),transparent 55%),linear-gradient(180deg,${T.bg} 0%,${T.bg2} 100%)`, borderBottom:`1px solid ${T.goldBorder}`, position:'relative', overflow:'hidden' }}>
         <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', fontFamily:T.serif, fontSize:isMobile?80:240, fontWeight:600, letterSpacing:'0.06em', color:'rgba(197,165,114,0.018)', pointerEvents:'none', whiteSpace:'nowrap', userSelect:'none', zIndex:0 }}>AURUM</div>
-        <div style={{ maxWidth:1200, margin:'0 auto', display:'grid', gridTemplateColumns:isMobile?'1fr':'1.1fr 1fr', gap:isMobile?48:64, alignItems:'center', position:'relative', zIndex:1 }}>
+        <div style={{ className:'aurum-container', display:'grid', gridTemplateColumns:isMobile?'1fr':'1.1fr 1fr', gap:isMobile?48:64, alignItems:'center', position:'relative', zIndex:1 }}>
           <div>
             <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:24 }}>
               <div style={{ width:32, height:1, background:T.gold }} />
@@ -340,7 +343,7 @@ export default function AGPLaunchPage({ lang, navigate, user, setShowLogin, pric
 
       {/* Stats bar */}
       <div style={{ background:T.bg3, borderBottom:`1px solid ${T.goldBorder}` }}>
-        <div style={{ maxWidth:1200, margin:'0 auto', display:'grid', gridTemplateColumns:isMobile?'1fr 1fr':'repeat(4,1fr)', gap:0 }}>
+        <div style={{ className="aurum-container" style={{ display:'grid', gridTemplateColumns:isMobile?'1fr 1fr':'repeat(4,1fr)', gap:0 }}>
           {[{val:'5단계',label:'론치 기프트 티어'},{val:'₩50K~₩5M',label:'티어별 실물 금 기프트'},{val:'30일',label:'잠금 해제 후 영구 소유'},{val:'GMV+',label:'성장할수록 추가 크레딧'}].map((s,i)=>(
             <div key={i} style={{ textAlign:'center', padding:isMobile?'14px 8px':'20px 16px', borderRight:!isMobile&&i<3?`1px solid ${T.goldBorder}`:'none', borderBottom:isMobile&&i<2?`1px solid ${T.goldBorder}`:'none' }}>
               <div style={{ fontFamily:T.mono, fontSize:isMobile?16:22, color:T.gold, fontWeight:700 }}>{s.val}</div>
@@ -351,8 +354,8 @@ export default function AGPLaunchPage({ lang, navigate, user, setShowLogin, pric
       </div>
 
       {/* ── How it works ── */}
-      <div style={{ padding:isMobile?'40px 20px':'56px 80px', background:T.bg2, borderBottom:`1px solid ${T.border}` }}>
-        <div style={{ maxWidth:1000, margin:'0 auto', display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 60px 1fr 60px 1fr', gap:0, alignItems:'start' }}>
+      <div style={{ paddingTop:isMobile?40:56, paddingBottom:isMobile?40:56, background:T.bg2, borderBottom:`1px solid ${T.border}` }}>
+        <div style={{ maxWidth:980, margin:'0 auto', display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 60px 1fr 60px 1fr', gap:0, alignItems:'start' }}>
           {[
             { roman:'I',   kr:'예약',    desc:'이메일로 자리 확보. 론치 시 자동 안내.' },
             null,
@@ -372,8 +375,8 @@ export default function AGPLaunchPage({ lang, navigate, user, setShowLogin, pric
       </div>
 
       {/* ── Tier Cards ── */}
-      <div style={{ padding:pad, borderBottom:`1px solid ${T.border}` }}>
-        <div style={{ maxWidth:1200, margin:'0 auto' }}>
+      <div style={{ borderBottom:`1px solid ${T.border}` }}>
+        <div className="aurum-container" style={{ paddingTop:isMobile?48:80, paddingBottom:isMobile?48:80 }}><div style={{ maxWidth:1180, margin:'0 auto' }}>
           <div style={{ textAlign:'center', marginBottom:44 }}>
             <div style={{ fontFamily:T.mono, fontSize:9, color:T.gold, letterSpacing:'0.3em', textTransform:'uppercase', marginBottom:12 }}>5 Tiers · 5가지 티어</div>
             <h2 style={{ fontFamily:T.serifKr, fontSize:'clamp(22px,3vw,38px)', fontWeight:500, color:T.text, marginBottom:10, lineHeight:1.2 }}>
@@ -386,8 +389,9 @@ export default function AGPLaunchPage({ lang, navigate, user, setShowLogin, pric
       </div>
 
       {/* ── Image 9: Calculator + GMV Bonus SIDE BY SIDE ── */}
-      <div style={{ padding:pad, background:T.bg1, borderBottom:`1px solid ${T.border}` }}>
-        <div style={{ maxWidth:1200, margin:'0 auto' }}>
+      <div style={{ background:T.bg1, borderBottom:`1px solid ${T.border}` }}>
+        <div className="aurum-container" style={{ paddingTop:isMobile?48:80, paddingBottom:isMobile?48:80 }}>
+        <div style={{ maxWidth:1180, margin:'0 auto' }}>
           <div style={{ textAlign:'center', marginBottom:40 }}>
             <div style={{ fontFamily:T.mono, fontSize:9, color:T.gold, letterSpacing:'0.3em', textTransform:'uppercase', marginBottom:12 }}>Launch Estimator + GMV Growth</div>
             <h2 style={{ fontFamily:T.serifKr, fontSize:'clamp(22px,3vw,36px)', fontWeight:500, color:T.text, marginBottom:8 }}>
@@ -404,8 +408,8 @@ export default function AGPLaunchPage({ lang, navigate, user, setShowLogin, pric
       <SealDivider />
 
       {/* ── Image 10: Timeline + CTA Form SIDE BY SIDE ── */}
-      <div style={{ padding:pad, borderBottom:`1px solid ${T.border}` }}>
-        <div style={{ maxWidth:1200, margin:'0 auto' }}>
+      <div style={{ borderBottom:`1px solid ${T.border}` }}>
+        <div className="aurum-container" style={{ paddingTop:isMobile?48:80, paddingBottom:isMobile?48:80 }}><div style={{ maxWidth:1180, margin:'0 auto' }}>
           <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 1fr', gap:isMobile?40:48, alignItems:'start' }}>
             <Timeline />
             <CTAPanel />
@@ -414,8 +418,9 @@ export default function AGPLaunchPage({ lang, navigate, user, setShowLogin, pric
       </div>
 
       {/* ── FAQ ── */}
-      <div style={{ padding:pad }}>
-        <div style={{ maxWidth:1200, margin:'0 auto' }}>
+      <div>
+        <div className="aurum-container" style={{ paddingTop:isMobile?48:80, paddingBottom:isMobile?48:80 }}>
+        <div style={{ maxWidth:1180, margin:'0 auto' }}>
           <div style={{ textAlign:'center', marginBottom:44 }}>
             <h2 style={{ fontFamily:T.serifKr, fontSize:'clamp(22px,3vw,36px)', fontWeight:500, color:T.text, marginBottom:10, lineHeight:1.2 }}>자주 묻는 <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold }}>질문</span></h2>
             <p style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:15, color:T.goldDim }}>Quietly answered.</p>
