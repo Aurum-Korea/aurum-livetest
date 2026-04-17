@@ -54,6 +54,18 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
     { page: 'learn',               ko: '교육',                en: 'Learn',              highlight: false },
   ];
 
+  // FIX 6: consistent button height for all right-side controls
+  const BTN_H = 34;
+  const btnBase = {
+    height: BTN_H,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
+    flexShrink: 0,
+  };
+
   return (
     <nav style={{
       position: 'sticky', top: 0, zIndex: 100,
@@ -62,7 +74,6 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
       backdropFilter: scrolled ? 'blur(14px)' : 'none',
       transition: 'all 0.3s',
     }}>
-      {/* Uses aurum-container so logo left-edge aligns with all page sections */}
       <div className="aurum-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 60 }}>
         <Logo onClick={e => { e.preventDefault(); navigate('home'); }} size={36} />
 
@@ -76,7 +87,11 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
                   background: isActive ? (isHL ? 'rgba(197,165,114,0.12)' : T.goldGlow) : 'none',
                   border: `1px solid ${isActive ? T.goldBorder : isHL ? 'rgba(197,165,114,0.18)' : 'transparent'}`,
                   color: isHL ? T.gold : (isActive ? T.gold : T.textMuted),
-                  padding: isHL ? '6px 14px' : '6px 12px', cursor: 'pointer',
+                  // FIX 5: highlight pills get minWidth so both banners are same size
+                  padding: isHL ? '6px 14px' : '6px 12px',
+                  minWidth: isHL ? 148 : 'auto',
+                  justifyContent: isHL ? 'center' : 'flex-start',
+                  cursor: 'pointer',
                   fontFamily: T.sans, fontSize: 13, fontWeight: isHL ? 500 : 400,
                   letterSpacing: isHL ? '0.02em' : 0, transition: 'all 0.2s',
                   display: 'flex', alignItems: 'center', gap: 5,
@@ -90,17 +105,19 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
           </div>
         )}
 
+        {/* FIX 6: all right-side controls share BTN_H = 34px */}
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+
           {/* Language toggle */}
           <button
             onClick={() => setLang(lang === 'ko' ? 'en' : 'ko')}
-            style={{ background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, padding: '5px 10px', cursor: 'pointer', fontFamily: T.mono, fontSize: 11, letterSpacing: '0.1em', transition: 'all 0.2s' }}
+            style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, padding: '0 10px', fontFamily: T.mono, fontSize: 11, letterSpacing: '0.1em' }}
           >{lang === 'ko' ? 'EN' : 'KO'}</button>
 
-          {/* Cart — SVG icon, not emoji */}
+          {/* Cart */}
           <button
             onClick={() => navigate('cart')}
-            style={{ background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, padding: '6px 10px', cursor: 'pointer', fontSize: 11, transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: 4, position: 'relative' }}
+            style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, padding: '0 10px', gap: 4, position: 'relative' }}
           >
             <CartIcon size={15} />
             {cartCount > 0 && (
@@ -110,24 +127,24 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
 
           {user ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <button onClick={() => navigate('dashboard')} style={{ background: T.goldGlow, border: `1px solid ${T.goldBorder}`, color: T.gold, padding: '5px 12px', cursor: 'pointer', fontFamily: T.sans, fontSize: 12, transition: 'all 0.2s' }}>
+              <button onClick={() => navigate('dashboard')} style={{ ...btnBase, background: T.goldGlow, border: `1px solid ${T.goldBorder}`, color: T.gold, padding: '0 12px', fontFamily: T.sans, fontSize: 12 }}>
                 {user.name || user.email}
               </button>
-              <button onClick={() => { setUser(null); navigate('home'); }} style={{ background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, padding: '5px 8px', cursor: 'pointer', fontFamily: T.mono, fontSize: 11 }}>
+              <button onClick={() => { setUser(null); navigate('home'); }} style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, padding: '0 8px', fontFamily: T.mono, fontSize: 11 }}>
                 {ko ? '로그아웃' : 'Out'}
               </button>
             </div>
           ) : (
-            <button onClick={() => setShowLogin(true)} style={{ background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, padding: '6px 14px', cursor: 'pointer', fontFamily: T.sans, fontSize: 12, transition: 'all 0.2s' }}>
+            <button onClick={() => setShowLogin(true)} style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, padding: '0 14px', fontFamily: T.sans, fontSize: 12 }}>
               {ko ? '로그인' : 'Login'}
             </button>
           )}
 
-          {/* Primary CTA — goes to agp-enroll (not campaign-founders) */}
+          {/* Primary CTA */}
           {!isMobile && (
             <button
               onClick={() => navigate('agp-enroll')}
-              style={{ background: T.gold, border: 'none', color: '#0a0a0a', padding: '8px 18px', cursor: 'pointer', fontFamily: T.sans, fontSize: 12, fontWeight: 700, transition: 'all 0.2s' }}
+              style={{ ...btnBase, background: T.gold, border: 'none', color: '#0a0a0a', padding: '0 18px', fontFamily: T.sans, fontSize: 12, fontWeight: 700 }}
             >
               {ko ? 'AGP 적립 가입' : 'Start AGP'}
             </button>
@@ -136,7 +153,7 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
           {isMobile && (
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              style={{ background: 'none', border: `1px solid ${T.border}`, color: T.text, padding: '7px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}
+              style={{ ...btnBase, background: 'none', border: `1px solid ${T.border}`, color: T.text, padding: '0 10px' }}
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             >
               <MenuIcon open={mobileOpen} size={16} />
