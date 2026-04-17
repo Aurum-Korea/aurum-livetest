@@ -160,7 +160,7 @@ function GMVCalculator({ prices = { gold: 3342.80 }, krwRate = 1368, lang = 'ko'
           {[
             { label: ko ? '연간 총 GMV' : 'Annual Total GMV', value:fVal(total*krwRate), sub:showKRW?`≈ ${fmtUSD(total)}`:`≈ ₩${Math.round(total*krwRate).toLocaleString('ko-KR')}` },
             { label: ko ? '현재 게이트' : 'Current Gate', value:gate?`Gate ${gate.num}`:(ko?'미달':'None'), sub:gate?(ko?gate.label:gate.labelEn):(ko?'₩7.2M 부터':'From ₩7.2M') },
-            { label:'Founder Savings', value:gate?`−${gate.discount}%`:'−', sub: ko ? 'on Listed Price · 평생' : 'on Listed Price · lifetime', hl:true },
+            { label:'Founder Savings', value:gate?`−${gate.discount}%`:'−', sub: '', hl:true },
             { label: ko ? '연간 절약 (추정)' : 'Annual Savings (est.)', value:gate?fVal(savings * krwRate):'−', sub: ko ? '프리미엄 기준' : 'vs listed price' },
           ].map((s,i)=>(
             <div key={i} style={{ textAlign:'center' }}>

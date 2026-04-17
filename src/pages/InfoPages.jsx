@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { T, useIsMobile, useInView, fUSD, fKRW, WHY_GOLD_REASONS, WHY_GOLD_STATS, WHY_SILVER_STATS, WHY_SILVER_REASONS, EDUCATION_ARTICLES, EDUCATION_CATEGORIES, MARKET_FACTS, useNewsData } from '../lib/index.jsx';
 import { Badge, StatBar, SectionHead, Tabs, Accordion, FlagSG } from '../components/UI.jsx';
+import { WhyGoldHeroVisual, StorageHeroVisual, AGPHeroVisual } from '../components/HeroVisuals.jsx';
 
 const GOLD_LINE = { position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, #c5a572, transparent)', pointerEvents: 'none', zIndex: 1 };
 
@@ -37,8 +38,8 @@ export function WhyGoldPage({ lang, navigate }) {
     <div style={{ background: T.bg }}>
       <div style={{ borderBottom: `1px solid ${T.border}`, position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: 0, right: 0, width: '50%', height: '100%', background: 'radial-gradient(ellipse at 80% 50%, rgba(197,165,114,0.06), transparent 60%)', pointerEvents: 'none' }} />
-        <div className="aurum-container" style={{ paddingTop: isMobile ? 48 : 80, paddingBottom: isMobile ? 40 : 72, position: 'relative' }}>
-          <div style={{ maxWidth: 680 }}>
+        <div className="aurum-container" style={{ paddingTop: isMobile ? 48 : 80, paddingBottom: isMobile ? 40 : 72, position: 'relative', display: isMobile ? 'block' : 'flex', alignItems: 'center', gap: 48 }}>
+          <div style={{ maxWidth: 680, flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, flexWrap: 'nowrap', overflow: 'hidden' }}>
               <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />
               <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile ? 11 : 13, color: T.gold, letterSpacing: '0.04em' }}>The Case for Gold</span>
@@ -53,6 +54,7 @@ export function WhyGoldPage({ lang, navigate }) {
               {ko ? '수천 년의 역사, 중앙은행의 선택, 인플레이션 헤지. 실물 금속이 현대 포트폴리오에서 갖는 의미를 알아보세요.' : 'Millennia of history. Central bank preference. Inflation hedge. Understand what physical metals mean for the modern portfolio.'}
             </p>
           </div>
+          {!isMobile && <WhyGoldHeroVisual />}
         </div>
       </div>
 
@@ -242,8 +244,8 @@ export function StoragePage({ lang, navigate }) {
   return (
     <div style={{ background: T.bg }}>
       <div style={{ borderBottom: `1px solid ${T.border}`, background: `linear-gradient(135deg, ${T.bg}, ${T.bg2})` }}>
-        <div className="aurum-container" style={{ paddingTop: isMobile ? 48 : 80, paddingBottom: isMobile ? 40 : 72 }}>
-          <div style={{ maxWidth: 660 }}>
+        <div className="aurum-container" style={{ paddingTop: isMobile ? 48 : 80, paddingBottom: isMobile ? 40 : 72, display: isMobile ? 'block' : 'flex', alignItems: 'center', gap: 48 }}>
+          <div style={{ maxWidth: 660, flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, flexWrap: 'nowrap', overflow: 'hidden' }}>
               <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />
               <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile ? 11 : 13, color: T.gold, letterSpacing: '0.04em' }}>Singapore Vault</span>
@@ -265,6 +267,7 @@ export function StoragePage({ lang, navigate }) {
               <div style={{ fontFamily: T.mono, fontSize: 10, color: T.goldDim, letterSpacing: '0.15em' }}>MAS REGULATED</div>
             </div>
           </div>
+          {!isMobile && <StorageHeroVisual />}
         </div>
       </div>
 
@@ -316,9 +319,13 @@ export function StoragePage({ lang, navigate }) {
 /* ═══════════════════════════════════════════════════════════════════════
    AGP INFO PAGE
    ═══════════════════════════════════════════════════════════════════════ */
-export function AGPPage({ lang, navigate }) {
+export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368 }) {
   const ko = lang === 'ko';
   const isMobile = useIsMobile();
+  // B2-13: currency-aware formatter — KRW in Korean/KRW mode, USD in English mode
+  const fAGP = (krwAmt) => (!ko || currency === 'USD')
+    ? fUSD(krwAmt / krwRate)
+    : `₩${Math.round(krwAmt).toLocaleString('ko-KR')}`;
 
   const faqItems = [
     { icon: '❓', title: ko ? '최소 가입 금액은 얼마인가요?' : 'What is the minimum?', content: ko ? '월 200,000원(약 $145)부터 시작할 수 있습니다. 일회 또는 자동이체 방식 모두 지원합니다.' : 'From KRW 200,000/month (~$145). One-time or auto-debit both supported.' },
@@ -331,8 +338,8 @@ export function AGPPage({ lang, navigate }) {
   return (
     <div style={{ background: T.bg }}>
       <div style={{ borderBottom: `1px solid ${T.border}` }}>
-        <div className="aurum-container" style={{ paddingTop: isMobile ? 48 : 80, paddingBottom: isMobile ? 40 : 72 }}>
-          <div style={{ maxWidth: 680 }}>
+        <div className="aurum-container" style={{ paddingTop: isMobile ? 48 : 80, paddingBottom: isMobile ? 40 : 72, display: isMobile ? 'block' : 'flex', alignItems: 'center', gap: 48 }}>
+          <div style={{ maxWidth: 680, flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, flexWrap: 'nowrap', overflow: 'hidden' }}>
               <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />
               <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile ? 11 : 13, color: T.gold, letterSpacing: '0.04em' }}>Aurum Gold Plan</span>
@@ -341,7 +348,7 @@ export function AGPPage({ lang, navigate }) {
               {!isMobile && <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />}
             </div>
             <h1 style={{ fontFamily: T.serifKr, fontSize: 'clamp(32px,5vw,56px)', fontWeight: 500, color: T.text, margin: '0 0 20px', lineHeight: 1.1 }}>
-              월 20만원으로<br /><span style={{ color: T.gold }}>진짜 금</span>을 모으세요.
+              {ko ? <>{fAGP(200000)}으로<br /><span style={{ color: T.gold }}>진짜 금</span>을 모으세요.</> : <>Start from <span style={{ color: T.gold }}>{fAGP(200000)}/mo</span><br />Own real gold.</>}
             </h1>
             <p style={{ fontFamily: T.sans, fontSize: isMobile ? 14 : 16, color: T.textSub, lineHeight: 1.85, maxWidth: 520, marginBottom: 36 }}>
               {ko ? '그램 단위 자동 적립 — 100g 도달 시 LBMA 승인 실물 바로 무료 전환. 국제 현물가 + 2% 투명 프리미엄. 언제든 해지 가능.' : 'Automated gram accumulation. Free conversion to LBMA bar at 100g. International spot + 2% transparent premium. Exit anytime.'}
@@ -352,14 +359,15 @@ export function AGPPage({ lang, navigate }) {
               <button onClick={() => navigate('agp-report')} className="btn-outline" style={{ flex: 1, minWidth: 180 }}>{ko ? '오늘의 백킹 리포트' : "Today's Backing Report"}</button>
             </div>
           </div>
+          {!isMobile && <AGPHeroVisual />}
         </div>
       </div>
 
       <StatBar stats={[
-        { value: '₩200,000', label: '최소 월 적립' },
-        { value: '100g',     label: '실물 전환 기준' },
-        { value: '+2.0%',    label: 'Aurum 프리미엄 (투명 공개)' },
-        { value: '0원',      label: '해지 수수료' },
+        { value: fAGP(200000),  label: ko ? '최소 월 적립' : 'Min. monthly' },
+        { value: '100g',        label: ko ? '실물 전환 기준' : 'Physical bar threshold' },
+        { value: '+2.0%',       label: ko ? 'Aurum 프리미엄 (투명 공개)' : 'Aurum transparent premium' },
+        { value: ko ? '0원' : '$0', label: ko ? '해지 수수료' : 'Exit fee' },
       ]} cols={isMobile ? 2 : 4} />
 
       <div style={{ borderBottom: `1px solid ${T.border}` }}>
