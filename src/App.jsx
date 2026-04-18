@@ -31,7 +31,7 @@ function LaunchAnnouncementStrip({ navigate }) {
   const [visible, setVisible] = useState(() => !sessionStorage.getItem('aurum_launch_strip'));
   const [activeIdx, setActiveIdx] = useState(0);
   const messages = [
-    { label: 'AGP 자동 적금 · 지금 가입 시 첫달 즉시 적립', cta: 'AGP 시작하기 →', page: 'agp' },
+    { label: 'AGP 자동 적금 · 지금 가입 시 첫달 즉시 적립', cta: 'AGP 시작하기 →', page: 'campaign-agp-launch' },
     { label: 'Founders Club · 살수록 낮아지는 평생 할인', cta: '알아보기 →', page: 'founders' },
   ];
   useEffect(() => {
