@@ -607,9 +607,106 @@ export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368 }) {
       <StatBar stats={[
         { value: fAGP(200000),  label: ko ? '최소 월 적립' : 'Min. monthly' },
         { value: '100g',        label: ko ? '실물 전환 기준' : 'Physical bar threshold' },
-        { value: '+2.0%',       label: ko ? 'Aurum 프리미엄 (투명 공개)' : 'Aurum transparent premium' },
+        { value: '+2.0%',       label: ko ? '투명 프리미엄' : 'Transparent premium' },
         { value: ko ? '0원' : '$0', label: ko ? '해지 수수료' : 'Exit fee' },
       ]} cols={isMobile ? 2 : 4} />
+
+      {/* ── LAUNCH ESTIMATOR + GMV GROWTH — near top for immediate hook ── */}
+      <div style={{ borderBottom:`1px solid ${T.goldBorder}`, background:`linear-gradient(180deg,${T.goldGlow},${T.bg})` }}>
+        <div className="aurum-container" style={{ paddingTop: isMobile?28:64, paddingBottom: isMobile?28:64 }}>
+          <div style={{ textAlign:'center', marginBottom: isMobile?20:32 }}>
+            <div style={{ fontFamily:T.mono, fontSize:10, color:T.goldDim, letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:10 }}>Launch Estimator + GMV Growth</div>
+            <h2 style={{ fontFamily:T.serifKr, fontSize: isMobile?22:34, fontWeight:400, color:T.text }}>
+              첫 달, 정확히 <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold }}>얼마나 받나요?</span>
+            </h2>
+          </div>
+          {/* Inline estimator widget */}
+          {(() => {
+            const SPOT_KRW_G = 452000;
+            const AURUM_UP   = 0.02;
+            const KR_MULT    = 1.20;
+            const TIERS = [
+              { name:'브론즈',nameEn:'Bronze', min:200000,  gift:'₩50K',    giftVal:50000    },
+              { name:'실버',  nameEn:'Silver', min:500000,  gift:'₩150K',   giftVal:150000   },
+              { name:'골드',  nameEn:'Gold',   min:1000000, gift:'₩400K',   giftVal:400000,  featured:true },
+              { name:'플래티넘',nameEn:'Plat.', min:2000000,gift:'₩1M',     giftVal:1000000  },
+              { name:'소브린',nameEn:'Sov.',  min:5000000, gift:'₩5M',     giftVal:5000000  },
+            ];
+            const [monthly, setMonthly] = useState(1000000);
+            const aurumUnit = SPOT_KRW_G * (1 + AURUM_UP);
+            const grams     = monthly / aurumUnit;
+            const krCost    = grams * SPOT_KRW_G * KR_MULT;
+            const tierIdx   = TIERS.slice().reverse().findIndex(t => monthly >= t.min);
+            const tier      = tierIdx >= 0 ? TIERS[TIERS.length - 1 - tierIdx] : TIERS[0];
+            const fmt       = n => Math.round(n).toLocaleString('ko-KR');
+            return (
+              <div style={{ display:'grid', gridTemplateColumns: isMobile?'1fr':'1fr 1fr', gap:16 }}>
+                {/* Estimator */}
+                <div style={{ background:T.bgCard, border:`1px solid ${T.goldBorder}`, padding: isMobile?'20px 16px':'28px' }}>
+                  <div style={{ fontFamily:T.mono, fontSize:10, color:T.goldDim, letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:16 }}>AGP LAUNCH ESTIMATOR</div>
+                  <div style={{ fontFamily:T.mono, fontSize: isMobile?24:28, fontWeight:700, color:T.text, marginBottom:4 }}>₩{fmt(monthly)}<span style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:12, color:T.textSub, marginLeft:6 }}>{ko?'월 적립':'/ month'}</span></div>
+                  <div style={{ display:'flex', justifyContent:'flex-end', marginBottom:8 }}>
+                    <span style={{ fontFamily:T.sans, fontSize:11, color:T.goldDim, background:T.goldGlow, border:`1px solid ${T.goldBorder}`, padding:'2px 8px' }}>{tier.name} {ko?'티어':'Tier'}</span>
+                  </div>
+                  <input type="range" min="200000" max="5000000" step="100000" value={monthly} onChange={e=>setMonthly(+e.target.value)} style={{ width:'100%', accentColor:T.gold, cursor:'pointer', marginBottom:8 }} />
+                  <div style={{ display:'flex', justifyContent:'space-between', fontFamily:T.mono, fontSize:10, color:T.textMuted, marginBottom:20 }}>
+                    <span>₩200K</span><span>₩1M</span><span>₩2M</span><span>₩3M</span><span>₩5M</span>
+                  </div>
+                  {[
+                    { label:ko?'받게 되실 금':'Metal received', value:`${grams.toFixed(3)}g · ${(grams/31.1).toFixed(4)}oz` },
+                    { label:ko?'한국 소매 환산':'Korea retail equiv.', value:`₩${fmt(krCost)}` },
+                  ].map((r,i) => (
+                    <div key={i} style={{ display:'flex', justifyContent:'space-between', padding:'10px 0', borderBottom:`1px solid rgba(197,165,114,0.08)` }}>
+                      <span style={{ fontFamily:T.sans, fontSize:12, color:T.textSub }}>{r.label}</span>
+                      <span style={{ fontFamily:T.mono, fontSize:13, color:T.text }}>{r.value}</span>
+                    </div>
+                  ))}
+                  <div style={{ marginTop:14, paddingTop:14, borderTop:`1px solid ${T.goldBorderStrong}`, display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                    <div>
+                      <div style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:14, color:T.gold }}>+ {tier.name} Launch Gift</div>
+                      <div style={{ fontFamily:T.sans, fontSize:11, color:T.textMuted, marginTop:2 }}>{ko?'첫 결제 즉시 실물 금으로 적립':'Credited in physical gold on first payment'}</div>
+                    </div>
+                    <div style={{ fontFamily:T.mono, fontSize:22, color:T.goldBright, fontWeight:700 }}>{tier.gift}</div>
+                  </div>
+                </div>
+                {/* GMV Growth track */}
+                <div style={{ background:T.bgCard, border:`1px solid ${T.goldBorder}`, padding: isMobile?'20px 16px':'28px' }}>
+                  <div style={{ fontFamily:T.mono, fontSize:10, color:T.goldDim, letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:16 }}>GMV GROWTH REWARDS</div>
+                  <p style={{ fontFamily:T.sansKr, fontSize:13, color:T.textSub, lineHeight:1.9, marginBottom:20 }}>
+                    {ko?'론치 기프트에 더해, 총 구매액이 성장할수록 추가 금 크레딧이 지급됩니다.':'Beyond the launch gift, bonus gold credits are issued as your cumulative volume grows.'}
+                  </p>
+                  <div style={{ display:'flex', flexDirection:'column', gap:0, position:'relative' }}>
+                    <div style={{ position:'absolute', left:16, top:10, bottom:10, width:1, background:`linear-gradient(180deg,${T.gold},${T.goldBorder})` }} />
+                    {[
+                      { gate:'I',  gmv:'$5K',   gmvKR:'₩7.2M',  bonus:'+₩50K',    apex:false },
+                      { gate:'II', gmv:'$15K',  gmvKR:'₩21.6M', bonus:'+₩150K',   apex:false },
+                      { gate:'III',gmv:'$35K',  gmvKR:'₩50.4M', bonus:'+₩400K',   apex:true  },
+                      { gate:'IV', gmv:'$65K',  gmvKR:'₩93.6M', bonus:'+₩1,000K', apex:false },
+                      { gate:'V',  gmv:'$100K', gmvKR:'₩144M',  bonus:'+₩2,500K', apex:false },
+                    ].map((row,i) => (
+                      <div key={i} style={{ display:'grid', gridTemplateColumns:'40px 1fr auto', alignItems:'center', gap:10, padding:'11px 0', borderBottom:i<4?`1px solid rgba(197,165,114,0.06)`:'none', position:'relative', zIndex:1 }}>
+                        <div style={{ display:'flex', justifyContent:'center' }}>
+                          <div style={{ width:10, height:10, background:row.apex?T.gold:T.bg2, border:`1px solid ${T.gold}`, transform:'rotate(45deg)', boxShadow:row.apex?`0 0 10px ${T.gold}`:'none' }} />
+                        </div>
+                        <div>
+                          <span style={{ fontFamily:T.mono, fontSize:11, color:T.gold, border:`1px solid ${T.goldBorder}`, padding:'1px 6px', marginRight:8 }}>GATE {row.gate}</span>
+                          <span style={{ fontFamily:T.mono, fontSize:12, color:T.text }}>{row.gmvKR}</span>
+                        </div>
+                        <div style={{ fontFamily:T.mono, fontSize:14, color:T.green, fontWeight:700 }}>{row.bonus}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ marginTop:16 }}>
+                    <button onClick={() => navigate('campaign-agp-launch')} style={{ width:'100%', background:T.goldGlow, border:`1px solid ${T.goldBorder}`, color:T.gold, padding:'11px', cursor:'pointer', fontFamily:T.sans, fontSize:13 }}>
+                      {ko?'AGP 론치 이벤트 상세 →':'AGP Launch Event details →'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+      </div>
 
       <div style={{ borderBottom: `1px solid ${T.border}` }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 28 : 72, paddingBottom: isMobile ? 28 : 64 }}>

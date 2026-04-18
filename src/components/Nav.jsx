@@ -92,6 +92,7 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
         .nav-ul.nav-ul-active{color:#C5A572!important}
         .nav-promo-agp{
           position:relative;overflow:hidden;
+          background:transparent!important;
           border:1px solid rgba(197,165,114,0.4)!important;
           color:#c5a572!important;
           font-size:12px!important;font-weight:600!important;font-style:normal!important;
@@ -99,9 +100,10 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
           animation:promo-blink 2.5s ease-in-out infinite;
           padding:0 14px!important;
         }
-        .nav-promo-agp:hover{border-color:rgba(197,165,114,0.9)!important;color:#E3C187!important;background:rgba(197,165,114,0.08)!important}
+        .nav-promo-agp:hover{border-color:rgba(197,165,114,0.9)!important;color:#E3C187!important;background:rgba(197,165,114,0.1)!important}
         .nav-promo-founders{
           position:relative;overflow:hidden;
+          background:transparent!important;
           border:1px solid rgba(74,222,128,0.45)!important;
           color:#4ade80!important;
           font-size:12px!important;font-weight:600!important;font-style:normal!important;
@@ -110,8 +112,8 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
           padding:0 14px!important;
         }
         .nav-promo-founders:hover{border-color:rgba(74,222,128,0.9)!important;color:#86efac!important;background:rgba(74,222,128,0.07)!important}
-        @keyframes promo-blink{0%,100%{border-color:rgba(197,165,114,0.4);box-shadow:none}50%{border-color:rgba(197,165,114,0.85);box-shadow:0 0 8px rgba(197,165,114,0.2)}}
-        @keyframes founders-promo-blink{0%,100%{border-color:rgba(74,222,128,0.4);box-shadow:none}50%{border-color:rgba(74,222,128,0.85);box-shadow:0 0 8px rgba(74,222,128,0.18)}}
+        @keyframes promo-blink{0%,100%{border-color:rgba(197,165,114,0.35);box-shadow:none}50%{border-color:rgba(197,165,114,0.9);box-shadow:0 0 10px rgba(197,165,114,0.22)}}
+        @keyframes founders-promo-blink{0%,100%{border-color:rgba(74,222,128,0.35);box-shadow:none}50%{border-color:rgba(74,222,128,0.9);box-shadow:0 0 10px rgba(74,222,128,0.2)}}
       `}</style>
 
       <div className="aurum-container" style={{ display: 'flex', alignItems: 'center', height: NAV_H, gap: 0 }}>
@@ -201,18 +203,21 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu — dismiss on outside click */}
       {isMobile && mobileOpen && (
-        <div style={{ background: T.bg1, borderTop: `1px solid ${T.border}`, padding: '8px 16px 20px', display: 'flex', flexDirection: 'column', gap: 2 }}>
-          {/* Founders — extravagant mobile treatment */}
+        <>
+          {/* Transparent backdrop — click to close */}
+          <div style={{ position:'fixed', inset:0, zIndex:98, background:'transparent' }} onClick={() => setMobileOpen(false)} />
+          <div style={{ position:'relative', zIndex:99, background: T.bg1, borderTop: `1px solid ${T.border}`, padding: '8px 16px 20px', display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {/* Founders — solid dark gold background, no gradient shimmer */}
           <button onClick={() => { navigate('founders'); setMobileOpen(false); }} style={{
-            background: 'linear-gradient(105deg,rgba(197,165,114,0.08),rgba(197,165,114,0.16),rgba(197,165,114,0.08))',
-            border: '1px solid rgba(197,165,114,0.5)', color: '#E3C187',
+            background: 'rgba(197,165,114,0.1)',
+            border: '1px solid rgba(197,165,114,0.45)', color: '#E3C187',
             padding: '14px 12px', cursor: 'pointer',
             fontFamily: T.serif, fontStyle: 'italic',
             fontSize: 18, textAlign: 'left',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            marginBottom: 4,
+            marginBottom: 4, textDecoration: 'none',
           }}>
             Founders Club
             <span style={{ fontSize: 12, opacity: 0.7 }}>→</span>
@@ -241,6 +246,7 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
             {ko ? '가입하기 →' : 'Register →'}
           </button>
         </div>
+        </>
       )}
     </nav>
   );

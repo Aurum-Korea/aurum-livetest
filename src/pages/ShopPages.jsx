@@ -278,18 +278,27 @@ export function ProductPage({ product, lang, navigate, prices, krwRate, user, se
               ))}
             </div>
 
-            {/* Cart mini popup */}
+            {/* Cart mini popup — centered overlay */}
             {cartPopup && (
-              <div style={{ position:'fixed', top:88, right:16, zIndex:9000, background:T.bg, border:`1px solid ${T.gold}`, padding:'16px 20px', minWidth:260, boxShadow:'0 16px 48px rgba(0,0,0,0.6)' }}>
-                <div style={{ display:'flex', justifyContent:'space-between', marginBottom:10 }}>
-                  <span style={{ fontFamily:T.mono, fontSize:10, color:T.gold, letterSpacing:'0.16em' }}>✓ {ko?'추가됨':'ADDED'}</span>
-                  <button onClick={() => setCartPopup(false)} style={{ background:'none', border:'none', color:T.textMuted, cursor:'pointer', fontSize:16 }}>×</button>
+              <div style={{ position:'fixed', inset:0, zIndex:9000, display:'flex', alignItems:'center', justifyContent:'center', background:'rgba(0,0,0,0.6)', backdropFilter:'blur(4px)', padding:20 }}
+                onClick={() => setCartPopup(false)}>
+                <div style={{ background:T.bg, border:`1px solid ${T.gold}`, padding:'24px 28px', minWidth: isMobile?'85vw':300, maxWidth:380, boxShadow:'0 24px 64px rgba(0,0,0,0.8)', position:'relative' }}
+                  onClick={e => e.stopPropagation()}>
+                  <div style={{ display:'flex', justifyContent:'space-between', marginBottom:12 }}>
+                    <span style={{ fontFamily:T.mono, fontSize:11, color:T.gold, letterSpacing:'0.16em' }}>✓ {ko?'장바구니에 추가됨':'ADDED TO CART'}</span>
+                    <button onClick={() => setCartPopup(false)} style={{ background:'none', border:'none', color:T.textMuted, cursor:'pointer', fontSize:18, lineHeight:1 }}>×</button>
+                  </div>
+                  <div style={{ fontFamily:T.sans, fontSize:14, color:T.text, marginBottom:4 }}>{ko ? product.nameKo : product.name}</div>
+                  <div style={{ fontFamily:T.mono, fontSize:13, color:T.gold, marginBottom:20 }}>{qty}× {fP(price)}</div>
+                  <div style={{ display:'flex', gap:10 }}>
+                    <button onClick={() => { setCartPopup(false); navigate('shop-physical'); }} style={{ flex:1, background:'transparent', border:`1px solid ${T.goldBorder}`, color:T.textSub, padding:'11px', fontSize:13, cursor:'pointer', fontFamily:T.sans }}>
+                      {ko?'계속 쇼핑':'Continue'}
+                    </button>
+                    <button onClick={() => { setCartPopup(false); navigate('cart'); }} style={{ flex:1, background:T.gold, border:'none', color:'#0a0a0a', padding:'11px', fontSize:13, fontWeight:700, cursor:'pointer', fontFamily:T.sans }}>
+                      {ko?'장바구니 →':'View Cart →'}
+                    </button>
+                  </div>
                 </div>
-                <div style={{ fontFamily:T.sans, fontSize:13, color:T.text, marginBottom:4 }}>{ko ? product.nameKo : product.name}</div>
-                <div style={{ fontFamily:T.mono, fontSize:12, color:T.gold, marginBottom:12 }}>{qty}× {fP(price)}</div>
-                <button onClick={() => navigate('cart')} style={{ width:'100%', background:T.gold, border:'none', color:'#0a0a0a', padding:'11px', fontSize:13, fontWeight:700, cursor:'pointer', fontFamily:T.sans }}>
-                  {ko?'장바구니 보기 →':'View Cart →'}
-                </button>
               </div>
             )}
 

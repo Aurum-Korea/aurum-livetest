@@ -262,10 +262,11 @@ function Timeline() {
 }
 
 // ─── Email CTA Panel ──────────────────────────────────────────────────────────
-function CTAPanel() {
+function CTAPanel({ navigate }) {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleReserve = async e => {
     e.preventDefault();
@@ -290,10 +291,10 @@ function CTAPanel() {
         </div>
       ) : (
         <form onSubmit={handleReserve}>
-          <div style={{ display:'flex', gap:0, border:`1px solid ${T.goldBorderStrong}`, background:T.bg3, marginBottom:14 }}>
+          <div style={{ display:'flex', flexDirection: isMobile?'column':'row', gap: isMobile?8:0, border: isMobile?'none':`1px solid ${T.goldBorderStrong}`, background: isMobile?'transparent':T.bg3, marginBottom:14 }}>
             <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="이메일 주소 · your@email.com" required
-              style={{ flex:1, padding:'16px 18px', background:'transparent', border:'none', outline:'none', fontFamily:T.sansKr, fontSize:14, color:T.text }} />
-            <button type="submit" disabled={submitting} style={{ background:T.gold, color:T.bg, border:'none', cursor:submitting?'not-allowed':'pointer', padding:'0 24px', fontFamily:T.sans, fontSize:11, fontWeight:600, letterSpacing:'0.2em', textTransform:'uppercase', flexShrink:0 }}>
+              style={{ flex:1, padding:'16px 18px', background: isMobile?T.bg3:T.bg3, border: isMobile?`1px solid ${T.goldBorderStrong}`:'none', outline:'none', fontFamily:T.sansKr, fontSize: isMobile?16:14, color:T.text }} />
+            <button type="submit" disabled={submitting} style={{ background:T.gold, color:T.bg, border:'none', cursor:submitting?'not-allowed':'pointer', padding: isMobile?'16px 24px':'0 24px', fontFamily:T.sans, fontSize: isMobile?14:11, fontWeight:700, letterSpacing:'0.15em', textTransform:'uppercase', flexShrink:0, width: isMobile?'100%':'auto' }}>
               {submitting?'...':'사전예약'}
             </button>
           </div>
@@ -436,7 +437,7 @@ export default function AGPLaunchPage({ lang, navigate, user, setShowLogin, pric
         <div style={{ maxWidth:1200, margin:'0 auto' }}>
           <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 1fr', gap:isMobile?40:48, alignItems:'start' }}>
             <Timeline />
-            <CTAPanel />
+            <CTAPanel navigate={navigate} />
           </div>
         </div>
       </div>

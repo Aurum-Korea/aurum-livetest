@@ -71,7 +71,11 @@ export default function App() {
     return cleanup;
   }, []);
 
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, [page]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [page]);
 
   const navigate = useCallback(p => setPage(p), []);
 
