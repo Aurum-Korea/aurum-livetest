@@ -85,7 +85,7 @@ export function ShopSelectorPage({ lang, navigate }) {
    SHOP PAGE — product grid
    M-7 + M-10 + M-11: container, filter bar, product card fixes
    ═══════════════════════════════════════════════════════════════════════ */
-export function ShopPage({ lang, navigate, setProduct, prices, krwRate, addToCart, toast, currency, setCurrency }) {
+export function ShopPage({ lang, navigate, setProduct, prices, krwRate, user, addToCart, toast, currency, setCurrency }) {
   const ko = lang === 'ko';
   const isMobile = useIsMobile();
   const [filter, setFilter] = useState('all');

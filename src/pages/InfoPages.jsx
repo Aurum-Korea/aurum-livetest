@@ -633,7 +633,7 @@ export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368 }) {
           <p style={{ fontFamily: T.sans, fontSize: 15, color: T.textSub, marginBottom: 28, lineHeight: 1.9 }}>
             {ko ? '가입까지 10분. 수수료 없음. 언제든 해지 가능.' : '10 min signup. No hidden fees. Exit anytime.'}
           </p>
-          <button onClick={() => navigate('agp-intro')} className="btn-primary" style={{ padding: '14px 36px', fontSize: 14 }}>{ko ? 'Founder 가입' : 'Founder Enrollment'}</button>
+          <button onClick={() => navigate('register')} className="btn-primary" style={{ padding: '14px 36px', fontSize: 14 }}>{ko ? 'Founder 가입' : 'Founder Enrollment'}</button>
         </div>
       </div>
     </div>

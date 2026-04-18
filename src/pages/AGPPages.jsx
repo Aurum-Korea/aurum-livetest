@@ -13,9 +13,10 @@ const STEPS = [
 /* ═══════════════════════════════════════════════════════════════════════
    AGP INTRO — step-by-step walkthrough
    ═══════════════════════════════════════════════════════════════════════ */
-export function AGPIntroPage({ lang, navigate }) {
+export function AGPIntroPage({ lang, navigate, user }) {
   const [step, setStep] = useState(0);
   const isMobile = useIsMobile();
+  const goEnroll = () => navigate(user ? 'agp-enroll' : 'register');
 
   useEffect(() => {
     const handler = e => {
@@ -26,7 +27,7 @@ export function AGPIntroPage({ lang, navigate }) {
     return () => window.removeEventListener('keydown', handler);
   }, [step]);
 
-  const handleNext = () => step < STEPS.length - 1 ? setStep(s => s + 1) : navigate('agp-enroll');
+  const handleNext = () => step < STEPS.length - 1 ? setStep(s => s + 1) : goEnroll();
   const handlePrev = () => step > 0 && setStep(s => s - 1);
   const isLast = step === STEPS.length - 1;
   const current = STEPS[step];
@@ -40,11 +41,11 @@ export function AGPIntroPage({ lang, navigate }) {
           <span style={{ fontFamily: T.mono, fontSize: 12, letterSpacing: '0.2em', color: T.goldDim }}>
             <span style={{ color: T.gold, fontWeight: 500 }}>{String(step + 1).padStart(2, '0')}</span> / 05
           </span>
-          <button onClick={() => navigate('agp-enroll')} style={{
+          <button onClick={goEnroll} style={{
             background: 'none', border: 'none', fontFamily: T.mono, fontSize: 11, letterSpacing: '0.15em',
             color: T.textMuted, textTransform: 'uppercase', cursor: 'pointer', transition: 'color 0.3s',
           }} onMouseEnter={e => e.currentTarget.style.color = T.gold} onMouseLeave={e => e.currentTarget.style.color = T.textMuted}>
-            가입 신청 바로가기 →
+            {user ? '가입 신청 바로가기 →' : '가입하기 →'}
           </button>
         </div>
 
@@ -160,7 +161,9 @@ export function AGPIntroPage({ lang, navigate }) {
 
         {/* CTAs */}
         <div style={{ marginTop: 36, display: 'flex', gap: 12, flexDirection: 'column' }}>
-          <button onClick={() => navigate('agp-enroll')} className="btn-primary" style={{ width: '100%', padding: '16px' }}>🚀 AGP 가입하기</button>
+          <button onClick={() => navigate(user ? 'agp-enroll' : 'register')} className="btn-primary" style={{ width: '100%', padding: '16px' }}>
+            {user ? '🚀 AGP 가입하기' : '🚀 가입 후 AGP 시작하기'}
+          </button>
           <button onClick={() => navigate('agp-report')} className="btn-outline" style={{ width: '100%', padding: '16px' }}>📊 오늘의 백킹 리포트</button>
         </div>
       </div>
