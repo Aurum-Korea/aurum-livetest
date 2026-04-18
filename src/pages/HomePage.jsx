@@ -1807,24 +1807,6 @@ function TrustSection({ lang, isMobile }) {
   );
 }
 
-// ─── EX-A1: useCountUp hook ───────────────────────────────────────────────────
-function useCountUp(target, vis, duration = 1400) {
-  const [display, setDisplay] = useState(0);
-  useEffect(() => {
-    if (!vis || !target) return;
-    setDisplay(0);
-    const start = Date.now();
-    const tick = () => {
-      const p = Math.min((Date.now() - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - p, 3);
-      setDisplay(Math.round(target * ease));
-      if (p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }, [vis, target]);
-  return display;
-}
-
 // ─── EX-A8: MobileHeroWidget ──────────────────────────────────────────────────
 function MobileHeroWidget({ goldKR, goldAU, lang }) {
   const ko = lang === 'ko';
