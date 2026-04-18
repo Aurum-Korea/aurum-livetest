@@ -515,9 +515,8 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
                     <span style={{ fontFamily: MONO, fontSize: 16, color: r.col, fontWeight: 600 }}>{r.v}</span>
                   </div>
                 ))}
-                {/* ── Visual premium bars (desktop only) ── */}
-                {!isMobile && (
-                  <div style={{ margin: '16px 0 12px' }}>
+                {/* ── Visual premium bars ── */}
+                <div style={{ margin: '16px 0 12px' }}>
                     <div style={{ fontFamily: MONO, fontSize: 10, color: '#555', letterSpacing: '0.12em', marginBottom: 10, textTransform: 'uppercase' }}>
                       {lang === 'ko' ? '프리미엄 시각화' : 'Premium Visualized'}
                     </div>
@@ -527,7 +526,7 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
                     ].map((bar, bi) => (
                       <div key={bi} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
                         <span style={{ fontFamily: MONO, fontSize: 10, color: '#666', width: 72, flexShrink: 0 }}>{bar.label}</span>
-                        <div style={{ flex: 1, height: 5, background: '#1e1e1e', position: 'relative', overflow: 'hidden' }}>
+                        <div style={{ flex: 1, height: isMobile ? 4 : 5, background: '#1e1e1e', position: 'relative', overflow: 'hidden' }}>
                           <div style={{
                             position: 'absolute', left: 0, top: 0, height: '100%',
                             background: `linear-gradient(90deg, ${bar.color}, ${bar.color}88)`,
@@ -540,7 +539,6 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
                       </div>
                     ))}
                   </div>
-                )}
                 <div style={{ background: 'rgba(74,222,128,0.05)', border: '1px solid rgba(74,222,128,0.2)', padding: '12px 14px', marginTop: isMobile ? 12 : 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontFamily: SANS, fontSize: 12, color: '#f5f0e8', fontWeight: 600 }}>{lang === 'ko' ? '절감 금액' : 'Your Savings'}</span>
                   <div style={{ textAlign: 'right' }}>

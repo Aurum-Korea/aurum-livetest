@@ -447,7 +447,7 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
             </p>
             {/* FIX 10: equal buttons — same padding, fontSize, flex:1, alignItems:stretch */}
             <div style={{ display:'flex', gap:10, flexDirection:isMobile?'column':'row', alignItems:'stretch' }}>
-              <button onClick={()=>navigate('agp-enroll')} style={{ flex:1, background:T.gold, border:'none', color:'#0a0a0a', padding:'14px 24px', fontSize:14, fontWeight:700, cursor:'pointer', fontFamily:T.sans }}>
+              <button onClick={()=>navigate('register')} style={{ flex:1, background:T.gold, border:'none', color:'#0a0a0a', padding:'14px 24px', fontSize:14, fontWeight:700, cursor:'pointer', fontFamily:T.sans }}>
                 {ko ? '파운더스 클럽 가입 →' : 'Join Founders Club →'}
               </button>
               <button onClick={()=>navigate('shop')} style={{ flex:1, background:'transparent', border:`1px solid ${T.goldBorder}`, color:T.textSub, padding:'14px 24px', fontSize:14, cursor:'pointer', fontFamily:T.sans }}>
@@ -459,47 +459,6 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
           {/* FIX 14: removed !isMobile guard — widgets now show on mobile too */}
           <GateProgressWidget userGate={userGate} krwRate={krwRate} lang={lang} />
           <LeaderboardWidget krwRate={krwRate} lang={lang} />
-        </div>
-      </div>
-
-      {/* Level strip — redesigned with emphasis */}
-      <div style={{ background: T.bg3, borderBottom: `1px solid ${T.goldBorder}` }}>
-        {/* Intro label */}
-        <div style={{ textAlign: 'center', padding: isMobile ? '14px 20px 4px' : '18px 20px 4px', borderBottom: `1px solid rgba(197,165,114,0.08)` }}>
-          <span style={{ fontFamily: T.mono, fontSize: 10, color: T.goldDim, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
-            {ko ? 'LIFETIME DISCOUNT · GMV 누적 시 자동 적용' : 'LIFETIME DISCOUNT · AUTO-APPLIED ON GMV ACCUMULATION'}
-          </span>
-        </div>
-        <div style={{ maxWidth: 1340, margin: '0 auto', display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(5,1fr)', gap: 0 }}>
-          {GATES.map((g, i) => {
-            const isOptimal = g.num === 'III';
-            const color = i < 2 ? T.goldDim : isOptimal ? '#4ade80' : T.gold;
-            return (
-              <div key={i} style={{
-                textAlign: 'center',
-                padding: isMobile ? '14px 8px' : isOptimal ? '28px 14px' : '22px 14px',
-                borderRight: !isMobile && i < 4 ? `1px solid ${T.goldBorder}` : 'none',
-                borderBottom: isMobile && i < 3 ? `1px solid ${T.goldBorder}` : 'none',
-                background: isOptimal ? 'rgba(74,222,128,0.04)' : 'transparent',
-                borderTop: isOptimal ? `2px solid rgba(74,222,128,0.5)` : `2px solid transparent`,
-                position: 'relative',
-              }}>
-                {isOptimal && (
-                  <div style={{ position: 'absolute', top: 8, left: '50%', transform: 'translateX(-50%)', background: 'rgba(74,222,128,0.15)', border: '1px solid rgba(74,222,128,0.4)', padding: '2px 8px', fontFamily: T.mono, fontSize: 8, color: '#4ade80', letterSpacing: '0.18em', whiteSpace: 'nowrap' }}>
-                    {ko ? '추천' : 'OPTIMAL'}
-                  </div>
-                )}
-                {/* Roman numeral decorative */}
-                <div style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile ? 10 : 13, color: 'rgba(197,165,114,0.25)', marginBottom: 2 }}>{g.num}</div>
-                {/* Discount — main value */}
-                <div style={{ fontFamily: T.mono, fontSize: isMobile ? 18 : isOptimal ? 30 : 24, color, fontWeight: 700, lineHeight: 1 }}>−{g.discount}%</div>
-                {/* Level name */}
-                <div style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile ? 9 : 11, color: isOptimal ? 'rgba(74,222,128,0.7)' : 'rgba(197,165,114,0.5)', marginTop: 4 }}>{ko ? g.label : g.labelEn}</div>
-                {/* GMV threshold */}
-                <div style={{ fontFamily: T.mono, fontSize: 9, color: T.textMuted, marginTop: 3, letterSpacing: '0.05em' }}>₩{Math.round(g.gmv * krwRate / 1000000).toFixed(0)}M+</div>
-              </div>
-            );
-          })}
         </div>
       </div>
 
@@ -583,26 +542,21 @@ export default function FoundersClubPage({ lang, navigate, user, setShowLogin, p
         <GMVCalculator prices={prices} krwRate={krwRate} lang={lang} />
       </div>
 
-      {/* ── CTA ── */}
-      <div style={{ padding:isMobile?'72px 20px':'110px 60px', background:`radial-gradient(ellipse at 50% 100%,rgba(197,165,114,0.15),transparent 60%),${T.bg}`, textAlign:'center', borderTop:`1px solid ${T.goldBorder}`, position:'relative', overflow:'hidden' }}>
-        <div style={{ position:'absolute', bottom:20, left:'50%', transform:'translateX(-50%)', fontFamily:T.serif, fontStyle:'italic', fontSize:isMobile?60:130, color:'rgba(197,165,114,0.022)', whiteSpace:'nowrap', userSelect:'none', letterSpacing:'0.12em' }}>FOUNDERS</div>
-        <div style={{ position:'relative', zIndex:1 }}>
-          <div style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:18, color:T.gold, letterSpacing:'0.2em', marginBottom:20, textTransform:'uppercase' }}>— Exclusive · First-Come, First-Served —</div>
-          <h2 style={{ fontFamily:T.serifKr, fontSize:isMobile?28:46, fontWeight:500, color:T.text, marginBottom:16, lineHeight:1.15 }}>
-            {ko ? <>지금 가입하면<br /><span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold }}>첫날부터 게이트가 시작됩니다</span></> : <>Join now and your <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold }}>gates start from day one</span></>}
-          </h2>
-          <p style={{ fontFamily:T.sans, fontSize:14, color:T.textSub, lineHeight:1.8, maxWidth:480, margin:'0 auto 36px' }}>
-            {ko ? 'Founders Club 멤버십은 한정 모집입니다. 조기 마감 시 재오픈 일정은 미정.' : 'Founders Club membership is limited. No reopening schedule if closed early.'}
-          </p>
-          {/* FIX 28: equal buttons — same padding, fontSize, minWidth, alignItems:stretch */}
-          <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap', alignItems:'stretch' }}>
-            <button onClick={()=>navigate('agp-enroll')} style={{ background:T.gold, border:'none', color:'#0a0a0a', padding:'16px 36px', fontSize:15, fontWeight:700, cursor:'pointer', fontFamily:T.sans, minWidth:220 }}>
-              {ko ? '파운더스 클럽 가입 →' : 'Join Founders Club →'}
-            </button>
-            <button onClick={()=>navigate('shop')} style={{ background:'transparent', border:`1px solid ${T.goldBorder}`, color:T.textSub, padding:'16px 36px', fontSize:15, cursor:'pointer', fontFamily:T.sans, minWidth:220 }}>
-              {ko ? '실물 구매로 시작' : 'Start with Physical'}
-            </button>
-          </div>
+      {/* ── Join CTA — permanent, no urgency copy ── */}
+      <div style={{ padding:isMobile?'56px 20px':'80px 60px', background:T.bg1, borderTop:`1px solid ${T.goldBorder}`, textAlign:'center' }}>
+        <div style={{ fontFamily:T.mono, fontSize:10, color:T.goldDim, letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:16 }}>
+          {ko ? 'Founders Club 가입' : 'Join Founders Club'}
+        </div>
+        <h2 style={{ fontFamily:T.serifKr, fontSize:'clamp(22px,2.5vw,32px)', fontWeight:300, color:T.text, marginBottom:12 }}>
+          {ko ? <>지금 가입하면 <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold }}>첫날부터 게이트가 시작됩니다</span></> : <>Your gates start <span style={{ fontFamily:T.serif, fontStyle:'italic', color:T.gold }}>from day one</span></>}
+        </h2>
+        <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap', marginTop:24 }}>
+          <button onClick={()=>navigate('register')} style={{ background:T.gold, border:'none', color:'#0a0a0a', padding:'14px 32px', fontSize:14, fontWeight:700, cursor:'pointer', fontFamily:T.sans }}>
+            {ko ? '가입하기 →' : 'Register →'}
+          </button>
+          <button onClick={()=>navigate('founders-promo')} style={{ background:'transparent', border:`1px solid ${T.goldBorder}`, color:T.textSub, padding:'14px 28px', fontSize:14, cursor:'pointer', fontFamily:T.sans }}>
+            {ko ? '한정 멤버십 안내' : 'Limited membership info'}
+          </button>
         </div>
       </div>
 

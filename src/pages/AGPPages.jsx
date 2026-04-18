@@ -49,27 +49,64 @@ export function AGPIntroPage({ lang, navigate }) {
         </div>
 
         {/* Main card */}
-        <div style={{
-          background: 'linear-gradient(180deg, #141414 0%, #0a0a0a 100%)',
-          border: `1px solid ${T.goldBorder}`, padding: 'clamp(40px,8vw,80px) clamp(24px,6vw,60px)',
-          minHeight: 420, display: 'flex', flexDirection: 'column', alignItems: 'center',
-          justifyContent: 'center', textAlign: 'center', position: 'relative', overflow: 'hidden',
-        }}>
-          <div style={{ position: 'absolute', top: -200, left: '50%', transform: 'translateX(-50%)', width: 600, height: 400, background: 'radial-gradient(ellipse, rgba(197,165,114,0.06), transparent 60%)', pointerEvents: 'none' }} />
-
-          <div style={{ fontFamily: T.mono, fontSize: 11, letterSpacing: '0.28em', color: T.gold, textTransform: 'uppercase', marginBottom: 28 }}>
-            AGP는 이렇게 작동합니다
+        {step === 4 ? (
+          /* ── Step 5 Redemption — gold achievement panel ── */
+          <div style={{
+            background: `linear-gradient(160deg, rgba(197,165,114,0.12) 0%, rgba(197,165,114,0.04) 50%, #0d0b08 100%)`,
+            border: `1px solid ${T.gold}`,
+            padding: 'clamp(40px,8vw,80px) clamp(24px,6vw,60px)',
+            minHeight: 420, display: 'flex', flexDirection: 'column', alignItems: 'center',
+            justifyContent: 'center', textAlign: 'center', position: 'relative', overflow: 'hidden',
+          }}>
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 500, height: 500, background: 'radial-gradient(ellipse, rgba(197,165,114,0.08) 0%, transparent 65%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <div style={{ fontFamily: T.mono, fontSize: 10, letterSpacing: '0.28em', color: T.goldDim, textTransform: 'uppercase', marginBottom: 20 }}>AGP 최종 단계</div>
+              {/* CSS Ingot */}
+              <div style={{ width: isMobile ? 120 : 160, height: isMobile ? 76 : 100, background: 'linear-gradient(135deg,#2a2418 0%,#4a3e26 35%,#C5A572 50%,#E3C187 55%,#C5A572 62%,#6a5a3a 80%,#2a2418 100%)', boxShadow: '0 16px 40px rgba(197,165,114,0.3), 0 0 0 1px rgba(197,165,114,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 28px', flexDirection: 'column', gap: 4 }}>
+                <div style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: 9, letterSpacing: '0.38em', color: 'rgba(26,24,20,0.85)' }}>A U R U M</div>
+                <div style={{ fontFamily: T.mono, fontSize: 7, letterSpacing: '0.22em', color: 'rgba(26,24,20,0.7)' }}>999.9 · 100g</div>
+              </div>
+              <h2 style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile ? 32 : 48, fontWeight: 400, color: T.gold, marginBottom: 12, lineHeight: 1.05 }}>
+                실물 바로 전환
+              </h2>
+              <p style={{ fontFamily: T.serif, fontSize: isMobile ? 16 : 20, fontWeight: 300, color: T.text, marginBottom: 28, lineHeight: 1.5, maxWidth: 460 }}>
+                100g 도달 시 LBMA 승인 실물 금바로 <em style={{ color: T.gold }}>무료</em> 전환.<br />또는 국제 현물가로 즉시 매도.
+              </p>
+              {/* 100g progress bar */}
+              <div style={{ maxWidth: 320, width: '100%', margin: '0 auto' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: T.mono, fontSize: 10, color: T.goldDim, marginBottom: 6 }}>
+                  <span>0g</span><span style={{ color: T.gold, fontWeight: 700 }}>100g 전환</span>
+                </div>
+                <div style={{ height: 6, background: 'rgba(197,165,114,0.12)', position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: '100%', background: `linear-gradient(90deg, ${T.goldDeep}, ${T.gold}, ${T.goldBright})`, boxShadow: `0 0 12px rgba(197,165,114,0.4)` }} />
+                </div>
+                <div style={{ fontFamily: T.mono, fontSize: 9, color: T.gold, textAlign: 'right', marginTop: 4, letterSpacing: '0.1em' }}>100% · 전환 가능</div>
+              </div>
+            </div>
           </div>
-          <div style={{ fontSize: isMobile ? 44 : 56, marginBottom: 28, filter: 'drop-shadow(0 0 40px rgba(197,165,114,0.3))' }}>
-            {current.icon}
+        ) : (
+          /* ── Steps 1–4 default card ── */
+          <div style={{
+            background: 'linear-gradient(180deg, #141414 0%, #0a0a0a 100%)',
+            border: `1px solid ${T.goldBorder}`, padding: 'clamp(40px,8vw,80px) clamp(24px,6vw,60px)',
+            minHeight: 420, display: 'flex', flexDirection: 'column', alignItems: 'center',
+            justifyContent: 'center', textAlign: 'center', position: 'relative', overflow: 'hidden',
+          }}>
+            <div style={{ position: 'absolute', top: -200, left: '50%', transform: 'translateX(-50%)', width: 600, height: 400, background: 'radial-gradient(ellipse, rgba(197,165,114,0.06), transparent 60%)', pointerEvents: 'none' }} />
+            <div style={{ fontFamily: T.mono, fontSize: 11, letterSpacing: '0.28em', color: T.gold, textTransform: 'uppercase', marginBottom: 28 }}>
+              AGP는 이렇게 작동합니다
+            </div>
+            <div style={{ fontSize: isMobile ? 44 : 56, marginBottom: 28, filter: 'drop-shadow(0 0 40px rgba(197,165,114,0.3))' }}>
+              {current.icon}
+            </div>
+            <h2 style={{ fontFamily: T.serif, fontSize: 'clamp(32px,4.5vw,52px)', fontWeight: 400, color: T.text, marginBottom: 28, letterSpacing: '-0.01em' }}>
+              {current.kr}
+            </h2>
+            <p style={{ maxWidth: 540, color: T.textSub, fontSize: 16, lineHeight: 1.8, fontFamily: T.sans }}>
+              {current.desc}
+            </p>
           </div>
-          <h2 style={{ fontFamily: T.serif, fontSize: 'clamp(32px,4.5vw,52px)', fontWeight: 400, color: T.text, marginBottom: 28, letterSpacing: '-0.01em' }}>
-            {current.kr}
-          </h2>
-          <p style={{ maxWidth: 540, color: T.textSub, fontSize: 16, lineHeight: 1.8, fontFamily: T.sans }}>
-            {current.desc}
-          </p>
-        </div>
+        )}
 
         {/* Navigation */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 28, gap: 16 }}>
@@ -134,7 +171,7 @@ export function AGPIntroPage({ lang, navigate }) {
 /* ═══════════════════════════════════════════════════════════════════════
    AGP ENROLL — full sign-up form
    ═══════════════════════════════════════════════════════════════════════ */
-export function AGPEnrollPage({ lang, navigate, prices = { gold: 3400 }, krwRate = 1460 }) {
+export function AGPEnrollPage({ lang, navigate, prices = { gold: 3400 }, krwRate = 1460, user, setShowLogin }) {
   const ko = lang === 'ko';
   const isMobile = useIsMobile();
   const [formStep, setFormStep] = useState(1);
@@ -326,7 +363,12 @@ export function AGPEnrollPage({ lang, navigate, prices = { gold: 3400 }, krwRate
 
             <div style={{ display: 'flex', gap: 10 }}>
               <button onClick={() => setFormStep(3)} className="btn-outline" style={{ flex: 1 }}>← {ko ? '이전' : 'Back'}</button>
-              {user && user.kycStatus !== 'verified' ? (
+              {!user ? (
+                <button onClick={() => setShowLogin && setShowLogin(true)} style={{
+                  flex: 2, background: T.gold, border: 'none', color: '#0a0a0a',
+                  padding: '15px', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: T.sans,
+                }}>{ko ? '로그인 후 가입' : 'Login to Enroll'}</button>
+              ) : user.kycStatus !== 'verified' ? (
                 <div style={{ flex: 2, background: T.border, padding: '15px', textAlign: 'center' }}>
                   <div style={{ fontFamily: T.mono, fontSize: 11, color: T.amber, letterSpacing: '0.1em' }}>KYC 검토 중 — 1-2 영업일 후 거래 가능</div>
                 </div>

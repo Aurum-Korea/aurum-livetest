@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import { T, useIsMobile, fUSD, fKRW, API } from '../lib/index.jsx';
+import { T, useIsMobile, fUSD, fKRW, API, getStorageRate, KR_GOLD_PREMIUM, KR_SILVER_PREMIUM, AURUM_GOLD_PREMIUM, AURUM_SILVER_PREMIUM } from '../lib/index.jsx';
 import { PaymentMethodCard, ConsentCheckbox } from '../components/UI.jsx';
+
+// Issue 9: ₩ in sans so it renders in JetBrains Mono contexts
+const Won = () => <span style={{ fontFamily: "'Pretendard','Outfit',sans-serif" }}>₩</span>;
 
 /* ═══════════════════════════════════════════════════════════════════════
    CART PAGE
@@ -98,28 +101,9 @@ export function CartPage({ lang, navigate, cart, removeFromCart, updateCartQty, 
 /* ═══════════════════════════════════════════════════════════════════════
    CHECKOUT PAGE
    ═══════════════════════════════════════════════════════════════════════ */
-export function CheckoutPage({ lang, navigate, cart, clearCart, prices, krwRate, user, addOrder, toast, currency, setCurrency, initialPayMethod }) {
+export function CheckoutPage({ lang, navigate, cart, clearCart, prices, krwRate, user, addOrder, toast, currency, setCurrency, initialPayMethod, setShowLogin }) {
   const ko = lang === 'ko';
   const isMobile = useIsMobile();
-  // TIER 4 (8C): Gate unauthenticated users to account creation
-  if (!user) {
-    return (
-      <div style={{ minHeight:'70vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:20, padding:'60px 20px', textAlign:'center' }}>
-        <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:28, fontWeight:300, color:'#f5f0e8' }}>
-          {ko ? '계좌가 필요합니다' : 'Account Required'}
-        </div>
-        <div style={{ fontFamily:"'Outfit',sans-serif", fontSize:15, color:'#a09080', maxWidth:400, lineHeight:1.65 }}>
-          {ko ? 'Aurum 계좌 하나로 실물 금·은 매수와 AGP 적립 모두 이용할 수 있습니다.' : 'One Aurum account gives you access to physical metal purchases and AGP savings.'}
-        </div>
-        <button onClick={() => navigate('agp-enroll')} style={{ background:'linear-gradient(135deg,#c5a572,#8a6914)', color:'#fff', border:'none', padding:'14px 32px', fontSize:15, fontWeight:700, cursor:'pointer', fontFamily:"'Outfit',sans-serif", borderRadius:6 }}>
-          {ko ? '계좌 만들기 →' : 'Create Account →'}
-        </button>
-        <button onClick={() => navigate('cart')} style={{ background:'transparent', color:'#a09080', border:'1px solid #282828', padding:'12px 24px', fontSize:14, cursor:'pointer', fontFamily:"'Outfit',sans-serif", borderRadius:6 }}>
-          {ko ? '← 장바구니로' : '← Back to Cart'}
-        </button>
-      </div>
-    );
-  }
   const [step, setStep] = useState(1);
   const [payMethod, setPayMethod] = useState(initialPayMethod || 'toss');
   const [consents, setConsents] = useState({ terms:false, privacy:false, marketing:false });
@@ -162,15 +146,42 @@ export function CheckoutPage({ lang, navigate, cart, clearCart, prices, krwRate,
           <div>
             <div style={{ background:T.bg1, border:`1px solid ${T.border}`, padding:'20px 24px', marginBottom:20 }}>
               <div style={{ fontFamily:T.mono, fontSize:10, color:T.textMuted, letterSpacing:'0.2em', marginBottom:14, textTransform:'uppercase' }}>{ko?'주문 내역':'Order Items'}</div>
-              {cart.map((item,i) => (
-                <div key={i} style={{ display:'flex', justifyContent:'space-between', padding:'8px 0', borderBottom: i<cart.length-1 ? `1px solid ${T.border}` : 'none' }}>
-                  <span style={{ fontFamily:T.sans, fontSize:13, color:T.text }}>{ko?item.nameKo:item.name} ×{item.qty}</span>
-                  <span style={{ fontFamily:T.mono, fontSize:13, color:T.gold }}>{fP(item.price*item.qty)}</span>
-                </div>
-              ))}
+              {cart.map((item,i) => {
+                const krPremium   = item.metal === 'gold' ? KR_GOLD_PREMIUM   : KR_SILVER_PREMIUM;
+                const auPremium   = item.metal === 'gold' ? AURUM_GOLD_PREMIUM : AURUM_SILVER_PREMIUM;
+                const spotUSD     = item.price / (1 + auPremium);
+                const koreaUSD    = spotUSD * (1 + krPremium);
+                const savingsUSD  = (koreaUSD - item.price) * item.qty;
+                const storageRate = getStorageRate(user);
+                return (
+                  <div key={i} style={{ borderBottom: i<cart.length-1 ? `1px solid ${T.border}` : 'none', paddingBottom:12, marginBottom:12 }}>
+                    {/* Name + price row */}
+                    <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:6 }}>
+                      <span style={{ fontFamily:T.sans, fontSize:13, color:T.text, flex:1, marginRight:12 }}>{ko?item.nameKo:item.name} ×{item.qty}</span>
+                      <span style={{ fontFamily:T.sans, fontSize:13, color:T.gold, flexShrink:0 }}>{fP(item.price*item.qty)}</span>
+                    </div>
+                    {/* Transparency rows */}
+                    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'3px 12px', paddingLeft:8 }}>
+                      {[
+                        { label: ko?'순도':'Purity',          val: item.purity || '99.99%',             color: T.textSub },
+                        { label: ko?'Aurum 프리미엄':'Premium', val: `+${(auPremium*100).toFixed(0)}%`,  color: T.textSub },
+                        { label: ko?'한국 시세':'Korea retail', val: fP(koreaUSD),                       color: T.textMuted },
+                        { label: ko?'보관료':'Storage rate',   val: `${storageRate}% p.a.`,               color: T.textSub },
+                        { label: ko?'보관 위치':'Vault',        val: 'Malca-Amit SG FTZ',                color: T.textMuted },
+                        { label: ko?'한국 대비 절감':'Savings vs Korea', val: `+${fP(savingsUSD/item.qty)} /oz`, color: '#4ade80' },
+                      ].map((r,ri) => (
+                        <div key={ri} style={{ display:'flex', justifyContent:'space-between', gap:4 }}>
+                          <span style={{ fontFamily:T.mono, fontSize:9, color:T.textMuted, letterSpacing:'0.08em' }}>{r.label}</span>
+                          <span style={{ fontFamily:T.sans, fontSize:10, color:r.color, textAlign:'right' }}>{r.val}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
               <div style={{ display:'flex', justifyContent:'space-between', paddingTop:12, marginTop:4 }}>
                 <span style={{ fontFamily:T.sans, fontSize:15, color:T.text, fontWeight:600 }}>{ko?'합계':'Total'}</span>
-                <span style={{ fontFamily:T.mono, fontSize:18, color:T.gold, fontWeight:700 }}>{fP(total)}</span>
+                <span style={{ fontFamily:T.sans, fontSize:18, color:T.gold, fontWeight:700 }}>{fP(total)}</span>
               </div>
             </div>
 
@@ -219,7 +230,12 @@ export function CheckoutPage({ lang, navigate, cart, clearCart, prices, krwRate,
             </div>
             <div style={{ display:'flex', gap:10 }}>
               <button onClick={() => setStep(1)} className="btn-outline" style={{ flex:1 }}>← {ko?'이전':'Back'}</button>
-              {user && user.kycStatus !== 'verified' ? (
+              {!user ? (
+                <button onClick={() => setShowLogin && setShowLogin(true)} style={{
+                  flex:2, background:T.gold, border:'none', color:'#0a0a0a', padding:'15px', fontSize:15,
+                  fontWeight:700, cursor:'pointer', fontFamily:T.sans,
+                }}>{ko ? '로그인 후 결제' : 'Login to Pay'}</button>
+              ) : user.kycStatus !== 'verified' ? (
                 <div style={{ flex:2, background:T.border, padding:'15px', textAlign:'center' }}>
                   <div style={{ fontFamily:T.mono, fontSize:11, color:T.amber, letterSpacing:'0.1em' }}>KYC 검토 중 — 1-2 영업일 후 거래 가능</div>
                 </div>

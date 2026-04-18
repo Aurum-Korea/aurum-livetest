@@ -183,9 +183,9 @@ export const WHY_SILVER_STATS = [
   { value:'>60%', label:'산업·기술 수요 비중' }, { value:'품귀', label:'한국 은행 은 공급' },
 ];
 export const WHY_SILVER_REASONS = [
-  { icon:'⚡', titleKo:'산업의 필수 금속', titleEn:'Industrial Backbone', body:'태양광 패널, 전기차, 5G 전자기기, AI 데이터센터, 방위산업 모두 은에 의존합니다. 이 수요는 구조적이며 가속화되고 있습니다.', stat:'>60%', statLabel:'산업·기술 글로벌 수요 비중 (2026)' },
-  { icon:'📉', titleKo:'구조적 공급 부족', titleEn:'Structural Supply Deficit', body:'은 시장은 2026년 6년 연속 부족을 기록하며, 6,700만 온스 부족이 예상됩니다. 중국의 수출 통제 강화로 공급이 더욱 타이트해졌습니다.', stat:'67 Moz', statLabel:'2026년 예상 공급 부족' },
-  { icon:'🏅', titleKo:'한국 접근 프리미엄', titleEn:'Korean Access Premium', body:'한국 은행들은 만성적인 부족으로 은바 판매를 반복적으로 중단했습니다. Aurum은 국제 현물가로 해외 배분 방식을 통해 이 문제를 해결합니다.', stat:'+394%', statLabel:'최근 10년 금 수익률 (KRW 기준)' },
+  { icon:'circuit', titleKo:'산업의 필수 금속', titleEn:'Industrial Backbone', body:'태양광 패널, 전기차, 5G 전자기기, AI 데이터센터, 방위산업 모두 은에 의존합니다. 이 수요는 구조적이며 가속화되고 있습니다.', stat:'>60%', statLabel:'산업·기술 글로벌 수요 비중 (2026)' },
+  { icon:'chartdown', titleKo:'구조적 공급 부족', titleEn:'Structural Supply Deficit', body:'은 시장은 2026년 6년 연속 부족을 기록하며, 6,700만 온스 부족이 예상됩니다. 중국의 수출 통제 강화로 공급이 더욱 타이트해졌습니다.', stat:'67 Moz', statLabel:'2026년 예상 공급 부족' },
+  { icon:'flag', titleKo:'한국 접근 프리미엄', titleEn:'Korean Access Premium', body:'한국 은행들은 만성적인 부족으로 은바 판매를 반복적으로 중단했습니다. Aurum은 국제 현물가로 해외 배분 방식을 통해 이 문제를 해결합니다.', stat:'+394%', statLabel:'최근 10년 금 수익률 (KRW 기준)' },
 ];
 
 const STATIC_NEWS = [
@@ -309,4 +309,12 @@ export function useToast() {
     setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), 3800);
   }, []);
   return { toasts, show };
+}
+
+// ─── getStorageRate — returns annual storage % based on Founders gate ─────────
+export function getStorageRate(user) {
+  const gate = user?.foundersGate ?? user?.gate ?? 0;
+  if (gate >= 5) return 0.30;
+  if (gate >= 3) return 0.50;
+  return 0.75;
 }

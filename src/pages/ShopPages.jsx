@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { T, useIsMobile, calcPrice, fUSD, fKRW, PRODUCTS } from '../lib/index.jsx';
+import { T, useIsMobile, calcPrice, fUSD, fKRW, PRODUCTS, getStorageRate } from '../lib/index.jsx';
 import { Badge, StatBar, SectionHead, FlagSG } from '../components/UI.jsx';
 import { initMagneticCards } from '../lib/magnetic.js';
 
@@ -148,16 +148,22 @@ export function ShopPage({ lang, navigate, setProduct, prices, krwRate, addToCar
                 </div>
                 <div style={{ padding: isMobile ? '16px 20px 20px' : '20px 24px 24px' }}>
                   <div style={{ fontFamily: T.mono, fontSize: 10, color: T.textMuted, letterSpacing: '0.15em', marginBottom: 8, textTransform: 'uppercase' }}>{product.mint}</div>
-                  <h3 style={{ fontFamily: T.sansKr, fontSize: 15, fontWeight: 500, color: T.text, marginBottom: 6, lineHeight: 1.4 }}>{ko ? product.nameKo : product.name}</h3>
+                  {/* Issue 8: overflow protection for long names */}
+                  <h3 style={{ fontFamily: T.sansKr, fontSize: 13, fontWeight: 500, color: T.text, marginBottom: 6, lineHeight: 1.4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{ko ? product.nameKo : product.name}</h3>
                   <p style={{ fontFamily: T.sans, fontSize: 12, color: T.textSub, lineHeight: 1.95, marginBottom: 18 }}>{product.descKo}</p>
-                  <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+                  <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
                     {[product.weight, product.purity, product.type === 'bar' ? (ko ? '바' : 'Bar') : (ko ? '코인' : 'Coin')].map((tag, i) => (
                       <span key={i} style={{ fontFamily: T.mono, fontSize: 10, color: T.goldDim, border: `1px solid ${T.border}`, padding: '3px 8px', letterSpacing: '0.1em' }}>{tag}</span>
                     ))}
                   </div>
+                  {/* Issue 7: storage rate from user tier */}
+                  <div style={{ fontFamily: T.mono, fontSize: 9, color: T.textMuted, letterSpacing: '0.08em', marginBottom: 12 }}>
+                    {ko ? '보관료' : 'Storage'}: {getStorageRate(user)}% p.a. · Malca-Amit SG
+                  </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <div style={{ fontFamily: T.mono, fontSize: 20, color: T.gold, fontWeight: 600 }}>{fP(price)}</div>
+                      {/* Issue 9: ₩ in sans font */}
+                      <div style={{ fontFamily: T.sans, fontSize: 20, color: T.gold, fontWeight: 600 }}>{fP(price)}</div>
                       {currency === 'KRW' && <div style={{ fontFamily: T.mono, fontSize: 11, color: T.textMuted }}>≈ {fUSD(price)}</div>}
                     </div>
                     <button onClick={e => { e.stopPropagation(); addToCart(product); toast(ko ? '장바구니에 추가됨' : 'Added to cart'); }} style={{
@@ -192,7 +198,6 @@ export function ProductPage({ product, lang, navigate, prices, krwRate, user, se
   const storageFee = storage === 'singapore' ? 0.15 : 0;
 
   const handleAdd = () => {
-    if (!user) { navigate('agp-enroll'); return; }
     addToCart(product, qty, storage);
     toast(ko ? `${ko ? product.nameKo : product.name} 장바구니에 추가됨` : `Added to cart`);
   };
