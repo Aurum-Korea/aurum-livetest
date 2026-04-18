@@ -134,7 +134,7 @@ export function AGPIntroPage({ lang, navigate }) {
 /* ═══════════════════════════════════════════════════════════════════════
    AGP ENROLL — full sign-up form
    ═══════════════════════════════════════════════════════════════════════ */
-export function AGPEnrollPage({ lang, navigate, prices = { gold: 3400 }, krwRate = 1460 }) {
+export function AGPEnrollPage({ lang, navigate, prices = { gold: 3400 }, krwRate = 1460, user, setShowLogin }) {
   const ko = lang === 'ko';
   const isMobile = useIsMobile();
   const [formStep, setFormStep] = useState(1);
@@ -326,13 +326,24 @@ export function AGPEnrollPage({ lang, navigate, prices = { gold: 3400 }, krwRate
 
             <div style={{ display: 'flex', gap: 10 }}>
               <button onClick={() => setFormStep(3)} className="btn-outline" style={{ flex: 1 }}>← {ko ? '이전' : 'Back'}</button>
-              <button onClick={handleEnroll} disabled={!form.agreeTerms || !form.agreePrivacy || submitting} style={{
-                flex: 2, background: form.agreeTerms && form.agreePrivacy && !submitting ? T.gold : T.border,
-                border: 'none', color: form.agreeTerms && form.agreePrivacy && !submitting ? '#0a0a0a' : T.textMuted,
-                padding: '15px', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: T.sans,
-              }}>
-                {submitting ? (ko ? '처리 중...' : 'Processing...') : (ko ? 'AGP 가입 완료' : 'Complete Enrollment')}
-              </button>
+              {!user ? (
+                <button onClick={() => setShowLogin && setShowLogin(true)} style={{
+                  flex: 2, background: T.gold, border: 'none', color: '#0a0a0a',
+                  padding: '15px', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: T.sans,
+                }}>{ko ? '로그인 후 가입' : 'Login to Enroll'}</button>
+              ) : user.kycStatus !== 'verified' ? (
+                <div style={{ flex: 2, background: T.border, padding: '15px', textAlign: 'center' }}>
+                  <div style={{ fontFamily: T.mono, fontSize: 11, color: T.amber, letterSpacing: '0.1em' }}>KYC 검토 중 — 1-2 영업일 후 거래 가능</div>
+                </div>
+              ) : (
+                <button onClick={handleEnroll} disabled={!form.agreeTerms || !form.agreePrivacy || submitting} style={{
+                  flex: 2, background: form.agreeTerms && form.agreePrivacy && !submitting ? T.gold : T.border,
+                  border: 'none', color: form.agreeTerms && form.agreePrivacy && !submitting ? '#0a0a0a' : T.textMuted,
+                  padding: '15px', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: T.sans,
+                }}>
+                  {submitting ? (ko ? '처리 중...' : 'Processing...') : (ko ? 'AGP 가입 완료' : 'Complete Enrollment')}
+                </button>
+              )}
             </div>
           </div>
         )}

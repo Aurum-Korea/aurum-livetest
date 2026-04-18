@@ -98,28 +98,9 @@ export function CartPage({ lang, navigate, cart, removeFromCart, updateCartQty, 
 /* ═══════════════════════════════════════════════════════════════════════
    CHECKOUT PAGE
    ═══════════════════════════════════════════════════════════════════════ */
-export function CheckoutPage({ lang, navigate, cart, clearCart, prices, krwRate, user, addOrder, toast, currency, setCurrency, initialPayMethod }) {
+export function CheckoutPage({ lang, navigate, cart, clearCart, prices, krwRate, user, addOrder, toast, currency, setCurrency, initialPayMethod, setShowLogin }) {
   const ko = lang === 'ko';
   const isMobile = useIsMobile();
-  // TIER 4 (8C): Gate unauthenticated users to account creation
-  if (!user) {
-    return (
-      <div style={{ minHeight:'70vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:20, padding:'60px 20px', textAlign:'center' }}>
-        <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:28, fontWeight:300, color:'#f5f0e8' }}>
-          {ko ? '계좌가 필요합니다' : 'Account Required'}
-        </div>
-        <div style={{ fontFamily:"'Outfit',sans-serif", fontSize:15, color:'#a09080', maxWidth:400, lineHeight:1.65 }}>
-          {ko ? 'Aurum 계좌 하나로 실물 금·은 매수와 AGP 적립 모두 이용할 수 있습니다.' : 'One Aurum account gives you access to physical metal purchases and AGP savings.'}
-        </div>
-        <button onClick={() => navigate('agp-enroll')} style={{ background:'linear-gradient(135deg,#c5a572,#8a6914)', color:'#fff', border:'none', padding:'14px 32px', fontSize:15, fontWeight:700, cursor:'pointer', fontFamily:"'Outfit',sans-serif", borderRadius:6 }}>
-          {ko ? '계좌 만들기 →' : 'Create Account →'}
-        </button>
-        <button onClick={() => navigate('cart')} style={{ background:'transparent', color:'#a09080', border:'1px solid #282828', padding:'12px 24px', fontSize:14, cursor:'pointer', fontFamily:"'Outfit',sans-serif", borderRadius:6 }}>
-          {ko ? '← 장바구니로' : '← Back to Cart'}
-        </button>
-      </div>
-    );
-  }
   const [step, setStep] = useState(1);
   const [payMethod, setPayMethod] = useState(initialPayMethod || 'toss');
   const [consents, setConsents] = useState({ terms:false, privacy:false, marketing:false });
@@ -219,11 +200,22 @@ export function CheckoutPage({ lang, navigate, cart, clearCart, prices, krwRate,
             </div>
             <div style={{ display:'flex', gap:10 }}>
               <button onClick={() => setStep(1)} className="btn-outline" style={{ flex:1 }}>← {ko?'이전':'Back'}</button>
-              <button onClick={handleSubmit} disabled={submitting} style={{
-                flex:2, background: submitting ? T.border : T.gold, border:'none',
-                color: submitting ? T.textMuted : '#0a0a0a', padding:'15px', fontSize:15,
-                fontWeight:700, cursor: submitting ? 'not-allowed' : 'pointer', fontFamily:T.sans,
-              }}>{submitting ? (ko?'처리 중...':'Processing...') : (ko?'결제 완료':'Confirm Payment')}</button>
+              {!user ? (
+                <button onClick={() => setShowLogin && setShowLogin(true)} style={{
+                  flex:2, background:T.gold, border:'none', color:'#0a0a0a', padding:'15px', fontSize:15,
+                  fontWeight:700, cursor:'pointer', fontFamily:T.sans,
+                }}>{ko ? '로그인 후 결제' : 'Login to Pay'}</button>
+              ) : user.kycStatus !== 'verified' ? (
+                <div style={{ flex:2, background:T.border, padding:'15px', textAlign:'center' }}>
+                  <div style={{ fontFamily:T.mono, fontSize:11, color:T.amber, letterSpacing:'0.1em' }}>KYC 검토 중 — 1-2 영업일 후 거래 가능</div>
+                </div>
+              ) : (
+                <button onClick={handleSubmit} disabled={submitting} style={{
+                  flex:2, background: submitting ? T.border : T.gold, border:'none',
+                  color: submitting ? T.textMuted : '#0a0a0a', padding:'15px', fontSize:15,
+                  fontWeight:700, cursor: submitting ? 'not-allowed' : 'pointer', fontFamily:T.sans,
+                }}>{submitting ? (ko?'처리 중...':'Processing...') : (ko?'결제 완료':'Confirm Payment')}</button>
+              )}
             </div>
           </div>
         )}

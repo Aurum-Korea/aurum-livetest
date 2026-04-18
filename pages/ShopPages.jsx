@@ -25,7 +25,7 @@ export function ShopSelectorPage({ lang, navigate }) {
             {ko ? '매장' : 'Shop'}
             <span style={{ display: 'inline-block', width: 28, height: 1, background: T.gold }} />
           </div>
-          <h1 style={{ fontFamily: T.serifKr, fontSize: 'clamp(28px,5vw,52px)', fontWeight: 500, color: T.text, lineHeight: 1.2, marginBottom: 20 }}>
+          <h1 style={{ fontFamily: ko ? T.serifKrDisplay : T.serifKr, fontSize: 'clamp(28px,5vw,52px)', fontWeight: 500, color: T.text, lineHeight: 1.2, marginBottom: 20 }}>
             {ko ? '어떻게 시작하시겠습니까?' : 'How Would You Like to Begin?'}
           </h1>
           <p style={{ maxWidth: 580, margin: '0 auto', color: T.textSub, fontSize: 15, lineHeight: 1.8, fontFamily: T.sans }}>
@@ -59,7 +59,7 @@ export function ShopSelectorPage({ lang, navigate }) {
             <div style={{ position: 'absolute', top: 24, right: 24 }}><Badge>추천</Badge></div>
             {/* M-9: icon box 48px mobile */}
             <div style={{ width: isMobile ? 48 : 72, height: isMobile ? 48 : 72, border: `1px solid ${T.goldBorderStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: isMobile ? 20 : 32, fontFamily: T.serif, fontSize: isMobile ? 18 : 24, fontWeight: 500, color: T.gold, letterSpacing: '0.06em' }}>AGP</div>
-            <h2 style={{ fontFamily: T.serifKr, fontSize: isMobile ? 22 : 28, fontWeight: 600, color: T.text, marginBottom: 16, lineHeight: 1.2 }}>{ko ? 'AGP 적립 Plan' : 'AGP 적립 Plan'}</h2>
+            <h2 style={{ fontFamily: T.serifKr, fontSize: isMobile ? 22 : 28, fontWeight: 600, color: T.text, marginBottom: 16, lineHeight: 1.2 }}>{ko ? 'AGP 적금 Plan' : 'AGP 적금 Plan'}</h2>
             <p style={{ color: T.textSub, fontSize: 14, lineHeight: 1.8, marginBottom: 24, fontFamily: T.sans, flex: 1 }}>
               {ko ? '월 20만원부터 시작하는 그램 단위 자동 적립. 토스뱅크 자동이체, 신용카드, 암호화폐로 입금하고 100g 도달 시 실물 바로 무료 전환.' : 'Automated gram accumulation from KRW 200,000/month. Fund via Toss Bank, credit card, or crypto — convert free to a physical bar at 100g.'}
             </p>
@@ -73,7 +73,7 @@ export function ShopSelectorPage({ lang, navigate }) {
             </div>
           </div>
         </div>
-        <p style={{ textAlign: 'center', marginTop: 32, fontSize: 12, color: T.textMuted, fontFamily: T.sans, lineHeight: 1.7 }}>
+        <p style={{ textAlign: 'center', marginTop: 32, fontSize: 12, color: T.textMuted, fontFamily: T.sans, lineHeight: 1.9 }}>
           {ko ? <>모든 귀금속은 싱가포르 Malca-Amit FTZ에 완전 배분 보관됩니다. Lloyd's of London 보험 적용. <FlagSG /></> : <>All precious metals are fully allocated at Malca-Amit Singapore FTZ. Insured by Lloyd's of London. <FlagSG /></>}
         </p>
       </div>
@@ -149,7 +149,7 @@ export function ShopPage({ lang, navigate, setProduct, prices, krwRate, addToCar
                 <div style={{ padding: isMobile ? '16px 20px 20px' : '20px 24px 24px' }}>
                   <div style={{ fontFamily: T.mono, fontSize: 10, color: T.textMuted, letterSpacing: '0.15em', marginBottom: 8, textTransform: 'uppercase' }}>{product.mint}</div>
                   <h3 style={{ fontFamily: T.sansKr, fontSize: 15, fontWeight: 500, color: T.text, marginBottom: 6, lineHeight: 1.4 }}>{ko ? product.nameKo : product.name}</h3>
-                  <p style={{ fontFamily: T.sans, fontSize: 12, color: T.textSub, lineHeight: 1.65, marginBottom: 18 }}>{product.descKo}</p>
+                  <p style={{ fontFamily: T.sans, fontSize: 12, color: T.textSub, lineHeight: 1.95, marginBottom: 18 }}>{product.descKo}</p>
                   <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
                     {[product.weight, product.purity, product.type === 'bar' ? (ko ? '바' : 'Bar') : (ko ? '코인' : 'Coin')].map((tag, i) => (
                       <span key={i} style={{ fontFamily: T.mono, fontSize: 10, color: T.goldDim, border: `1px solid ${T.border}`, padding: '3px 8px', letterSpacing: '0.1em' }}>{tag}</span>
@@ -192,7 +192,6 @@ export function ProductPage({ product, lang, navigate, prices, krwRate, user, se
   const storageFee = storage === 'singapore' ? 0.15 : 0;
 
   const handleAdd = () => {
-    if (!user) { navigate('agp-enroll'); return; }
     addToCart(product, qty, storage);
     toast(ko ? `${ko ? product.nameKo : product.name} 장바구니에 추가됨` : `Added to cart`);
   };
@@ -251,7 +250,7 @@ export function ProductPage({ product, lang, navigate, prices, krwRate, user, se
             <div style={{ marginBottom: 20 }}>
               <div style={{ fontFamily: T.sans, fontSize: 12, color: T.textMuted, marginBottom: 8 }}>{ko ? '보관 옵션' : 'Storage'}</div>
               {[
-                { k: 'singapore', label: ko ? '싱가포르 Malca-Amit FTZ' : 'Singapore Malca-Amit FTZ', fee: ko ? '₩3,000/g/년 (연간 0.15%)' : '0.15% p.a.' },
+                { k: 'singapore', label: ko ? '싱가포르 Malca-Amit FTZ' : 'Singapore Malca-Amit FTZ', fee: ko ? '₩3,000/g/년 (연간 from 0.30% p.a.)' : 'from 0.30% p.a. p.a.' },
               ].map(opt => (
                 <button key={opt.k} onClick={() => setStorage(opt.k)} style={{
                   width: '100%', background: storage === opt.k ? T.goldGlow : T.bg1,
