@@ -86,7 +86,7 @@ export default function LandingPopup({ lang, navigate }) {
         </div>
 
         <div style={{ marginTop:'auto', display:'flex', gap:10, flexDirection: isMobile?'column':'row' }}>
-          <button onClick={() => { navigate('agp'); dismiss(); }}
+          <button onClick={() => { navigate('campaign-agp-launch'); dismiss(); }}
             style={{ flex:2, background:T.gold, border:'none', color:'#0a0a0a', padding:'14px 20px', fontSize:15, fontWeight:700, cursor:'pointer', fontFamily:SANS }}>
             {ko?'AGP 론치 이벤트 참여 →':'Join AGP Launch Event →'}
           </button>
