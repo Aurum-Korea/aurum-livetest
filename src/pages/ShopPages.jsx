@@ -153,11 +153,11 @@ export function ShopPage({ lang, navigate, setProduct, prices, krwRate, user, ad
                   <p style={{ fontFamily: T.sans, fontSize: 12, color: T.textSub, lineHeight: 1.95, marginBottom: 18 }}>{product.descKo}</p>
                   <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
                     {[product.weight, product.purity, product.type === 'bar' ? (ko ? '바' : 'Bar') : (ko ? '코인' : 'Coin')].map((tag, i) => (
-                      <span key={i} style={{ fontFamily: T.mono, fontSize: 10, color: T.goldDim, border: `1px solid ${T.border}`, padding: '3px 8px', letterSpacing: '0.1em' }}>{tag}</span>
+                      <span key={i} style={{ fontFamily: T.mono, fontSize: isMobile ? 11 : 10, color: T.goldDim, border: `1px solid ${T.border}`, padding: '3px 8px', letterSpacing: '0.08em' }}>{tag}</span>
                     ))}
                   </div>
-                  {/* Issue 7: storage rate from user tier */}
-                  <div style={{ fontFamily: T.mono, fontSize: 9, color: T.textMuted, letterSpacing: '0.08em', marginBottom: 12 }}>
+                  {/* Storage rate */}
+                  <div style={{ fontFamily: T.mono, fontSize: isMobile ? 11 : 10, color: T.textMuted, letterSpacing: '0.06em', marginBottom: 12 }}>
                     {ko ? '보관료' : 'Storage'}: {getStorageRate(user)}% p.a. · Malca-Amit SG
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -166,10 +166,16 @@ export function ShopPage({ lang, navigate, setProduct, prices, krwRate, user, ad
                       <div style={{ fontFamily: T.sans, fontSize: 20, color: T.gold, fontWeight: 600 }}>{fP(price)}</div>
                       {currency === 'KRW' && <div style={{ fontFamily: T.mono, fontSize: 11, color: T.textMuted }}>≈ {fUSD(price)}</div>}
                     </div>
+                    <div style={{ display:'flex', gap:6, alignItems:'center' }}>
                     <button onClick={e => { e.stopPropagation(); addToCart(product); toast(ko ? '장바구니에 추가됨' : 'Added to cart'); }} style={{
-                      background: T.gold, border: 'none', color: '#0a0a0a', padding: '9px 18px',
+                      background: T.gold, border: 'none', color: '#0a0a0a', padding: '9px 16px',
                       fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: T.sans, borderRadius: 0,
                     }}>+ {ko ? '담기' : 'Add'}</button>
+                    <button onClick={e => { e.stopPropagation(); navigate('cart'); }} style={{
+                      background: 'transparent', border: `1px solid ${T.goldBorder}`, color: T.gold, padding: '9px 12px',
+                      fontSize: 11, cursor: 'pointer', fontFamily: T.sans, borderRadius: 0, whiteSpace:'nowrap',
+                    }}>{ko?'카트 →':'Cart →'}</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -197,9 +203,12 @@ export function ProductPage({ product, lang, navigate, prices, krwRate, user, se
   const fP = usd => currency === 'KRW' ? fKRW(usd * krwRate) : fUSD(usd);
   const storageFee = storage === 'singapore' ? 0.15 : 0;
 
+  const [cartPopup, setCartPopup] = useState(false);
+
   const handleAdd = () => {
     addToCart(product, qty, storage);
-    toast(ko ? `${ko ? product.nameKo : product.name} 장바구니에 추가됨` : `Added to cart`);
+    setCartPopup(true);
+    setTimeout(() => setCartPopup(false), 4000);
   };
 
   return (
@@ -240,7 +249,7 @@ export function ProductPage({ product, lang, navigate, prices, krwRate, user, se
               </div>
               <div style={{ fontFamily: T.mono, fontSize: 28, color: T.gold, fontWeight: 700 }}>{fP(price)}</div>
               {currency === 'KRW' && <div style={{ fontFamily: T.mono, fontSize: 13, color: T.textMuted }}>≈ {fUSD(price)}</div>}
-              <div style={{ fontFamily: T.sans, fontSize: 11, color: T.textMuted, marginTop: 8 }}>프리미엄 +{(product.premium * 100).toFixed(1)}% · 현물가 기준</div>
+              <div style={{ fontFamily: T.sans, fontSize: 11, color: T.textMuted, marginTop: 8 }}>{ko?'국제 현물가 기준 · Malca-Amit SG FTZ':'International spot price · Malca-Amit SG FTZ'}</div>
             </div>
 
             {/* Qty */}
@@ -269,10 +278,28 @@ export function ProductPage({ product, lang, navigate, prices, krwRate, user, se
               ))}
             </div>
 
+            {/* Cart mini popup */}
+            {cartPopup && (
+              <div style={{ position:'fixed', top:88, right:16, zIndex:9000, background:T.bg, border:`1px solid ${T.gold}`, padding:'16px 20px', minWidth:260, boxShadow:'0 16px 48px rgba(0,0,0,0.6)' }}>
+                <div style={{ display:'flex', justifyContent:'space-between', marginBottom:10 }}>
+                  <span style={{ fontFamily:T.mono, fontSize:10, color:T.gold, letterSpacing:'0.16em' }}>✓ {ko?'추가됨':'ADDED'}</span>
+                  <button onClick={() => setCartPopup(false)} style={{ background:'none', border:'none', color:T.textMuted, cursor:'pointer', fontSize:16 }}>×</button>
+                </div>
+                <div style={{ fontFamily:T.sans, fontSize:13, color:T.text, marginBottom:4 }}>{ko ? product.nameKo : product.name}</div>
+                <div style={{ fontFamily:T.mono, fontSize:12, color:T.gold, marginBottom:12 }}>{qty}× {fP(price)}</div>
+                <button onClick={() => navigate('cart')} style={{ width:'100%', background:T.gold, border:'none', color:'#0a0a0a', padding:'11px', fontSize:13, fontWeight:700, cursor:'pointer', fontFamily:T.sans }}>
+                  {ko?'장바구니 보기 →':'View Cart →'}
+                </button>
+              </div>
+            )}
+
             <button onClick={handleAdd} style={{ width: '100%', background: T.gold, border: 'none', color: '#0a0a0a', padding: '16px', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: T.sans, marginBottom: 10 }}>
               {ko ? '장바구니에 담기' : 'Add to Cart'}
             </button>
-            <p style={{ textAlign: 'center', fontSize: 11, color: T.textMuted, fontFamily: T.sans }}>
+            <button onClick={() => navigate('cart')} style={{ width: '100%', background: 'transparent', border: `1px solid ${T.goldBorder}`, color: T.gold, padding: '12px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: T.sans, marginBottom: 10 }}>
+              {ko ? '장바구니 바로 가기 →' : 'Go to Cart →'}
+            </button>
+            <p style={{ textAlign: 'center', fontSize: isMobile ? 12 : 11, color: T.textMuted, fontFamily: T.sans, lineHeight: 1.6 }}>
               {ko ? '구매 즉시 Malca-Amit SG FTZ 금고에 배분 보관됩니다.' : 'Allocated to vault immediately upon purchase.'}
             </p>
 
@@ -285,9 +312,9 @@ export function ProductPage({ product, lang, navigate, prices, krwRate, user, se
                 [ko ? 'LBMA 승인' : 'LBMA Approved', '✓'],
                 [ko ? '보관' : 'Storage', 'Malca-Amit SG FTZ'],
               ].map(([k, v], i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '9px 0', borderBottom: `1px solid ${T.border}` }}>
-                  <span style={{ fontFamily: T.sans, fontSize: 12, color: T.textMuted }}>{k}</span>
-                  <span style={{ fontFamily: T.mono, fontSize: 12, color: T.text }}>{v}</span>
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: isMobile ? '11px 0' : '9px 0', borderBottom: `1px solid ${T.border}` }}>
+                  <span style={{ fontFamily: T.sans, fontSize: isMobile ? 13 : 12, color: T.textMuted }}>{k}</span>
+                  <span style={{ fontFamily: T.mono, fontSize: isMobile ? 13 : 12, color: T.text }}>{v}</span>
                 </div>
               ))}
             </div>

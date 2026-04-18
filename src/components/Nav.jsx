@@ -42,7 +42,7 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
   // Founders FIRST — anchor of the brand
   const links = [
     { page: 'founders', ko: 'Founders', en: 'Founders', isFounders: true },
-    { page: 'shop',     ko: '매장',      en: 'Shop'    },
+    { page: 'shop-physical', ko: '매장',      en: 'Shop'    },
     { page: 'agp',      ko: 'AGP 적금',  en: 'AGP'     },
     { page: 'why',      ko: '왜 금인가', en: 'Why Gold' },
     { page: 'storage',  ko: '보관',       en: 'Storage' },
@@ -90,8 +90,28 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
         .nav-ul{background:none!important;border:1px solid transparent!important;color:#888!important;transition:color 0.2s}
         .nav-ul:hover{color:#f5f0e8!important}
         .nav-ul.nav-ul-active{color:#C5A572!important}
-        .nav-promo{background:none!important;border:none!important;color:rgba(197,165,114,0.5)!important;font-style:italic;transition:color 0.2s}
-        .nav-promo:hover{color:rgba(197,165,114,0.85)!important}
+        .nav-promo-agp{
+          position:relative;overflow:hidden;
+          border:1px solid rgba(197,165,114,0.4)!important;
+          color:#c5a572!important;
+          font-size:12px!important;font-weight:600!important;font-style:normal!important;
+          letter-spacing:0.04em!important;
+          animation:promo-blink 2.5s ease-in-out infinite;
+          padding:0 14px!important;
+        }
+        .nav-promo-agp:hover{border-color:rgba(197,165,114,0.9)!important;color:#E3C187!important;background:rgba(197,165,114,0.08)!important}
+        .nav-promo-founders{
+          position:relative;overflow:hidden;
+          border:1px solid rgba(74,222,128,0.45)!important;
+          color:#4ade80!important;
+          font-size:12px!important;font-weight:600!important;font-style:normal!important;
+          letter-spacing:0.04em!important;
+          animation:founders-promo-blink 2.8s ease-in-out infinite;
+          padding:0 14px!important;
+        }
+        .nav-promo-founders:hover{border-color:rgba(74,222,128,0.9)!important;color:#86efac!important;background:rgba(74,222,128,0.07)!important}
+        @keyframes promo-blink{0%,100%{border-color:rgba(197,165,114,0.4);box-shadow:none}50%{border-color:rgba(197,165,114,0.85);box-shadow:0 0 8px rgba(197,165,114,0.2)}}
+        @keyframes founders-promo-blink{0%,100%{border-color:rgba(74,222,128,0.4);box-shadow:none}50%{border-color:rgba(74,222,128,0.85);box-shadow:0 0 8px rgba(74,222,128,0.18)}}
       `}</style>
 
       <div className="aurum-container" style={{ display: 'flex', alignItems: 'center', height: NAV_H, gap: 0 }}>
@@ -117,19 +137,19 @@ export default function Nav({ page, navigate, lang, setLang, user, setUser, setS
               return (
                 <button key={l.page} onClick={() => navigate(l.page)}
                   className={`nav-ul${isActive ? ' nav-ul-active' : ''}`}
-                  style={{ ...btnBase, padding: '0 10px', fontFamily: T.sansKr, fontSize: 13, fontWeight: 400, whiteSpace: 'nowrap', borderBottom: `2px solid ${isActive ? 'rgba(197,165,114,0.5)' : 'transparent'}` }}>
+                  style={{ ...btnBase, padding: '0 12px', fontFamily: T.sansKr, fontSize: 13, fontWeight: 400, whiteSpace: 'nowrap', borderBottom: `2px solid ${isActive ? 'rgba(197,165,114,0.5)' : 'transparent'}` }}>
                   {ko ? l.ko : l.en}
                 </button>
               );
             })}
 
-            <div style={{ width: 1, height: 18, background: T.border, margin: '0 6px', flexShrink: 0 }} />
+            <div style={{ width: 1, height: 18, background: T.border, margin: '0 10px', flexShrink: 0 }} />
 
-            {promos.map(p => (
+            {promos.map((p, pi) => (
               <button key={p.page} onClick={() => navigate(p.page)}
-                className="nav-promo"
-                style={{ ...btnBase, padding: '0 8px', fontFamily: T.serif, fontSize: 11, whiteSpace: 'nowrap' }}>
-                {ko ? p.ko : p.en} →
+                className={pi === 0 ? 'nav-promo-agp' : 'nav-promo-founders'}
+                style={{ ...btnBase, borderRadius: 0, whiteSpace: 'nowrap', fontFamily: T.sansKr }}>
+                {ko ? p.ko : p.en}
               </button>
             ))}
           </div>
