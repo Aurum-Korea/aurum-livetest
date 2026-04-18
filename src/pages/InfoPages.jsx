@@ -763,8 +763,8 @@ export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368 }) {
             ))}
           </div>
           <div style={{ marginTop: 20, textAlign: 'center' }}>
-            <button onClick={() => navigate('campaign-agp-launch')} style={{ background:'none', border:`1px solid ${T.goldBorder}`, color:T.gold, padding:'8px 20px', fontFamily:T.mono, fontSize:11, letterSpacing:'0.12em', cursor:'pointer' }}>
-              {ko?'론치 이벤트 상세 →':'Launch event details →'}
+            <button onClick={() => navigate('campaign-agp-launch')} style={{ background: T.gold, border: 'none', color: '#0a0a0a', padding: '12px 28px', fontFamily: T.sans, fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', cursor: 'pointer' }}>
+              {ko ? 'AGP 론치 이벤트 보기 →' : 'View AGP Launch Event →'}
             </button>
           </div>
         </div>

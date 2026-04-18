@@ -17,7 +17,7 @@ import { ShopSelectorPage, ShopPage, ProductPage } from './pages/ShopPages.jsx';
 import { CartPage, CheckoutPage }   from './pages/CartCheckout.jsx';
 import { DashboardPage, SellFlowPage, WithdrawFlowPage, OrderHistoryPage, AccountPage, KYCFlowPage } from './pages/UserPages.jsx';
 import { WhyGoldPage, StoragePage, AGPPage, AGPBackingReport, LearnPage, GoldTodayPage } from './pages/InfoPages.jsx';
-import { AGPIntroPage, AGPEnrollPage } from './pages/AGPPages.jsx';
+import { AGPIntroPage } from './pages/AGPPages.jsx';
 
 import FoundersClubPage  from './campaigns/FoundersClubPage.jsx';
 import FoundersPromoPage from './campaigns/FoundersPromoPage.jsx';
@@ -138,7 +138,7 @@ export default function App() {
       case 'storage':           return <StoragePage {...shared} />;
       case 'agp':               return <AGPPage {...shared} />;
       case 'agp-intro':         return <AGPIntroPage {...shared} />;
-      case 'agp-enroll':        return <AGPEnrollPage {...shared} setShowLogin={setShowLogin} />;
+      case 'agp-enroll':        return <RegisterPage {...shared} setShowLogin={setShowLogin} />;
       case 'agp-report':        return <AGPBackingReport {...shared} />;
       case 'gold-today':         return <GoldTodayPage {...shared} />;
       case 'learn':             return <LearnPage {...shared} />;

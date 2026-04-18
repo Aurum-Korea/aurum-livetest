@@ -163,7 +163,7 @@ function GMVBonusTrack({ navigate }) {
         ))}
       </div>
       <div style={{ marginTop:20, paddingTop:16, borderTop:`1px solid ${T.border}` }}>
-        <button onClick={()=>navigate('campaign-founders')} style={{ width:'100%', background:T.goldGlow, border:`1px solid ${T.goldBorder}`, color:T.gold, padding:'11px', cursor:'pointer', fontFamily:T.sans, fontSize:13, transition:'all 0.2s' }} onMouseEnter={e=>e.currentTarget.style.borderColor=T.goldBorderStrong} onMouseLeave={e=>e.currentTarget.style.borderColor=T.goldBorder}>
+        <button onClick={()=>navigate('agp')} style={{ width:'100%', background:T.goldGlow, border:`1px solid ${T.goldBorder}`, color:T.gold, padding:'11px', cursor:'pointer', fontFamily:T.sans, fontSize:13, transition:'all 0.2s' }} onMouseEnter={e=>e.currentTarget.style.borderColor=T.goldBorderStrong} onMouseLeave={e=>e.currentTarget.style.borderColor=T.goldBorder}>
           Founders Club에서 더 알아보기 →
         </button>
       </div>
@@ -355,7 +355,7 @@ export default function AGPLaunchPage({ lang, navigate, user, setShowLogin, pric
             </p>
             {/* FIX: equal button sizing */}
             <div style={{ display:'flex', gap:10, flexDirection:isMobile?'column':'row', alignItems:'stretch' }}>
-              <button onClick={()=>navigate(user ? 'agp-enroll' : 'register')} style={{ background:T.gold, border:'none', color:'#0a0a0a', padding:'14px 16px', fontSize:isMobile?12:14, fontWeight:700, cursor:'pointer', fontFamily:T.sans, flex:1, whiteSpace:'nowrap' }}>AGP 론치 이벤트 참여 →</button>
+              <button onClick={()=>navigate('register')} style={{ background:T.gold, border:'none', color:'#0a0a0a', padding:'14px 16px', fontSize:isMobile?12:14, fontWeight:700, cursor:'pointer', fontFamily:T.sans, flex:1, whiteSpace:'nowrap' }}>AGP 론치 이벤트 참여 →</button>
               <button onClick={()=>navigate('agp')} style={{ background:'transparent', border:`1px solid ${T.goldBorder}`, color:T.textSub, padding:'14px 16px', fontSize:isMobile?12:14, cursor:'pointer', fontFamily:T.sans, flex:1, whiteSpace:'nowrap' }}>AGP 상세 보기</button>
             </div>
           </div>

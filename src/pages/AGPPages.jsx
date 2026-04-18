@@ -16,7 +16,7 @@ const STEPS = [
 export function AGPIntroPage({ lang, navigate, user }) {
   const [step, setStep] = useState(0);
   const isMobile = useIsMobile();
-  const goEnroll = () => navigate(user ? 'agp-enroll' : 'register');
+  const goEnroll = () => navigate('register');
 
   useEffect(() => {
     const handler = e => {
@@ -164,7 +164,7 @@ export function AGPIntroPage({ lang, navigate, user }) {
           <button onClick={() => navigate('agp')} className="btn-outline" style={{ width: '100%', padding: '16px', marginBottom: 8 }}>
               {ko ? 'AGP 자세히 알아보기 →' : 'Learn more about AGP →'}
             </button>
-            <button onClick={() => navigate(user ? 'agp-enroll' : 'register')} className="btn-primary" style={{ width: '100%', padding: '16px' }}>
+            <button onClick={() => navigate('register')} className="btn-primary" style={{ width: '100%', padding: '16px' }}>
             {user ? '🚀 AGP 가입하기' : '🚀 가입 후 AGP 시작하기'}
           </button>
           <button onClick={() => navigate('agp-report')} className="btn-outline" style={{ width: '100%', padding: '16px' }}>📊 오늘의 백킹 리포트</button>
