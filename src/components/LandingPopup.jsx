@@ -20,6 +20,32 @@ const GATES = [
   { num:'V',  label:'평생의 표식',threshold:'$100K', discount:'−3.0%', storage:'0.30%', color:'#E3C187' },
 ];
 
+// ── GoldPath inline mark ─────────────────────────────────────────────────────
+function GoldPathMark({ scale = 0.5 }) {
+  return (
+    <svg viewBox="0 0 240 70" width={Math.round(240*scale)} height={Math.round(70*scale)} style={{ display:'block' }}>
+      <defs><style>{`@keyframes gp-lp{0%,100%{opacity:1}50%{opacity:0}}.gp-lp{animation:gp-lp 1.2s step-end infinite}`}</style></defs>
+      <text x="8" y="22" fontFamily="'JetBrains Mono','Courier New',monospace" fontSize="16" fill="#f5f0e8">₩</text>
+      <rect x="28" y="16" width="7" height="6" fill="#1e1408"/>
+      <rect x="37" y="13" width="7" height="9" fill="#5a3c18"/>
+      <rect x="46" y="9"  width="7" height="13" fill="#C5A572"/>
+      <rect x="55" y="5"  width="7" height="17" fill="#E3C187"/>
+      <polyline points="31.5,16 40.5,13 49.5,9 58.5,5" fill="none" stroke="rgba(197,165,114,.22)" strokeWidth=".7"/>
+      <line x1="62" y1="12" x2="80" y2="12" stroke="#C5A572" strokeWidth="1.2"/>
+      <path d="M75 8 L82 12 L75 16" fill="none" stroke="#C5A572" strokeWidth="1.4" strokeLinejoin="round" strokeLinecap="round"/>
+      <text x="87" y="22">
+        <tspan fontFamily="'Cormorant Garamond','Georgia',serif" fontStyle="italic" fontSize="14" fill="#E3C187">Au</tspan>
+        <tspan fontFamily="'JetBrains Mono','Courier New',monospace" fontSize="10" fill="#7a6d58" dx="3">(금)</tspan>
+      </text>
+      <line x1="8" y1="28" x2="232" y2="28" stroke="#1e1c10" strokeWidth=".4"/>
+      <text x="8"  y="46" fontFamily="'JetBrains Mono','Courier New',monospace" fontSize="19" fill="#C5A572">›</text>
+      <text x="22" y="46" fontFamily="'JetBrains Mono','Courier New',monospace" fontSize="19" fill="#f0ece4">GoldPath</text>
+      <rect x="118" y="30" width="2" height="16" fill="#C5A572" className="gp-lp"/>
+      <text x="8" y="62" fontFamily="'JetBrains Mono','Courier New',monospace" fontSize="14" fill="#7a6d58" letterSpacing=".2em">금환</text>
+    </svg>
+  );
+}
+
 export default function LandingPopup({ lang, navigate }) {
   const [slide, setSlide]     = useState(0); // 0=AGP, 1=Founders
   const [visible, setVisible] = useState(false);
@@ -60,6 +86,10 @@ export default function LandingPopup({ lang, navigate }) {
       <div style={{ position:'absolute', bottom:-20, right:-10, fontFamily:SERIF, fontStyle:'italic', fontSize: isMobile?70:160, color:'rgba(197,165,114,0.03)', userSelect:'none', pointerEvents:'none', lineHeight:1 }}>금</div>
 
       <div style={{ position:'relative', zIndex:1, flex:1, display:'flex', flexDirection:'column' }}>
+        {/* GoldPath product mark */}
+        <div style={{ marginBottom: 14 }}>
+          <GoldPathMark scale={isMobile ? 0.38 : 0.46} />
+        </div>
         {/* Signal strip */}
         <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:18 }}>
           <span style={{ width:6, height:6, borderRadius:'50%', background:'#4ade80', boxShadow:'0 0 8px #4ade80', flexShrink:0, animation:'pulse 1.5s ease-in-out infinite' }} />

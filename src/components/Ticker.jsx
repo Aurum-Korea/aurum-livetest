@@ -1,11 +1,7 @@
 // Ticker.jsx — CSS marquee on both desktop and mobile (Issue 1 fix)
 // M-04: price-flash-up/down on tick change | M-05: skeleton shimmer while !loaded
 import { useEffect, useState, useRef } from 'react';
-import { useIsMobile } from '../lib/index.jsx';
-
-const KR_GOLD_PREMIUM = 0.20;
-const OZ_IN_GRAMS     = 31.1035;
-const DON_IN_GRAMS    = 3.75;
+import { useIsMobile, KR_GOLD_PREMIUM, OZ_IN_GRAMS, DON_IN_GRAMS } from '../lib/index.jsx';
 
 export default function Ticker({ lang, prices, krwRate, dailyChanges, loaded }) {
   const isMobile = useIsMobile();

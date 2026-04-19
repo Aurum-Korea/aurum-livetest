@@ -675,8 +675,10 @@ export function StoragePage({ lang, navigate }) {
 }
 
 /* ── AGP Launch Estimator sub-component (extracted to fix React hook violation) ── */
-function AGPLaunchEstimator({ ko, isMobile, navigate }) {
-  const SPOT_KRW_G = 452000;
+function AGPLaunchEstimator({ ko, isMobile, navigate, prices, krwRate = 1368 }) {
+  const OZ_G = 31.1035;
+  // Use live gold price if available; fallback to last known reasonable value
+  const SPOT_KRW_G = (prices?.gold && krwRate) ? prices.gold * krwRate / OZ_G : 148000;
   const AURUM_UP   = 0.02;
   const KR_MULT    = 1.20;
   const TIERS = [
@@ -760,9 +762,233 @@ function AGPLaunchEstimator({ ko, isMobile, navigate }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
+   PHASE 4 — GoldPath product page components
+   ═══════════════════════════════════════════════════════════════════════ */
+const OZ_G = 31.1035;
+
+function useScrollTrigger(threshold = 0.1) {
+  const r = useRef(null);
+  const [v, setV] = useState(false);
+  useEffect(() => {
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) setV(true); }, { threshold });
+    if (r.current) o.observe(r.current);
+    return () => o.disconnect();
+  }, []);
+  return [r, v];
+}
+
+// ① KRW Purchasing Power Counter — ₩100만원 buys X grams: 2000 / 2020 / today
+function KRWLivePowerCounter({ prices, krwRate, lang, isMobile }) {
+  const [ref, vis] = useScrollTrigger(0.1);
+  const ko = lang === 'ko';
+  const g2000 = (1000000 / (284 * 1130 / OZ_G)).toFixed(1);
+  const g2020 = (1000000 / (1580 * 1165 / OZ_G)).toFixed(1);
+  const gToday = (prices?.gold && krwRate) ? (1000000 / (prices.gold * krwRate / OZ_G)).toFixed(1) : null;
+  const base = parseFloat(g2000);
+  const rows = [
+    { year: '2000년 1월', grams: g2000, color: '#4a4035' },
+    { year: '2020년 1월', grams: g2020, color: '#8a7050' },
+    { year: ko ? '오늘 (실시간)' : 'Today (live)', grams: gToday || '…', color: '#C5A572', today: true },
+  ];
+  const declinePct = gToday ? Math.round((1 - parseFloat(gToday) / base) * 100) : null;
+  return (
+    <div ref={ref} style={{ borderBottom: `1px solid ${T.border}`, background: '#0c0b09' }}>
+      <div className="aurum-container" style={{ paddingTop: isMobile?32:64, paddingBottom: isMobile?32:56 }}>
+        <div style={{ maxWidth: 620, margin: '0 auto' }}>
+          <div style={{ fontFamily: T.mono, fontSize: 9, color: T.goldDim, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 12 }}>
+            {ko ? '₩100만원으로 살 수 있는 금' : '₩1,000,000 worth of gold'}
+          </div>
+          <h2 style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile?22:30, color: T.text, fontWeight: 300, margin: '0 0 24px', lineHeight: 1.2 }}>
+            {ko ? <>원화의 금 구매력은 <span style={{ color:'#f87171' }}>멈추지 않고</span> 하락합니다.</> : <>KRW gold purchasing power <span style={{ color:'#f87171' }}>keeps falling.</span></>}
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {rows.map((r, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 18px', background: r.today ? 'rgba(197,165,114,0.06)' : 'rgba(255,255,255,0.02)', border: `1px solid ${r.today ? 'rgba(197,165,114,0.22)' : '#1a1a1a'}`, opacity: vis?1:0, transform: vis?'translateX(0)':'translateX(-14px)', transition: `opacity 0.6s ease ${i*0.18}s, transform 0.6s ease ${i*0.18}s` }}>
+                <div style={{ fontFamily: T.mono, fontSize: 10, color: '#555', width: isMobile?80:100, flexShrink: 0 }}>{r.year}</div>
+                <div style={{ flex: 1, height: 3, background: '#1a1a1a', overflow: 'hidden', borderRadius: 2 }}>
+                  <div style={{ height: '100%', background: r.color, width: vis ? `${Math.min((parseFloat(r.grams) / base) * 100, 100)}%` : '0%', transition: `width 1.3s cubic-bezier(0.25,1,0.5,1) ${i*0.18+0.2}s` }} />
+                </div>
+                <div style={{ fontFamily: T.mono, fontSize: isMobile?18:22, color: r.color, fontWeight: 700, width: 72, textAlign: 'right', flexShrink: 0 }}>
+                  {r.grams}<span style={{ fontSize: 10, opacity: 0.7, marginLeft: 2 }}>g</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          {declinePct && (
+            <div style={{ marginTop: 14, display: 'flex', gap: 8, alignItems: 'center' }}>
+              <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(248,113,113,0.3),transparent)' }} />
+              <span style={{ fontFamily: T.mono, fontSize: 11, color: '#f87171' }}>
+                {ko ? `2000년 이후 구매력 −${declinePct}%` : `−${declinePct}% purchasing power since 2000`}
+              </span>
+            </div>
+          )}
+          <p style={{ fontFamily: T.sans, fontSize: 12, color: '#555', marginTop: 14, lineHeight: 1.75 }}>
+            {ko ? 'GoldPath는 원화가 더 약해지기 전에 매달 자동으로 금으로 전환합니다.' : 'GoldPath automatically converts KRW to gold every month — before it weakens further.'}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ② Won → Gold Flow — animated conversion path with live numbers
+function WonToGoldFlow({ prices, krwRate, lang, isMobile }) {
+  const [ref, vis] = useScrollTrigger(0.1);
+  const ko = lang === 'ko';
+  const gramsPerMil = (prices?.gold && krwRate) ? (1000000 / (prices.gold * krwRate / OZ_G * 1.02)).toFixed(2) : '—';
+  const monthsTo100 = (prices?.gold && krwRate) ? Math.ceil(100 / (200000 / (prices.gold * krwRate / OZ_G * 1.02))) : '—';
+  const nodes = [
+    { label: ko?'원화 입금':'KRW deposit',     value: `₩${(krwRate||1368).toFixed(0)}/$`, sub: 'KRW/USD' },
+    { label: ko?'Aurum 플랫폼':'Aurum platform', value: '+2.0%',                         sub: ko?'투명 프리미엄':'Transparent' },
+    { label: 'LBMA 현물가',                       value: `$${(prices?.gold||3300).toLocaleString()}`, sub: ko?'국제 현물':'Intl spot' },
+    { label: ko?'그램 전환':'Gram conversion',   value: `${gramsPerMil}g`,               sub: ko?'₩100만원':'per ₩1M' },
+    { label: ko?'100g 실물 바':'100g Bar',        value: `${monthsTo100}${ko?'개월':'mo'}`, sub: ko?'₩20만원/월 기준':'at ₩200K/mo', highlight: true },
+  ];
+  return (
+    <div ref={ref} style={{ borderBottom: `1px solid ${T.border}`, background: T.bg1 }}>
+      <style>{`@keyframes gp-fp{from{transform:translateX(-100%)}to{transform:translateX(200%)}}`}</style>
+      <div className="aurum-container" style={{ paddingTop: isMobile?28:52, paddingBottom: isMobile?28:52 }}>
+        <div style={{ fontFamily: T.mono, fontSize: 9, color: T.goldDim, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: isMobile?16:20, textAlign: isMobile?'left':'center' }}>
+          {ko ? '₩ → 금 전환 경로 · 실시간' : '₩ → Gold conversion path · Live'}
+        </div>
+        <div style={{ display: 'flex', flexDirection: isMobile?'column':'row', alignItems: isMobile?'stretch':'center', gap: isMobile?2:0 }}>
+          {nodes.flatMap((n, i) => {
+            const nodeEl = (
+              <div key={`n${i}`} style={{ flex: 1, background: n.highlight?'rgba(197,165,114,0.07)':'rgba(255,255,255,0.025)', border: `1px solid ${n.highlight?'rgba(197,165,114,0.28)':'#1e1e1e'}`, padding: isMobile?'10px 14px':'14px 10px', textAlign: isMobile?'left':'center', position: 'relative', overflow: 'hidden', minWidth: 0, opacity: vis?1:0, transform: vis?(isMobile?'translateX(0)':'translateY(0)'):(isMobile?'translateX(-8px)':'translateY(8px)'), transition: `opacity 0.5s ease ${i*0.1}s, transform 0.5s ease ${i*0.1}s` }}>
+                {n.highlight && <div style={{ position:'absolute',top:0,left:0,right:0,height:1,background:'linear-gradient(90deg,transparent,#c5a572,transparent)' }} />}
+                <div style={{ fontFamily: T.mono, fontSize: 8, color: T.goldDim, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{n.label}</div>
+                <div style={{ fontFamily: T.mono, fontSize: isMobile?15:14, color: n.highlight?'#E3C187':'#C5A572', fontWeight: 700 }}>{n.value}</div>
+                <div style={{ fontFamily: T.sans, fontSize: 9, color: '#555', marginTop: 4 }}>{n.sub}</div>
+              </div>
+            );
+            const arrowEl = i < nodes.length - 1 ? (
+              <div key={`a${i}`} style={{ width: isMobile?2:24, height: isMobile?16:24, position: 'relative', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {isMobile
+                  ? <div style={{ width: 1, height: '100%', background: 'rgba(197,165,114,0.2)' }} />
+                  : <>
+                    <div style={{ width: '100%', height: 1, background: 'rgba(197,165,114,0.18)' }} />
+                    <div style={{ position:'absolute',inset:0,overflow:'hidden',display:'flex',alignItems:'center' }}>
+                      <div style={{ width:4,height:4,borderRadius:'50%',background:'#C5A572',animation:`gp-fp ${1.4+i*0.15}s linear infinite`,animationDelay:`${i*0.28}s`,flexShrink:0 }} />
+                    </div>
+                    <div style={{ position:'absolute',right:0,width:0,height:0,borderTop:'3px solid transparent',borderBottom:'3px solid transparent',borderLeft:'4px solid rgba(197,165,114,0.4)' }} />
+                  </>
+                }
+              </div>
+            ) : null;
+            return arrowEl ? [nodeEl, arrowEl] : [nodeEl];
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ③ Gram Accumulation Grid — 100 dot grid, slider-controlled
+function GramAccumulationGrid({ prices, krwRate, lang, isMobile }) {
+  const [ref, vis] = useScrollTrigger(0.1);
+  const [monthly, setMonthly] = useState(500000);
+  const ko = lang === 'ko';
+  const pricePerGram = (prices?.gold && krwRate) ? prices.gold * krwRate / OZ_G * 1.02 : 150000;
+  const gramsPerMonth = monthly / pricePerGram;
+  const months12g = gramsPerMonth * 12;
+  const filledCount = Math.min(Math.floor(months12g), 100);
+  const monthsTo100 = Math.ceil(100 / gramsPerMonth);
+  const complete = filledCount >= 100;
+  const annualSaving = Math.round(monthly * 12 * 0.12);
+  return (
+    <div ref={ref} style={{ borderBottom: `1px solid ${T.border}`, background: T.bg }}>
+      <div className="aurum-container" style={{ paddingTop: isMobile?32:64, paddingBottom: isMobile?32:64 }}>
+        <div style={{ maxWidth: 680, margin: '0 auto' }}>
+          <div style={{ fontFamily: T.mono, fontSize: 9, color: T.goldDim, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 10 }}>
+            {ko ? '100g 실물 바 시뮬레이터' : '100g Physical Bar Simulator'}
+          </div>
+          <h2 style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile?20:28, color: T.text, fontWeight: 300, margin: '0 0 28px', lineHeight: 1.2 }}>
+            {ko ? <>매달 적립하면, <span style={{ color: T.gold }}>언제 실물 바에 도달하나요?</span></> : <>Monthly accumulation — <span style={{ color: T.gold }}>when do you hold a bar?</span></>}
+          </h2>
+          <div style={{ display: isMobile?'block':'flex', gap: 48, alignItems: 'flex-start' }}>
+            {/* 10×10 dot grid */}
+            <div style={{ flexShrink: 0, marginBottom: isMobile?28:0 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 12px)', gap: 4 }}>
+                {Array.from({ length: 100 }, (_, i) => {
+                  const filled = vis && i < filledCount;
+                  const delay = Math.min(i * 0.012, 1.0);
+                  return (
+                    <div key={i} style={{ width: 10, height: 10, borderRadius: '50%', background: filled ? (complete ? '#E3C187' : '#C5A572') : '#1a1a1a', boxShadow: filled ? `0 0 ${complete?6:3}px rgba(197,165,114,${complete?0.7:0.35})` : 'none', transition: `background 0.25s ease ${delay}s, box-shadow 0.25s ease ${delay}s` }} />
+                  );
+                })}
+              </div>
+              <div style={{ fontFamily: T.mono, fontSize: 9, color: '#555', marginTop: 10, textAlign: 'center' }}>
+                {ko ? `${filledCount}g / 100g · 12개월 후` : `${filledCount}g / 100g · after 12 months`}
+              </div>
+              {complete && (
+                <div style={{ marginTop: 8, fontFamily: T.mono, fontSize: 10, color: '#4ade80', textAlign: 'center', letterSpacing: '0.1em' }}>
+                  {ko ? '✓ 실물 바 전환 가능' : '✓ Physical bar eligible'}
+                </div>
+              )}
+            </div>
+            {/* Slider + stats */}
+            <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                <span style={{ fontFamily: T.sans, fontSize: 12, color: T.textSub }}>{ko?'월 적립 금액':'Monthly amount'}</span>
+                <span style={{ fontFamily: T.mono, fontSize: 18, color: '#f0ece4', fontWeight: 600 }}>₩{Math.round(monthly/10000).toLocaleString()}만</span>
+              </div>
+              <input type="range" min="200000" max="3000000" step="50000" value={monthly}
+                onChange={e => setMonthly(+e.target.value)}
+                style={{ width: '100%', marginBottom: 20, accentColor: '#c5a572' }} />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 12 }}>
+                {[
+                  { l: ko?'월 적립량':'Grams/month',    v: `${gramsPerMonth.toFixed(2)}g`,  c: '#C5A572' },
+                  { l: ko?'100g까지':'Months to 100g',   v: `${monthsTo100}${ko?'개월':'mo'}`,c: complete?'#4ade80':'#f0ece4' },
+                  { l: ko?'12개월 적립량':'12-month total',v: `${Math.min(months12g,100).toFixed(1)}g`, c: '#C5A572' },
+                  { l: ko?'연간 절감':'Annual saving',    v: `₩${Math.round(annualSaving/10000).toLocaleString()}만`, c: '#4ade80' },
+                ].map((s, i) => (
+                  <div key={i} style={{ background: '#111', padding: '10px 14px', border: '1px solid #1a1a1a' }}>
+                    <div style={{ fontFamily: T.sans, fontSize: 10, color: '#555', marginBottom: 4 }}>{s.l}</div>
+                    <div style={{ fontFamily: T.mono, fontSize: 14, color: s.c, fontWeight: 600 }}>{s.v}</div>
+                  </div>
+                ))}
+              </div>
+              <button onClick={() => {}} style={{ width: '100%', background: T.gold, border: 'none', color: '#0a0a0a', padding: '13px 0', fontFamily: T.sans, fontSize: 14, fontWeight: 700, cursor: 'pointer', letterSpacing: '0.04em' }}>
+                {ko ? `₩${Math.round(monthly/10000).toLocaleString()}만원으로 GoldPath 시작하기 →` : `Start GoldPath at ₩${Math.round(monthly/10000).toLocaleString()}만/mo →`}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── GoldPath inline mark ──────────────────────────────────────────────────────
+function GoldPathMark({ scale = 0.5, style = {} }) {
+  return (
+    <svg viewBox="0 0 240 70" width={Math.round(240*scale)} height={Math.round(70*scale)} style={{ display:'block', ...style }}>
+      <defs><style>{`@keyframes gp-cur{0%,100%{opacity:1}50%{opacity:0}}.gp-cur{animation:gp-cur 1.2s step-end infinite}`}</style></defs>
+      <text x="8" y="22" fontFamily="'JetBrains Mono','Courier New',monospace" fontSize="16" fill="#f5f0e8">₩</text>
+      <rect x="28" y="16" width="7" height="6" fill="#1e1408"/>
+      <rect x="37" y="13" width="7" height="9" fill="#5a3c18"/>
+      <rect x="46" y="9"  width="7" height="13" fill="#C5A572"/>
+      <rect x="55" y="5"  width="7" height="17" fill="#E3C187"/>
+      <polyline points="31.5,16 40.5,13 49.5,9 58.5,5" fill="none" stroke="rgba(197,165,114,.22)" strokeWidth=".7"/>
+      <line x1="62" y1="12" x2="80" y2="12" stroke="#C5A572" strokeWidth="1.2"/>
+      <path d="M75 8 L82 12 L75 16" fill="none" stroke="#C5A572" strokeWidth="1.4" strokeLinejoin="round" strokeLinecap="round"/>
+      <text x="87" y="22">
+        <tspan fontFamily="'Cormorant Garamond','Georgia',serif" fontStyle="italic" fontSize="14" fill="#E3C187">Au</tspan>
+        <tspan fontFamily="'JetBrains Mono','Courier New',monospace" fontSize="10" fill="#7a6d58" dx="3">(금)</tspan>
+      </text>
+      <line x1="8" y1="28" x2="232" y2="28" stroke="#1e1c10" strokeWidth=".4"/>
+      <text x="8"  y="46" fontFamily="'JetBrains Mono','Courier New',monospace" fontSize="19" fill="#C5A572">›</text>
+      <text x="22" y="46" fontFamily="'JetBrains Mono','Courier New',monospace" fontSize="19" fill="#f0ece4">GoldPath</text>
+      <rect x="118" y="30" width="2" height="16" fill="#C5A572" className="gp-cur"/>
+      <text x="8" y="62" fontFamily="'JetBrains Mono','Courier New',monospace" fontSize="14" fill="#7a6d58" letterSpacing=".2em">금환</text>
+    </svg>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    AGP INFO PAGE
    ═══════════════════════════════════════════════════════════════════════ */
-export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368 }) {
+export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368, prices = null }) {
   const ko = lang === 'ko';
   const isMobile = useIsMobile();
   const IB = ({ children }) => (
@@ -786,15 +1012,9 @@ export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368 }) {
       <div style={{ borderBottom: `1px solid ${T.border}` }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 32 : 80, paddingBottom: isMobile ? 32 : 72, display: isMobile ? 'block' : 'flex', alignItems: 'center', gap: 48 }}>
           <div style={{ maxWidth: 680, flex: 1 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, flexWrap: 'nowrap', overflow: 'hidden' }}>
-              <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />
-              <div style={{ display:'flex', flexDirection:'column', gap:1 }}>
-                <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile ? 13 : 16, color: '#E3C187', letterSpacing: '0.03em', lineHeight:1 }}>GoldPath</span>
-                <span style={{ fontFamily: T.mono, fontSize: 8, color: '#7a6d58', letterSpacing: '0.22em', lineHeight:1 }}>금환</span>
-              </div>
-              <span style={{ color: T.goldDim }}>·</span>
-              <span style={{ fontFamily: T.mono, fontSize: isMobile ? 10 : 11, color: T.gold, letterSpacing: '0.18em', textTransform: 'uppercase' }}>{ko ? '원화 실물금 전환 플랜' : 'KRW to Physical Gold'}</span>
-              {!isMobile && <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />}
+            {/* GoldPath product mark */}
+            <div style={{ marginBottom: 20 }}>
+              <GoldPathMark scale={isMobile ? 0.42 : 0.52} />
             </div>
             <h1 style={{ fontFamily: ko ? T.serifKrDisplay : T.serifKr, fontSize: 'clamp(32px,5vw,56px)', fontWeight: 500, color: T.text, margin: '0 0 20px', lineHeight: 1.1 }}>
               {ko ? <>원화를<br /><span style={{ color: T.gold }}>금으로 전환합니다.</span></> : <>Converting KRW<br /><span style={{ color: T.gold }}>into gold.</span></>}
@@ -825,6 +1045,15 @@ export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368 }) {
         { value: ko ? '0원' : '$0', label: ko ? '해지 수수료' : 'Exit fee' },
       ]} cols={isMobile ? 2 : 4} />
 
+      {/* ── PHASE 4: KRW Purchasing Power — why convert now ── */}
+      <KRWLivePowerCounter prices={prices} krwRate={krwRate} lang={lang} isMobile={isMobile} />
+
+      {/* ── PHASE 4: Won → Gold Flow — how the conversion works ── */}
+      <WonToGoldFlow prices={prices} krwRate={krwRate} lang={lang} isMobile={isMobile} />
+
+      {/* ── PHASE 4: Gram Accumulation Grid — 100g bar simulator ── */}
+      <GramAccumulationGrid prices={prices} krwRate={krwRate} lang={lang} isMobile={isMobile} />
+
       {/* ── LAUNCH ESTIMATOR + GMV GROWTH — near top for immediate hook ── */}
       <div style={{ borderBottom:`1px solid ${T.goldBorder}`, background:`linear-gradient(180deg,${T.goldGlow},${T.bg})` }}>
         <div className="aurum-container" style={{ paddingTop: isMobile?28:64, paddingBottom: isMobile?28:64 }}>
@@ -835,7 +1064,7 @@ export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368 }) {
             </h2>
           </div>
           {/* Inline estimator widget */}
-          <AGPLaunchEstimator ko={ko} isMobile={isMobile} navigate={navigate} />
+          <AGPLaunchEstimator ko={ko} isMobile={isMobile} navigate={navigate} prices={prices} krwRate={krwRate} />
         </div>
       </div>
 

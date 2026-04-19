@@ -27,6 +27,39 @@ function makeCartKey(product, storage) {
   return `${product.id}-${storage || 'singapore'}`;
 }
 
+function MacroThesisTicker({ lang }) {
+  const ko = lang === 'ko';
+  const msgs = ko ? [
+    '중앙은행 금 순매입: 2024년 1,045t — 역대 두 번째 규모',
+    '한국 가계 금 배분: 약 0.3% — 글로벌 중앙은행 평균 20%',
+    '₩100만원의 금 구매력: 2000년 96.9g → 2020년 16.9g → 오늘 하락 중',
+    '중앙은행이 달러를 팔고 금을 삽니다 — 2022년 이후 패러다임 전환',
+    '한국은행 금 보유: 104.4t — 외환보유액의 약 1%',
+  ] : [
+    'Central bank net gold purchases: 1,045t in 2024 — 2nd highest ever',
+    'Korea household gold allocation: ~0.3% — Global CB average: 20%',
+    '₩1M gold purchasing power: 96.9g (2000) → 16.9g (2020) → falling today',
+    'Central banks selling dollars, buying gold — paradigm shift since 2022',
+    'Bank of Korea gold reserves: 104.4t — approx 1% of FX reserves',
+  ];
+  const [idx, setIdx] = useState(0);
+  const [vis, setVis] = useState(true);
+  useEffect(() => {
+    const t = setInterval(() => {
+      setVis(false);
+      setTimeout(() => { setIdx(i => (i + 1) % msgs.length); setVis(true); }, 420);
+    }, 7000);
+    return () => clearInterval(t);
+  }, [msgs.length]);
+  return (
+    <div style={{ height: 24, background: '#060504', borderBottom: '1px solid rgba(197,165,114,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', userSelect: 'none' }}>
+      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, color: 'rgba(197,165,114,0.38)', letterSpacing: '0.13em', opacity: vis ? 1 : 0, transition: 'opacity 0.42s ease', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '90%' }}>
+        {msgs[idx]}
+      </span>
+    </div>
+  );
+}
+
 function LaunchAnnouncementStrip({ navigate }) {
   const [visible, setVisible] = useState(() => !sessionStorage.getItem('aurum_launch_strip'));
   const [activeIdx, setActiveIdx] = useState(0);
@@ -172,6 +205,7 @@ export default function App() {
         <Nav page={page} navigate={navigate} lang={lang} setLang={setLang} user={user} setUser={setUser} setShowLogin={setShowLogin} cart={cart} />
         <LaunchAnnouncementStrip navigate={navigate} />
         <Ticker prices={prices} krwRate={krwRate} dailyChanges={dailyChanges} lang={lang} loaded={loaded} />
+        <MacroThesisTicker lang={lang} />
       </div>
       <main style={{ flex: 1, position: 'relative', zIndex: 1 }}>
         <AnimatePresence mode="wait">

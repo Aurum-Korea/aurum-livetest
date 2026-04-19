@@ -312,11 +312,11 @@ function AGPLaunchPane({ lang, navigate, prices, krwRate }) {
   const isMobile = useIsMobile();
   const ko = lang === 'ko';
   const tiers = [
-    { nameEn:'Bronze',   name:'브론즈',   min:'₩200,000+',   gift:'₩50,000'    },
-    { nameEn:'Silver',   name:'실버',     min:'₩500,000+',   gift:'₩200,000'   },
-    { nameEn:'Gold',     name:'골드',     min:'₩1,000,000+', gift:'₩500,000',  featured:true },
-    { nameEn:'Platinum', name:'플래티넘', min:'₩2,000,000+', gift:'₩1,500,000' },
-    { nameEn:'Sovereign',name:'소브린',   min:'₩5,000,000+', gift:'₩5,000,000' },
+    { nameEn:'Bronze',   name:'브론즈',   min:'₩200,000+',   minVal:200000,   gift:'₩50,000'    },
+    { nameEn:'Silver',   name:'실버',     min:'₩500,000+',   minVal:500000,   gift:'₩200,000'   },
+    { nameEn:'Gold',     name:'골드',     min:'₩1,000,000+', minVal:1000000,  gift:'₩500,000',  featured:true },
+    { nameEn:'Platinum', name:'플래티넘', min:'₩2,000,000+', minVal:2000000,  gift:'₩1,500,000' },
+    { nameEn:'Sovereign',name:'소브린',   min:'₩5,000,000+', minVal:5000000,  gift:'₩5,000,000' },
   ];
   return (
     <div style={{ background:'linear-gradient(150deg,#0d0b07,#161208)', borderTop:'1px solid rgba(197,165,114,0.12)', borderBottom:'1px solid rgba(197,165,114,0.12)', position:'relative', overflow:'hidden', minHeight:isMobile?'auto':480 }}>
@@ -572,10 +572,10 @@ function HeroSplitWidget({ prices, krwRate, lang, goldKR, goldAU }) {
   const ko = lang === 'ko';
   const gap = goldKR - goldAU;
   const fKRW2 = v => `₩${Math.round(v).toLocaleString('ko-KR')}`;
-  const barMax = goldKR * 1.02;
+  const barMax = goldKR;
   const bars = [
-    { label: ko ? '국내 소매 채널' : 'Korea Retail', val: goldKR, pct: goldKR/barMax*100, color: '#f87171' },
-    { label: ko ? 'Aurum · LBMA 현물가 기준' : 'Aurum', val: goldAU, pct: goldAU/barMax*100, color: '#c5a572' },
+    { label: ko ? '국내 소매가 (VAT 포함)' : 'Korea Retail (incl. VAT)', val: goldKR, pct: goldKR/barMax*100, color: '#f87171' },
+    { label: ko ? 'Aurum · 국제 현물가 기준' : 'Aurum · International Spot', val: goldAU, pct: goldAU/barMax*100, color: '#c5a572' },
   ];
   return (
     <div ref={ref} style={{ width:'100%', maxWidth:500, opacity:vis?1:0, transition:'opacity 0.7s ease' }}>
@@ -746,7 +746,7 @@ function AGPAccumulatorCalc({ prices, krwRate, lang, tiers }) {
   const totalGrams = gramsPerMo * 12;
   const korEquiv = totalGrams * prices.gold * krwRate / OZ_IN_GRAMS * (1 + KR_GOLD_PREMIUM);
   const savings = korEquiv - monthly * 12;
-  const tier = tiers.slice().reverse().find(t => monthly >= t.min) || tiers[0];
+  const tier = tiers.slice().reverse().find(t => monthly >= t.minVal) || tiers[0];
   const fKRW2 = v => `₩${Math.round(v).toLocaleString('ko-KR')}`;
   return (
     <div style={{ background:'rgba(14,12,8,0.8)', border:'1px solid rgba(197,165,114,0.15)', padding:isMobile?'18px 14px':'24px 24px', marginTop:20, position:'relative', overflow:'hidden' }}>
@@ -805,11 +805,16 @@ function AGPAccumulatorCalc({ prices, krwRate, lang, tiers }) {
 function FoundersMiniCalc({ krwRate, lang, navigate }) {
   const [monthly, setMonthly] = useState(500000);
   const ko = lang === 'ko';
-  const annualUSD = monthly * 12 / krwRate;
+  const annualKRW = monthly * 12;
+  const annualUSD = annualKRW / krwRate;  // gate thresholds defined in USD
   const gate = FC_GATES.slice().reverse().find(g => annualUSD >= g.gmv) || null;
   const nextGate = gate ? FC_GATES[FC_GATES.indexOf(gate) + 1] : FC_GATES[0];
-  const savings = gate ? annualUSD * (gate.discount / 100) * krwRate : 0;
+  const savings = gate ? annualKRW * (gate.discount / 100) : 0;  // direct KRW, no round-trip
   const fKRW2 = v => `₩${Math.round(v).toLocaleString('ko-KR')}`;
+  const fGMV = gmv => {
+    const krw = gmv * krwRate;
+    return krw >= 1e8 ? `₩${(krw/1e8).toFixed(1)}억` : `₩${Math.round(krw/1e4).toLocaleString()}만`;
+  };
   return (
     <div style={{ background:'rgba(197,165,114,0.03)', border:'1px solid rgba(197,165,114,0.15)', padding:'20px 20px', marginTop:20, position:'relative', overflow:'hidden' }}>
       <div style={GOLD_LINE} />
@@ -842,7 +847,7 @@ function FoundersMiniCalc({ krwRate, lang, navigate }) {
             }}>
               <div style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:11, color: isActive ? '#4ade80' : '#8a7d6b', textAlign:'center', transition:'color 0.25s' }}>{g.num}</div>
               <span style={{ fontFamily:SANS, fontSize:11, color: isActive ? '#f5f0e8' : '#666', transition:'color 0.25s' }}>{ko ? g.label : g.labelEn}</span>
-              <span style={{ fontFamily:MONO, fontSize:10, color:'#555' }}>${g.gmv.toLocaleString()}K</span>
+              <span style={{ fontFamily:MONO, fontSize:10, color:'#555' }}>{fGMV(g.gmv)}</span>
               <span style={{ fontFamily:MONO, fontSize:12, color: isActive ? '#4ade80' : '#555', fontWeight: isActive ? 700 : 400, textAlign:'right', transition:'all 0.25s' }}>-{g.discount}%</span>
             </div>
           );
@@ -1068,9 +1073,12 @@ function PriceChartsSection({ prices, krwRate, lang, isMobile }) {
     const slice = MONTHLY_DATA.slice(MONTHLY_DATA.length - n);
     const goldPts = slice.map(d => d[2] * d[3]);  // XAU/USD × KRW rate = KRW/oz
     const silvPts = SILVER_DATA.slice(SILVER_DATA.length - n).map((s, i) => s * slice[i][3]);
+    // A3 fix: overwrite last data point with live price so chart endpoint matches header
+    if (prices?.gold && krwRate) goldPts[goldPts.length - 1] = prices.gold * krwRate;
+    if (prices?.silver && krwRate) silvPts[silvPts.length - 1] = prices.silver * krwRate;
     drawChart(goldRef.current, goldPts, '#C5A572', 'rgba(197,165,114,0.18)');
     drawChart(silverRef.current, silvPts, '#7dd3dc', 'rgba(125,211,220,0.12)');
-  }, [vis, rangeIdx, lang]);
+  }, [vis, rangeIdx, lang, prices, krwRate]);
 
   const currentGoldKRW = Math.round((prices.gold || 3400) * (krwRate || 1440));
   const currentSilvKRW = Math.round((prices.silver || 32) * (krwRate || 1440));
@@ -1793,8 +1801,8 @@ function SavingsSection({ lang, isMobile, goldKR, goldAU, goldSave, goldSavePct,
       <PersonalOverpayCalc goldKR={goldKR} goldAU={goldAU} lang={lang} isMobile={isMobile} />
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 14 }}>
         {[
-          { label: lang === 'ko' ? '금 Gold' : 'Gold', unit: '1 oz', kr: goldKR, au: goldAU, save: goldSave, pct: goldSavePct, krPrem: 20, auPrem: 8 },
-          { label: lang === 'ko' ? '은 Silver' : 'Silver', unit: '1 kg', kr: silvKR, au: silvAU, save: silvSave, pct: silvSavePct, krPrem: 30, auPrem: 15 },
+          { label: lang === 'ko' ? '금 Gold' : 'Gold', unit: '1 oz', kr: goldKR, au: goldAU, save: goldSave, pct: goldSavePct, krPrem: Math.round(KR_GOLD_PREMIUM * 100), auPrem: Math.round(AURUM_GOLD_PREMIUM * 100) },
+          { label: lang === 'ko' ? '은 Silver' : 'Silver', unit: '1 kg', kr: silvKR, au: silvAU, save: silvSave, pct: silvSavePct, krPrem: Math.round(KR_SILVER_PREMIUM * 100), auPrem: Math.round(AURUM_SILVER_PREMIUM * 100) },
         ].map((c, i) => (
           <div key={i} className="magnetic-card" style={{ background: '#141414', border: '1px solid rgba(197,165,114,0.20)', padding: '22px 22px', position: 'relative', overflow: 'hidden' }}>
             <div style={GOLD_LINE} />

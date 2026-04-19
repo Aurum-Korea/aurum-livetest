@@ -18,7 +18,7 @@ const GMV_BONUSES = [
   { gate:'V',  gmv:'$100K', gmvKR:'₩144M',  bonus:'+₩2,500K', bonusVal:2500000, desc:'평생 표식 달성 기념 크레딧' },
 ];
 
-const AURUM_UP = 0.02, KR_MULT = 1.184;
+const AURUM_UP = 0.02, KR_MULT = 1.20;
 
 function WaxSeal({ size=64 }) {
   return (
