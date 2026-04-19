@@ -31,8 +31,9 @@ function LaunchAnnouncementStrip({ navigate }) {
   const [visible, setVisible] = useState(() => !sessionStorage.getItem('aurum_launch_strip'));
   const [activeIdx, setActiveIdx] = useState(0);
   const messages = [
-    { label: 'AGP 자동 적금 · 지금 가입 시 첫달 즉시 적립', cta: 'AGP 시작하기 →', page: 'campaign-agp-launch' },
-    { label: 'Founders Club · 살수록 낮아지는 평생 할인', cta: '알아보기 →', page: 'founders' },
+    { label: '중앙은행이 금을 사고 있습니다 — 2024년 1,045t 순매입 · 역대 두 번째 규모', cta: '왜 지금인가 →', page: 'why' },
+    { label: 'GoldPath · 원화를 금으로 자동 전환 · 첫달 실물 금 즉시 적립', cta: '금환 시작하기 →', page: 'agp' },
+    { label: 'Founders Club · 포지션이 커질수록 할인이 영구적으로 잠깁니다', cta: '알아보기 →', page: 'founders' },
   ];
   useEffect(() => {
     const t = setInterval(() => setActiveIdx(i => (i + 1) % messages.length), 5000);

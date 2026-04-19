@@ -2,10 +2,10 @@
 import { useState, useRef, useEffect } from 'react';
 
 const CHIPS = [
-  { ko: '지금 금 가격은?',      en: 'Current gold price?' },
-  { ko: '한국보다 얼마나 저렴?', en: 'vs Korea premium?' },
-  { ko: 'AGP 계산',             en: 'AGP calculation' },
-  { ko: '게이트 혜택',           en: 'Gate benefits' },
+  { ko: '중앙은행이 왜 금을 사나요?', en: 'Why are central banks buying gold?' },
+  { ko: '원화 가치가 금 대비 얼마나 하락했나요?', en: 'How much has KRW lost vs gold?' },
+  { ko: 'GoldPath란 무엇인가요?',    en: 'What is GoldPath?' },
+  { ko: '내 금 포지션 계산',         en: 'Calculate my position' },
 ];
 
 export default function GoldAI({ lang, prices, krwRate, user, navigate }) {

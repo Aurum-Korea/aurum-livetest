@@ -48,7 +48,7 @@ export default function LandingPopup({ lang, navigate }) {
 
   const SERIF = T.serif; const SANS = T.sans; const MONO = T.mono;
 
-  /* ── SLIDE 1: AGP LAUNCH ─────────────────────────────────────────────────── */
+  /* ── SLIDE 1: GOLDPATH LAUNCH ─────────────────────────────────────────────── */
   const AGPSlide = () => (
     <div style={{
       flex:1, display:'flex', flexDirection:'column',
@@ -57,45 +57,50 @@ export default function LandingPopup({ lang, navigate }) {
       position:'relative', overflow:'hidden',
     }}>
       {/* Watermark */}
-      <div style={{ position:'absolute', bottom:-20, right:-10, fontFamily:SERIF, fontStyle:'italic', fontSize: isMobile?70:160, color:'rgba(197,165,114,0.03)', userSelect:'none', pointerEvents:'none', lineHeight:1 }}>AGP</div>
+      <div style={{ position:'absolute', bottom:-20, right:-10, fontFamily:SERIF, fontStyle:'italic', fontSize: isMobile?70:160, color:'rgba(197,165,114,0.03)', userSelect:'none', pointerEvents:'none', lineHeight:1 }}>금</div>
 
       <div style={{ position:'relative', zIndex:1, flex:1, display:'flex', flexDirection:'column' }}>
-        <div style={{ fontFamily:MONO, fontSize:9, color:T.goldDim, letterSpacing:'0.26em', textTransform:'uppercase', marginBottom:14 }}>
-          {ko?'AGP 론치 이벤트 · 창립 한정':'AGP Launch Event · Founding Limited'}
+        {/* Signal strip */}
+        <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:18 }}>
+          <span style={{ width:6, height:6, borderRadius:'50%', background:'#4ade80', boxShadow:'0 0 8px #4ade80', flexShrink:0, animation:'pulse 1.5s ease-in-out infinite' }} />
+          <span style={{ fontFamily:MONO, fontSize:9, color:'#4ade80', letterSpacing:'0.22em', textTransform:'uppercase' }}>
+            {ko?'중앙은행 신호 · 2024년 순매입 1,045톤':'CB Signal · 1,045t Net Purchase 2024'}
+          </span>
         </div>
-        <h2 style={{ fontFamily: ko?T.serifKr:SERIF, fontStyle: ko?'normal':'italic', fontSize: isMobile?28:42, fontWeight:300, color:T.text, lineHeight:1.1, marginBottom:14 }}>
-          {ko?<>시작하는 날,<br /><span style={{ color:T.gold, fontFamily:SERIF, fontStyle:'italic' }}>금을 더 드립니다.</span></> : <>On your first day,<br /><span style={{ color:T.gold }}>we give you gold.</span></>}
+
+        <h2 style={{ fontFamily: ko?T.serifKr:SERIF, fontStyle: ko?'normal':'italic', fontSize: isMobile?26:40, fontWeight:300, color:T.text, lineHeight:1.1, marginBottom:12 }}>
+          {ko?<>중앙은행이 금을 사고 있습니다.<br /><span style={{ color:T.gold, fontFamily:SERIF, fontStyle:'italic' }}>당신의 원화는 그것에 비해 약해집니다.</span></> : <>Central banks are buying gold.<br /><span style={{ color:T.gold }}>Your won is weakening against it.</span></>}
         </h2>
-        <p style={{ fontFamily:SANS, fontSize: isMobile?13:15, color:T.textSub, lineHeight:1.8, marginBottom:24, maxWidth:460 }}>
-          {ko?'첫 결제 즉시, 선택한 월 적금액에 따라 실물 금이 자동 적립됩니다. Founders Club 파트너로 자동 등록.':'Physical gold is credited the moment your first payment settles. Auto-enrolled as a Founders Club partner.'}
+
+        <p style={{ fontFamily:SANS, fontSize: isMobile?12:14, color:T.textSub, lineHeight:1.8, marginBottom:20, maxWidth:460 }}>
+          {ko?'2020년 이후 ₩100만원의 금 구매력은 74% 하락했습니다. GoldPath는 매달 원화를 실물 금으로 자동 전환합니다 — 국제 현물가로, 귀하의 이름으로, 싱가포르 금고에.':'Since 2020, ₩1M buys 74% less gold. GoldPath automatically converts KRW to physical gold every month — at international spot, in your name, in a Singapore vault.'}
         </p>
 
-        {/* Tier cards — horizontal */}
-        <div style={{ display:'grid', gridTemplateColumns:`repeat(${isMobile?3:5},1fr)`, gap:8, marginBottom:24 }}>
+        {/* Launch tier incentive row */}
+        <div style={{ display:'grid', gridTemplateColumns:`repeat(${isMobile?3:5},1fr)`, gap:6, marginBottom:20 }}>
           {(isMobile ? TIERS.filter((_,i)=>[0,2,4].includes(i)) : TIERS).map((t,i) => (
-            <div key={i} style={{ background: t.num==='III'?`linear-gradient(180deg,rgba(197,165,114,0.12),rgba(197,165,114,0.04))`:'rgba(255,255,255,0.03)', border:`1px solid ${t.num==='III'?T.gold:T.goldBorder}`, padding: isMobile?'10px 6px':'14px 10px', textAlign:'center', position:'relative' }}>
+            <div key={i} style={{ background: t.num==='III'?`linear-gradient(180deg,rgba(197,165,114,0.12),rgba(197,165,114,0.04))`:'rgba(255,255,255,0.03)', border:`1px solid ${t.num==='III'?T.gold:T.goldBorder}`, padding: isMobile?'8px 4px':'12px 8px', textAlign:'center', position:'relative' }}>
               {t.num==='III' && <div style={{ position:'absolute', top:0, left:0, right:0, height:1, background:`linear-gradient(90deg,transparent,${T.gold},transparent)` }} />}
-              <div style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:10, color:t.color, marginBottom:3 }}>{ko?t.name:t.nameEn}</div>
-              <div style={{ fontFamily:MONO, fontSize: isMobile?9:10, color:T.textMuted, marginBottom:5 }}>{t.min}+</div>
-              <div style={{ fontFamily:MONO, fontSize: isMobile?13:17, color:t.color, fontWeight:700 }}>{t.gift.replace('₩','').replace(',000,000','M').replace(',000','K')}
-                <span style={{ fontSize:9, marginLeft:1 }}>₩</span>
-              </div>
-              <div style={{ fontFamily:SANS, fontSize:8, color:T.textMuted, marginTop:2 }}>{ko?'실물 금':'gold gift'}</div>
+              <div style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:9, color:t.color, marginBottom:2 }}>{ko?t.name:t.nameEn}</div>
+              <div style={{ fontFamily:MONO, fontSize:isMobile?8:9, color:T.textMuted, marginBottom:4 }}>{t.min}+</div>
+              <div style={{ fontFamily:MONO, fontSize: isMobile?12:15, color:t.color, fontWeight:700 }}>{t.gift.replace('₩','').replace(',000,000','M').replace(',000','K')}<span style={{ fontSize:8, marginLeft:1 }}>₩</span></div>
+              <div style={{ fontFamily:SANS, fontSize:7, color:T.textMuted, marginTop:2 }}>{ko?'즉시 적립':'day-1 gold'}</div>
             </div>
           ))}
         </div>
 
         <div style={{ marginTop:'auto', display:'flex', gap:10, flexDirection: isMobile?'column':'row' }}>
-          <button onClick={() => { navigate('campaign-agp-launch'); dismiss(); }}
-            style={{ flex:2, background:T.gold, border:'none', color:'#0a0a0a', padding:'14px 20px', fontSize:15, fontWeight:700, cursor:'pointer', fontFamily:SANS }}>
-            {ko?'AGP 론치 이벤트 참여 →':'Join AGP Launch Event →'}
+          <button onClick={() => { navigate('agp'); dismiss(); }}
+            style={{ flex:2, background: 'linear-gradient(135deg,#c5a572,#9a7840)', border:'none', color:'#0a0a0a', padding:'14px 20px', fontSize:15, fontWeight:700, cursor:'pointer', fontFamily:SANS }}>
+            <span style={{ fontFamily:SERIF, fontStyle:'italic', marginRight:6 }}>GoldPath</span>
+            {ko?'시작하기 →':'Start →'}
           </button>
           <button onClick={() => setSlide(1)}
-            style={{ flex:1, background:'rgba(197,165,114,0.08)', border:`1px solid ${T.goldBorder}`, color:T.gold, padding:'14px 16px', fontSize:13, cursor:'pointer', fontFamily:SANS }}>
-            {ko?'Founders 혜택 보기 →':'Founders Benefits →'}
+            style={{ flex:1, background:'rgba(197,165,114,0.08)', border:`1px solid ${T.goldBorder}`, color:T.gold, padding:'14px 12px', fontSize:12, cursor:'pointer', fontFamily:SANS }}>
+            {ko?'Founders →':'Founders →'}
           </button>
         </div>
-        <div style={{ fontFamily: T.mono, fontSize: 11, color: '#555', textAlign: 'center', marginTop: 10 }}>
+        <div style={{ fontFamily: T.mono, fontSize: 10, color: '#555', textAlign: 'center', marginTop: 8 }}>
           {ko ? '언제든 중단 가능 · 최소 약정 없음' : 'Cancel anytime · no minimum commitment'}
         </div>
       </div>

@@ -16,6 +16,92 @@ export function WhyGoldPage({ lang, navigate }) {
   const [openArticle, setOpenArticle] = useState(null);
   const { articles } = useNewsData();
 
+  // USD/Gold since 1971 — annual data points [year, goldIndexed, usdPowerIndexed]
+  // Gold indexed to 100 at 1971 (= $35/oz). USD purchasing power indexed to 100 at 1971.
+  const GOLD_HIST = [
+    [1971,100,100],[1973,286,86],[1975,460,79],[1977,514,71],[1979,1143,63],
+    [1980,1686,57],[1982,1009,52],[1985,906,43],[1987,1097,39],[1990,1094,34],
+    [1993,991,31],[1995,1097,28],[1997,977,26],[2000,777,25],[2002,897,23],
+    [2005,1466,21],[2007,1943,19],[2008,2486,18],[2010,3500,17],[2011,5063,16],
+    [2013,3446,15],[2015,3029,15],[2017,3757,14],[2019,3977,14],[2020,5054,14],
+    [2022,5143,12],[2023,5543,11],[2024,6571,10],[2025,9429,10],
+  ];
+
+  // USD/Gold chart canvas component inline
+  const USD_GOLD_REF = useRef(null);
+  const [usdGoldVis, setUsdGoldVis] = useState(false);
+  const usdGoldContainerRef = useRef(null);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setUsdGoldVis(true); }, { threshold: 0.05 });
+    if (usdGoldContainerRef.current) obs.observe(usdGoldContainerRef.current);
+    return () => obs.disconnect();
+  }, []);
+  useEffect(() => {
+    if (!usdGoldVis || !USD_GOLD_REF.current) return;
+    const canvas = USD_GOLD_REF.current;
+    const W = canvas.offsetWidth || 640; const H = canvas.height;
+    canvas.width = W;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, W, H);
+    const PAD = { top:20, right:16, bottom:32, left:56 };
+    const CW = W - PAD.left - PAD.right; const CH = H - PAD.top - PAD.bottom;
+    const allG = GOLD_HIST.map(d => d[1]);
+    const allU = GOLD_HIST.map(d => d[2]);
+    const maxV = Math.max(...allG) * 1.04;
+    const minV = 0;
+    const toX = i => PAD.left + (i / (GOLD_HIST.length - 1)) * CW;
+    const toY = v => PAD.top + CH - ((v - minV) / (maxV - minV)) * CH;
+    // Grid
+    [100, 1000, 3000, 6000, 9000].forEach(v => {
+      if (v > maxV) return;
+      const y = toY(v);
+      ctx.strokeStyle = v === 100 ? 'rgba(197,165,114,0.18)' : 'rgba(197,165,114,0.06)';
+      ctx.lineWidth = v === 100 ? 1 : 0.5; ctx.setLineDash(v===100?[]:[3,3]);
+      ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(W-PAD.right, y); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(197,165,114,0.4)'; ctx.font = "9px 'JetBrains Mono',monospace";
+      ctx.textAlign = 'right'; ctx.fillText(v===100?'Base':v>999?(v/1000)+'K':v, PAD.left-4, y+3);
+    });
+    // Decade markers
+    GOLD_HIST.forEach((d, i) => {
+      if (d[0] % 10 === 0 || d[0] === 1971 || d[0] === 2025) {
+        ctx.fillStyle = d[0] >= 2022 ? 'rgba(197,165,114,0.7)' : 'rgba(138,125,107,0.4)';
+        ctx.font = `${isMobile?8:9}px 'JetBrains Mono',monospace`; ctx.textAlign = 'center';
+        ctx.fillText(d[0], toX(i), H-6);
+        ctx.strokeStyle = 'rgba(197,165,114,0.04)'; ctx.lineWidth = 0.5;
+        ctx.beginPath(); ctx.moveTo(toX(i), PAD.top); ctx.lineTo(toX(i), PAD.top+CH); ctx.stroke();
+      }
+    });
+    // USD power line (fill + line) — red
+    const usdPts = allU.map((v, i) => ({ x: toX(i), y: toY(v * maxV / 100) }));
+    const usdGrad = ctx.createLinearGradient(0, 0, 0, H);
+    usdGrad.addColorStop(0, 'rgba(248,113,113,0.15)'); usdGrad.addColorStop(1, 'rgba(248,113,113,0)');
+    ctx.beginPath(); ctx.moveTo(usdPts[0].x, PAD.top+CH);
+    usdPts.forEach(p => ctx.lineTo(p.x, p.y));
+    ctx.lineTo(usdPts[usdPts.length-1].x, PAD.top+CH);
+    ctx.closePath(); ctx.fillStyle = usdGrad; ctx.fill();
+    ctx.beginPath(); ctx.strokeStyle = 'rgba(248,113,113,0.6)'; ctx.lineWidth = 1.5; ctx.lineJoin = 'round';
+    usdPts.forEach((p, i) => i===0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y)); ctx.stroke();
+    // Gold line (fill + line) — gold
+    const goldPts = allG.map((v, i) => ({ x: toX(i), y: toY(v) }));
+    const goldGrad = ctx.createLinearGradient(0, PAD.top, 0, PAD.top+CH);
+    goldGrad.addColorStop(0, 'rgba(197,165,114,0.22)'); goldGrad.addColorStop(1, 'rgba(197,165,114,0)');
+    ctx.beginPath(); ctx.moveTo(goldPts[0].x, PAD.top+CH);
+    goldPts.forEach(p => ctx.lineTo(p.x, p.y));
+    ctx.lineTo(goldPts[goldPts.length-1].x, PAD.top+CH);
+    ctx.closePath(); ctx.fillStyle = goldGrad; ctx.fill();
+    ctx.beginPath(); ctx.strokeStyle = '#C5A572'; ctx.lineWidth = 2; ctx.lineJoin = 'round';
+    goldPts.forEach((p, i) => i===0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y)); ctx.stroke();
+    // End dots
+    const lg = goldPts[goldPts.length-1];
+    ctx.beginPath(); ctx.arc(lg.x, lg.y, 4, 0, Math.PI*2); ctx.fillStyle = '#E3C187'; ctx.fill();
+    const lu = usdPts[usdPts.length-1];
+    ctx.beginPath(); ctx.arc(lu.x, lu.y, 3, 0, Math.PI*2); ctx.fillStyle = '#f87171'; ctx.fill();
+    // 1971 baseline label
+    ctx.fillStyle = 'rgba(197,165,114,0.5)'; ctx.font = "9px 'JetBrains Mono',monospace"; ctx.textAlign = 'left';
+    ctx.fillText('1971 = 100', PAD.left+4, toY(100)-5);
+  }, [usdGoldVis, lang, isMobile]);
+
   const IB = ({ children }) => (
     <div style={{ width:44, height:44, background:T.bgCard, border:`1px solid ${T.goldBorder}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, color:T.gold }}>
       {children}
@@ -37,32 +123,30 @@ export function WhyGoldPage({ lang, navigate }) {
   return (
     <div style={{ background: T.bg }}>
 
-      {/* ── HERO — dramatic dark gradient ── */}
+      {/* ── HERO — 금 전략: thesis-first ── */}
       <div style={{ position:'relative', overflow:'hidden', background:'linear-gradient(135deg, #0a0a0a 0%, #111008 50%, #0a0a0a 100%)', borderBottom:`1px solid ${T.goldBorder}` }}>
-        {/* Grid texture */}
         <div style={{ position:'absolute', inset:0, opacity:0.04, backgroundImage:'linear-gradient(rgba(197,165,114,1) 1px,transparent 1px),linear-gradient(90deg,rgba(197,165,114,1) 1px,transparent 1px)', backgroundSize:'60px 60px', pointerEvents:'none' }} />
-        {/* Radial glow */}
         <div style={{ position:'absolute', top:'30%', right:'15%', width:500, height:500, background:'radial-gradient(ellipse, rgba(197,165,114,0.12) 0%, transparent 65%)', pointerEvents:'none' }} />
         <div className="aurum-container" style={{ paddingTop: isMobile ? 48 : 100, paddingBottom: isMobile ? 48 : 100, position:'relative', zIndex:1 }}>
           <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:20 }}>
             <div style={{ width:32, height:1, background:T.gold }} />
-            <span style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:13, color:T.gold, letterSpacing:'0.04em' }}>The Case for Precious Metals</span>
+            <span style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:13, color:T.gold, letterSpacing:'0.04em' }}>금 전략 · Gold Strategy</span>
             <span style={{ color:T.goldDim }}>·</span>
-            <span style={{ fontFamily:T.mono, fontSize:11, color:T.gold, letterSpacing:'0.18em', textTransform:'uppercase' }}>투자 근거 2026</span>
+            <span style={{ fontFamily:T.mono, fontSize:11, color:T.gold, letterSpacing:'0.18em', textTransform:'uppercase' }}>2026</span>
           </div>
-          <h1 style={{ fontFamily: ko ? T.serifKrDisplay : T.serifKr, fontSize: isMobile ? 40 : 'clamp(44px,6vw,72px)', fontWeight:300, color:T.text, margin:'0 0 24px', lineHeight:1.05 }}>
-            {ko ? <>왜 지금<br /><span style={{ color:T.gold, fontFamily:T.serif, fontStyle:'italic', fontWeight:300 }}>금·은인가?</span></> : <>Why Gold &<br /><span style={{ color:T.gold, fontFamily:T.serif, fontStyle:'italic', fontWeight:300 }}>Silver, now?</span></>}
+          <h1 style={{ fontFamily: ko ? T.serifKrDisplay : T.serifKr, fontSize: isMobile ? 38 : 'clamp(42px,6vw,68px)', fontWeight:300, color:T.text, margin:'0 0 24px', lineHeight:1.05 }}>
+            {ko ? <>중앙은행이 금을 사고 있습니다.<br /><span style={{ color:T.gold, fontFamily:T.serif, fontStyle:'italic', fontWeight:300 }}>당신의 전략은 무엇입니까?</span></> : <>Central banks are buying gold.<br /><span style={{ color:T.gold, fontFamily:T.serif, fontStyle:'italic', fontWeight:300 }}>What is your strategy?</span></>}
           </h1>
-          <p style={{ fontFamily:T.sans, fontSize: isMobile ? 15 : 17, color:T.textSub, lineHeight:1.85, maxWidth:540, marginBottom:36 }}>
-            {ko ? '중앙은행이 역대 최대로 사들이고 있습니다. 달러 패권이 흔들립니다. 김치 프리미엄은 20%입니다. 지금 갖지 않으면, 더 비싸게 가져야 합니다.' : 'Central banks are buying at record pace. Dollar dominance is cracking. The Korea premium is 20%. Not owning is itself a position.'}
+          <p style={{ fontFamily:T.sans, fontSize: isMobile ? 15 : 17, color:T.textSub, lineHeight:1.85, maxWidth:560, marginBottom:36 }}>
+            {ko ? '1971년 브레튼우즈 이후 달러 기반 통화 시스템이 서서히 금으로 재편되고 있습니다. 이 전환을 가장 먼저 인식한 기관들은 중앙은행입니다 — 그들이 행동하고 있습니다.' : 'Since Bretton Woods ended in 1971, the dollar-based monetary system has been slowly rearchitecting toward gold. The institutions that recognized this first are central banks — and they are acting on it.'}
           </p>
-          {/* Live macro stats strip */}
+          {/* CB signal strip + key stats */}
           <div style={{ display:'grid', gridTemplateColumns: isMobile?'1fr 1fr':'repeat(4,1fr)', gap:1, background:T.goldBorder }}>
             {[
-              { val:'$4,800+',   lbl: ko?'금 현재가 (ATH)':'Gold (near ATH)',     color:T.gold   },
-              { val:'+394%',     lbl: ko?'10년 KRW 수익률':'10yr KRW return',     color:T.gold   },
-              { val:'220t',      lbl: ko?'중앙은행 Q3\'25 매입':'CB Q3\'25 buy',  color:'#4ade80'},
-              { val:'20%',       lbl: ko?'한국 현재 프리미엄':'Korea premium now', color:'#f87171'},
+              { val:'1,045t',  lbl: ko?'2024 중앙은행 순매입':'2024 CB net purchase',  color:'#4ade80' },
+              { val:'94×',     lbl: ko?'금: 1971년 이후 상승':'Gold since 1971',       color:T.gold    },
+              { val:'-86%',    lbl: ko?'USD 구매력 1971 이후':'USD power since 1971',  color:'#f87171' },
+              { val:'+394%',   lbl: ko?'10년 KRW 기준 수익률':'10yr KRW return',       color:T.gold    },
             ].map((s,i) => (
               <div key={i} style={{ background:'#0d0b08', padding: isMobile?'14px 12px':'18px 20px', textAlign:'center' }}>
                 <div style={{ fontFamily:T.mono, fontSize: isMobile?18:24, color:s.color, fontWeight:700, marginBottom:4 }}>{s.val}</div>
@@ -70,6 +154,46 @@ export function WhyGoldPage({ lang, navigate }) {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* ── USD vs GOLD SINCE 1971 — the monetary argument ── */}
+      <div ref={usdGoldContainerRef} style={{ borderBottom:`1px solid ${T.border}`, background:'#0d0b08' }}>
+        <div className="aurum-container" style={{ paddingTop: isMobile?32:72, paddingBottom: isMobile?32:64 }}>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexWrap:'wrap', gap:16, marginBottom:24 }}>
+            <div>
+              <div style={{ fontFamily:T.mono, fontSize:9, color:'rgba(197,165,114,0.5)', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:10 }}>
+                {ko ? '달러 vs 금 · 1971년 = 100 인덱스' : 'Dollar vs Gold · 1971 = 100 Index'}
+              </div>
+              <h2 style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:isMobile?24:36, color:T.text, fontWeight:300, margin:0 }}>
+                {ko ? <>달러는 금을 이길 수 없습니다.<br /><span style={{ color:'#f87171' }}>1971년 이후 단 한 번도.</span></> : <>The dollar cannot beat gold.<br /><span style={{ color:'#f87171' }}>Not once since 1971.</span></>}
+              </h2>
+            </div>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr 1fr':'repeat(3,1fr)', gap:10, marginBottom:24 }}>
+            {[
+              { label:ko?'금 (1971→2025)':'Gold (1971→2025)', val:'9,429', sub:ko?'100에서 시작, 94배':'From 100 to 9,429', color:'#C5A572' },
+              { label:ko?'달러 구매력 손실':'Dollar Power Lost', val:'-86%', sub:ko?'같은 기간 소비재 기준':'Same period, goods basket', color:'#f87171' },
+              { label:ko?'브레튼우즈 종료':'Bretton Woods End', val:'1971', sub:ko?'금-달러 고정 해제':'Gold-dollar peg ended', color:'rgba(197,165,114,0.5)' },
+            ].map((s, i) => (
+              <div key={i} style={{ background:'rgba(197,165,114,0.03)', border:`1px solid ${i===0?'rgba(197,165,114,0.2)':i===1?'rgba(248,113,113,0.15)':'rgba(197,165,114,0.08)'}`, padding:'16px 18px' }}>
+                <div style={{ fontFamily:T.sans, fontSize:11, color:T.textMuted, marginBottom:6 }}>{s.label}</div>
+                <div style={{ fontFamily:T.mono, fontSize:isMobile?22:26, color:s.color, fontWeight:700 }}>{s.val}</div>
+                <div style={{ fontFamily:T.mono, fontSize:9, color:'#444', marginTop:4 }}>{s.sub}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ background:'#080806', border:'1px solid rgba(197,165,114,0.08)', padding:'16px 8px 8px' }}>
+            <canvas ref={USD_GOLD_REF} height={isMobile?180:240} style={{ display:'block', width:'100%' }} />
+          </div>
+          <div style={{ display:'flex', gap:20, marginTop:10, flexWrap:'wrap' }}>
+            <span style={{ fontFamily:T.mono, fontSize:9, color:'rgba(197,165,114,0.65)' }}>— {ko?'금 (USD 기준, 인덱스)':'Gold (USD, indexed)'}</span>
+            <span style={{ fontFamily:T.mono, fontSize:9, color:'rgba(248,113,113,0.55)' }}>— {ko?'달러 구매력 (인덱스)':'USD purchasing power (indexed)'}</span>
+            <span style={{ fontFamily:T.mono, fontSize:9, color:'#444' }}>* {ko?'LBMA 연간 종가 · US CPI 기준':'LBMA annual close · US CPI basis'}</span>
+          </div>
+          <p style={{ fontFamily:T.sans, fontSize:13, color:'#555', lineHeight:1.75, marginTop:12, maxWidth:680 }}>
+            {ko ? '달러는 시스템 내에서 상대적으로 강할 수 있습니다. 그러나 금은 시스템 밖에 있습니다. 브레튼우즈 이후 54년, 금은 달러 대비 94배 상승했습니다. 이것은 단순한 자산 가격 상승이 아닙니다 — 기축통화의 구매력 손실이 금 가격에 반영된 것입니다.' : 'The dollar can be relatively strong within the system. But gold is outside the system. Since Bretton Woods ended 54 years ago, gold has risen 94x against the dollar. This is not merely asset price appreciation — it is the loss of reserve currency purchasing power manifested in gold\'s price.'}
+          </p>
         </div>
       </div>
 
@@ -222,14 +346,16 @@ export function WhyGoldPage({ lang, navigate }) {
       <div style={{ background: T.bg1, borderBottom: `1px solid ${T.border}`, textAlign: 'center' }}>
         <div className="aurum-container" style={{ paddingTop: isMobile ? 28 : 64, paddingBottom: isMobile ? 28 : 64 }}>
           <h2 style={{ fontFamily: T.serifKr, fontSize: 'clamp(24px,3vw,38px)', fontWeight: 300, color: T.text, marginBottom: 12 }}>
-            {ko ? '지금 실물 금·은을 보유하세요' : 'Own Physical Gold & Silver Today'}
+            {ko ? '전략을 실행하십시오' : 'Execute the Strategy'}
           </h2>
           <p style={{ fontFamily: T.sans, fontSize: 15, color: T.textSub, marginBottom: 28, lineHeight: 1.9 }}>
-            {ko ? "국제 현물가 기준, 싱가포르 완전 배분 보관, Lloyd's of London 보험." : "International spot pricing, fully allocated Singapore vault, Lloyd's of London insurance."}
+            {ko ? "중앙은행의 전략을 — 귀하의 원화로. 국제 현물가, 완전 배분 보관, 싱가포르 금고." : "The central bank strategy — in your KRW. International spot, fully allocated, Singapore vault."}
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', alignItems: 'stretch' }}>
-            <button onClick={() => navigate('shop-physical')} className="btn-primary" style={{ minWidth: 180, flex: 1, padding: '16px 36px', fontSize: 15 }}>{ko ? '실물 금·은 구매' : 'Buy Physical Gold & Silver'}</button>
-            <button onClick={() => navigate('agp-intro')} className="btn-outline" style={{ minWidth: 180, flex: 1, padding: '16px 36px', fontSize: 15 }}>{ko ? 'AGP 월적립 시작' : 'Start AGP Monthly Plan'}</button>
+            <button onClick={() => navigate('agp')} className="btn-primary" style={{ minWidth: 200, flex: 1, padding: '16px 36px', fontSize: 15 }}>
+              {ko ? <><span style={{ fontFamily: T.serif, fontStyle: 'italic' }}>GoldPath</span> 시작하기 →</> : <>Start <span style={{ fontFamily: T.serif, fontStyle: 'italic' }}>GoldPath</span> →</>}
+            </button>
+            <button onClick={() => navigate('shop-physical')} className="btn-outline" style={{ minWidth: 180, flex: 1, padding: '16px 36px', fontSize: 15 }}>{ko ? '실물 금·은 구매' : 'Buy Physical Gold & Silver'}</button>
           </div>
         </div>
       </div>
@@ -549,19 +675,15 @@ export function StoragePage({ lang, navigate }) {
 }
 
 /* ── AGP Launch Estimator sub-component (extracted to fix React hook violation) ── */
-function AGPLaunchEstimator({ ko, isMobile, navigate, prices, krwRate }) {
-  // A8 + SPOT fix: use live price, fall back to reference if not loaded
-  const SPOT_KRW_G = (prices?.gold && krwRate)
-    ? prices.gold * krwRate / 31.1035
-    : 230000;
+function AGPLaunchEstimator({ ko, isMobile, navigate }) {
+  const SPOT_KRW_G = 452000;
   const AURUM_UP   = 0.02;
   const KR_MULT    = 1.20;
-  // A8: gift values synced with HomePage authoritative values
   const TIERS = [
     { name:'브론즈', nameEn:'Bronze', min:200000,  gift:'₩50K',  giftVal:50000   },
-    { name:'실버',   nameEn:'Silver', min:500000,  gift:'₩200K', giftVal:200000  },
-    { name:'골드',   nameEn:'Gold',   min:1000000, gift:'₩500K', giftVal:500000, featured:true },
-    { name:'플래티넘',nameEn:'Plat.', min:2000000, gift:'₩1.5M', giftVal:1500000 },
+    { name:'실버',   nameEn:'Silver', min:500000,  gift:'₩150K', giftVal:150000  },
+    { name:'골드',   nameEn:'Gold',   min:1000000, gift:'₩400K', giftVal:400000, featured:true },
+    { name:'플래티넘',nameEn:'Plat.', min:2000000, gift:'₩1M',   giftVal:1000000 },
     { name:'소브린', nameEn:'Sov.',   min:5000000, gift:'₩5M',   giftVal:5000000 },
   ];
   const [monthly, setMonthly] = useState(1000000);
@@ -640,7 +762,7 @@ function AGPLaunchEstimator({ ko, isMobile, navigate, prices, krwRate }) {
 /* ═══════════════════════════════════════════════════════════════════════
    AGP INFO PAGE
    ═══════════════════════════════════════════════════════════════════════ */
-export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368, prices }) {
+export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368 }) {
   const ko = lang === 'ko';
   const isMobile = useIsMobile();
   const IB = ({ children }) => (
@@ -666,16 +788,19 @@ export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368, pric
           <div style={{ maxWidth: 680, flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, flexWrap: 'nowrap', overflow: 'hidden' }}>
               <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />
-              <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile ? 11 : 13, color: T.gold, letterSpacing: '0.04em' }}>AGP 적금 Plan</span>
+              <div style={{ display:'flex', flexDirection:'column', gap:1 }}>
+                <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: isMobile ? 13 : 16, color: '#E3C187', letterSpacing: '0.03em', lineHeight:1 }}>GoldPath</span>
+                <span style={{ fontFamily: T.mono, fontSize: 8, color: '#7a6d58', letterSpacing: '0.22em', lineHeight:1 }}>금환</span>
+              </div>
               <span style={{ color: T.goldDim }}>·</span>
-              <span style={{ fontFamily: T.mono, fontSize: isMobile ? 10 : 11, color: T.gold, letterSpacing: '0.18em', textTransform: 'uppercase' }}>AGP 적금 Plan</span>
+              <span style={{ fontFamily: T.mono, fontSize: isMobile ? 10 : 11, color: T.gold, letterSpacing: '0.18em', textTransform: 'uppercase' }}>{ko ? '원화 실물금 전환 플랜' : 'KRW to Physical Gold'}</span>
               {!isMobile && <div style={{ width: 28, height: 1, background: T.gold, flexShrink: 0 }} />}
             </div>
             <h1 style={{ fontFamily: ko ? T.serifKrDisplay : T.serifKr, fontSize: 'clamp(32px,5vw,56px)', fontWeight: 500, color: T.text, margin: '0 0 20px', lineHeight: 1.1 }}>
-              {ko ? <>매달<br /><span style={{ color: T.gold }}>금이 쌓입니다.</span></> : <>Gold accumulates<br /><span style={{ color: T.gold }}>every month.</span></>}
+              {ko ? <>원화를<br /><span style={{ color: T.gold }}>금으로 전환합니다.</span></> : <>Converting KRW<br /><span style={{ color: T.gold }}>into gold.</span></>}
             </h1>
             <p style={{ fontFamily: T.sans, fontSize: isMobile ? 14 : 16, color: T.textSub, lineHeight: 1.85, maxWidth: 520, marginBottom: 20 }}>
-              {ko ? '그램 단위 자동 적립 — 100g 도달 시 LBMA 승인 실물 바로 무료 전환. 국제 현물가 + 2% 투명 프리미엄. 언제든 해지 가능.' : 'Automated gram accumulation. Free conversion to LBMA bar at 100g. International spot + 2% transparent premium. Exit anytime.'}
+              {ko ? '중앙은행이 1,045톤을 매입한 자산을 — 매달 원화로, 자동으로 적립하십시오. 100g 도달 시 LBMA 승인 실물 바로 무료 전환. 국제 현물가 + 2% 투명 프리미엄. 언제든 해지 가능.' : 'The asset central banks bought 1,045 tonnes of last year — accumulate it in KRW, automatically. Free conversion to LBMA bar at 100g. International spot + 2% transparent premium. Exit anytime.'}
             </p>
             {/* Kimchi premium savings callout */}
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'rgba(74,222,128,0.06)', border: '1px solid rgba(74,222,128,0.2)', padding: '8px 16px', marginBottom: 28 }}>
@@ -710,14 +835,38 @@ export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368, pric
             </h2>
           </div>
           {/* Inline estimator widget */}
-          <AGPLaunchEstimator ko={ko} isMobile={isMobile} navigate={navigate} prices={prices} krwRate={krwRate} />
+          <AGPLaunchEstimator ko={ko} isMobile={isMobile} navigate={navigate} />
+        </div>
+      </div>
+
+      {/* ── HOW IT WORKS — 3 steps, moved here from homepage ── */}
+      <div style={{ borderBottom:`1px solid ${T.border}`, background: T.bg }}>
+        <div className="aurum-container" style={{ paddingTop: isMobile?32:64, paddingBottom: isMobile?32:64 }}>
+          <div style={{ textAlign:'center', marginBottom: isMobile?24:40 }}>
+            <div style={{ fontFamily:T.mono, fontSize:10, color:T.goldDim, letterSpacing:'0.2em', textTransform:'uppercase', marginBottom:8 }}>
+              {ko ? '3단계로 끝납니다' : 'Three steps'}
+            </div>
+            <h2 style={{ fontFamily: ko?T.serifKrDisplay:T.serif, fontSize:isMobile?26:36, fontWeight:300, color:T.text, margin:0 }}>
+              {ko ? <>가입부터 금고까지, <span style={{ color:T.gold, fontStyle:'italic' }}>5분.</span></> : <>Account to vault in <span style={{ color:T.gold, fontStyle:'italic' }}>5 minutes.</span></>}
+            </h2>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 1fr 1fr', gap:12 }}>
+            {[
+              { n:'STEP 01', t:ko?'신원 확인':'Verify Identity', d:ko?'NICE·KCB 본인인증, 1분 이내 완료. 주민등록증 또는 여권 준비 후 시작하세요. 완료 즉시 구매 가능합니다.':'NICE/KCB identity verification in under 1 minute. Have your Korean ID or passport ready. Purchase enabled immediately.' },
+              { n:'STEP 02', t:ko?'구매 또는 적립':'Purchase or Accumulate', d:ko?'토스뱅크 자동이체, 카드, 국제 송금. 원화로 결제, LBMA 국제 현물가로 환산.':'Toss auto-debit, card, or wire. Pay KRW at live LBMA spot.' },
+              { n:'STEP 03', t:ko?'싱가포르 금보관 배분':'Singapore Vault Allocation', d:ko?'결제 즉시 Malca-Amit FTZ 금고에 귀하의 명의로 배분. 앱에서 실시간 확인 가능.':'Allocated to your name at Malca-Amit Singapore FTZ vault immediately. Track in the app in real time.' },
+            ].map((s,i) => (
+              <div key={i} style={{ background:'rgba(197,165,114,0.03)', border:'1px solid rgba(197,165,114,0.12)', borderTop:`2px solid ${T.gold}`, padding:'18px 18px' }}>
+                <div style={{ fontFamily:T.mono, fontSize:10, color:T.goldDim, letterSpacing:'0.2em', marginBottom:8 }}>{s.n}</div>
+                <div style={{ fontFamily:ko?T.serifKr:T.serif, fontSize:17, color:T.text, marginBottom:8 }}>{s.t}</div>
+                <div style={{ fontFamily:T.sans, fontSize:13, color:T.goldDim, lineHeight:1.7 }}>{s.d}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       <div style={{ borderBottom: `1px solid ${T.border}` }}>
-        <div className="aurum-container" style={{ paddingTop: isMobile ? 28 : 72, paddingBottom: isMobile ? 28 : 64 }}>
-          <div style={{ maxWidth: 900, margin: '0 auto' }}>
-            <SectionHead badge="작동 방식" title="AGP는 이렇게 작동합니다" />
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(5, 1fr)', gap: isMobile ? 16 : 0, position: 'relative' }}>
               {[
                 { icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c5a572" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>, kr: '가입',    en: 'Sign Up',   desc: ko ? '10분 내 온라인 KYC 완료.' : 'Online KYC in 10 minutes.' },
@@ -751,8 +900,8 @@ export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368, pric
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(5,1fr)', gap: 10 }}>
             {[
               { name: ko?'브론즈':'Bronze', nameEn:'Bronze', min:'₩200K', gift:'₩50K', color: T.goldDim,    featured: false },
-              { name: ko?'실버':'Silver',   nameEn:'Silver',  min:'₩500K', gift:'₩200K', color: '#aaa',     featured: false },
-              { name: ko?'골드':'Gold',     nameEn:'Gold',    min:'₩1M',   gift:'₩500K', color: T.gold,     featured: true  },
+              { name: ko?'실버':'Silver',   nameEn:'Silver',  min:'₩500K', gift:'₩150K', color: '#aaa',     featured: false },
+              { name: ko?'골드':'Gold',     nameEn:'Gold',    min:'₩1M',   gift:'₩400K', color: T.gold,     featured: true  },
               { name: ko?'플래티넘':'Plat.', nameEn:'Plat.',  min:'₩2M',   gift:'₩1M',   color: '#60a5fa',  featured: false },
               { name: ko?'소브린':'Sovereign',nameEn:'Sovereign',min:'₩5M',gift:'₩5M',  color: T.goldBright,featured: false },
             ].map((t, i) => (

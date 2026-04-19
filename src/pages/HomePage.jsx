@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { T, useIsMobile, fUSD, fKRW } from '../lib/index.jsx';
 import { StatBar, Accordion, SectionHead } from '../components/UI.jsx';
 import { initMagneticCards } from '../lib/magnetic.js';
-import MarketRatios from '../components/MarketRatios.jsx';
+import MarketRatios from '../components/MarketRatios.jsx'; // used on 오늘의 금값 page via InfoPages
 
 // ─── Wax seal divider (reused from campaign pages) ────────────────────────────
 function SealDivider() {
@@ -312,11 +312,11 @@ function AGPLaunchPane({ lang, navigate, prices, krwRate }) {
   const isMobile = useIsMobile();
   const ko = lang === 'ko';
   const tiers = [
-    { nameEn:'Bronze',   name:'브론즈',   min:'₩200,000+',   minVal:200000,  gift:'₩50,000'    },
-    { nameEn:'Silver',   name:'실버',     min:'₩500,000+',   minVal:500000,  gift:'₩200,000'   },
-    { nameEn:'Gold',     name:'골드',     min:'₩1,000,000+', minVal:1000000, gift:'₩500,000',  featured:true },
-    { nameEn:'Platinum', name:'플래티넘', min:'₩2,000,000+', minVal:2000000, gift:'₩1,500,000' },
-    { nameEn:'Sovereign',name:'소브린',   min:'₩5,000,000+', minVal:5000000, gift:'₩5,000,000' },
+    { nameEn:'Bronze',   name:'브론즈',   min:'₩200,000+',   gift:'₩50,000'    },
+    { nameEn:'Silver',   name:'실버',     min:'₩500,000+',   gift:'₩200,000'   },
+    { nameEn:'Gold',     name:'골드',     min:'₩1,000,000+', gift:'₩500,000',  featured:true },
+    { nameEn:'Platinum', name:'플래티넘', min:'₩2,000,000+', gift:'₩1,500,000' },
+    { nameEn:'Sovereign',name:'소브린',   min:'₩5,000,000+', gift:'₩5,000,000' },
   ];
   return (
     <div style={{ background:'linear-gradient(150deg,#0d0b07,#161208)', borderTop:'1px solid rgba(197,165,114,0.12)', borderBottom:'1px solid rgba(197,165,114,0.12)', position:'relative', overflow:'hidden', minHeight:isMobile?'auto':480 }}>
@@ -334,19 +334,16 @@ function AGPLaunchPane({ lang, navigate, prices, krwRate }) {
           <h2 style={{ fontFamily:ko?T.serifKrDisplay:SERIF, fontSize:isMobile?30:44, fontWeight:400, color:'#f5f0e8', lineHeight:1.15, margin:'0 0 14px' }}>
             {ko ? <>매달 원화로,<br /><span style={{ color:'#c5a572', fontStyle:'italic' }}>국제 현물가 그대로.</span></> : <>Every month in KRW,<br /><span style={{ color:'#c5a572', fontStyle:'italic' }}>at international spot.</span></>}
           </h2>
-          <p style={{ fontFamily:SANS, fontSize:15, color:'#a09080', lineHeight:1.9, marginBottom:16 }}>
-            {ko ? '매달 자동이체 한 번으로, 국제 현물가에 실물 금을 그램 단위로 쌓습니다. 싱가포르 금고에, 귀하의 이름으로 — 가입 첫 달부터 등급별 금이 즉시 적립됩니다.' : 'One monthly auto-transfer accumulates real gold at international spot price, gram by gram. In a Singapore vault, in your name — gold credited from your very first payment.'}
+          <p style={{ fontFamily:SANS, fontSize:15, color:'#a09080', lineHeight:1.9, marginBottom:28 }}>
+            {ko ? '국내 금통장 이자 0%, 국내 소매 채널에서 구매 시 국제 현물가 대비 상당한 추가 비용이 발생합니다. AGP는 다릅니다 — 매달 자동이체 한 번으로, 실물 금을 국제 현물가에 그램 단위로 쌓습니다. 싱가포르 금고에, 귀하의 이름으로. 가입 첫 달, 등급에 따라 최대 ₩5,000,000 상당의 금이 즉시 적립됩니다. 언제든 중단 가능.' : 'Korean bank gold accounts yield 0%, and domestic retail channels carry a structural premium over international spot. AGP is different — one monthly auto-transfer accumulates real gold at international spot price, gram by gram. In a Singapore vault, in your name. Enroll this month and receive up to ₩5,000,000 in gold credited immediately. Cancel anytime.'}
           </p>
-          <div style={{ display:'inline-flex', alignItems:'center', gap:6, background:'rgba(74,222,128,0.06)', border:'1px solid rgba(74,222,128,0.2)', padding:'4px 12px', marginBottom:20, fontSize:11, fontFamily:MONO, color:'#4ade80', letterSpacing:'0.06em' }}>
-            ✓ {ko ? '언제든 중단 가능 · 위약금 없음' : 'Cancel anytime · No penalty'}
-          </div>
           <div style={{ marginBottom:32 }}>
             {tiers.map((t, i) => (
               <div key={i} style={{ display:'flex', alignItems:'center', gap:12, padding:'11px 14px', marginBottom:4, background:t.featured?'rgba(197,165,114,0.08)':'rgba(255,255,255,0.018)', border:`1px solid ${t.featured?'rgba(197,165,114,0.35)':'rgba(197,165,114,0.07)'}`, position:'relative', overflow:'hidden' }}>
                 {t.featured && <div style={GOLD_LINE} />}
                 <span style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:13, color:t.featured?'#E3C187':'#c5a572', minWidth:64 }}>{ko?t.name:t.nameEn}</span>
-                <span style={{ fontFamily:MONO, fontSize:11, color:'#888', flex:1 }}>{t.min}</span>
-                <span style={{ fontFamily:MONO, fontSize:10, color:'rgba(197,165,114,0.55)', letterSpacing:'0.06em' }}>{ko?'첫달 즉시 →':'Day-1 →'}&nbsp;</span>
+                <span style={{ fontFamily:MONO, fontSize:11, color:'#555', flex:1 }}>{t.min}</span>
+                <span style={{ fontFamily:MONO, fontSize:11, color:'#8a7d6b' }}>{ko?'첫달 즉시 적립':'Day-1 Gold Credit'}&nbsp;</span>
                 <span style={{ fontFamily:MONO, fontSize:t.featured?15:13, color:t.featured?'#4ade80':'#c5a572', fontWeight:t.featured?700:600 }}>{t.gift}</span>
               </div>
             ))}
@@ -399,7 +396,7 @@ function FoundersGateVisual({ gates }) {
               {/* Discount — right */}
               <text x="142" y={y+5} textAnchor="start" fill={g.apex?'#4ade80':'rgba(197,165,114,0.75)'} fontFamily="'JetBrains Mono',monospace" fontSize={g.apex?13:11} fontWeight={g.apex?'700':'400'}>{g.disc}</text>
               {/* Label — left */}
-              <text x="78" y={y+5} textAnchor="end" fill={g.apex ? 'rgba(197,165,114,0.75)' : 'rgba(197,165,114,0.55)'} fontFamily="'Outfit',sans-serif" fontSize="10">{g.label}</text>
+              <text x="78" y={y+5} textAnchor="end" fill="rgba(197,165,114,0.42)" fontFamily="'Outfit',sans-serif" fontSize="10">{g.label}</text>
             </g>
           );
         })}
@@ -438,7 +435,7 @@ function FoundersClubPane({ lang, navigate, krwRate }) {
             </span>
           </div>
           <h2 style={{ fontFamily:ko?T.serifKrDisplay:SERIF, fontSize:isMobile?30:44, fontWeight:400, color:'#f5f0e8', lineHeight:1.15, margin:'0 0 14px' }}>
-            {ko ? <>살수록 낮아지는 가격 —<br /><span style={{ color:'#c5a572', fontStyle:'italic' }}>영원히 내 것입니다.</span></> : <>Prices fall as you accumulate —<br /><span style={{ color:'#c5a572', fontStyle:'italic' }}>locked in forever.</span></>}
+            {ko ? <>살수록 낮아지는 가격 —<br /><span style={{ color:'#c5a572', fontStyle:'italic' }}>영원히 귀하의 것입니다.</span></> : <>Prices fall as you accumulate —<br /><span style={{ color:'#c5a572', fontStyle:'italic' }}>locked in forever.</span></>}
           </h2>
           <p style={{ fontFamily:SANS, fontSize:15, color:'#a09080', lineHeight:1.9, marginBottom:28 }}>
             {ko ? '한번 얻은 할인은 절대 사라지지 않습니다. Founders Club의 다섯 문을 통과할 때마다, 누적 구매 기준 할인율이 영구적으로 높아집니다. 귀하의 금 구매가 곧 귀하의 가격입니다.' : 'A discount earned is never lost. Every gate your cumulative purchases pass raises your discount permanently. Your buying history is your price.'}
@@ -459,7 +456,7 @@ function FoundersClubPane({ lang, navigate, krwRate }) {
             style={{ background:'transparent', border:'1px solid rgba(197,165,114,0.5)', color:'#c5a572', padding:'15px 32px', fontFamily:SANS, fontSize:14, fontWeight:600, cursor:'pointer', transition:'all 0.2s' }}
             onMouseEnter={e => { e.currentTarget.style.background='rgba(197,165,114,0.1)'; e.currentTarget.style.borderColor='#c5a572'; }}
             onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTarget.style.borderColor='rgba(197,165,114,0.5)'; }}>
-            {ko ? 'Founders Club 가입하기 →' : 'Join Founders Club →'}
+            {ko ? '내 절감액 계산하기 →' : 'Calculate my savings →'}
           </button>
         </div>
       </div>
@@ -470,6 +467,73 @@ function FoundersClubPane({ lang, navigate, krwRate }) {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // ─── Constants ────────────────────────────────────────────────────────────────
+
+// Historical data 2000–2019 [year, month, XAU/USD, KRW/USD] — LBMA monthly closes, Bank of Korea rates
+const HISTORICAL_DATA = [
+  [2000,1,284,1130],[2000,2,296,1119],[2000,3,284,1114],[2000,4,276,1118],[2000,5,275,1115],[2000,6,285,1098],
+  [2000,7,281,1107],[2000,8,274,1115],[2000,9,273,1126],[2000,10,270,1133],[2000,11,265,1265],[2000,12,272,1283],
+  [2001,1,266,1267],[2001,2,261,1275],[2001,3,261,1314],[2001,4,260,1330],[2001,5,271,1298],[2001,6,270,1294],
+  [2001,7,267,1295],[2001,8,272,1324],[2001,9,288,1340],[2001,10,283,1317],[2001,11,276,1268],[2001,12,276,1294],
+  [2002,1,281,1316],[2002,2,296,1325],[2002,3,294,1321],[2002,4,303,1324],[2002,5,314,1258],[2002,6,321,1203],
+  [2002,7,313,1186],[2002,8,311,1189],[2002,9,323,1189],[2002,10,316,1225],[2002,11,319,1224],[2002,12,348,1210],
+  [2003,1,357,1196],[2003,2,352,1185],[2003,3,337,1252],[2003,4,328,1230],[2003,5,364,1175],[2003,6,356,1197],
+  [2003,7,351,1192],[2003,8,375,1181],[2003,9,379,1189],[2003,10,383,1184],[2003,11,390,1194],[2003,12,417,1190],
+  [2004,1,414,1167],[2004,2,401,1155],[2004,3,406,1158],[2004,4,395,1152],[2004,5,383,1159],[2004,6,393,1156],
+  [2004,7,398,1155],[2004,8,400,1147],[2004,9,405,1153],[2004,10,420,1139],[2004,11,438,1119],[2004,12,442,1042],
+  [2005,1,426,1027],[2005,2,423,1020],[2005,3,434,1019],[2005,4,429,1024],[2005,5,422,1028],[2005,6,430,1015],
+  [2005,7,425,1027],[2005,8,437,1029],[2005,9,473,1029],[2005,10,470,1064],[2005,11,480,1061],[2005,12,513,1012],
+  [2006,1,549,980],[2006,2,554,970],[2006,3,582,969],[2006,4,636,960],[2006,5,675,944],[2006,6,596,955],
+  [2006,7,633,959],[2006,8,633,962],[2006,9,600,957],[2006,10,585,952],[2006,11,628,946],[2006,12,636,930],
+  [2007,1,632,933],[2007,2,664,940],[2007,3,661,936],[2007,4,680,930],[2007,5,667,927],[2007,6,655,927],
+  [2007,7,665,923],[2007,8,665,930],[2007,9,730,921],[2007,10,781,912],[2007,11,806,929],[2007,12,837,938],
+  [2008,1,925,951],[2008,2,945,960],[2008,3,970,1005],[2008,4,879,1020],[2008,5,887,1034],[2008,6,889,1041],
+  [2008,7,939,1010],[2008,8,836,1074],[2008,9,880,1140],[2008,10,800,1270],[2008,11,762,1458],[2008,12,816,1259],
+  [2009,1,859,1376],[2009,2,943,1422],[2009,3,924,1436],[2009,4,890,1338],[2009,5,928,1267],[2009,6,944,1274],
+  [2009,7,934,1277],[2009,8,951,1239],[2009,9,996,1193],[2009,10,1043,1173],[2009,11,1175,1161],[2009,12,1104,1168],
+  [2010,1,1119,1148],[2010,2,1090,1156],[2010,3,1113,1131],[2010,4,1149,1121],[2010,5,1209,1120],[2010,6,1233,1211],
+  [2010,7,1182,1199],[2010,8,1215,1182],[2010,9,1270,1152],[2010,10,1338,1124],[2010,11,1370,1130],[2010,12,1405,1146],
+  [2011,1,1362,1126],[2011,2,1410,1128],[2011,3,1421,1123],[2011,4,1502,1085],[2011,5,1537,1082],[2011,6,1529,1078],
+  [2011,7,1626,1060],[2011,8,1757,1067],[2011,9,1772,1182],[2011,10,1658,1122],[2011,11,1742,1133],[2011,12,1566,1152],
+  [2012,1,1655,1149],[2012,2,1718,1127],[2012,3,1677,1132],[2012,4,1648,1132],[2012,5,1573,1153],[2012,6,1601,1148],
+  [2012,7,1613,1142],[2012,8,1625,1132],[2012,9,1770,1122],[2012,10,1748,1102],[2012,11,1730,1086],[2012,12,1688,1071],
+  [2013,1,1680,1062],[2013,2,1628,1085],[2013,3,1595,1108],[2013,4,1474,1117],[2013,5,1395,1113],[2013,6,1233,1137],
+  [2013,7,1323,1130],[2013,8,1396,1113],[2013,9,1330,1083],[2013,10,1324,1065],[2013,11,1271,1059],[2013,12,1206,1055],
+  [2014,1,1244,1067],[2014,2,1302,1073],[2014,3,1338,1067],[2014,4,1300,1029],[2014,5,1285,1029],[2014,6,1315,1022],
+  [2014,7,1310,1018],[2014,8,1296,1026],[2014,9,1225,1051],[2014,10,1222,1052],[2014,11,1177,1107],[2014,12,1201,1099],
+  [2015,1,1255,1100],[2015,2,1213,1087],[2015,3,1184,1107],[2015,4,1179,1101],[2015,5,1190,1096],[2015,6,1177,1118],
+  [2015,7,1115,1157],[2015,8,1134,1168],[2015,9,1122,1195],[2015,10,1164,1143],[2015,11,1085,1148],[2015,12,1066,1175],
+  [2016,1,1099,1198],[2016,2,1237,1218],[2016,3,1234,1204],[2016,4,1247,1155],[2016,5,1214,1183],[2016,6,1322,1183],
+  [2016,7,1337,1161],[2016,8,1344,1118],[2016,9,1316,1105],[2016,10,1272,1125],[2016,11,1178,1152],[2016,12,1145,1205],
+  [2017,1,1197,1196],[2017,2,1234,1153],[2017,3,1253,1125],[2017,4,1267,1132],[2017,5,1254,1121],[2017,6,1256,1117],
+  [2017,7,1255,1131],[2017,8,1284,1143],[2017,9,1315,1138],[2017,10,1278,1125],[2017,11,1280,1103],[2017,12,1305,1075],
+  [2018,1,1331,1072],[2018,2,1318,1086],[2018,3,1325,1071],[2018,4,1317,1066],[2018,5,1306,1076],[2018,6,1271,1087],
+  [2018,7,1228,1121],[2018,8,1211,1112],[2018,9,1193,1117],[2018,10,1226,1131],[2018,11,1224,1122],[2018,12,1279,1122],
+  [2019,1,1289,1120],[2019,2,1320,1126],[2019,3,1295,1139],[2019,4,1287,1140],[2019,5,1285,1176],[2019,6,1351,1168],
+  [2019,7,1425,1177],[2019,8,1511,1210],[2019,9,1491,1192],[2019,10,1491,1168],[2019,11,1470,1160],[2019,12,1478,1157],
+];
+
+// Central bank annual net gold purchases (tonnes) — WGC data
+const CB_BUY_DATA = [
+  { year:2008, tonnes:235, pre:true },
+  { year:2009, tonnes:454, pre:true },
+  { year:2010, tonnes:77,  pre:true },
+  { year:2011, tonnes:457, pre:true },
+  { year:2012, tonnes:544, pre:true },
+  { year:2013, tonnes:625, pre:true },
+  { year:2014, tonnes:477, pre:true },
+  { year:2015, tonnes:577, pre:true },
+  { year:2016, tonnes:383, pre:true },
+  { year:2017, tonnes:375, pre:true },
+  { year:2018, tonnes:656, pre:true },
+  { year:2019, tonnes:668, pre:true },
+  { year:2020, tonnes:255, pre:true },
+  { year:2021, tonnes:450, pre:true },
+  { year:2022, tonnes:1136, inflection:true },
+  { year:2023, tonnes:1037 },
+  { year:2024, tonnes:1045 },
+  { year:2025, tonnes:880, partial:true },
+];
+
 const MONTHLY_DATA = [
   [2020,1,1580,1165],[2020,2,1586,1188],[2020,3,1591,1227],
   [2020,4,1686,1219],[2020,5,1715,1230],[2020,6,1728,1204],
@@ -508,7 +572,7 @@ function HeroSplitWidget({ prices, krwRate, lang, goldKR, goldAU }) {
   const ko = lang === 'ko';
   const gap = goldKR - goldAU;
   const fKRW2 = v => `₩${Math.round(v).toLocaleString('ko-KR')}`;
-  const barMax = goldKR; // A2: full bar = KR price so Aurum bar shows real gap
+  const barMax = goldKR * 1.02;
   const bars = [
     { label: ko ? '국내 소매 채널' : 'Korea Retail', val: goldKR, pct: goldKR/barMax*100, color: '#f87171' },
     { label: ko ? 'Aurum · LBMA 현물가 기준' : 'Aurum', val: goldAU, pct: goldAU/barMax*100, color: '#c5a572' },
@@ -535,7 +599,7 @@ function HeroSplitWidget({ prices, krwRate, lang, goldKR, goldAU }) {
         </div>
       ))}
       <div style={{ display:'flex', alignItems:'center', gap:10, background:'rgba(74,222,128,0.06)', border:'1px solid rgba(74,222,128,0.2)', padding:'10px 14px', marginTop:4 }}>
-        <span style={{ fontFamily:SANS, fontSize:13, color:'#c5a572', fontWeight:500, letterSpacing:'0.02em' }}>{ko ? 'Aurum으로 절감' : 'Savings with Aurum'}</span>
+        <span style={{ fontFamily:SANS, fontSize:12, color:'#f5f0e8' }}>{ko ? 'Aurum으로 절감' : 'Savings with Aurum'}</span>
         <span style={{ fontFamily:MONO, fontSize:20, color:'#4ade80', fontWeight:700, marginLeft:'auto' }}>{fKRW2(gap)}</span>
       </div>
     </div>
@@ -545,70 +609,46 @@ function HeroSplitWidget({ prices, krwRate, lang, goldKR, goldAU }) {
 // ─── C·02 KimchiPremiumMeter ──────────────────────────────────────────────────
 function KimchiPremiumMeter({ prices, krwRate, lang, goldKR, goldAU }) {
   const [ref, vis] = useScrollReveal(0.1);
-  const [override, setOverride] = useState(null); // null = live
   const isMobile = useIsMobile();
   const ko = lang === 'ko';
-
-  const livePrem = KR_GOLD_PREMIUM * 100; // 20.0 — A9 fix
-  const prem = override !== null ? override : livePrem;
-  const norm = Math.min(Math.max(prem / 30, 0), 1);
-  const deg  = -140 + norm * 280;
-  const rad  = (deg - 90) * Math.PI / 180;
-  const nx   = (100 + 62 * Math.cos(rad)).toFixed(1);
-  const ny   = (100 + 62 * Math.sin(rad)).toFixed(1);
-  const zc   = prem < 12 ? '#4ade80' : prem < 20 ? '#fbbf24' : '#f87171';
-  const zl   = ko ? (prem < 12 ? '낮음' : prem < 20 ? '보통' : '높음') : (prem < 12 ? 'Low' : prem < 20 ? 'Moderate' : 'Elevated');
-
-  const PRESETS = [
-    { label: ko?`역대 저점 (10%)`:  `Historic Low (10%)`,   val: 10   },
-    { label: ko?`현재 (${livePrem.toFixed(0)}%)`: `Live (${livePrem.toFixed(0)}%)`, val: null },
-    { label: ko?`역대 고점 (30%)`:  `Historic High (30%)`,  val: 30   },
-  ];
-
+  const prem = (goldKR - goldAU) / goldKR * 100;
+  const norm = Math.min(Math.max(prem / 25, 0), 1);
+  const deg = -140 + norm * 280;
+  const rad = (deg - 90) * Math.PI / 180;
+  const nx = (100 + 62 * Math.cos(rad)).toFixed(1);
+  const ny = (100 + 62 * Math.sin(rad)).toFixed(1);
+  const zc = prem < 8 ? '#4ade80' : prem < 15 ? '#fbbf24' : '#f87171';
+  const zl = ko ? (prem < 8 ? '낮음' : prem < 15 ? '보통' : '높음') : (prem < 8 ? 'Low' : prem < 15 ? 'Moderate' : 'Elevated');
   return (
     <div ref={ref} style={{ background:'#141414', borderBottom:'1px solid rgba(197,165,114,0.08)', padding:`${isMobile?20:24}px 0` }}>
       <div className="aurum-container" style={{ display:'flex', flexDirection:isMobile?'column':'row', alignItems:'center', justifyContent:'center', gap:40 }}>
-        <div style={{ position:'relative', width:200, height:170, flexShrink:0 }}>
+        <div style={{ position:'relative', width:200, height:130, flexShrink:0 }}>
           <svg width="200" height="130" viewBox="0 0 200 130" style={{ overflow:'visible' }}>
             <path d="M 20 105 A 80 80 0 0 1 180 105" fill="none" stroke="#2a2520" strokeWidth="14" strokeLinecap="round"/>
-            <path d="M 20 105 A 80 80 0 0 1 80 30"  fill="none" stroke="rgba(74,222,128,0.2)"  strokeWidth="14" strokeLinecap="round"/>
-            <path d="M 80 30 A 80 80 0 0 1 145 30"  fill="none" stroke="rgba(251,191,36,0.2)"  strokeWidth="14" strokeLinecap="round"/>
+            <path d="M 20 105 A 80 80 0 0 1 80 30" fill="none" stroke="rgba(74,222,128,0.2)" strokeWidth="14" strokeLinecap="round"/>
+            <path d="M 80 30 A 80 80 0 0 1 145 30" fill="none" stroke="rgba(251,191,36,0.2)" strokeWidth="14" strokeLinecap="round"/>
             <path d="M 145 30 A 80 80 0 0 1 180 105" fill="none" stroke="rgba(248,113,113,0.2)" strokeWidth="14" strokeLinecap="round"/>
-            {vis && <line x1="100" y1="105" x2={nx} y2={ny} stroke={zc} strokeWidth="2.5" strokeLinecap="round" style={{ transition:'all 0.5s ease' }}/>}
-            <circle cx="100" cy="105" r="5" fill={zc} style={{ transition:'fill 0.5s ease' }}/>
+            {vis && <line x1="100" y1="105" x2={nx} y2={ny} stroke={zc} strokeWidth="2.5" strokeLinecap="round"/>}
+            <circle cx="100" cy="105" r="5" fill={zc}/>
           </svg>
-          <div style={{ position:'absolute', top:55, left:'50%', transform:'translateX(-50%)', textAlign:'center' }}>
-            <div style={{ fontFamily:MONO, fontSize:22, fontWeight:700, color:zc, transition:'color 0.5s' }}>{vis ? prem.toFixed(0)+'%' : '—'}</div>
-            <div style={{ fontFamily:SANS, fontSize:10, color:zc, marginTop:2, transition:'color 0.5s' }}>{zl}</div>
-          </div>
-          {/* EX-A2: Preset buttons */}
-          <div style={{ display:'flex', gap:3, marginTop:8, justifyContent:'center', position:'absolute', bottom:0, left:0, right:0 }}>
-            {PRESETS.map((p, i) => (
-              <button key={i} onClick={() => setOverride(p.val)} style={{
-                background: override===p.val ? 'rgba(197,165,114,0.12)' : 'transparent',
-                border: `1px solid ${override===p.val ? 'rgba(197,165,114,0.5)' : 'rgba(197,165,114,0.18)'}`,
-                color: override===p.val ? '#c5a572' : '#777',
-                padding:'3px 7px', fontFamily:MONO, fontSize:9, cursor:'pointer',
-                transition:'all 0.2s', letterSpacing:'0.04em', whiteSpace:'nowrap',
-              }}>
-                {p.label}
-              </button>
-            ))}
+          <div style={{ position:'absolute', top:60, left:'50%', transform:'translateX(-50%)', textAlign:'center' }}>
+            <div style={{ fontFamily:MONO, fontSize:22, fontWeight:700, color:zc }}>{vis ? prem.toFixed(1)+'%' : '—'}</div>
+            <div style={{ fontFamily:SANS, fontSize:10, color:zc, marginTop:2 }}>{zl}</div>
           </div>
         </div>
         <div>
           <div style={{ fontFamily:MONO, fontSize:10, color:T.goldDim, letterSpacing:'0.16em', textTransform:'uppercase', marginBottom:10 }}>
-            {ko?'국내 소매 프리미엄 · LBMA 현물가 대비':'Domestic Retail Premium vs LBMA Spot'}
+            {ko ? '국내 소매 프리미엄 · LBMA 현물가 대비' : 'Domestic Retail Premium vs LBMA Spot'}
           </div>
           <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
             {[
-              { v:'+'+prem.toFixed(0)+'%', l:ko?'국내 소매 프리미엄':'KR Retail Premium', c:zc },
+              { v:prem.toFixed(1)+'%', l:ko?'오늘':'Today', c:zc },
               { v:ko?'전액 커버':"Lloyd's insured", l:"Lloyd's of London", c:'#c5a572' },
               { v:ko?'등록 딜러':'Registered', l:'PSPM 2019 · MAS', c:'#c5a572' },
             ].map((s,i) => (
               <div key={i} style={{ background:'#1a1a1a', border:'1px solid #2a2a2a', padding:'8px 14px', textAlign:'center', minWidth:80 }}>
-                <div style={{ fontFamily:MONO, fontSize:16, color:s.c, fontWeight:700, transition:'color 0.5s' }}>{s.v}</div>
-                <div style={{ fontFamily:SANS, fontSize:10, color:'#888', marginTop:3 }}>{s.l}</div>
+                <div style={{ fontFamily:MONO, fontSize:16, color:s.c, fontWeight:700 }}>{s.v}</div>
+                <div style={{ fontFamily:SANS, fontSize:10, color:'#555', marginTop:3 }}>{s.l}</div>
               </div>
             ))}
           </div>
@@ -624,7 +664,7 @@ function KumtongConverter({ prices, krwRate, lang }) {
   const isMobile = useIsMobile();
   const ko = lang === 'ko';
   const pricePerGram = prices.gold * krwRate / OZ_IN_GRAMS;
-  const kumtongGrams = amt / (pricePerGram * (1 + KR_GOLD_PREMIUM)); // A5: use constant not hardcoded 1.10
+  const kumtongGrams = amt / (pricePerGram * 1.10);
   const aurumGrams = amt / (pricePerGram * (1 + AURUM_GOLD_PREMIUM));
   const extraGrams = aurumGrams - kumtongGrams;
   const fmt3 = v => (Math.round(v * 1000) / 1000).toFixed(3);
@@ -632,7 +672,7 @@ function KumtongConverter({ prices, krwRate, lang }) {
     <div style={{ background:'rgba(197,165,114,0.04)', border:'1px solid rgba(197,165,114,0.18)', padding:isMobile?'20px 16px':'24px 28px', marginTop:20, position:'relative' }}>
       <div style={GOLD_LINE} />
       <div style={{ fontFamily:MONO, fontSize:10, color:T.goldDim, letterSpacing:'0.18em', textTransform:'uppercase', marginBottom:16 }}>
-        {ko ? '국내 소매 채널 (VAT 포함) vs Aurum — 실질 금 보유량' : 'Domestic Retail (VAT incl.) vs Aurum — Actual Gold Owned'}
+        {ko ? '시중 금통장 vs Aurum — 실질 금 보유량 비교' : 'Bank Gold Account vs Aurum — Actual Gold Owned'}
       </div>
       <div style={{ marginBottom:18 }}>
         <div style={{ fontFamily:SANS, fontSize:13, color:'#a09080', marginBottom:8 }}>
@@ -643,7 +683,7 @@ function KumtongConverter({ prices, krwRate, lang }) {
       </div>
       <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 1fr', gap:10 }}>
         {[
-          { label:ko?'국내 소매 구매 시 보유량':'Domestic retail purchase', grams:kumtongGrams, color:'#f87171' },
+          { label:ko?'시중 금통장 실질 보유량':'Bank gold account', grams:kumtongGrams, color:'#f87171' },
           { label:ko?'Aurum 구매 시 보유량':'Aurum purchase', grams:aurumGrams, color:'#c5a572' },
         ].map((item, i) => (
           <div key={i} style={{ background:'#141414', border:`1px solid ${item.color}44`, padding:'16px' }}>
@@ -706,7 +746,7 @@ function AGPAccumulatorCalc({ prices, krwRate, lang, tiers }) {
   const totalGrams = gramsPerMo * 12;
   const korEquiv = totalGrams * prices.gold * krwRate / OZ_IN_GRAMS * (1 + KR_GOLD_PREMIUM);
   const savings = korEquiv - monthly * 12;
-  const tier = tiers.slice().reverse().find(t => monthly >= t.minVal) || tiers[0]; // A7: use numeric minVal
+  const tier = tiers.slice().reverse().find(t => monthly >= t.min) || tiers[0];
   const fKRW2 = v => `₩${Math.round(v).toLocaleString('ko-KR')}`;
   return (
     <div style={{ background:'rgba(14,12,8,0.8)', border:'1px solid rgba(197,165,114,0.15)', padding:isMobile?'18px 14px':'24px 24px', marginTop:20, position:'relative', overflow:'hidden' }}>
@@ -724,20 +764,7 @@ function AGPAccumulatorCalc({ prices, krwRate, lang, tiers }) {
         </div>
       </div>
       <input type="range" min="200000" max="5000000" step="100000" value={monthly}
-        style={{ width:'100%', marginBottom:8, accentColor:'#c5a572' }} onChange={e => setMonthly(+e.target.value)} />
-      {/* EX-A4: Gap-to-next-tier nudge */}
-      {(() => {
-        const nextTier = tiers.find(t => t.minVal > monthly);
-        if (!nextTier) return null;
-        const gap = nextTier.minVal - monthly;
-        if (gap > nextTier.minVal * 0.4) return null; // only show when within 40%
-        return (
-          <div style={{ fontFamily:SANS, fontSize:12, color:'#c5a572', background:'rgba(197,165,114,0.06)', border:'1px solid rgba(197,165,114,0.25)', padding:'7px 12px', marginBottom:8, display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-            <span>{ko?`${nextTier.name} 티어까지 ₩${(gap/10000).toLocaleString()}만원만 더`:`₩${(gap/10000).toLocaleString()}만 more to ${nextTier.nameEn}`}</span>
-            <span style={{ fontFamily:MONO, fontSize:11, color:'#4ade80', fontWeight:700 }}>{ko?`→ ${nextTier.gift} 즉시 적립`:`→ ${nextTier.gift} Day-1`}</span>
-          </div>
-        );
-      })()}
+        style={{ width:'100%', marginBottom:16, accentColor:'#c5a572' }} onChange={e => setMonthly(+e.target.value)} />
       {/* Tier progress bars — dynamic highlight */}
       <div style={{ display:'flex', flexDirection:'column', gap:3, marginBottom:14 }}>
         {tiers.map((t, i) => {
@@ -746,12 +773,13 @@ function AGPAccumulatorCalc({ prices, krwRate, lang, tiers }) {
             <div key={i} style={{
               display:'flex', alignItems:'center', gap:10, padding:'7px 10px',
               background: isActive ? 'rgba(197,165,114,0.1)' : 'rgba(255,255,255,0.02)',
-              border: `1px solid ${isActive ? (t.color||'rgba(197,165,114,0.5)') : 'rgba(197,165,114,0.06)'}`,              transition:'all 0.25s',
+              border: `1px solid ${isActive ? (t.color||'rgba(197,165,114,0.5)') : 'rgba(197,165,114,0.06)'}`,
+              transition:'all 0.25s',
             }}>
               <div style={{ width:8, height:8, borderRadius:'50%', background: isActive ? (t.color||'#c5a572') : '#333', flexShrink:0, transition:'background 0.25s' }} />
-              <span style={{ fontFamily:SANS, fontSize:11, color: isActive ? '#f5f0e8' : '#888', flex:1, transition:'color 0.25s' }}>{ko ? t.name : t.nameEn}</span>
-              <span style={{ fontFamily:MONO, fontSize:10, color:'#666' }}>{t.min}</span>
-              <span style={{ fontFamily:MONO, fontSize:11, color: isActive ? '#4ade80' : '#777', fontWeight: isActive ? 700 : 400 }}>{t.gift}</span>
+              <span style={{ fontFamily:SANS, fontSize:11, color: isActive ? '#f5f0e8' : '#555', flex:1, transition:'color 0.25s' }}>{ko ? t.name : t.nameEn}</span>
+              <span style={{ fontFamily:MONO, fontSize:10, color:'#555' }}>{t.min}</span>
+              <span style={{ fontFamily:MONO, fontSize:11, color: isActive ? '#4ade80' : '#555', fontWeight: isActive ? 700 : 400 }}>{t.gift}</span>
             </div>
           );
         })}
@@ -764,8 +792,8 @@ function AGPAccumulatorCalc({ prices, krwRate, lang, tiers }) {
           { l:ko?'절감액':'Savings', v:fKRW2(savings), c:'#4ade80' },
         ].map((s,i) => (
           <div key={i} style={{ background:'#111', padding:'10px 12px', border:'1px solid #1a1a1a' }}>
-            <div style={{ fontFamily:SANS, fontSize:10, color:'#888', marginBottom:3 }}>{s.l}</div>
-            <div style={{ fontFamily:MONO, fontSize: i===3 ? 18 : 14, color:s.c, fontWeight: i===3 ? 700 : 600 }}>{s.v}</div>
+            <div style={{ fontFamily:SANS, fontSize:10, color:'#555', marginBottom:3 }}>{s.l}</div>
+            <div style={{ fontFamily:MONO, fontSize:14, color:s.c, fontWeight:600 }}>{s.v}</div>
           </div>
         ))}
       </div>
@@ -777,11 +805,10 @@ function AGPAccumulatorCalc({ prices, krwRate, lang, tiers }) {
 function FoundersMiniCalc({ krwRate, lang, navigate }) {
   const [monthly, setMonthly] = useState(500000);
   const ko = lang === 'ko';
-  const annualKRW = monthly * 12;
-  const annualUSD = annualKRW / (krwRate || 1440); // A13: work in KRW, convert once
+  const annualUSD = monthly * 12 / krwRate;
   const gate = FC_GATES.slice().reverse().find(g => annualUSD >= g.gmv) || null;
   const nextGate = gate ? FC_GATES[FC_GATES.indexOf(gate) + 1] : FC_GATES[0];
-  const savings = gate ? annualKRW * (gate.discount / 100) : 0; // A13: no double conversion
+  const savings = gate ? annualUSD * (gate.discount / 100) * krwRate : 0;
   const fKRW2 = v => `₩${Math.round(v).toLocaleString('ko-KR')}`;
   return (
     <div style={{ background:'rgba(197,165,114,0.03)', border:'1px solid rgba(197,165,114,0.15)', padding:'20px 20px', marginTop:20, position:'relative', overflow:'hidden' }}>
@@ -814,48 +841,36 @@ function FoundersMiniCalc({ krwRate, lang, navigate }) {
               transition:'all 0.25s',
             }}>
               <div style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:11, color: isActive ? '#4ade80' : '#8a7d6b', textAlign:'center', transition:'color 0.25s' }}>{g.num}</div>
-              <span style={{ fontFamily:SANS, fontSize:11, color: isActive ? '#f5f0e8' : '#888', transition:'color 0.25s' }}>{ko ? g.label : g.labelEn}</span>
-              <span style={{ fontFamily:MONO, fontSize:10, color:'#777' }}>${g.gmv.toLocaleString()}K</span>
-              <span style={{ fontFamily:MONO, fontSize:12, color: isActive ? '#4ade80' : '#777', fontWeight: isActive ? 700 : 400, textAlign:'right', transition:'all 0.25s' }}>-{g.discount}%</span>
+              <span style={{ fontFamily:SANS, fontSize:11, color: isActive ? '#f5f0e8' : '#666', transition:'color 0.25s' }}>{ko ? g.label : g.labelEn}</span>
+              <span style={{ fontFamily:MONO, fontSize:10, color:'#555' }}>${g.gmv.toLocaleString()}K</span>
+              <span style={{ fontFamily:MONO, fontSize:12, color: isActive ? '#4ade80' : '#555', fontWeight: isActive ? 700 : 400, textAlign:'right', transition:'all 0.25s' }}>-{g.discount}%</span>
             </div>
           );
         })}
       </div>
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:8, marginBottom:12 }}>
         {[
-          { l:ko?'현재 게이트':'Current gate', v:gate?(ko?gate.label:gate.labelEn):(ko?'아직 없음':'None yet'), c:'#c5a572' },
-          { l:ko?'현재 할인':'Discount', v:gate?`-${gate.discount}%`:(ko?'Gate I 도달 시':'Unlock at Gate I'), c: gate?'#4ade80':'#8a7d6b' },
-          { l:ko?'연간 절감':'Annual savings', v:gate?fKRW2(savings):(ko?'₩0':'₩0'), c: gate?'#4ade80':'#555' },
+          { l:ko?'게이트':'Gate', v:gate?(ko?gate.label:gate.labelEn):(ko?'미달':'Below I'), c:'#c5a572' },
+          { l:ko?'할인율':'Discount', v:gate?`-${gate.discount}%`:'-', c:'#4ade80' },
+          { l:ko?'연간 절감':'Ann. savings', v:gate?fKRW2(savings):'-', c:'#4ade80' },
         ].map((s,i) => (
           <div key={i} style={{ background:'#111', padding:'10px 12px', textAlign:'center', border:'1px solid #1a1a1a' }}>
-            <div style={{ fontFamily:SANS, fontSize:10, color:'#888', marginBottom:3 }}>{s.l}</div>
+            <div style={{ fontFamily:SANS, fontSize:10, color:'#555', marginBottom:3 }}>{s.l}</div>
             <div style={{ fontFamily:MONO, fontSize:13, color:s.c, fontWeight:600 }}>{s.v}</div>
           </div>
         ))}
       </div>
       {nextGate && (
-        <div style={{ fontFamily:SANS, fontSize:12, color:'rgba(197,165,114,0.8)', marginBottom:12, background:'rgba(197,165,114,0.04)', border:'1px solid rgba(197,165,114,0.15)', padding:'8px 12px' }}>
+        <div style={{ fontFamily:SANS, fontSize:11, color:T.goldDim, marginBottom:12 }}>
           {ko
-            ? `Gate ${nextGate.num}까지 ₩${(Math.max(0, Math.round(nextGate.gmv*(krwRate||1440)/12) - monthly)/10000).toLocaleString()}만원만 더 — -${nextGate.discount}% 할인 시작`
-            : `₩${(Math.max(0, Math.round(nextGate.gmv*(krwRate||1440)/12) - monthly)/10000).toLocaleString()}만 more to Gate ${nextGate.num} — unlock -${nextGate.discount}%`}
+            ? `다음 게이트 ${nextGate.num}: 월 ₩${Math.round(nextGate.gmv*krwRate/12/10000).toLocaleString()}만원 필요`
+            : `Next gate ${nextGate.num}: ~₩${Math.round(nextGate.gmv*krwRate/12/10000).toLocaleString()}만원/mo needed`}
         </div>
       )}
       <button onClick={() => navigate('founders')}
-        style={{ background:'rgba(197,165,114,0.10)', border:'1px solid rgba(197,165,114,0.55)', color:'#c5a572', padding:'11px 20px', fontFamily:SANS, fontSize:13, cursor:'pointer', width:'100%' }}>
+        style={{ background:'transparent', border:'1px solid rgba(197,165,114,0.4)', color:'#c5a572', padding:'11px 20px', fontFamily:SANS, fontSize:13, cursor:'pointer', width:'100%' }}>
         {ko ? '전체 시뮬레이터 보기 →' : 'Full simulator →'}
       </button>
-      {/* EX-A5: 10-year lifetime value */}
-      {gate && savings > 0 && (
-        <div style={{ textAlign:'center', padding:'10px 0', borderTop:'1px solid rgba(197,165,114,0.08)', marginTop:10 }}>
-          <span style={{ fontFamily:SANS, fontSize:11, color:'#8a7d6b' }}>
-            {ko?`Gate ${gate.num} 유지 시 10년 절감액 —`:`10yr savings at Gate ${gate.num} —`}
-          </span>
-          {' '}
-          <span style={{ fontFamily:MONO, fontSize:13, color:'#4ade80', fontWeight:700 }}>
-            {fKRW2(savings * 10)}
-          </span>
-        </div>
-      )}
     </div>
   );
 }
@@ -866,7 +881,7 @@ function HowItWorks({ lang, isMobile }) {
   const ko = lang === 'ko';
   const steps = [
     { n:'STEP 01', t:ko?'신원 확인':'Verify Identity',
-      d:ko?'NICE·KCB 본인인증, 1분 이내 완료. 주민등록증 또는 여권 준비 후 시작하세요. 완료 즉시 구매 가능합니다.':'NICE/KCB identity verification, under 1 minute. Have your Korean ID or passport ready. Purchase enabled immediately.' },
+      d:ko?'NICE·KCB 본인인증으로 신원을 확인합니다 (1분 소요). 국제 AML 기준에 따른 KYC 절차이며, 한국 여권 또는 주민등록증이 필요합니다. 완료 후 즉시 구매 가능합니다.':'NICE/KCB identity verification (1 min). International AML KYC process. Korean passport or ID required. Purchase enabled immediately after completion.' },
     { n:'STEP 02', t:ko?'구매 또는 적립':'Purchase or Accumulate',
       d:ko?'토스뱅크 자동이체, 카드, 국제 송금. 원화로 결제, LBMA 국제 현물가로 환산.':'Toss auto-debit, card, or wire. Pay KRW at live LBMA spot.' },
     { n:'STEP 03', t:ko?'싱가포르 금보관 배분':'Singapore Vault Allocation',
@@ -884,8 +899,8 @@ function HowItWorks({ lang, isMobile }) {
         </div>
         <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 1fr 1fr', gap:12 }}>
           {steps.map((s,i) => (
-            <div key={i} style={{ background:'rgba(197,165,114,0.03)', border:`1px solid rgba(197,165,114,${i===0?0.25:i===1?0.16:0.10})`, borderTop:`2px solid rgba(197,165,114,${i===0?1:i===1?0.7:0.45})`, padding:'18px 18px', opacity:vis?1:0, transform:vis?'translateY(0)':'translateY(12px)', transition:`opacity 0.6s ease ${i*0.15}s, transform 0.6s ease ${i*0.15}s` }}>
-              <div style={{ fontFamily:MONO, fontSize:11, color:'rgba(197,165,114,0.7)', letterSpacing:'0.2em', marginBottom:8 }}>{s.n}</div>
+            <div key={i} style={{ background:'rgba(197,165,114,0.03)', border:'1px solid rgba(197,165,114,0.12)', borderTop:'2px solid #c5a572', padding:'18px 18px', opacity:vis?1:0, transform:vis?'translateY(0)':'translateY(12px)', transition:`opacity 0.6s ease ${i*0.15}s, transform 0.6s ease ${i*0.15}s` }}>
+              <div style={{ fontFamily:MONO, fontSize:10, color:T.goldDim, letterSpacing:'0.2em', marginBottom:8 }}>{s.n}</div>
               <div style={{ fontFamily:ko?T.serifKr:SERIF, fontSize:17, color:'#f5f0e8', marginBottom:8 }}>{s.t}</div>
               <div style={{ fontFamily:SANS, fontSize:13, color:T.goldDim, lineHeight:1.7 }}>{s.d}</div>
             </div>
@@ -902,25 +917,24 @@ function LegalSafetyFAQ({ lang, navigate }) {
   const [ref, vis] = useScrollReveal(0.06);
   const isMobile = useIsMobile();
   const ko = lang === 'ko';
-  // M17: existential fear first, then vault proof, then legality
   const faqs = [
-    {
-      v: ko?'✓ 법적 분리 보장':'✓ Legally Separated',
-      q: ko?'Aurum이 폐업하면 내 금은?':'What if Aurum closes?',
-      a: ko?'배분 보관 구조상 귀하의 금은 Aurum 자산이 아닙니다. 귀하 명의로 금고에 존재하며 법적으로 귀하의 소유입니다. Aurum은 귀하의 금에 접근할 수 없습니다.'
-        :'Under allocated storage your metal is legally not an Aurum asset. It exists in your name at the vault — Aurum has no claim to it under any circumstance.',
-    },
-    {
-      v: ko?'✓ 물리적으로 존재':'✓ Physically Exists',
-      q: ko?'금이 실제로 금고에 있나요?':'Is the gold physically in a vault?',
-      a: ko?'귀하의 금은 싱가포르 FTZ Malca-Amit 금고에 완전 배분(fully allocated) 방식으로 보관됩니다. 독립 감사 기관이 매일 보유 현황을 검증합니다.'
-        :'Your metal is stored at Malca-Amit Singapore FTZ vault under fully allocated custody. An independent auditor verifies holdings daily.',
-    },
     {
       v: ko?'✓ 합법 확인':'✓ Confirmed Legal',
       q: ko?'해외에서 금을 구매하는 게 합법인가요?':'Is it legal to buy gold abroad?',
       a: ko?'네. 외국환거래법상 연간 $50,000 이하는 사전 신고 없이 가능합니다. Aurum은 싱가포르 PSPM Act 2019 등록 딜러입니다.'
         :'Yes. Korean foreign exchange law allows overseas investments up to $50,000/year without prior notification. Aurum is a registered PSPM Act 2019 dealer.',
+    },
+    {
+      v: ko?'✓ 물리적으로 존재':'✓ Physically Exists',
+      q: ko?'금이 실제로 금고에 있나요?':'Is the gold physically in a vault?',
+      a: ko?'귀하의 금은 싱가포르 FTZ Malca-Amit 금고에 완전 배분(fully allocated) 방식으로 보관됩니다.'
+        :'Your metal is stored at Malca-Amit Singapore FTZ vault under fully allocated custody.',
+    },
+    {
+      v: ko?'✓ 법적 분리 보장':'✓ Legally Separated',
+      q: ko?'Aurum이 폐업하면 내 금은?':'What if Aurum closes?',
+      a: ko?'배분 보관 구조상 귀하의 금은 Aurum 자산이 아닙니다. 귀하 명의로 금고에 존재하며 귀하의 소유입니다.'
+        :'Under allocated storage your metal is legally not an Aurum asset. It remains in your name at the vault.',
     },
   ];
   return (
@@ -944,7 +958,7 @@ function LegalSafetyFAQ({ lang, navigate }) {
         ))}
         <button onClick={() => navigate('storage')}
           style={{ background:'transparent', border:'1px solid rgba(197,165,114,0.3)', color:'#c5a572', padding:'11px 20px', fontFamily:SANS, fontSize:13, cursor:'pointer' }}>
-          {ko ? '지금 시작하기 — 합법, 안전, 즉시 →' : 'Start now — legal, safe, instant →'}
+          {ko ? '보관 및 법적 구조 전체 안내 →' : 'Full custody & legal guide →'}
         </button>
       </div>
     </div>
@@ -999,8 +1013,8 @@ function PriceChartsSection({ prices, krwRate, lang, isMobile }) {
       const y = PAD.top + (g / 4) * CH;
       ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(W - PAD.right, y); ctx.stroke();
       const val = maxV - (g / 4) * (maxV - minV);
-      ctx.fillStyle = 'rgba(197,165,114,0.65)'; // D3: was 0.45
-      ctx.font = "11px 'JetBrains Mono',monospace"; // D3: was 9px
+      ctx.fillStyle = 'rgba(197,165,114,0.45)';
+      ctx.font = "9px 'JetBrains Mono',monospace";
       ctx.textAlign = 'right';
       const label = val >= 10000
         ? '₩' + Math.round(val / 10000).toLocaleString('ko-KR') + '만'
@@ -1041,29 +1055,25 @@ function PriceChartsSection({ prices, krwRate, lang, isMobile }) {
     const startD = MONTHLY_DATA[startIdx];
     const endD = MONTHLY_DATA[MONTHLY_DATA.length - 1];
     ctx.fillStyle = 'rgba(138,125,107,0.6)';
-    ctx.font = "10px 'JetBrains Mono',monospace"; // D3
+    ctx.font = "9px 'JetBrains Mono',monospace";
     ctx.textAlign = 'left';
     ctx.fillText(`${startD[0]}.${String(startD[1]).padStart(2,'0')}`, PAD.left, H - 6);
     ctx.textAlign = 'right';
     ctx.fillText(`${endD[0]}.${String(endD[1]).padStart(2,'0')}`, W - PAD.right, H - 6);
   };
 
-  const currentGoldKRW = Math.round((prices.gold || 3400) * (krwRate || 1440)); // moved up for A3 fix
-  const currentSilvKRW = Math.round((prices.silver || 32) * (krwRate || 1440));
-
   useEffect(() => {
     if (!vis) return;
     const n = RANGES[rangeIdx].n;
     const slice = MONTHLY_DATA.slice(MONTHLY_DATA.length - n);
-    const goldPts = slice.map(d => d[2] * d[3]);
-    goldPts[goldPts.length - 1] = currentGoldKRW; // A3: pin endpoint to live price
+    const goldPts = slice.map(d => d[2] * d[3]);  // XAU/USD × KRW rate = KRW/oz
     const silvPts = SILVER_DATA.slice(SILVER_DATA.length - n).map((s, i) => s * slice[i][3]);
-    silvPts[silvPts.length - 1] = currentSilvKRW; // A3: pin endpoint to live price
     drawChart(goldRef.current, goldPts, '#C5A572', 'rgba(197,165,114,0.18)');
     drawChart(silverRef.current, silvPts, '#7dd3dc', 'rgba(125,211,220,0.12)');
-  }, [vis, rangeIdx, lang, currentGoldKRW, currentSilvKRW]);
+  }, [vis, rangeIdx, lang]);
 
-  // currentGoldKRW and currentSilvKRW declared above useEffect for A3 fix
+  const currentGoldKRW = Math.round((prices.gold || 3400) * (krwRate || 1440));
+  const currentSilvKRW = Math.round((prices.silver || 32) * (krwRate || 1440));
 
   return (
     <div ref={ref} style={{ opacity: vis ? 1 : 0, transition: 'opacity 0.7s ease', marginBottom: 28 }}>
@@ -1121,9 +1131,9 @@ function PriceChartsSection({ prices, krwRate, lang, isMobile }) {
 
       {/* Legend */}
       <div style={{ display: 'flex', gap: 16, marginTop: 10 }}>
-        <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(197,165,114,0.75)' }}>— {ko ? '금 (KRW/oz)' : 'Gold KRW/oz'}</span>
-        <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(125,211,220,0.65)' }}>— {ko ? '은 (KRW/oz)' : 'Silver KRW/oz'}</span>
-        <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(138,125,107,0.6)' }}>{ko ? '* LBMA 월간 데이터 2020–2024' : '* LBMA monthly data 2020–2024'}</span>
+        <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(197,165,114,0.5)' }}>— {ko ? '금 (KRW/oz)' : 'Gold KRW/oz'}</span>
+        <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(125,211,220,0.4)' }}>— {ko ? '은 (KRW/oz)' : 'Silver KRW/oz'}</span>
+        <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(138,125,107,0.35)' }}>{ko ? '* LBMA 월간 데이터 2020–2024' : '* LBMA monthly data 2020–2024'}</span>
       </div>
     </div>
   );
@@ -1160,24 +1170,26 @@ function VaultLocationDot({ lang }) {
 // ─── KRW Debasement Section — §03 ────────────────────────────────────────────
 // Shows purchasing power of KRW in gold terms over time
 // All data from MONTHLY_DATA — no hardcoded values
-function KRWDebasementSection({ lang, isMobile, prices, krwRate }) {
-  const YEARS = [2020, 2021, 2022, 2023, 2024];
-  const [startYear, setStartYear] = useState(2020);
+function KRWDebasementSection({ lang, isMobile, prices, krwRate: liveKrwRate }) {
+  const YEARS = [2000, 2005, 2010, 2015, 2020];
+  const [startYear, setStartYear] = useState(2000);
   const [ref, vis] = useScrollReveal(0.05);
   const chartRef = useRef(null);
   const ko = lang === 'ko';
 
+  // Combine historical + recent data for full 2000–present range
+  const ALL_DATA = [...HISTORICAL_DATA, ...MONTHLY_DATA];
+
   // Find base index for selected start year (January of that year)
-  const baseIdx = MONTHLY_DATA.findIndex(d => d[0] === startYear && d[1] === 1);
-  const baseData = MONTHLY_DATA[baseIdx] || MONTHLY_DATA[0];
+  const baseIdx = ALL_DATA.findIndex(d => d[0] === startYear && d[1] === 1);
+  const baseData = ALL_DATA[baseIdx] || ALL_DATA[0];
   const baseGoldKRW = baseData[2] * baseData[3]; // XAU/USD × KRW/USD
 
   // Slice from start year to end
-  const slice = MONTHLY_DATA.slice(baseIdx);
-  const latestData = MONTHLY_DATA[MONTHLY_DATA.length - 1];
-  const latestGoldKRW = (prices?.gold && krwRate)
-    ? prices.gold * krwRate // A15: live price
-    : latestData[2] * latestData[3]; // fallback to Dec 2024 static data
+  const slice = ALL_DATA.slice(baseIdx);
+  const latestData = ALL_DATA[ALL_DATA.length - 1];
+  // A15 fix: use live price if available, fall back to static data
+  const latestGoldKRW = (prices?.gold && liveKrwRate) ? prices.gold * liveKrwRate : latestData[2] * latestData[3];
 
   // Debasement = how much MORE KRW needed to buy same gold since start year
   const debasementPct = ((latestGoldKRW / baseGoldKRW) - 1) * 100;
@@ -1299,7 +1311,7 @@ function KRWDebasementSection({ lang, isMobile, prices, krwRate }) {
               <button key={yr} onClick={() => setStartYear(yr)} style={{
                 background: startYear === yr ? 'rgba(197,165,114,0.15)' : 'transparent',
                 border: `1px solid ${startYear === yr ? 'rgba(197,165,114,0.6)' : 'rgba(197,165,114,0.15)'}`,
-                color: startYear === yr ? '#C5A572' : '#888',
+                color: startYear === yr ? '#C5A572' : '#555',
                 padding: '5px 12px', cursor: 'pointer',
                 fontFamily: MONO, fontSize: 10, letterSpacing: '0.08em',
                 transition: 'all 0.2s',
@@ -1308,47 +1320,38 @@ function KRWDebasementSection({ lang, isMobile, prices, krwRate }) {
           </div>
         </div>
 
-        {/* EX-A6: Hero callout — most alarming stat gets full-width treatment */}
-        <div style={{ textAlign:'center', padding: isMobile?'20px 0':'32px 0', borderBottom:'1px solid rgba(197,165,114,0.08)', marginBottom:20 }}>
-          <div style={{ fontFamily:MONO, fontSize:9, color:'rgba(197,165,114,0.5)', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:10 }}>
-            {ko ? `${startYear}년 이후 원화 구매력 손실 (금 기준)` : `KRW purchasing power lost since ${startYear}`}
-          </div>
-          <div style={{ fontFamily:MONO, fontSize:`clamp(40px,12vw,80px)`, fontWeight:700, color:'#f87171', lineHeight:1 }}>
-            -{Math.round(purchasePowerLoss)}%
-          </div>
-          <div style={{ fontFamily:SANS, fontSize:13, color:'#8a7d6b', marginTop:10, maxWidth:480, margin:'10px auto 0' }}>
-            {ko
-              ? `₩100만원이 이제 ${gramsNow.toFixed(2)}g만 삽니다 — ${startYear}년엔 ${gramsBase.toFixed(2)}g였습니다`
-              : `₩1M now buys ${gramsNow.toFixed(2)}g — it bought ${gramsBase.toFixed(2)}g in ${startYear}`}
-          </div>
-        </div>
-
-        {/* Stat cards — D26: removed redundant -% card, now 3 cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : '1fr 1fr 1fr', gap: 10, marginBottom: 24 }}>
+        {/* Stat cards */}
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : '1fr 1fr 1fr 1fr', gap: 10, marginBottom: 24 }}>
           {[
             {
-              label: ko ? `${startYear}년 ₩100만원 구매력` : `₩1M buying power in ${startYear}`,
+              label: ko ? `${startYear}년 ₩100만원 구매력` : `₩1M gold buying power in ${startYear}`,
               val: `${gramsBase.toFixed(2)}g`,
               sub: ko ? '당시 구매 가능한 금' : 'gold purchasable then',
               color: '#c5a572',
             },
             {
-              label: ko ? `오늘 ₩100만원 구매력` : `₩1M buying power today`,
+              label: ko ? `오늘 ₩100만원 구매력` : `₩1M gold buying power today`,
               val: `${gramsNow.toFixed(2)}g`,
               sub: ko ? `${purchasePowerLoss.toFixed(1)}% 감소` : `${purchasePowerLoss.toFixed(1)}% less gold`,
               color: '#f87171',
             },
             {
-              label: ko ? '오늘 ₩1만원으로 살 수 있는 금' : 'Gold for ₩10,000 today',
-              val: `${(10000 / latestGoldKRW * OZ_G).toFixed(3)}g`,
-              sub: ko ? '매일 조금씩 쌓을 수 있습니다' : 'accumulate daily',
-              color: '#c5a572',
+              label: ko ? '원화 구매력 손실 (금 기준)' : 'KRW purchasing power lost (vs gold)',
+              val: `-${purchasePowerLoss.toFixed(1)}%`,
+              sub: ko ? `${startYear}년 이후` : `since ${startYear}`,
+              color: '#f87171',
+            },
+            {
+              label: ko ? '같은 금 매입에 필요한 추가 원화' : 'More KRW needed to buy same gold',
+              val: `+${debasementPct.toFixed(1)}%`,
+              sub: ko ? `${startYear}년 이후 원화 기준 금값 상승` : `gold price rise in KRW since ${startYear}`,
+              color: '#4ade80',
             },
           ].map((s, i) => (
             <div key={i} style={{ background: '#111', border: '1px solid rgba(197,165,114,0.1)', padding: '14px 16px' }}>
-              <div style={{ fontFamily: SANS, fontSize: 10, color: '#999', marginBottom: 6, lineHeight: 1.4 }}>{s.label}</div>
+              <div style={{ fontFamily: SANS, fontSize: 10, color: '#555', marginBottom: 6, lineHeight: 1.4 }}>{s.label}</div>
               <div style={{ fontFamily: MONO, fontSize: isMobile ? 18 : 22, color: s.color, fontWeight: 700 }}>{s.val}</div>
-              <div style={{ fontFamily: MONO, fontSize: 9, color: '#888', marginTop: 4 }}>{s.sub}</div>
+              <div style={{ fontFamily: MONO, fontSize: 9, color: '#444', marginTop: 4 }}>{s.sub}</div>
             </div>
           ))}
         </div>
@@ -1360,11 +1363,330 @@ function KRWDebasementSection({ lang, isMobile, prices, krwRate }) {
 
         {/* Legend + disclaimer */}
         <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', marginBottom: 8 }}>
-          <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(197,165,114,0.8)' }}>— {ko ? '원화 기준 금값 (상승)' : 'Gold price in KRW (rising)'}</span>
-          <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(248,113,113,0.75)' }}>— {ko ? '₩100만원의 금 구매력 (하락)' : 'KRW purchasing power in gold (falling)'}</span>
+          <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(197,165,114,0.6)' }}>— {ko ? '원화 기준 금값 (상승)' : 'Gold price in KRW (rising)'}</span>
+          <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(248,113,113,0.5)' }}>— {ko ? '₩100만원의 금 구매력 (하락)' : 'KRW purchasing power in gold (falling)'}</span>
         </div>
-        <div style={{ fontFamily: MONO, fontSize: 9, color: '#666' }}>
+        <div style={{ fontFamily: MONO, fontSize: 9, color: '#333' }}>
           {ko ? `* LBMA 실제 월별 종가 · 한국은행 환율 기준 · ${startYear}년 1월 = 100 인덱스` : `* LBMA actual monthly closing prices · Bank of Korea exchange rates · Jan ${startYear} = 100 index`}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── CBBuyingChart ────────────────────────────────────────────────────────────
+function CBBuyingChart({ lang, isMobile }) {
+  const [ref, vis] = useScrollReveal(0.06);
+  const chartRef = useRef(null);
+  const ko = lang === 'ko';
+  const maxT = Math.max(...CB_BUY_DATA.map(d => d.tonnes));
+
+  useEffect(() => {
+    if (!vis || !chartRef.current) return;
+    const canvas = chartRef.current;
+    const W = canvas.offsetWidth || 640;
+    const H = canvas.height;
+    canvas.width = W;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, W, H);
+    const PAD = { top: 24, right: 12, bottom: 32, left: 50 };
+    const CW = W - PAD.left - PAD.right;
+    const CH = H - PAD.top - PAD.bottom;
+    const n = CB_BUY_DATA.length;
+    const barW = Math.max(4, CW / n * 0.6);
+    const gap   = CW / n;
+
+    // Grid lines
+    [250, 500, 750, 1000].forEach(v => {
+      const y = PAD.top + CH - (v / maxT) * CH;
+      ctx.strokeStyle = 'rgba(197,165,114,0.07)';
+      ctx.lineWidth = 0.5;
+      ctx.setLineDash([3,3]);
+      ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(W - PAD.right, y); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(197,165,114,0.35)';
+      ctx.font = "9px 'JetBrains Mono',monospace";
+      ctx.textAlign = 'right';
+      ctx.fillText(v+'t', PAD.left - 4, y + 3);
+    });
+
+    CB_BUY_DATA.forEach((d, i) => {
+      const x = PAD.left + i * gap + gap / 2 - barW / 2;
+      const bH = (d.tonnes / maxT) * CH;
+      const y = PAD.top + CH - bH;
+
+      if (d.inflection) {
+        // Inflection bar: bright gold gradient
+        const grad = ctx.createLinearGradient(0, y, 0, PAD.top + CH);
+        grad.addColorStop(0, '#E3C187');
+        grad.addColorStop(1, 'rgba(197,165,114,0.4)');
+        ctx.fillStyle = grad;
+        ctx.shadowColor = 'rgba(227,193,135,0.5)';
+        ctx.shadowBlur = 12;
+      } else if (!d.pre) {
+        const grad = ctx.createLinearGradient(0, y, 0, PAD.top + CH);
+        grad.addColorStop(0, '#C5A572');
+        grad.addColorStop(1, 'rgba(197,165,114,0.25)');
+        ctx.fillStyle = grad;
+        ctx.shadowColor = 'rgba(197,165,114,0.3)';
+        ctx.shadowBlur = 6;
+      } else {
+        ctx.fillStyle = d.partial ? 'rgba(197,165,114,0.35)' : 'rgba(80,72,60,0.7)';
+        ctx.shadowBlur = 0;
+      }
+
+      ctx.fillRect(x, y, barW, bH);
+      ctx.shadowBlur = 0;
+
+      // Year label
+      ctx.fillStyle = d.inflection ? '#E3C187' : (d.pre ? '#555' : 'rgba(197,165,114,0.6)');
+      ctx.font = `${isMobile?8:9}px 'JetBrains Mono',monospace`;
+      ctx.textAlign = 'center';
+      ctx.fillText(d.year, x + barW / 2, PAD.top + CH + 14);
+
+      // 2022 inflection label
+      if (d.inflection && !isMobile) {
+        ctx.fillStyle = '#E3C187';
+        ctx.font = "9px 'Outfit',sans-serif";
+        ctx.textAlign = 'center';
+        ctx.fillText(ko ? '2022: 새 패러다임' : '2022: New Regime', x + barW / 2, y - 6);
+      }
+
+      // Value above bar (post-2021 only)
+      if (!d.pre && bH > 20) {
+        ctx.fillStyle = d.inflection ? '#E3C187' : '#C5A572';
+        ctx.font = `${isMobile?8:9}px 'JetBrains Mono',monospace`;
+        ctx.textAlign = 'center';
+        ctx.fillText(d.tonnes + (d.partial ? '*' : ''), x + barW / 2, y - (d.inflection ? 8 : 5));
+      }
+    });
+
+    // Baseline pre/post label
+    const inflectionX = PAD.left + 14 * gap + gap / 2;
+    ctx.strokeStyle = 'rgba(197,165,114,0.2)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4,4]);
+    ctx.beginPath(); ctx.moveTo(inflectionX, PAD.top); ctx.lineTo(inflectionX, PAD.top + CH); ctx.stroke();
+    ctx.setLineDash([]);
+  }, [vis, lang, isMobile]);
+
+  return (
+    <div ref={ref} style={{ borderBottom: '1px solid rgba(197,165,114,0.08)', background: '#0d0b08', opacity: vis?1:0, transition: 'opacity 0.8s ease' }}>
+      <div className="aurum-container" style={{ paddingTop: isMobile?32:64, paddingBottom: isMobile?32:64 }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexWrap:'wrap', gap:16, marginBottom:24 }}>
+          <div>
+            <div style={{ fontFamily:MONO, fontSize:9, color:'rgba(74,222,128,0.6)', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:8 }}>
+              {ko ? '중앙은행 신호 · WGC 연간 데이터' : 'Central Bank Signal · WGC Annual Data'}
+            </div>
+            <h2 style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:isMobile?22:34, color:'#f5f0e8', fontWeight:300, margin:0 }}>
+              {ko ? <>그들이 사는 것이 <span style={{ color:'#C5A572' }}>신호입니다.</span></> : <>What they buy <span style={{ color:'#C5A572' }}>is the signal.</span></>}
+            </h2>
+          </div>
+          <div style={{ display:'flex', alignItems:'center', gap:6, background:'rgba(74,222,128,0.06)', border:'1px solid rgba(74,222,128,0.2)', padding:'10px 16px' }}>
+            <span style={{ width:6, height:6, borderRadius:'50%', background:'#4ade80', flexShrink:0, animation:'pulse 1.5s ease-in-out infinite' }} />
+            <span style={{ fontFamily:MONO, fontSize:isMobile?10:12, color:'#4ade80', fontWeight:700 }}>2024: 1,045t</span>
+            <span style={{ fontFamily:MONO, fontSize:9, color:'rgba(74,222,128,0.6)' }}>{ko?'역대 두 번째 규모':'2nd highest ever'}</span>
+          </div>
+        </div>
+
+        <div style={{ background:'#080806', border:'1px solid rgba(197,165,114,0.08)', padding:'16px 8px 8px' }}>
+          <canvas ref={chartRef} height={isMobile?160:220} style={{ display:'block', width:'100%' }} />
+        </div>
+
+        <div style={{ display:'flex', gap:20, marginTop:10, flexWrap:'wrap' }}>
+          <span style={{ fontFamily:MONO, fontSize:9, color:'rgba(80,72,60,0.8)' }}>■ {ko?'2008–2021 (이전 체제)':'2008–2021 (prior regime)'}</span>
+          <span style={{ fontFamily:MONO, fontSize:9, color:'#C5A572' }}>■ {ko?'2022+ (새 패러다임)':'2022+ (new regime)'}</span>
+          <span style={{ fontFamily:MONO, fontSize:9, color:'rgba(197,165,114,0.4)' }}>* {ko?'2025년 부분 추산':'2025 partial estimate'}</span>
+        </div>
+        <p style={{ fontFamily:SANS, fontSize:13, color:'#555', marginTop:10, lineHeight:1.7 }}>
+          {ko ? '세계에서 가장 많은 정보를 가진 기관들이 가장 긴 시간 지평에서 움직이고 있습니다. 2022년은 우연이 아닙니다.' : 'The institutions with the most information, on the longest time horizons, are moving. 2022 was not random.'}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ─── KoreaWealthAllocation ────────────────────────────────────────────────────
+function KoreaWealthAllocation({ lang, isMobile }) {
+  const [ref, vis] = useScrollReveal(0.06);
+  const ko = lang === 'ko';
+
+  const krAlloc = [
+    { label: ko?'부동산':'Real Estate', pct: 76, color: '#3a3855' },
+    { label: ko?'금융자산':'Financial', pct: 12, color: '#383855' },
+    { label: ko?'예금':'Deposits',      pct: 8,  color: '#2f3050' },
+    { label: ko?'기타':'Other',         pct: 3.7,color: '#222238' },
+    { label: ko?'금':'Gold',            pct: 0.3,color: '#C5A572' },
+  ];
+  const cbAlloc = [
+    { label: ko?'금':'Gold',            pct: 20, color: '#C5A572' },
+    { label: ko?'USD 자산':'USD Assets',pct: 35, color: '#3a3855' },
+    { label: ko?'EUR 자산':'EUR Assets',pct: 25, color: '#383855' },
+    { label: ko?'기타':'Other',         pct: 20, color: '#222238' },
+  ];
+
+  const Bar = ({ data, label }) => (
+    <div>
+      <div style={{ fontFamily:MONO, fontSize:9, color:'rgba(197,165,114,0.5)', letterSpacing:'0.16em', textTransform:'uppercase', marginBottom:12 }}>{label}</div>
+      <div style={{ height:28, display:'flex', overflow:'hidden', border:'1px solid rgba(197,165,114,0.1)' }}>
+        {data.map((s, i) => (
+          <div key={i} title={`${s.label}: ${s.pct}%`}
+            style={{ width: vis ? `${s.pct}%` : '0%', background: s.color, transition: `width 1.2s cubic-bezier(0.25,1,0.5,1) ${i*0.1}s`, borderRight: i < data.length-1 ? '1px solid rgba(0,0,0,0.3)' : 'none', flexShrink:0 }} />
+        ))}
+      </div>
+      <div style={{ display:'flex', gap:8, marginTop:10, flexWrap:'wrap' }}>
+        {data.map((s, i) => (
+          <div key={i} style={{ display:'flex', alignItems:'center', gap:4 }}>
+            <div style={{ width:8, height:8, background:s.color, flexShrink:0 }} />
+            <span style={{ fontFamily:SANS, fontSize:10, color: s.label === (ko?'금':'Gold') ? '#C5A572' : '#666' }}>
+              {s.label} {s.pct}%
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  return (
+    <div ref={ref} style={{ background:'#0a0a0a', borderBottom:'1px solid rgba(197,165,114,0.08)', opacity:vis?1:0, transform:vis?'translateY(0)':'translateY(16px)', transition:'opacity 0.7s ease, transform 0.7s ease' }}>
+      <div className="aurum-container" style={{ paddingTop:isMobile?32:64, paddingBottom:isMobile?32:64 }}>
+        <div style={{ fontFamily:MONO, fontSize:9, color:'rgba(197,165,114,0.5)', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:10 }}>
+          {ko ? '자산 배분 비교' : 'Asset Allocation Gap'}
+        </div>
+        <h2 style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:isMobile?22:32, color:'#f5f0e8', fontWeight:300, margin:'0 0 8px' }}>
+          {ko ? <>한국 가계는 금에 <span style={{ color:'#f87171' }}>0.3%</span>를 배분합니다.<br />중앙은행 평균은 <span style={{ color:'#C5A572' }}>20%</span>입니다.</> : <>Korean households allocate <span style={{ color:'#f87171' }}>0.3%</span> to gold.<br />Global central bank average: <span style={{ color:'#C5A572' }}>20%</span>.</>}
+        </h2>
+        <p style={{ fontFamily:SANS, fontSize:13, color:'#555', marginBottom: isMobile?24:36, maxWidth:600 }}>
+          {ko ? '세계에서 가장 많은 정보를 가진 기관들이 선택한 비중과 일반 한국 가계의 배분 사이의 격차입니다.' : 'The gap between the allocation chosen by the world\'s most informed institutions and the average Korean household.'}
+        </p>
+        <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 1fr', gap:isMobile?24:40 }}>
+          <Bar data={krAlloc} label={ko?'한국 가계 평균 자산 배분':'Korea Household Avg. Allocation'} />
+          <Bar data={cbAlloc} label={ko?'글로벌 중앙은행 평균 준비금 배분':'Global Central Bank Avg. Reserve Allocation'} />
+        </div>
+        <div style={{ marginTop:20, background:'rgba(197,165,114,0.04)', border:'1px solid rgba(197,165,114,0.15)', padding:'12px 16px', display:'inline-flex', alignItems:'center', gap:12 }}>
+          <span style={{ fontFamily:MONO, fontSize:isMobile?11:13, color:'#C5A572', fontWeight:600 }}>
+            {ko ? `한국의 금 배분이 5%로 늘어나면 — 약 ₩${(500 * 1450).toLocaleString('ko-KR')}억원 규모의 신규 수요` : `If Korea moves from 0.3% to 5% — that is a meaningful new bid on global gold supply`}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── MergedLaunchSection ─────────────────────────────────────────────────────
+function MergedLaunchSection({ lang, isMobile, goldKR, goldAU, navigate }) {
+  const [ref, vis] = useScrollReveal(0.06);
+  const ko = lang === 'ko';
+  const gapPct = ((KR_GOLD_PREMIUM - AURUM_GOLD_PREMIUM) * 100).toFixed(0);
+  const products = [
+    {
+      iconLines: ['AU', 'AG'],
+      badge: ko ? '일회성 실물 구매' : 'One-time Physical Purchase',
+      title: ko ? '실물 금·은 매매' : 'Physical Gold & Silver',
+      desc: ko ? 'LBMA 승인 골드·실버 바를 일회성으로 구매합니다. 국제 현물가 + 투명한 프리미엄으로 고객님 명의 금고에 즉시 배분.' : 'Buy LBMA-approved gold and silver bars outright. International spot + transparent premium, allocated to your account instantly.',
+      bullets: ko ? ['1 oz ~ 1 kg 바·1/2 oz 코인', '한 번의 결제·싱가포르 영구 보관', '유선·카드·암호화폐 결제 지원'] : ['1 oz – 1 kg bars · ½ oz coins', 'One payment · Singapore permanent vault', 'Wire · Card · Crypto accepted'],
+      cta: ko ? '제품 둘러보기 →' : 'Browse Products →',
+      route: 'shop-physical',
+      featured: false,
+    },
+    {
+      iconLines: ['AGP'],
+      badge: ko ? '자동 적금 저축 플랜' : 'Auto Savings Plan',
+      title: ko ? 'AGP 적금 Plan' : 'AGP 적금 Plan',
+      desc: ko ? '월 20만원부터 시작하는 그램 단위 자동 적립. 토스뱅크 자동이체, 신용카드, 암호화폐로 입금하고 100g 도달 시 실물 바로 무료 전환.' : 'Auto-accumulate gold by the gram from ₩200K/month. Pay by Toss auto-transfer, card, or crypto — convert to a physical bar when you hit 100g.',
+      bullets: ko ? ['월 200,000원부터 시작', '매일·매주·매월 자동 적립', '100g 도달 시 실물 바 무료 전환'] : ['From ₩200,000/month', 'Daily · weekly · monthly auto-accumulation', 'Free physical bar conversion at 100g'],
+      cta: ko ? 'AGP 시작하기 →' : 'Start AGP →',
+      route: 'agp',
+      featured: true,
+    },
+  ];
+  return (
+    <div ref={ref} style={{ background: 'linear-gradient(180deg,#0d0b08,#111008)', borderTop: '1px solid rgba(197,165,114,0.1)', opacity: vis?1:0, transform: vis?'translateY(0)':'translateY(20px)', transition: 'opacity 0.7s ease, transform 0.7s ease' }}>
+      <div className="aurum-container" style={{ paddingTop: isMobile?48:96, paddingBottom: isMobile?48:96 }}>
+        {/* Callout */}
+        <div style={{ textAlign:'center', marginBottom: isMobile?32:48 }}>
+          <div style={{ fontFamily:MONO, fontSize:9, color:'rgba(197,165,114,0.5)', letterSpacing:'0.24em', textTransform:'uppercase', marginBottom:16 }}>
+            {ko ? '지금 시작하십시오' : 'Start Now'}
+          </div>
+          <h2 style={{ fontFamily: ko ? T.serifKrDisplay : SERIF, fontStyle: ko?'normal':'italic', fontSize:'clamp(28px,4vw,52px)', fontWeight: ko?400:300, color:'#f5f0e8', margin:'0 0 20px', lineHeight:1.1 }}>
+            {ko ? '지금 시작하십시오.' : 'Start now.'}
+          </h2>
+          <div style={{ display:'inline-flex', alignItems:'center', gap:10, background:'rgba(248,113,113,0.06)', border:'1px solid rgba(248,113,113,0.25)', padding:'10px 20px', marginBottom:12 }}>
+            <span style={{ width:7, height:7, borderRadius:'50%', background:'#f87171', animation:'pulse 1s ease-in-out infinite', flexShrink:0 }} />
+            <span style={{ fontFamily:MONO, fontSize:isMobile?11:13, color:'#f87171', fontWeight:600 }}>
+              {ko ? `국내 소매 구매 시 오늘 약 +${gapPct}% 추가 비용 발생` : `Domestic retail today costs approx +${gapPct}% over international spot`}
+            </span>
+          </div>
+          <p style={{ fontFamily:SANS, fontSize:isMobile?14:16, color:'#8a7d6b', lineHeight:1.9, maxWidth:520, margin:'0 auto' }}>
+            {ko ? '10% 부가세는 없어지지 않습니다. 오늘 원화를 국제 현물가 기준 실물 금으로 전환하십시오.' : '10% VAT does not go away. Convert your KRW to physical gold at international spot today.'}
+          </p>
+        </div>
+        {/* Product cards */}
+        <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 1fr', gap:14 }}>
+          {products.map((c, i) => (
+            <div key={i} className="magnetic-card" onClick={() => navigate(c.route)}
+              style={{ background:c.featured?'rgba(197,165,114,0.04)':'#0a0a0a', border:`1px solid ${c.featured?'rgba(197,165,114,0.35)':'#1e1e1e'}`, padding:isMobile?'24px 20px':'32px 28px', cursor:'pointer', display:'flex', flexDirection:'column', position:'relative', overflow:'hidden' }}>
+              {c.featured && <div style={GOLD_LINE} />}
+              {c.featured && <div style={{ position:'absolute', top:16, right:16, fontFamily:MONO, fontSize:10, color:'#0a0a0a', background:'#c5a572', padding:'3px 9px', letterSpacing:'0.18em' }}>추천</div>}
+              <div style={{ width:isMobile?48:56, height:isMobile?48:56, border:'1px solid rgba(197,165,114,0.3)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', marginBottom:20, background:'#141414' }}>
+                {c.iconLines.map((line, li) => <span key={li} style={{ fontFamily:SERIF, fontSize:14, color:'#c5a572', letterSpacing:'0.06em', lineHeight:1.2 }}>{line}</span>)}
+              </div>
+              <div style={{ fontFamily:MONO, fontSize:11, color:'#8a7d6b', letterSpacing:'0.12em', textTransform:'uppercase', marginBottom:7 }}>{c.badge}</div>
+              <h3 style={{ fontFamily:SERIF, fontSize:24, color:'#f5f0e8', fontWeight:500, margin:'0 0 12px' }}>{c.title}</h3>
+              <p style={{ fontFamily:SANS, fontSize:13, color:'#a09080', lineHeight:1.9, marginBottom:20, flex:1 }}>{c.desc}</p>
+              <div style={{ borderTop:'1px solid #1e1e1e', paddingTop:16 }}>
+                {c.bullets.map((b, bi) => (
+                  <div key={bi} style={{ display:'flex', gap:8, padding:'7px 0', borderBottom:bi<c.bullets.length-1?'1px dashed rgba(197,165,114,0.1)':'none' }}>
+                    <span style={{ color:'#c5a572', fontFamily:SANS, fontSize:12, flexShrink:0 }}>—</span>
+                    <span style={{ fontFamily:SANS, fontSize:13, color:'#f5f0e8', lineHeight:1.5 }}>{b}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop:18, paddingTop:14, borderTop:'1px solid rgba(197,165,114,0.15)', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                <span style={{ fontFamily:SANS, fontSize:13, color:'#c5a572', fontWeight:600 }}>{c.cta}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── CondensedCredentialStrip ─────────────────────────────────────────────────
+function CondensedCredentialStrip({ lang, isMobile }) {
+  const [ref, vis] = useScrollReveal(0.1);
+  const ko = lang === 'ko';
+  const creds = [
+    { name: 'Malca-Amit FTZ', sub: ko?'싱가포르 FTZ 배분 보관':'Singapore FTZ allocated storage', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"><rect x="3" y="6" width="18" height="15" rx="1"/><path d="M3 10h18"/><path d="M8 6V4a1 1 0 011-1h6a1 1 0 011 1v2"/><circle cx="12" cy="15" r="2"/></svg> },
+    { name: "Lloyd's of London", sub: ko?'보유 금속 전액 보험':'Full insurance on all metals', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg> },
+    { name: 'LBMA', sub: ko?'승인 바 · PAMP · Valcambi':'Approved bars · PAMP · Valcambi', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"><path d="M5 9h14l-1 9H6L5 9z"/><path d="M9 9V7a3 3 0 016 0v2"/></svg> },
+    { name: 'PSPM 2019 · MAS', sub: ko?'싱가포르 등록 딜러':'Singapore registered dealer', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/><polyline points="16 11 17.5 13 21 10"/></svg> },
+    { name: ko?'매일 감사':'Daily Audit', sub: ko?'독립 검증 · 레버리지 없음':'Independent verify · No leverage', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="10 13 11.5 15 15 11"/></svg> },
+  ];
+  return (
+    <div ref={ref} style={{ background:'#0a0a0a', borderTop:'1px solid rgba(197,165,114,0.08)', opacity:vis?1:0, transition:'opacity 0.8s ease' }}>
+      <div style={{ borderBottom:'1px solid rgba(197,165,114,0.06)', paddingTop:isMobile?16:22, paddingBottom:isMobile?12:16, textAlign:'center' }}>
+        <span style={{ fontFamily:MONO, fontSize:10, color:'#555', letterSpacing:'0.22em', textTransform:'uppercase' }}>
+          {ko ? '왜 Aurum을 믿을 수 있는가' : 'Why You Can Trust Aurum'}
+        </span>
+      </div>
+      <div className="aurum-container">
+        <div style={{ display:'grid', gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(5,1fr)', gap:0 }}>
+          {creds.map((c, i) => (
+            <div key={i} style={{
+              padding:isMobile?'16px 8px':'22px 16px', textAlign:'center',
+              borderRight: isMobile?(i%2===0?'1px solid rgba(197,165,114,0.06)':'none'):(i<4?'1px solid rgba(197,165,114,0.06)':'none'),
+              borderBottom: isMobile&&i<4?'1px solid rgba(197,165,114,0.06)':'none',
+              gridColumn: isMobile&&i===4?'1 / -1':'auto',
+              opacity:vis?1:0, transform:vis?'translateY(0)':'translateY(8px)',
+              transition:`opacity 0.5s ease ${i*0.07}s, transform 0.5s ease ${i*0.07}s`,
+            }}>
+              <div style={{ display:'flex', justifyContent:'center', marginBottom:8, color:'#c5a572', opacity:0.7 }}>{c.icon}</div>
+              <div style={{ fontFamily:MONO, fontSize:isMobile?10:11, color:'#f5f0e8', fontWeight:500, marginBottom:3 }}>{c.name}</div>
+              <div style={{ fontFamily:SANS, fontSize:isMobile?9:10, color:'#666', lineHeight:1.4 }}>{c.sub}</div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -1374,37 +1696,14 @@ function KRWDebasementSection({ lang, isMobile, prices, krwRate }) {
 // ─── PvPSection ───────────────────────────────────────────────────────────────
 function PvPSection({ lang, isMobile }) {
   const [ref, vis] = useScrollReveal(0.08);
-  const [expandedRow, setExpandedRow] = useState(null); // EX-A3
-  const ko = lang === 'ko';
   const pvpRows = [
-    { label: ko?'구매 시 부가세':'Purchase VAT',
-      bad:  ko?'10% 즉시 발생':'10% immediately',
-      good: ko?'GST 0% (싱가포르 면세)':'GST 0% — Singapore exempt',
-      context: ko?'₩1,000만원 구매 시 부가세만 ₩100만원 — 즉시 비용으로 소멸합니다.':'On ₩10M purchase, ₩1M vanishes as VAT — instantly and permanently.' },
-    { label: ko?'실물 보유':'Physical Ownership',
-      bad:  ko?'은행 장부상 숫자':'Bank ledger number',
-      good: ko?'LBMA 실물 바':'LBMA Physical Bar',
-      context: ko?'금통장은 실물 금이 아닙니다. 실물 바 수령 시 10% VAT 재부과.':'금통장 is not physical gold. 10% VAT charged again if you want actual metal.' },
-    { label: ko?'내 금은 안전한가?':'Is my gold safe?',
-      bad:  ko?'혼합 보관, 재담보 가능':'Pooled — can be rehypothecated',
-      good: ko?'완전 배분, 타인 접근 불가':'Fully segregated',
-      context: ko?'2008년 MF Global 파산: 혼재 고객 자산 동결. 완전 배분 구조만 법적으로 보호됩니다.':'MF Global 2008: client assets frozen. Only fully allocated structures are legally protected.' },
-    { label: ko?'은행 파산 시':'If bank fails',
-      bad:  ko?'예금자보호 적용 안됨':'Not covered by deposit insurance',
-      good: ko?'법적 분리 — 내 금은 내 금':'Legally separated asset',
-      context: ko?'2011년 솔로몬저축은행 파산 시 금통장 고객은 예금자보호 대상 제외, 원금 일부만 회수.':'2011 Solomon Savings Bank: 금통장 customers excluded from deposit protection.' },
-    { label: ko?'내 금임을 증명':'Proof of ownership',
-      bad:  ko?'일련번호 없음':'No serial number',
-      good: ko?'고유 바코드 · 실물 증서':'Unique bar ID + certificate',
-      context: ko?'일련번호 없는 금속은 감사 시 소유권 증명 불가. Aurum은 모든 바에 LBMA 인증 일련번호 등록.':'Without a serial number, ownership cannot be proven in an independent audit.' },
-    { label: ko?'실물 인출':'Physical Withdrawal',
-      bad:  ko?'제한적, 추가 VAT 부과':'Restricted + additional VAT',
-      good: ko?'언제든 가능':'Anytime',
-      context: ko?'국내에서 금통장 실물 인출 시 구매가의 10% VAT 재부과 — 이중 과세 구조.':'Domestic physical withdrawal triggers 10% VAT again — effective double taxation.' },
-    { label: ko?'해외 분산':'Global protection',
-      bad:  ko?'국내 규제만 적용':'Korea regulation only',
-      good: ko?'싱가포르 + 한국 이중 보호':'Singapore + Korea dual',
-      context: ko?'싱가포르 FTZ는 국제 귀금속 거래법으로 이중 보호됩니다.':'Singapore FTZ provides dual protection under international precious metals law.' },
+    { label: lang==='ko'?'구매 시 부가세':'Purchase VAT',       bad: lang==='ko'?'10% 즉시 발생':'10% immediately',         good: 'GST 0%' },
+    { label: lang==='ko'?'실물 보유':'Physical Ownership',       bad: lang==='ko'?'✗ 은행 장부상 숫자':'✗ Bank ledger entry, not metal',     good: lang==='ko'?'✓ LBMA 실물 바':'✓ LBMA Physical Bar' },
+    { label: lang==='ko'?'배분 보관':'Allocated Storage',         bad: lang==='ko'?'✗ 혼합 보관 · 재담보 위험':'✗ Pooled / rehypothecation risk', good: lang==='ko'?'✓ 완전 배분':'✓ Fully Segregated' },
+    { label: lang==='ko'?'파산 보호':'Insolvency Protection',     bad: lang==='ko'?'✗ 예금자보호 적용 불가':'✗ Not covered by deposit insurance',                   good: lang==='ko'?'✓ 법적 분리':'✓ Legally Separated' },
+    { label: lang==='ko'?'일련번호':'Serial Number',              bad: lang==='ko'?'✗ 없음':'✗ None',                           good: lang==='ko'?'✓ 고유 식별':'✓ Unique ID' },
+    { label: lang==='ko'?'실물 인출':'Physical Withdrawal',       bad: lang==='ko'?'제한적 · 추가 부가세 부과':'Restricted · additional VAT applies',           good: lang==='ko'?'✓ 언제든 가능':'✓ Anytime' },
+    { label: lang==='ko'?'관할권 분산':'Jurisdiction',            bad: lang==='ko'?'국내 규제만 적용 · FX 노출':'Korea regulation only · FX exposure',                    good: lang==='ko'?'싱가포르 + 한국 이중':'Singapore + Korea Dual' },
   ];
   return (
     <div ref={ref} style={{ borderBottom: '1px solid rgba(197,165,114,0.08)', opacity: vis?1:0, transform: vis?'translateY(0)':'translateY(24px)', transition: 'opacity 0.7s ease, transform 0.7s ease' }}>
@@ -1430,21 +1729,14 @@ function PvPSection({ lang, isMobile }) {
             </div>
             <div style={{ height: 1, background: 'rgba(248,113,113,0.15)', margin: '16px 0' }} />
             {pvpRows.map((r, i) => (
-              <div key={i} onClick={() => setExpandedRow(expandedRow===i?null:i)} style={{ display: 'flex', flexDirection:'column', padding: '8px 0', borderBottom: i < pvpRows.length - 1 ? '1px solid rgba(248,113,113,0.12)' : 'none', cursor:'pointer' }}>
-                <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderBottom: i < pvpRows.length - 1 ? '1px dashed rgba(248,113,113,0.1)' : 'none' }}>
                 <div style={{ width: 22, height: 22, border: '1px solid rgba(248,113,113,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <span style={{ fontFamily: MONO, fontSize: 11, color: '#f87171', fontWeight: 700 }}>✗</span>
                 </div>
                 <div style={{ flex: 1 }}>
-                  <span style={{ fontFamily: SANS, fontSize: 11, color: '#888' }}>{r.label} — </span>
-                  <span style={{ fontFamily: MONO, fontSize: 12, color: '#f87171' }}>{r.bad}</span>
+                  <span style={{ fontFamily: SANS, fontSize: 11, color: '#666' }}>{r.label} — </span>
+                  <span style={{ fontFamily: MONO, fontSize: 11, color: '#f87171' }}>{r.bad.replace('✗ ', '')}</span>
                 </div>
-                </div>
-                {expandedRow===i && (
-                  <div style={{ fontFamily:SANS, fontSize:11, color:'#a09080', lineHeight:1.6, padding:'7px 10px', background:'rgba(248,113,113,0.04)', borderTop:'1px solid rgba(248,113,113,0.1)', marginTop:4 }}>
-                    {r.context}
-                  </div>
-                )}
               </div>
             ))}
           </div>
@@ -1463,21 +1755,14 @@ function PvPSection({ lang, isMobile }) {
             </div>
             <div style={{ height: 1, background: 'rgba(197,165,114,0.15)', margin: '16px 0' }} />
             {pvpRows.map((r, i) => (
-              <div key={i} onClick={() => setExpandedRow(expandedRow===i?null:i)} style={{ display: 'flex', flexDirection:'column', padding: '8px 0', borderBottom: i < pvpRows.length - 1 ? '1px solid rgba(197,165,114,0.12)' : 'none', cursor:'pointer' }}>
-                <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderBottom: i < pvpRows.length - 1 ? '1px dashed rgba(197,165,114,0.1)' : 'none' }}>
                 <div style={{ width: 22, height: 22, border: `1px solid rgba(197,165,114,0.4)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: 'rgba(197,165,114,0.06)' }}>
                   <span style={{ fontFamily: MONO, fontSize: 11, color: '#4ade80', fontWeight: 700 }}>✓</span>
                 </div>
                 <div style={{ flex: 1 }}>
-                  <span style={{ fontFamily: SANS, fontSize: 11, color: '#b0a090' }}>{r.label} — </span>
-                  <span style={{ fontFamily: MONO, fontSize: 12, color: '#4ade80' }}>{r.good}</span>
+                  <span style={{ fontFamily: SANS, fontSize: 11, color: '#a09080' }}>{r.label} — </span>
+                  <span style={{ fontFamily: MONO, fontSize: 11, color: '#4ade80' }}>{r.good.replace('✓ ', '')}</span>
                 </div>
-                </div>
-                {expandedRow===i && (
-                  <div style={{ fontFamily:SANS, fontSize:11, color:'#a09080', lineHeight:1.6, padding:'7px 10px', background:'rgba(74,222,128,0.04)', borderTop:'1px solid rgba(74,222,128,0.1)', marginTop:4 }}>
-                    {r.context}
-                  </div>
-                )}
               </div>
             ))}
           </div>
@@ -1489,7 +1774,7 @@ function PvPSection({ lang, isMobile }) {
 }
 
 // ─── SavingsSection ───────────────────────────────────────────────────────────
-function SavingsSection({ lang, isMobile, goldKR, goldAU, goldSave, goldSavePct, silvKR, silvAU, silvSave, silvSavePct, krwRate, currency, setCurrency, navigate }) {
+function SavingsSection({ lang, isMobile, goldKR, goldAU, goldSave, goldSavePct, silvKR, silvAU, silvSave, silvSavePct, krwRate, currency, setCurrency }) {
   const [ref, vis] = useScrollReveal(0.1);
   const fP = usd => currency === 'KRW' ? fKRW(usd * krwRate) : fUSD(usd);
   return (
@@ -1498,11 +1783,7 @@ function SavingsSection({ lang, isMobile, goldKR, goldAU, goldSave, goldSavePct,
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div>
           <span style={eyebrowStyle}>{lang === 'ko' ? '오늘 국내에서 금을 사신다면' : 'If You Buy Gold Domestically Today'}</span>
-          <h2 style={{ fontFamily: SERIF, fontSize: isMobile ? 28 : 38, color: '#f5f0e8', fontWeight: isMobile ? 300 : 400, margin: 0 }}>
-            {lang === 'ko'
-              ? <>₩1,000만원 투자 시, 약 <span style={{ fontFamily:MONO, color:'#f87171' }}>₩{(Math.round((goldKR-goldAU)/goldAU*10000000/100000)*10).toLocaleString('ko-KR')}만원</span>을 더 내게 됩니다.</>
-              : <>At ₩10M invested, you overpay approx <span style={{ fontFamily:MONO, color:'#f87171' }}>₩{(Math.round((goldKR-goldAU)/goldAU*10000000/100000)*10).toLocaleString('ko-KR')}</span>.</>}
-          </h2>
+          <h2 style={{ fontFamily: SERIF, fontSize: isMobile ? 28 : 38, color: '#f5f0e8', fontWeight: isMobile ? 300 : 400, margin: 0 }}>{lang === 'ko' ? `₩1,000만원 투자 시, 약 ₩${Math.round((goldKR-goldAU)/goldAU*10000000/10000).toLocaleString('ko-KR')}만원을 더 내게 됩니다.` : `At ₩10M invested, you overpay approx ₩${Math.round((goldKR-goldAU)/goldAU*10000000/10000).toLocaleString('ko-KR')}.`}</h2>
           <p style={{ fontFamily: SANS, fontSize: 13, color: '#8a7d6b', margin: '6px 0 0' }}>{lang === 'ko' ? 'Aurum 매입가 vs 국내 소매가 기준 (부가세 포함)' : 'Aurum Price vs Domestic Retail (VAT included)'}</p>
         </div>
         <button onClick={() => setCurrency(c => c === 'KRW' ? 'USD' : 'KRW')} style={{ background: 'rgba(197,165,114,0.08)', border: '1px solid rgba(197,165,114,0.4)', color: '#c5a572', padding: '5px 14px', cursor: 'pointer', fontFamily: MONO, fontSize: 11, borderRadius: 4, alignSelf: 'flex-start' }}>
@@ -1512,10 +1793,10 @@ function SavingsSection({ lang, isMobile, goldKR, goldAU, goldSave, goldSavePct,
       <PersonalOverpayCalc goldKR={goldKR} goldAU={goldAU} lang={lang} isMobile={isMobile} />
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 14 }}>
         {[
-          { label: lang === 'ko' ? '금 Gold' : 'Gold', unit: '1 oz', kr: goldKR, au: goldAU, save: goldSave, pct: goldSavePct, krPrem: KR_GOLD_PREMIUM * 100, auPrem: AURUM_GOLD_PREMIUM * 100 },
-          { label: lang === 'ko' ? '은 Silver' : 'Silver', unit: '1 kg', kr: silvKR, au: silvAU, save: silvSave, pct: silvSavePct, krPrem: KR_SILVER_PREMIUM * 100, auPrem: AURUM_SILVER_PREMIUM * 100 },
+          { label: lang === 'ko' ? '금 Gold' : 'Gold', unit: '1 oz', kr: goldKR, au: goldAU, save: goldSave, pct: goldSavePct, krPrem: 20, auPrem: 8 },
+          { label: lang === 'ko' ? '은 Silver' : 'Silver', unit: '1 kg', kr: silvKR, au: silvAU, save: silvSave, pct: silvSavePct, krPrem: 30, auPrem: 15 },
         ].map((c, i) => (
-          <div key={i} className="magnetic-card" style={{ background: '#141414', border: `1px solid rgba(197,165,114,${i===0?0.35:0.18})`, padding: '22px 22px', position: 'relative', overflow: 'hidden' }}>
+          <div key={i} className="magnetic-card" style={{ background: '#141414', border: '1px solid rgba(197,165,114,0.20)', padding: '22px 22px', position: 'relative', overflow: 'hidden' }}>
             <div style={GOLD_LINE} />
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
               <div style={{ width: 20, height: 1, background: '#c5a572', flexShrink: 0 }} />
@@ -1527,21 +1808,21 @@ function SavingsSection({ lang, isMobile, goldKR, goldAU, goldSave, goldSavePct,
               { l: lang === 'ko' ? '국내 소매가 (VAT 포함)' : 'Domestic Retail (VAT incl.)', v: fP(c.kr / krwRate), col: '#f87171' },
               { l: lang === 'ko' ? 'Aurum 매입가 (LBMA 현물 기준)' : 'Aurum Price (LBMA spot)', v: fP(c.au / krwRate), col: '#c5a572' },
             ].map((r, j) => (
-              <div key={j} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(197,165,114,0.1)' }}>
+              <div key={j} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px dashed #1e1e1e' }}>
                 <span style={{ fontFamily: SANS, fontSize: 12, color: '#a09080', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '55%' }}>{r.l}</span>
                 <span style={{ fontFamily: MONO, fontSize: 16, color: r.col, fontWeight: 600 }}>{r.v}</span>
               </div>
             ))}
             <div style={{ margin: '16px 0 12px' }}>
-              <div style={{ fontFamily: MONO, fontSize: 10, color: '#888', letterSpacing: '0.12em', marginBottom: 10, textTransform: 'uppercase' }}>
-                {lang === 'ko' ? '구매 시 추가 비용' : 'Cost above LBMA spot'}
+              <div style={{ fontFamily: MONO, fontSize: 10, color: '#555', letterSpacing: '0.12em', marginBottom: 10, textTransform: 'uppercase' }}>
+                {lang === 'ko' ? '프리미엄 시각화' : 'Premium Visualized'}
               </div>
               {[
                 { label: lang === 'ko' ? '한국 시장' : 'Korea Retail', pct: c.krPrem, color: '#f87171', full: true },
                 { label: 'Aurum', pct: c.auPrem, color: '#c5a572', full: false },
               ].map((bar, bi) => (
                 <div key={bi} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                  <span style={{ fontFamily: MONO, fontSize: 10, color: '#999', width: 72, flexShrink: 0 }}>{bar.label}</span>
+                  <span style={{ fontFamily: MONO, fontSize: 10, color: '#666', width: 72, flexShrink: 0 }}>{bar.label}</span>
                   <div style={{ flex: 1, height: isMobile ? 4 : 5, background: '#1e1e1e', position: 'relative', overflow: 'hidden' }}>
                     <div style={{
                       position: 'absolute', left: 0, top: 0, height: '100%',
@@ -1555,22 +1836,12 @@ function SavingsSection({ lang, isMobile, goldKR, goldAU, goldSave, goldSavePct,
                 </div>
               ))}
             </div>
-            <div style={{ background: 'rgba(74,222,128,0.05)', border: '1px solid rgba(74,222,128,0.2)', padding: '12px 14px', marginTop: isMobile ? 12 : 0 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontFamily: SANS, fontSize: 12, color: '#c5a572', fontWeight: 500 }}>{lang === 'ko' ? 'Aurum으로 아낄 수 있는 금액' : 'You save today with Aurum'}</span>
-                <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontFamily: MONO, fontSize: isMobile ? 18 : 22, color: i===0 ? '#4ade80' : '#34c46a', fontWeight: 700 }}>{fP(c.save / krwRate)}</div>
-                  <div style={{ fontFamily: MONO, fontSize: 10, color: '#888' }}>{c.pct}% {lang === 'ko' ? '절약' : 'saved'}</div>
-                </div>
+            <div style={{ background: 'rgba(74,222,128,0.05)', border: '1px solid rgba(74,222,128,0.2)', padding: '12px 14px', marginTop: isMobile ? 12 : 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontFamily: SANS, fontSize: 12, color: '#f5f0e8', fontWeight: 600 }}>{lang === 'ko' ? '오늘 귀하의 절감액' : 'Your savings today'}</span>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontFamily: MONO, fontSize: isMobile ? 18 : 22, color: '#4ade80', fontWeight: 700 }}>{fP(c.save / krwRate)}</div>
+                <div style={{ fontFamily: MONO, fontSize: 10, color: '#555' }}>{c.pct}% {lang === 'ko' ? '절약' : 'saved'}</div>
               </div>
-              <button onClick={e => { e.stopPropagation(); navigate('shop-physical'); }}
-                style={{ display:'block', marginTop:10, width:'100%', background:'transparent', border:'1px solid rgba(74,222,128,0.35)', color: i===0 ? '#4ade80' : '#34c46a', padding:'7px 14px', fontFamily:SANS, fontSize:11, fontWeight:600, cursor:'pointer', letterSpacing:'0.04em', transition:'background 0.2s' }}
-                onMouseEnter={e => e.currentTarget.style.background='rgba(74,222,128,0.08)'}
-                onMouseLeave={e => e.currentTarget.style.background='transparent'}>
-                {i === 0
-                  ? (lang === 'ko' ? '지금 구매하기 →' : 'Buy now →')
-                  : (lang === 'ko' ? '은도 보기 →' : 'View silver →')}
-              </button>
             </div>
           </div>
         ))}
@@ -1677,7 +1948,7 @@ function WhyAurumSection({ lang, isMobile }) {
 function FinalCTASection({ lang, isMobile, goldKR, goldAU, navigate }) {
   const [ref, vis] = useScrollReveal(0.08);
   const gapVal = goldKR - goldAU;
-  const gapPct = ((KR_GOLD_PREMIUM - AURUM_GOLD_PREMIUM) * 100).toFixed(1); // A16: consistent with rest of page
+  const gapPct = ((gapVal / goldAU) * 100).toFixed(1);
   return (
     <div ref={ref} style={{
       background: 'linear-gradient(180deg,#0d0b08,#111008)',
@@ -1807,168 +2078,6 @@ function TrustSection({ lang, isMobile }) {
   );
 }
 
-// ─── EX-A8: MobileHeroWidget ──────────────────────────────────────────────────
-function MobileHeroWidget({ goldKR, goldAU, lang }) {
-  const ko = lang === 'ko';
-  const fKRW2 = v => `₩${Math.round(v).toLocaleString('ko-KR')}`;
-  return (
-    <div style={{ marginTop:16, marginBottom:20 }}>
-      {[
-        { label: ko?'국내 소매 채널 (VAT 포함)':'Korea Retail (VAT incl.)', val: fKRW2(goldKR), color:'#f87171', w:'100%' },
-        { label: ko?'Aurum · LBMA 현물가':'Aurum · LBMA spot', val: fKRW2(goldAU), color:'#c5a572', w:`${(goldAU/goldKR*100).toFixed(1)}%` },
-      ].map((item,i) => (
-        <div key={i} style={{ marginBottom:10 }}>
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:4 }}>
-            <span style={{ fontFamily:SANS, fontSize:11, color:'#a09080' }}>{item.label}</span>
-            <span style={{ fontFamily:MONO, fontSize:14, color:item.color, fontWeight:700 }}>{item.val}</span>
-          </div>
-          <div style={{ height:4, background:'#1e1e1e', overflow:'hidden' }}>
-            <div style={{ height:'100%', width:item.w, background:`linear-gradient(90deg,${item.color},${item.color}88)`, transition:'width 1.2s cubic-bezier(0.25,1,0.5,1) 0.3s' }} />
-          </div>
-        </div>
-      ))}
-      <div style={{ background:'rgba(74,222,128,0.06)', border:'1px solid rgba(74,222,128,0.2)', padding:'10px 14px', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-        <span style={{ fontFamily:SANS, fontSize:12, color:'#c5a572' }}>{ko?'Aurum으로 절감':'Savings with Aurum'}</span>
-        <span style={{ fontFamily:MONO, fontSize:16, color:'#4ade80', fontWeight:700 }}>{fKRW2(goldKR-goldAU)}</span>
-      </div>
-    </div>
-  );
-}
-
-// ─── STRUCT-4: MergedLaunchSection (replaces FinalCTASection + ShopCardsSection + TrustSection) ──
-function MergedLaunchSection({ lang, isMobile, goldKR, goldAU, navigate }) {
-  const [ref, vis]    = useScrollReveal(0.05);
-  const [mode, setMode] = useState('agp');
-  const [displaySavings, setDisplaySavings] = useState(0);
-  const ko = lang === 'ko';
-  const savingsPerOz = goldKR - goldAU;
-  const savingsPct   = ((KR_GOLD_PREMIUM - AURUM_GOLD_PREMIUM) * 100).toFixed(0);
-  const gramsEquiv   = (savingsPerOz / (goldAU / OZ_IN_GRAMS)).toFixed(2);
-  const fmtKRW       = v => `₩${Math.round(v).toLocaleString('ko-KR')}`;
-
-  // EX-A1: count-up on scroll reveal
-  useEffect(() => {
-    if (!vis) return;
-    const duration = 1600;
-    const start = Date.now();
-    const tick = () => {
-      const p = Math.min((Date.now() - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - p, 3);
-      setDisplaySavings(Math.round(savingsPerOz * ease));
-      if (p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }, [vis, savingsPerOz]);
-
-  const choices = {
-    agp: {
-      icon: ['AGP'],
-      badge: ko?'자동 적금 저축 플랜':'Auto Savings Plan',
-      title: ko?'AGP 자동 적금':'AGP Auto-Savings',
-      hook: ko?'월 ₩200K부터 · 매달 실물 금이 쌓입니다':'From ₩200K/mo · physical gold accumulates monthly',
-      bullets: ko
-        ? ['매달 자동이체 · 토스·카드·암호화폐','100g 달성 시 실물 바 무료 전환','가입 첫 달 즉시 금 적립 · 언제든 중단 가능']
-        : ['Monthly auto-debit · Toss/card/crypto','Free bar conversion at 100g','Day-1 gold credit · cancel anytime'],
-      cta: ko?'AGP 시작하기 →':'Start AGP →',
-      route: 'agp-intro',
-    },
-    physical: {
-      icon: ['AU','AG'],
-      badge: ko?'일회성 실물 구매':'One-time Physical Purchase',
-      title: ko?'실물 금·은 매매':'Physical Gold & Silver',
-      hook: ko?'1 oz부터 · 결제 즉시 싱가포르 금고 배분':'From 1 oz · Singapore vault allocation at payment',
-      bullets: ko
-        ? ['LBMA 승인 골드·실버 바 · 1/2 oz 코인','유선·카드·암호화폐 결제 지원','귀하의 이름으로 고유 일련번호 등록']
-        : ['LBMA-approved gold & silver · ½ oz coins','Wire · card · crypto accepted','Unique serial number registered in your name'],
-      cta: ko?'제품 둘러보기 →':'Browse Products →',
-      route: 'shop-physical',
-    },
-  };
-  const active = choices[mode];
-
-  return (
-    <div ref={ref} style={{ background:'linear-gradient(180deg,#0a0806,#0f0e09)', borderTop:'1px solid rgba(197,165,114,0.12)', opacity:vis?1:0, transform:vis?'translateY(0)':'translateY(20px)', transition:'opacity 0.7s ease, transform 0.7s ease' }}>
-      <div className="aurum-container" style={{ paddingTop:isMobile?48:96, paddingBottom:isMobile?56:104 }}>
-
-        {/* EX-A1: Live savings count-up */}
-        <div style={{ textAlign:'center', marginBottom:isMobile?36:56 }}>
-          <span style={{ fontFamily:MONO, fontSize:9, color:'rgba(197,165,114,0.5)', letterSpacing:'0.24em', textTransform:'uppercase', display:'block', marginBottom:14 }}>
-            {ko?'오늘 기준 · 국내 소매 대비 Aurum 절감액 · 1 oz':'Today · Aurum savings vs domestic retail · per oz'}
-          </span>
-          <div style={{ fontFamily:MONO, fontSize:isMobile?40:60, fontWeight:700, color:'#4ade80', lineHeight:1, marginBottom:10, letterSpacing:'-0.02em' }}>
-            ₩{displaySavings.toLocaleString('ko-KR')}
-          </div>
-          <div style={{ fontFamily:SANS, fontSize:13, color:'#8a7d6b', marginBottom:16 }}>
-            {ko?`≈ ${gramsEquiv}g 추가 취득 가능 · ${savingsPct}% 더 저렴합니다`:`≈ ${gramsEquiv}g more gold · ${savingsPct}% cheaper`}
-          </div>
-          <div style={{ display:'inline-flex', alignItems:'center', gap:8, background:'rgba(248,113,113,0.06)', border:'1px solid rgba(248,113,113,0.2)', padding:'8px 18px' }}>
-            <span style={{ width:6, height:6, borderRadius:'50%', background:'#f87171', flexShrink:0, animation:'pulse 1s ease-in-out infinite' }} />
-            <span style={{ fontFamily:MONO, fontSize:isMobile?10:12, color:'#f87171', letterSpacing:'0.04em' }}>
-              {ko?'10% 부가세는 내일도 사라지지 않습니다':'10% VAT does not go away tomorrow'}
-            </span>
-          </div>
-        </div>
-
-        {/* Mode toggle */}
-        <div style={{ display:'flex', justifyContent:'center', marginBottom:20 }}>
-          {[
-            { key:'agp', label:ko?'AGP 자동 적금':'AGP Auto-Savings', rec:true },
-            { key:'physical', label:ko?'실물 일회성 구매':'One-time Physical', rec:false },
-          ].map((opt) => (
-            <button key={opt.key} onClick={() => setMode(opt.key)} style={{
-              background: mode===opt.key?'rgba(197,165,114,0.10)':'transparent',
-              border: `1px solid ${mode===opt.key?'rgba(197,165,114,0.55)':'rgba(197,165,114,0.14)'}`,
-              borderRight: opt.key==='agp'?'none':undefined,
-              color: mode===opt.key?'#c5a572':'#777',
-              padding: isMobile?'10px 18px':'11px 28px',
-              fontFamily:SANS, fontSize:13, fontWeight:mode===opt.key?700:400,
-              cursor:'pointer', transition:'all 0.2s', display:'flex', alignItems:'center', gap:8,
-            }}>
-              {opt.label}
-              {opt.rec && <span style={{ background:'#c5a572', color:'#0a0a0a', fontFamily:MONO, fontSize:9, fontWeight:700, padding:'2px 6px' }}>{ko?'추천':'REC'}</span>}
-            </button>
-          ))}
-        </div>
-
-        {/* Active choice panel */}
-        <div style={{ maxWidth:660, margin:'0 auto', background:mode==='agp'?'rgba(197,165,114,0.04)':'rgba(255,255,255,0.02)', border:`1px solid ${mode==='agp'?'rgba(197,165,114,0.38)':'rgba(197,165,114,0.14)'}`, padding:isMobile?'24px 20px':'36px 40px', position:'relative', overflow:'hidden', transition:'border-color 0.3s ease' }}>
-          {mode==='agp' && <div style={GOLD_LINE} />}
-          <div style={{ display:'flex', alignItems:'flex-start', gap:16, marginBottom:22 }}>
-            <div style={{ width:52, height:52, border:'1px solid rgba(197,165,114,0.3)', background:'#141414', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-              {active.icon.map((line,li) => <span key={li} style={{ fontFamily:SERIF, fontSize:13, color:'#c5a572', letterSpacing:'0.06em', lineHeight:1.3 }}>{line}</span>)}
-            </div>
-            <div>
-              <div style={{ fontFamily:MONO, fontSize:10, color:'#8a7d6b', letterSpacing:'0.14em', textTransform:'uppercase', marginBottom:4 }}>{active.badge}</div>
-              <div style={{ fontFamily:SERIF, fontSize:isMobile?22:28, color:'#f5f0e8', fontWeight:400, lineHeight:1.15 }}>{active.title}</div>
-              <div style={{ fontFamily:SANS, fontSize:13, color:'#a09080', marginTop:5 }}>{active.hook}</div>
-            </div>
-          </div>
-          <div style={{ borderTop:'1px solid rgba(197,165,114,0.1)', paddingTop:16, marginBottom:28 }}>
-            {active.bullets.map((b,bi) => (
-              <div key={bi} style={{ display:'flex', gap:10, padding:'8px 0', borderBottom:bi<active.bullets.length-1?'1px solid rgba(197,165,114,0.08)':'none' }}>
-                <span style={{ fontFamily:MONO, fontSize:12, color:'#c5a572', flexShrink:0 }}>—</span>
-                <span style={{ fontFamily:SANS, fontSize:13, color:'#f5f0e8', lineHeight:1.55 }}>{b}</span>
-              </div>
-            ))}
-          </div>
-          <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:16 }}>
-            <button onClick={() => navigate(active.route)} style={{ background:mode==='agp'?'#c5a572':'transparent', border:mode==='agp'?'none':'1px solid rgba(197,165,114,0.5)', color:mode==='agp'?'#0a0a0a':'#c5a572', padding:'14px 36px', fontFamily:SANS, fontSize:14, fontWeight:700, cursor:'pointer', letterSpacing:'0.02em', transition:'background 0.2s' }}
-              onMouseEnter={e => e.currentTarget.style.background=mode==='agp'?'#E3C187':'rgba(197,165,114,0.1)'}
-              onMouseLeave={e => e.currentTarget.style.background=mode==='agp'?'#c5a572':'transparent'}>
-              {active.cta}
-            </button>
-            <div style={{ display:'flex', gap:isMobile?10:16, flexWrap:'wrap' }}>
-              {(ko?["Lloyd's 보험",'LBMA 승인','🇸🇬 MAS']:["Lloyd's insured",'LBMA approved','🇸🇬 MAS']).map((t,i) => (
-                <span key={i} style={{ fontFamily:MONO, fontSize:10, color:'#8a7d6b', letterSpacing:'0.04em', whiteSpace:'nowrap' }}>✓ {t}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function HomePage({ navigate, prices, krwRate, currency, setCurrency, lang }) {
   const isMobile = useIsMobile();
   const fP = usd => currency === 'KRW' ? fKRW(usd * krwRate) : fUSD(usd);
@@ -1979,12 +2088,12 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
   const goldKR  = prices.gold * krwRate * (1 + KR_GOLD_PREMIUM);
   const goldAU  = prices.gold * (1 + AURUM_GOLD_PREMIUM) * krwRate;
   const goldSave = goldKR - goldAU;
-  const goldSavePct = ((KR_GOLD_PREMIUM - AURUM_GOLD_PREMIUM) * 100).toFixed(1); // A10: 12.0
+  const goldSavePct = (goldSave / goldKR * 100).toFixed(1);
   const KG = 1000 / OZ_IN_GRAMS;
   const silvKR  = (prices.silver||32.15) * KG * krwRate * (1 + KR_SILVER_PREMIUM);
   const silvAU  = (prices.silver||32.15) * KG * (1 + AURUM_SILVER_PREMIUM) * krwRate;
   const silvSave = silvKR - silvAU;
-  const silvSavePct = ((KR_SILVER_PREMIUM - AURUM_SILVER_PREMIUM) * 100).toFixed(1); // A10: 15.0
+  const silvSavePct = (silvSave / silvKR * 100).toFixed(1);
 
   return (
     <div>
@@ -1999,11 +2108,7 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
             <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:20, flexWrap:'nowrap', overflow:'hidden' }}>
               <div style={{ width:28, height:1, background:'#c5a572', flexShrink:0 }} />
               <span style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:isMobile?12:14, color:'#c5a572', letterSpacing:'0.04em', whiteSpace:'nowrap' }}>
-                {lang==='ko'?'싱가포르 PSPM법 2019 등록 딜러':'Singapore PSPM Act 2019 Registered Dealer'}
-              </span>
-              <span style={{ color:'#8a7d6b' }}>·</span>
-              <span style={{ fontFamily:MONO, fontSize:isMobile?10:11, color:'#c5a572', letterSpacing:'0.16em', textTransform:'uppercase', whiteSpace:'nowrap' }}>
-                {lang==='ko'?'한국 투자자 전용':'For Korean Investors'}
+                {lang==='ko'?'실물 금. 국제 현물가. 싱가포르 금고에 귀하의 이름으로.':'Physical gold. International spot price. Your name on it in Singapore.'}
               </span>
               {!isMobile && <div style={{ width:28, height:1, background:'#c5a572', flexShrink:0 }} />}
             </div>
@@ -2014,15 +2119,12 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
             </h1>
             <p style={{ fontFamily:SANS, fontSize:isMobile?14:16, color:'#a09080', lineHeight:1.95, margin:'0 0 10px' }}>
               {lang==='ko'
-                ?'10% 부가세 포함 국내 구매 대신 — Aurum은 LBMA 국제 현물가로 직접 거래합니다. 차이가 오른쪽에 보입니다.'
-                :'Instead of domestic channels with 10% VAT — Aurum trades directly at LBMA international spot. See the difference on the right.'}
+                ?'국내에서 금을 사면 10%를 더 냅니다. 내일도. 매번. Aurum은 그 차이를 없앱니다.'
+                :'Every time you buy gold domestically, you pay 10% more than the international price. We eliminate that gap.'}
             </p>
-            {/* EX-A8: Mobile price comparison widget */}
-            {isMobile && <MobileHeroWidget goldKR={goldKR} goldAU={goldAU} lang={lang} />}
-
             {/* Live Kimchi Premium strip */}
             {prices?.gold && krwRate ? (() => {
-              const kimchiPct = ((KR_GOLD_PREMIUM - AURUM_GOLD_PREMIUM) * 100).toFixed(0); // A1: dynamic
+              const kimchiPct = ((KR_GOLD_PREMIUM - AURUM_GOLD_PREMIUM) * 100).toFixed(0);
               const gap = Math.round(prices.gold * krwRate * (KR_GOLD_PREMIUM - AURUM_GOLD_PREMIUM));
               return (
                 <div style={{ display:'flex', alignItems:'center', gap:10, background:'rgba(248,113,113,0.1)', border:'1px solid rgba(248,113,113,0.35)', padding:'9px 16px', marginBottom:20, width:'fit-content' }}>
@@ -2037,8 +2139,8 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
               <button onClick={() => navigate('shop-physical')} style={{ flex:1, background:'linear-gradient(135deg,#c5a572,#8a6914)', color:'#fff', border:'none', padding:'14px 20px', fontSize:15, fontFamily:SANS, fontWeight:700, borderRadius:0, cursor:'pointer' }}>
                 {lang==='ko'?'국제 현물가로 시작하기 →':'Start at International Spot →'}
               </button>
-              <button onClick={() => navigate('agp')} style={{ flex:1, background:'transparent', color:'#a09080', border:'1px solid #282828', padding:'14px 16px', fontSize:13, fontFamily:SANS, fontWeight:600, borderRadius:0, cursor:'pointer', whiteSpace:'nowrap' }}>
-                {lang==='ko'?'AGP 자동 적금 · ₩200K/월~':'AGP Auto-savings · from ₩200K/mo'}
+              <button onClick={() => navigate('agp')} style={{ flex:1, background:'transparent', color:'#a09080', border:'1px solid #282828', padding:'14px 20px', fontSize:15, fontFamily:SANS, fontWeight:600, borderRadius:0, cursor:'pointer' }}>
+                {lang==='ko'?'다음 달부터 자동으로 · ₩200K/월부터':'Auto-accumulate · from ₩200K/mo'}
               </button>
             </div>
             <div style={{ marginTop:14, display:'flex', gap:isMobile?10:16, flexWrap:'nowrap', overflow:'hidden', justifyContent:isMobile?'flex-start':'flex-start' }}>
@@ -2059,88 +2161,43 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
         </div>
       </div>
 
-      {/* ── MARKET ANALYTICS — right after hero, most powerful conversion section ── */}
-      {(() => {
-        return (
-        <div style={{ borderBottom:'1px solid rgba(197,165,114,0.08)', background:'#0d0b08' }}>
-        <div className="aurum-container" style={{ paddingTop: isMobile ? 32 : 64, paddingBottom: isMobile ? 32 : 64 }}>
-          <div style={{ textAlign:'center', marginBottom: isMobile?20:36 }}>
-            <span style={{ fontFamily:MONO, fontSize:10, color:'rgba(197,165,114,0.5)', letterSpacing:'0.2em', textTransform:'uppercase' }}>
-              {lang==='ko'?'실시간 시장 분석 도구 · LBMA 월간 데이터 2020–2024':'Live Market Analytics · LBMA Monthly Data 2020–2024'}
-            </span>
-            <h2 style={{ fontFamily:SERIF, fontStyle:'italic', fontSize: isMobile?22:32, color:'#f5f0e8', fontWeight:300, margin:'8px 0 0' }}>
-              {lang==='ko'?<>시장이 보여주는 것 — <span style={{ color:'#c5a572' }}>직접 확인하십시오</span></> : <>What the market shows — <span style={{ color:'#c5a572' }}>see for yourself</span></>}
-            </h2>
-          </div>
-          <PriceChartsSection prices={prices} krwRate={krwRate} lang={lang} isMobile={isMobile} />
-          <MarketRatios lang={lang} prices={prices} krwRate={krwRate} />
-          {/* §11 — Savings chart with copy */}
-          <div style={{ marginTop:32, marginBottom:8 }}>
-            <div style={{ fontFamily:MONO, fontSize:10, color:'rgba(197,165,114,0.5)', letterSpacing:'0.2em', textTransform:'uppercase', marginBottom:8 }}>
-              {lang==='ko'?'은행 예금 vs 금 적립 · 5년 성과':'Bank deposit vs gold AGP · 5-year performance'}
-            </div>
-            <h3 style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:isMobile?20:26, color:'#f5f0e8', fontWeight:300, margin:'0 0 8px' }}>
-              {lang==='ko'?<>₩10만원씩 5년, <span style={{color:'#c5a572'}}>지금 얼마입니까?</span></> : <>₩100K/month for 5 years — <span style={{color:'#c5a572'}}>what is it worth today?</span></>}
-            </h3>
-            <p style={{ fontFamily:SANS, fontSize:13, color:'#8a7d6b', lineHeight:1.8, maxWidth:680, marginBottom:16 }}>
-              {lang==='ko'?'2020년 1월부터 매달 ₩100,000씩 (a) 은행 정기예금에 납입했다면, (b) Aurum AGP 방식으로 금을 적립했다면 — 오늘 각각의 가치는 얼마일까요? 실제 금 가격 데이터와 한국은행 기준금리 기반으로 계산한 숫자입니다.':'Starting January 2020, investing ₩100,000/month into (a) a bank time deposit, or (b) gold accumulation via Aurum AGP — what is each worth today? Calculated using actual gold price data and Bank of Korea benchmark rates.'}
-            </p>
-          </div>
-          <div style={{ marginTop:20, textAlign:'center' }}>
-            <button onClick={() => navigate('register')} style={{ background:'#c5a572', border:'none', color:'#0a0a0a', padding:'14px 36px', fontSize:14, fontWeight:700, cursor:'pointer', fontFamily:SANS }}>
-              {lang==='ko'?'AGP 무료 시작 — 직접 확인하기 →':'Start AGP Free — See the Numbers →'}
-            </button>
-          </div>
-        </div>
-        </div>
-        );
-      })()}
+      {/* ② CB Buying Signal — the macro thesis */}
+      <CBBuyingChart lang={lang} isMobile={isMobile} />
 
-      {/* 02 — KRW DEBASEMENT: "your money is melting" — macro urgency first */}
+      {/* ③ KRW Debasement — macro WHY, full history from 2000 */}
       <KRWDebasementSection lang={lang} isMobile={isMobile} prices={prices} krwRate={krwRate} />
 
-      {/* 03 — KIMCHI GAUGE: quantify the domestic pain specifically */}
+      {/* ④ Korea Wealth Allocation Gap */}
+      <KoreaWealthAllocation lang={lang} isMobile={isMobile} />
+
+      {/* ⑤ Live premium meter */}
       <KimchiPremiumMeter prices={prices} krwRate={krwRate} lang={lang} goldKR={goldKR} goldAU={goldAU} />
 
-      {/* 04 — PAPER VS PHYSICAL + KUMTONG: contrast now they understand the problem */}
+      {/* ④ Paper vs Physical */}
       <PvPSection lang={lang} isMobile={isMobile} />
       <div className="aurum-container" style={{ paddingBottom: isMobile ? 32 : 64 }}>
         <KumtongConverter prices={prices} krwRate={krwRate} lang={lang} />
       </div>
 
-      {/* 05 — SAVINGS CARDS: concrete ₩ today, with per-card CTAs */}
-      <SavingsSection lang={lang} isMobile={isMobile} goldKR={goldKR} goldAU={goldAU} goldSave={goldSave} goldSavePct={goldSavePct} silvKR={silvKR} silvAU={silvAU} silvSave={silvSave} silvSavePct={silvSavePct} krwRate={krwRate} currency={currency} setCurrency={setCurrency} navigate={navigate} />
+      {/* ⑤ Savings cards */}
+      <SavingsSection lang={lang} isMobile={isMobile} goldKR={goldKR} goldAU={goldAU} goldSave={goldSave} goldSavePct={goldSavePct} silvKR={silvKR} silvAU={silvAU} silvSave={silvSave} silvSavePct={silvSavePct} krwRate={krwRate} currency={currency} setCurrency={setCurrency} />
 
-      {/* 06 — MARKET ANALYTICS: user is now engaged enough for charts */}
-      <div style={{ borderBottom:'1px solid rgba(197,165,114,0.08)', background:'#0d0b08' }}>
-        <div className="aurum-container" style={{ paddingTop:isMobile?32:64, paddingBottom:isMobile?32:64 }}>
-          <div style={{ textAlign:'center', marginBottom:isMobile?20:36 }}>
-            <span style={{ fontFamily:MONO, fontSize:10, color:'rgba(197,165,114,0.5)', letterSpacing:'0.2em', textTransform:'uppercase' }}>
-              {lang==='ko'?'실시간 시장 분석 도구 · LBMA 월간 데이터 2020–2024':'Live Market Analytics · LBMA Monthly Data 2020–2024'}
-            </span>
-            <h2 style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:isMobile?22:32, color:'#f5f0e8', fontWeight:300, margin:'8px 0 0' }}>
-              {lang==='ko'?<>시장이 보여주는 것 — <span style={{color:'#c5a572'}}>직접 확인하십시오</span></>:<>What the market shows — <span style={{color:'#c5a572'}}>see for yourself</span></>}
-            </h2>
-          </div>
-          <PriceChartsSection prices={prices} krwRate={krwRate} lang={lang} isMobile={isMobile} />
-          <MarketRatios lang={lang} prices={prices} krwRate={krwRate} />
-        </div>
-      </div>
-
-      {/* 07 — AGP LAUNCH: main product, user fully primed */}
+      {/* ⑥ AGP product offer */}
       <AGPLaunchPane lang={lang} navigate={navigate} prices={prices} krwRate={krwRate} />
 
-      {/* 08 — FOUNDERS CLUB: loyalty escalation from AGP */}
+      {/* ⑦ Founders loyalty mechanic */}
       <FoundersClubPane lang={lang} navigate={navigate} krwRate={krwRate} />
 
-      {/* 09 — HOW IT WORKS: ease of process, friction removal */}
-      <HowItWorks lang={lang} isMobile={isMobile} />
-
-      {/* 10 — LEGAL FAQ: final objection removal (reordered: existential fear first) */}
+      {/* ⑧ Trust objections */}
       <LegalSafetyFAQ lang={lang} navigate={navigate} />
 
-      {/* 11 — MERGED CTA: single decisive action (replaces FinalCTA + ShopCards + TrustSection) */}
+      <SealDivider />
+
+      {/* ⑨ Decision moment — merged CTA + product cards */}
       <MergedLaunchSection lang={lang} isMobile={isMobile} goldKR={goldKR} goldAU={goldAU} navigate={navigate} />
+
+      {/* ⑩ Condensed credential strip */}
+      <CondensedCredentialStrip lang={lang} isMobile={isMobile} />
     </div>
   );
 }
