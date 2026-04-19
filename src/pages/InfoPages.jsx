@@ -192,7 +192,7 @@ export function WhyGoldPage({ lang, navigate }) {
             <span style={{ fontFamily:T.mono, fontSize:9, color:'#444' }}>* {ko?'LBMA 연간 종가 · US CPI 기준':'LBMA annual close · US CPI basis'}</span>
           </div>
           <p style={{ fontFamily:T.sans, fontSize:13, color:'#555', lineHeight:1.75, marginTop:12, maxWidth:680 }}>
-            {ko ? '달러는 시스템 내에서 상대적으로 강할 수 있습니다. 그러나 금은 시스템 밖에 있습니다. 브레튼우즈 이후 54년, 금은 달러 대비 94배 상승했습니다. 이것은 단순한 자산 가격 상승이 아닙니다 — 기축통화의 구매력 손실이 금 가격에 반영된 것입니다.' : 'The dollar can be relatively strong within the system. But gold is outside the system. Since Bretton Woods ended 54 years ago, gold has risen 94x against the dollar. This is not merely asset price appreciation — it is the loss of reserve currency purchasing power manifested in gold\'s price.'}
+            {ko ? '달러는 시스템 내에서 상대적으로 강할 수 있습니다. 그러나 금은 시스템 밖에 있습니다. 브레튼우즈 이후 54년, 금은 달러 대비 94배 상승했습니다. 이것은 단순한 자산 가격 상승이 아닙니다 — 기축통화의 구매력 손실이 금 가격에 반영된 것입니다.' : "The dollar can be relatively strong within the system. But gold is outside the system. Since Bretton Woods ended 54 years ago, gold has risen 94x against the dollar. This is not merely asset price appreciation — it is the loss of reserve currency purchasing power manifested in gold's price."}
           </p>
         </div>
       </div>
@@ -867,6 +867,8 @@ export function AGPPage({ lang, navigate, currency = 'KRW', krwRate = 1368 }) {
       </div>
 
       <div style={{ borderBottom: `1px solid ${T.border}` }}>
+        <div className="aurum-container" style={{ paddingTop: isMobile ? 28 : 64, paddingBottom: isMobile ? 28 : 64 }}>
+          <div style={{ maxWidth: 900, margin: '0 auto' }}>
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(5, 1fr)', gap: isMobile ? 16 : 0, position: 'relative' }}>
               {[
                 { icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c5a572" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>, kr: '가입',    en: 'Sign Up',   desc: ko ? '10분 내 온라인 KYC 완료.' : 'Online KYC in 10 minutes.' },
