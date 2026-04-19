@@ -1451,6 +1451,12 @@ function KRWDebasementSection({ lang, isMobile, prices, krwRate: liveKrwRate }) 
           </span>
           <span style={{ fontFamily:MONO, fontSize:9, color:'rgba(197,165,114,0.4)', letterSpacing:'0.1em' }}>03 →</span>
         </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── CBBuyingChart ────────────────────────────────────────────────────────────
 function CBBuyingChart({ lang, isMobile }) {
   const [ref, vis] = useScrollReveal(0.06);
   const chartRef = useRef(null);
@@ -1588,6 +1594,12 @@ function CBBuyingChart({ lang, isMobile }) {
           </span>
           <span style={{ fontFamily:MONO, fontSize:9, color:'rgba(197,165,114,0.4)', letterSpacing:'0.1em' }}>02 →</span>
         </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── KoreaWealthAllocation ────────────────────────────────────────────────────
 function KoreaWealthAllocation({ lang, isMobile }) {
   const [ref, vis] = useScrollReveal(0.06);
   const ko = lang === 'ko';
