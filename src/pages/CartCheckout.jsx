@@ -153,6 +153,39 @@ export function CheckoutPage({ lang, navigate, cart, clearCart, prices, krwRate,
 
   const inp = { width:'100%', background:T.bg1, border:`1px solid ${T.border}`, color:T.text, padding:'11px 14px', fontSize:13, outline:'none', fontFamily:T.sans, marginBottom:10 };
 
+  /* ── KYC hard block ─────────────────────────────────────────────────── */
+  if (user && user.kycStatus !== 'verified') {
+    return (
+      <div style={{ background:T.bg, minHeight:'85vh', display:'flex', alignItems:'center', justifyContent:'center', padding: isMobile ? '32px 16px' : '56px 80px' }}>
+        <div style={{ maxWidth:480, textAlign:'center' }}>
+          <div style={{ width:56, height:56, border:'1px solid rgba(251,191,36,0.35)', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 24px', background:'rgba(251,191,36,0.06)' }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="#fbbf24"/>
+            </svg>
+          </div>
+          <div style={{ fontFamily:T.mono, fontSize:9, color:'#fbbf24', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:14 }}>
+            {ko ? 'KYC 인증 필요' : 'Identity Verification Required'}
+          </div>
+          <h2 style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:isMobile?24:32, fontWeight:300, color:T.text, marginBottom:14, lineHeight:1.2 }}>
+            {ko ? '구매를 완료하려면 본인 확인이 필요합니다.' : 'Identity verification required to complete your purchase.'}
+          </h2>
+          <p style={{ fontFamily:T.sans, fontSize:13, color:T.textSub, lineHeight:1.85, marginBottom:28, maxWidth:380, margin:'0 auto 28px' }}>
+            {ko ? '한국 금융당국 기준에 따라 귀금속 구매 시 본인 확인이 필요합니다. 인증 전에도 사이트 전체를 이용하실 수 있으며, KYC 승인 후 결제가 활성화됩니다.' : 'Korean financial regulations require identity verification for precious metals purchases. You can browse the full site while under review — payment activates after KYC approval.'}
+          </p>
+          <div style={{ display:'flex', flexDirection:'column', gap:10, maxWidth:320, margin:'0 auto' }}>
+            <button onClick={() => navigate('kyc')} style={{ background:T.gold, border:'none', color:'#0d0b08', padding:'15px 28px', fontFamily:T.sans, fontSize:14, fontWeight:700, cursor:'pointer' }}>
+              {ko ? 'KYC 인증하기 →' : 'Verify Identity →'}
+            </button>
+            <button onClick={() => navigate('shop')} style={{ background:'none', border:`1px solid ${T.border}`, color:T.textSub, padding:'13px 28px', fontFamily:T.sans, fontSize:13, cursor:'pointer' }}>
+              {ko ? '쇼핑 계속하기' : 'Continue browsing'}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ background:T.bg, minHeight:'85vh', padding: isMobile ? '32px 16px' : '56px 80px' }}>
       <div style={{ maxWidth:720, margin:'0 auto' }}>
@@ -252,9 +285,16 @@ export function CheckoutPage({ lang, navigate, cart, clearCart, prices, krwRate,
                   flex:2, background:T.gold, border:'none', color:'#0a0a0a', padding:'15px', fontSize:15,
                   fontWeight:700, cursor:'pointer', fontFamily:T.sans,
                 }}>{ko ? '로그인 후 결제' : 'Login to Pay'}</button>
-              ) : user.kycStatus !== 'verified' ? (
-                <div style={{ flex:2, background:T.border, padding:'15px', textAlign:'center' }}>
-                  <div style={{ fontFamily:T.mono, fontSize:11, color:T.amber, letterSpacing:'0.1em' }}>KYC 검토 중 — 1-2 영업일 후 거래 가능</div>
+              ) : user.kycStatus === 'unverified' ? (
+                <div style={{ flex:2, background:'rgba(248,113,113,0.06)', border:'1px solid rgba(248,113,113,0.3)', padding:'14px 16px', display:'flex', flexDirection:'column', gap:8 }}>
+                  <div style={{ fontFamily:T.mono, fontSize:11, color:'#f87171', letterSpacing:'0.12em', fontWeight:700 }}>{ko ? '⛔ KYC 인증이 필요합니다' : '⛔ KYC required to purchase'}</div>
+                  <div style={{ fontFamily:T.sans, fontSize:12, color:T.textSub, lineHeight:1.6 }}>{ko ? '결제를 완료하려면 신원 확인이 필요합니다. 1-2 영업일이 소요됩니다.' : 'Identity verification is required before purchase. Takes 1-2 business days.'}</div>
+                  <button onClick={() => navigate('kyc')} style={{ background:T.gold, border:'none', color:'#0a0a0a', padding:'10px 18px', fontFamily:T.sans, fontSize:13, fontWeight:700, cursor:'pointer', alignSelf:'flex-start' }}>{ko ? 'KYC 인증 시작 →' : 'Start KYC Verification →'}</button>
+                </div>
+              ) : user.kycStatus === 'in_review' ? (
+                <div style={{ flex:2, background:'rgba(251,191,36,0.06)', border:'1px solid rgba(251,191,36,0.25)', padding:'14px 16px' }}>
+                  <div style={{ fontFamily:T.mono, fontSize:11, color:'#fbbf24', letterSpacing:'0.1em', marginBottom:4 }}>{ko ? '🕐 KYC 검토 중' : '🕐 KYC under review'}</div>
+                  <div style={{ fontFamily:T.sans, fontSize:12, color:T.textSub, lineHeight:1.6 }}>{ko ? '1-2 영업일 내에 승인됩니다. 승인 즉시 결제가 활성화됩니다.' : 'Approval within 1-2 business days. Payment unlocks immediately on approval.'}</div>
                 </div>
               ) : (
                 <button onClick={handleSubmit} disabled={submitting} style={{

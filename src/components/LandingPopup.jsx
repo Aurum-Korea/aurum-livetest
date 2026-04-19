@@ -122,8 +122,10 @@ export default function LandingPopup({ lang, navigate }) {
         <div style={{ marginTop:'auto', display:'flex', gap:10, flexDirection: isMobile?'column':'row' }}>
           <button onClick={() => { navigate('agp'); dismiss(); }}
             style={{ flex:2, background: 'linear-gradient(135deg,#c5a572,#9a7840)', border:'none', color:'#0a0a0a', padding:'14px 20px', fontSize:15, fontWeight:700, cursor:'pointer', fontFamily:SANS }}>
-            <span style={{ fontFamily:SERIF, fontStyle:'italic', marginRight:6 }}>GoldPath</span>
-            {ko?'시작하기 →':'Start →'}
+            {ko
+              ? <><span style={{ fontFamily:SERIF, fontStyle:'italic', marginRight:6 }}>금환</span>시작하기 →</>
+              : <><span style={{ fontFamily:SERIF, fontStyle:'italic', marginRight:6 }}>GoldPath</span>Start →</>
+            }
           </button>
           <button onClick={() => setSlide(1)}
             style={{ flex:1, background:'rgba(197,165,114,0.08)', border:`1px solid ${T.goldBorder}`, color:T.gold, padding:'14px 12px', fontSize:12, cursor:'pointer', fontFamily:SANS }}>

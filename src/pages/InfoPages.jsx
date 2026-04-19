@@ -266,7 +266,7 @@ export function WhyGoldPage({ lang, navigate }) {
               {ko?<>숫자가 말합니다 — <span style={{ color:T.gold, fontFamily:T.serif, fontStyle:'italic' }}>지금 사야 하는 이유</span></> : <>The data speaks — <span style={{ color:T.gold, fontFamily:T.serif, fontStyle:'italic' }}>the case to buy now</span></>}
             </h2>
           </div>
-          <MarketRatios lang={lang} prices={null} krwRate={1440} />
+          <MarketRatios lang={lang} prices={prices} krwRate={krwRate || 1440} />
           <div style={{ marginTop:24, textAlign:'center' }}>
             <button onClick={() => navigate('register')} style={{ background:T.gold, border:'none', color:'#0d0b08', padding:'14px 36px', fontSize:14, fontWeight:700, cursor:'pointer', fontFamily:T.sans }}>
               {ko?'지금 가입하고 실물 금 시작하기 →':'Start investing in physical gold →'}
@@ -1390,53 +1390,127 @@ export function GoldTodayPage({ lang, navigate, prices, krwRate = 1440 }) {
   const isMobile = useIsMobile();
   const ko = lang === 'ko';
   const T_loc = T;
-  const MONO = "'JetBrains Mono',monospace";
-  const SERIF = "'Cormorant Garamond',serif";
-  const SANS = "'Pretendard','Outfit',sans-serif";
+  const MONO = T.mono;
+  const SERIF = T.serif;
+  const SANS = T.sans;
   const KR_PREM = 0.20;
   const AU_PREM = 0.08;
   const goldUSD = prices?.gold || 3342;
+  const silverUSD = prices?.silver || 32.9;
   const goldKR = goldUSD * krwRate * (1 + KR_PREM);
   const goldAU = goldUSD * (1 + AU_PREM) * krwRate;
+  const silverKR = silverUSD * krwRate * (1 + 0.30);
+  const silverAU = silverUSD * (1 + 0.15) * krwRate;
   const premPct = ((goldKR - goldAU) / goldKR * 100).toFixed(1);
   const fKRW = v => `₩${Math.round(v).toLocaleString('ko-KR')}`;
-  const eyebrow = { fontFamily:MONO, fontSize:10, color:'rgba(197,165,114,0.6)', letterSpacing:'0.2em', textTransform:'uppercase', display:'block', marginBottom:10 };
+  const eyebrow = { fontFamily:MONO, fontSize:10, color:T.goldDim, letterSpacing:'0.2em', textTransform:'uppercase', display:'block', marginBottom:10 };
+
+  // Kimchi gauge arc calculation
+  const gaugeMin = 0, gaugeMax = 35;
+  const gaugePct = Math.min(Math.max((parseFloat(premPct) - gaugeMin) / (gaugeMax - gaugeMin), 0), 1);
+  const angle = -140 + gaugePct * 280; // -140° to +140°
+  const toRad = d => d * Math.PI / 180;
+  const cx = 100, cy = 90, r = 72;
+  const needleX = cx + r * 0.75 * Math.cos(toRad(angle - 90));
+  const needleY = cy + r * 0.75 * Math.sin(toRad(angle - 90));
+  const gaugeColor = parseFloat(premPct) > 20 ? '#f87171' : parseFloat(premPct) > 10 ? '#fbbf24' : '#4ade80';
 
   return (
     <div style={{ background:T_loc.bg, minHeight:'100vh' }}>
-      {/* §1 Live price comparison */}
-      <div style={{ background:'linear-gradient(135deg,#0a0a0a,#141414)', borderBottom:'1px solid rgba(197,165,114,0.1)', padding:isMobile?'40px 20px':'72px 0' }}>
-        <div className="aurum-container">
-          <span style={eyebrow}>{ko?'금시세 오늘 · 실시간 업데이트':'Gold Price Today · Live'}</span>
-          <h1 style={{ fontFamily:ko?T_loc.serifKrDisplay:SERIF, fontSize:isMobile?32:52, fontWeight:300, color:'#f5f0e8', margin:'0 0 8px', lineHeight:1.1 }}>
-            {ko?<>금시세 오늘 — <span style={{ color:'#c5a572', fontStyle:'italic' }}>김치프리미엄이란?</span></>:'Today\'s Gold Price & the Kimchi Premium'}
-          </h1>
-          <p style={{ fontFamily:SANS, fontSize:isMobile?14:16, color:'#8a7d6b', lineHeight:1.9, maxWidth:600, margin:'0 0 32px' }}>
-            {ko?'국내 금 구매 시 왜 더 비쌀까요? 싱가포르에서 LBMA 현물가로 구매하면 얼마나 절감되는지 실시간으로 확인하세요.':'Why is gold more expensive in Korea? See live how much you save by buying at LBMA spot in Singapore.'}
-          </p>
-          <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 1fr 1fr', gap:12, maxWidth:720 }}>
-            {[
-              { label:ko?'국제 현물가 (XAU/USD)':'LBMA Spot (XAU/USD)', val:`$${goldUSD.toFixed(2)}`, color:'#c5a572' },
-              { label:ko?'국내 소매가 (VAT 포함)':'Korea Retail (incl. VAT)', val:fKRW(goldKR)+'/oz', color:'#f87171' },
-              { label:ko?'Aurum 구매가':'Aurum Price', val:fKRW(goldAU)+'/oz', color:'#4ade80' },
-            ].map((s,i) => (
-              <div key={i} style={{ background:'rgba(197,165,114,0.04)', border:'1px solid rgba(197,165,114,0.12)', padding:'16px 18px' }}>
-                <div style={{ fontFamily:MONO, fontSize:10, color:'#555', letterSpacing:'0.1em', marginBottom:6 }}>{s.label}</div>
-                <div style={{ fontFamily:MONO, fontSize:isMobile?18:22, color:s.color, fontWeight:700 }}>{s.val}</div>
+      {/* §1 SPLIT-SCREEN HERO */}
+      <div style={{ background:'linear-gradient(180deg,#0d0b08,#0a0908)', borderBottom:'1px solid rgba(197,165,114,0.1)', padding:isMobile?'40px 0':'0' }}>
+        <div className="aurum-container" style={{ display: isMobile ? 'block' : 'grid', gridTemplateColumns:'1fr 1fr', gap:0, minHeight: isMobile ? 'auto' : 480, alignItems:'stretch' }}>
+
+          {/* Left — live prices + gauge */}
+          <div style={{ padding: isMobile ? '0 0 32px' : '64px 48px 64px 0', borderRight: isMobile ? 'none' : '1px solid rgba(197,165,114,0.1)' }}>
+            <span style={eyebrow}>{ko ? '금 시장 현황 · 실시간' : 'Gold Market · Live'}</span>
+            <h1 style={{ fontFamily: ko ? T_loc.serifKrDisplay : SERIF, fontStyle: ko ? 'normal' : 'italic', fontSize:'clamp(28px,3.5vw,44px)', fontWeight:300, color:'#f5f0e8', margin:'0 0 28px', lineHeight:1.1 }}>
+              {ko ? <>오늘의 <span style={{ color:'#c5a572' }}>금 시장</span></> : <>Today's <span style={{ color:'#c5a572', fontStyle:'italic' }}>Gold Market</span></>}
+            </h1>
+
+            {/* 3 live price stats */}
+            <div style={{ display:'flex', flexDirection:'column', gap:8, marginBottom:20 }}>
+              {[
+                { label: ko?'국제 현물가 XAU/USD':'LBMA Spot', val:`$${goldUSD.toFixed(2)}`, sub:ko?'oz당':'per oz', color:'#c5a572' },
+                { label: ko?'국내 소매가 (VAT 포함)':'Korea Retail incl. VAT', val: fKRW(goldKR/31.1035)+'g', sub:ko?'그램당':'per gram', color:'#f87171' },
+                { label: ko?'Aurum 구매가':'Aurum Price', val: fKRW(goldAU/31.1035)+'g', sub:ko?'LBMA 현물가 기준':'at LBMA spot', color:'#4ade80' },
+              ].map((s,i) => (
+                <div key={i} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'10px 14px', background:'rgba(255,255,255,0.025)', border:'1px solid rgba(197,165,114,0.08)' }}>
+                  <span style={{ fontFamily:MONO, fontSize:10, color:'#666', letterSpacing:'0.1em' }}>{s.label}</span>
+                  <div style={{ textAlign:'right' }}>
+                    <div style={{ fontFamily:MONO, fontSize:isMobile?16:18, color:s.color, fontWeight:700, lineHeight:1 }}>{s.val}</div>
+                    <div style={{ fontFamily:SANS, fontSize:9, color:'#555', marginTop:2 }}>{s.sub}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Kimchi Premium Gauge */}
+            <div style={{ background:'rgba(197,165,114,0.04)', border:'1px solid rgba(197,165,114,0.12)', padding:'16px' }}>
+              <div style={{ fontFamily:MONO, fontSize:9, color:T.goldDim, letterSpacing:'0.18em', textTransform:'uppercase', marginBottom:10 }}>
+                {ko ? '김치프리미엄 실시간 미터' : 'Kimchi Premium Live Meter'}
               </div>
-            ))}
+              <div style={{ display:'flex', alignItems:'center', gap:16 }}>
+                <svg viewBox="0 0 200 110" width={isMobile?120:140} height={isMobile?66:77} style={{ flexShrink:0 }}>
+                  {/* track */}
+                  <path d={`M ${cx-r} ${cy} A ${r} ${r} 0 1 1 ${cx+r} ${cy}`} fill="none" stroke="#1e1e1e" strokeWidth="10" strokeLinecap="round"/>
+                  {/* fill */}
+                  <path d={`M ${cx-r} ${cy} A ${r} ${r} 0 1 1 ${cx+r} ${cy}`} fill="none" stroke={gaugeColor} strokeWidth="10" strokeLinecap="round"
+                    strokeDasharray={`${gaugePct * Math.PI * r} ${Math.PI * r}`} opacity="0.85"/>
+                  {/* needle */}
+                  <line x1={cx} y1={cy} x2={needleX} y2={needleY} stroke={gaugeColor} strokeWidth="2" strokeLinecap="round"/>
+                  <circle cx={cx} cy={cy} r="4" fill={gaugeColor}/>
+                  <text x={cx} y={cy+22} textAnchor="middle" fontFamily={MONO} fontSize="14" fill={gaugeColor} fontWeight="700">+{premPct}%</text>
+                </svg>
+                <div>
+                  <div style={{ fontFamily:MONO, fontSize:11, color:gaugeColor, fontWeight:700, marginBottom:4 }}>
+                    {parseFloat(premPct) > 20 ? (ko?'과열':'Elevated') : parseFloat(premPct) > 10 ? (ko?'주의':'Moderate') : (ko?'정상':'Normal')}
+                  </div>
+                  <div style={{ fontFamily:SANS, fontSize:11, color:'#666', lineHeight:1.7, maxWidth:160 }}>
+                    {ko ? `국내 소매가 기준 국제 현물가 대비 +${premPct}% 프리미엄` : `+${premPct}% above international spot at Korea retail`}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div style={{ marginTop:16, background:'rgba(248,113,113,0.08)', border:'1px solid rgba(248,113,113,0.25)', padding:'12px 18px', maxWidth:480, display:'inline-flex', alignItems:'center', gap:10 }}>
-            <span style={{ width:8, height:8, borderRadius:'50%', background:'#f87171', flexShrink:0 }} />
-            <span style={{ fontFamily:MONO, fontSize:13, color:'#f87171', fontWeight:600 }}>
-              {ko?`김치프리미엄 현재: +${premPct}%`:`Kimchi Premium Now: +${premPct}%`}
-            </span>
+
+          {/* Right — silver stats + market snapshot */}
+          <div style={{ padding: isMobile ? '32px 0 0' : '64px 0 64px 48px' }}>
+            <span style={eyebrow}>{ko ? '은 시장 현황' : 'Silver Market · Live'}</span>
+            <h2 style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:'clamp(22px,2.5vw,34px)', fontWeight:300, color:'#f5f0e8', margin:'0 0 24px', lineHeight:1.15 }}>
+              {ko ? '은 실시간 가격' : 'Silver Live Prices'}
+            </h2>
+            <div style={{ display:'flex', flexDirection:'column', gap:8, marginBottom:24 }}>
+              {[
+                { label: ko?'국제 현물가 XAG/USD':'LBMA Silver Spot', val:`$${silverUSD.toFixed(2)}`, color:'#b0b8c8' },
+                { label: ko?'국내 소매가 (VAT 포함)':'Korea Retail incl. VAT', val: fKRW(silverKR/31.1035)+'/g', color:'#f87171' },
+                { label: ko?'Aurum 구매가':'Aurum Price', val: fKRW(silverAU/31.1035)+'/g', color:'#4ade80' },
+              ].map((s,i) => (
+                <div key={i} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'10px 14px', background:'rgba(255,255,255,0.025)', border:'1px solid rgba(197,165,114,0.08)' }}>
+                  <span style={{ fontFamily:MONO, fontSize:10, color:'#666', letterSpacing:'0.1em' }}>{s.label}</span>
+                  <span style={{ fontFamily:MONO, fontSize:isMobile?16:18, color:s.color, fontWeight:700 }}>{s.val}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Gold/Silver ratio callout */}
+            <div style={{ background:'rgba(197,165,114,0.04)', border:'1px solid rgba(197,165,114,0.12)', padding:'14px 16px', marginBottom:16 }}>
+              <div style={{ fontFamily:MONO, fontSize:9, color:T.goldDim, letterSpacing:'0.18em', textTransform:'uppercase', marginBottom:8 }}>{ko?'금/은 비율':'Gold/Silver Ratio'}</div>
+              <div style={{ display:'flex', alignItems:'baseline', gap:8 }}>
+                <span style={{ fontFamily:MONO, fontSize:28, color:'#C5A572', fontWeight:700 }}>{(goldUSD/silverUSD).toFixed(1)}x</span>
+                <span style={{ fontFamily:SANS, fontSize:11, color:'#666' }}>{ko?`역사 평균 68x — 현재 은이 상대적 저평가`:`Historical avg 68x — silver relatively undervalued`}</span>
+              </div>
+            </div>
+
+            <button onClick={() => navigate('register')} style={{ width:'100%', background:T.gold, border:'none', color:'#0a0908', padding:'13px', fontFamily:SANS, fontSize:13, fontWeight:700, cursor:'pointer' }}>
+              {ko ? '국제 현물가로 금·은 시작하기 →' : 'Start buying at international spot →'}
+            </button>
           </div>
         </div>
       </div>
 
       {/* §2 Why is Korean gold expensive? */}
-      <div style={{ borderBottom:'1px solid rgba(197,165,114,0.08)', padding:isMobile?'40px 20px':'72px 0' }}>
+      <div style={{ borderBottom:'1px solid rgba(197,165,114,0.08)', padding:isMobile?'40px 20px':'72px 0', background:'#0d0b08' }}>
         <div className="aurum-container" style={{ maxWidth:760 }}>
           <span style={eyebrow}>{ko?'금시장 · 한국 금':'금시장 · 한국 금'}</span>
           <h2 style={{ fontFamily:ko?T_loc.serifKr:SERIF, fontSize:isMobile?26:38, fontWeight:300, color:'#f5f0e8', margin:'0 0 20px' }}>

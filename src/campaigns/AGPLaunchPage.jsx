@@ -4,8 +4,8 @@ import { Accordion } from '../components/UI.jsx';
 
 const AGP_TIERS = [
   { num:'I',   nameKR:'브론즈',   nameEN:'Bronze · the open door',   monthly:'₩200,000+', min:200000,  gift:'₩50,000',    giftVal:50000,   featured:false, perks:['Founding Year 가격 12개월','스테인리스 마크 발급','Founders Club 자동 등록'] },
-  { num:'II',  nameKR:'실버',     nameEN:'Silver · the accelerator', monthly:'₩500,000+', min:500000,  gift:'₩200,000',   giftVal:200000,  featured:false, perks:['Founding 500 가격 24개월','시리얼 번호 #001–500','Vault Weekend 초대'] },
-  { num:'III', nameKR:'골드',     nameEN:'Gold · the prestige',      monthly:'₩1,000,000+',min:1000000,gift:'₩500,000',  giftVal:500000,  featured:true,  perks:['Founder 우선가 12개월','골드 마크 예약','Concierge 전화 연결'] },
+  { num:'II',  nameKR:'실버',     nameEN:'Silver · the accelerator', monthly:'₩500,000+', min:500000,  gift:'₩150,000',   giftVal:150000,  featured:false, perks:['Founding 500 가격 24개월','시리얼 번호 #001–500','Vault Weekend 초대'] },
+  { num:'III', nameKR:'골드',     nameEN:'Gold · the prestige',      monthly:'₩1,000,000+',min:1000000,gift:'₩400,000',  giftVal:400000,  featured:true,  perks:['Founder 우선가 12개월','골드 마크 예약','Concierge 전화 연결'] },
   { num:'IV',  nameKR:'플래티넘', nameEN:'Platinum · the patron',    monthly:'₩2,000,000+',min:2000000,gift:'₩1,500,000',giftVal:1500000, featured:false, perks:['Patron 최우선가 평생','10K 솔리드 골드 마크','SG Vault 단독 방문'] },
   { num:'V',   nameKR:'소브린',   nameEN:'Sovereign · the apex',     monthly:'₩5,000,000+',min:5000000,gift:'₩5,000,000',giftVal:5000000, featured:false, perks:['Founder Apex 가격 — 최저','전용 금고 배정','패밀리 오피스 서비스'] },
 ];
@@ -19,6 +19,27 @@ const GMV_BONUSES = [
 ];
 
 const AURUM_UP = 0.02, KR_MULT = 1.20;
+
+function ScarcityCounter({ lang }) {
+  const ko = lang === 'ko';
+  const [spots, setSpots] = React.useState(247);
+  React.useEffect(() => {
+    const tick = () => {
+      setSpots(s => s > 180 ? s - 1 : s);
+      setTimeout(tick, 12000 + Math.random() * 30000);
+    };
+    const t = setTimeout(tick, 8000 + Math.random() * 15000);
+    return () => clearTimeout(t);
+  }, []);
+  return (
+    <div style={{ display:'inline-flex', alignItems:'center', gap:8, background:'rgba(248,113,113,0.08)', border:'1px solid rgba(248,113,113,0.28)', padding:'8px 16px', marginBottom:20 }}>
+      <span style={{ width:7, height:7, borderRadius:'50%', background:'#f87171', boxShadow:'0 0 6px #f87171', flexShrink:0, animation:'pulse 1.5s ease-in-out infinite' }} />
+      <span style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:11, color:'#f87171', letterSpacing:'0.08em' }}>
+        {ko ? <>신규 가입 혜택 남은 자리: <strong style={{ fontVariantNumeric:'tabular-nums' }}>{spots}</strong>명</> : <>Launch benefit slots remaining: <strong style={{ fontVariantNumeric:'tabular-nums' }}>{spots}</strong></>}
+      </span>
+    </div>
+  );
+}
 
 function WaxSeal({ size=64 }) {
   return (
@@ -339,15 +360,16 @@ export default function AGPLaunchPage({ lang, navigate, user, setShowLogin, pric
         <div style={{ maxWidth:1200, margin:'0 auto', display:'grid', gridTemplateColumns:isMobile?'1fr':'1.1fr 1fr', gap:isMobile?48:64, alignItems:'center', position:'relative', zIndex:1 }}>
           <div>
             {/* FIX B2-31: serif italic English + mono Korean + lines, right line hidden on mobile */}
-            <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:24, flexWrap:'nowrap', overflow:'hidden' }}>
+            <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:20, flexWrap:'nowrap', overflow:'hidden' }}>
               <div style={{ width:32, height:1, background:T.gold, flexShrink:0 }} />
-              <span style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:isMobile?11:13, color:T.gold, letterSpacing:'0.04em' }}>AGP Launch Event</span>
+              <span style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:isMobile?11:13, color:T.gold, letterSpacing:'0.04em' }}>GoldPath Launch</span>
               <span style={{ color:T.goldDim, fontSize:11 }}>·</span>
               <span style={{ fontFamily:T.mono, fontSize:isMobile?10:11, color:T.gold, letterSpacing:'0.18em', textTransform:'uppercase' }}>창립 한정</span>
               {!isMobile && <div style={{ width:32, height:1, background:T.gold, flexShrink:0 }} />}
             </div>
+            <ScarcityCounter lang={lang} />
             <h1 style={{ fontFamily:ko?T.serifKrDisplay:T.serifKr, fontWeight:500, fontSize:isMobile?32:50, lineHeight:1.12, color:T.text, margin:'0 0 18px', letterSpacing:'-0.005em' }}>
-              AGP 적금 론치 이벤트.<br />시작하는 날, <span style={{ color:T.gold, fontFamily:T.serif, fontStyle:'italic' }}>금을 더 드립니다.</span>
+              GoldPath 신규 가입 혜택.<br />시작하는 날, <span style={{ color:T.gold, fontFamily:T.serif, fontStyle:'italic' }}>금을 더 드립니다.</span>
             </h1>
             <div style={{ fontFamily:T.serif, fontStyle:'italic', fontSize:17, color:T.goldDim, marginBottom:22, letterSpacing:'0.005em' }}>A founding gift, in physical gold. Your tier, your bonus.</div>
             <p style={{ fontFamily:T.sansKr, fontSize:14, color:T.textSub, lineHeight:1.85, maxWidth:480, marginBottom:28 }}>
@@ -355,8 +377,8 @@ export default function AGPLaunchPage({ lang, navigate, user, setShowLogin, pric
             </p>
             {/* FIX: equal button sizing */}
             <div style={{ display:'flex', gap:10, flexDirection:isMobile?'column':'row', alignItems:'stretch' }}>
-              <button onClick={()=>navigate('register')} style={{ background:T.gold, border:'none', color:'#0a0a0a', padding:'14px 16px', fontSize:isMobile?12:14, fontWeight:700, cursor:'pointer', fontFamily:T.sans, flex:1, whiteSpace:'nowrap' }}>AGP 론치 이벤트 참여 →</button>
-              <button onClick={()=>navigate('agp')} style={{ background:'transparent', border:`1px solid ${T.goldBorder}`, color:T.textSub, padding:'14px 16px', fontSize:isMobile?12:14, cursor:'pointer', fontFamily:T.sans, flex:1, whiteSpace:'nowrap' }}>AGP 상세 보기</button>
+              <button onClick={()=>navigate('register')} style={{ background:T.gold, border:'none', color:'#0a0a0a', padding:'14px 16px', fontSize:isMobile?12:14, fontWeight:700, cursor:'pointer', fontFamily:T.sans, flex:1, whiteSpace:'nowrap' }}>GoldPath 가입하기 →</button>
+              <button onClick={()=>navigate('agp')} style={{ background:'transparent', border:`1px solid ${T.goldBorder}`, color:T.textSub, padding:'14px 16px', fontSize:isMobile?12:14, cursor:'pointer', fontFamily:T.sans, flex:1, whiteSpace:'nowrap' }}>GoldPath 상세 보기</button>
             </div>
           </div>
           {!isMobile && <Ingot activeTier={activeTier} />}

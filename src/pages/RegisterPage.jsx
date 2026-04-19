@@ -7,11 +7,11 @@ const FOUNDERS_CAP      = 500;
 const SPOTS_REMAINING   = 247;
 
 const GATES = [
-  { num: 'I',   discount: '−1.0%', gmv: '$5K' },
-  { num: 'II',  discount: '−1.5%', gmv: '$15K' },
-  { num: 'III', discount: '−2.0%', gmv: '$35K', apex: true },
-  { num: 'IV',  discount: '−2.5%', gmv: '$65K' },
-  { num: 'V',   discount: '−3.0%', gmv: '$100K' },
+  { num: 'I',   discount: '−1.0%', gmv: '₩5.8M' },
+  { num: 'II',  discount: '−1.5%', gmv: '₩21.6M' },
+  { num: 'III', discount: '−2.0%', gmv: '₩50.4M' },
+  { num: 'IV',  discount: '−2.5%', gmv: '₩93.6M' },
+  { num: 'V',   discount: '−3.0%', gmv: '₩144M' },
 ];
 
 export default function RegisterPage({ lang, navigate, setUser, toast }) {
@@ -209,13 +209,10 @@ export default function RegisterPage({ lang, navigate, setUser, toast }) {
             <input value={form.idNumber} onChange={e => upd('idNumber', e.target.value)} placeholder={ko ? '번호를 입력하세요' : 'Enter ID number'} style={{ ...inp, marginBottom: 24 }} />
 
             <div style={{ background: T.bg1, border: `1px solid ${T.border}`, padding: '12px 14px', marginBottom: 20, fontFamily: T.sans, fontSize: 12, color: T.textSub, lineHeight: 1.7 }}>
-              {ko ? '검토 완료 전에도 사이트 전체를 이용할 수 있습니다. KYC 승인 후 결제 및 AGP 적립이 활성화됩니다.' : 'You can browse the full site while under review. Payment and AGP funding unlock after KYC approval.'}
+              {ko ? '검토 완료 전에도 사이트 전체를 이용할 수 있습니다. KYC 승인 후 결제 및 GoldPath 적립이 활성화됩니다.' : 'You can browse the full site while under review. Payment and GoldPath funding unlock after KYC approval.'}
             </div>
 
             <div style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
-              <button onClick={() => setStep(4)} style={{ flex: 1, background: 'none', border: `1px solid ${T.border}`, color: T.textMuted, padding: '14px', cursor: 'pointer', fontFamily: T.sans, fontSize: 13 }}>
-                {ko ? '나중에 하기' : 'Skip for now'}
-              </button>
               <button onClick={handleKYC} disabled={!form.idNumber || submitting} style={{
                 flex: 2, background: form.idNumber && !submitting ? T.gold : T.border,
                 border: 'none', color: form.idNumber && !submitting ? '#0d0b08' : T.textMuted,
@@ -224,6 +221,10 @@ export default function RegisterPage({ lang, navigate, setUser, toast }) {
                 {submitting ? (ko ? '제출 중...' : 'Submitting...') : (ko ? 'KYC 제출 →' : 'Submit KYC →')}
               </button>
             </div>
+            <button onClick={() => setStep(4)} style={{ width:'100%', background: 'none', border: `1px solid rgba(197,165,114,0.25)`, color: T.textSub, padding: '12px', cursor: 'pointer', fontFamily: T.sans, fontSize: 13, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }}>
+              <span>{ko ? '지금은 건너뛰기 — 나중에 인증하기' : 'Skip for now — verify identity later'}</span>
+              <span style={{ fontFamily: T.mono, fontSize: 10, color: 'rgba(197,165,114,0.5)', letterSpacing:'0.1em' }}>{ko ? '(쇼핑 가능, 결제만 잠금)' : '(Browse freely, purchase locked)'}</span>
+            </button>
           </div>
         )}
 

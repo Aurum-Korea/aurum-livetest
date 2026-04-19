@@ -312,11 +312,11 @@ function AGPLaunchPane({ lang, navigate, prices, krwRate }) {
   const isMobile = useIsMobile();
   const ko = lang === 'ko';
   const tiers = [
-    { nameEn:'Bronze',   name:'브론즈',   min:'₩200,000+',   minVal:200000,   gift:'₩50,000'    },
-    { nameEn:'Silver',   name:'실버',     min:'₩500,000+',   minVal:500000,   gift:'₩200,000'   },
-    { nameEn:'Gold',     name:'골드',     min:'₩1,000,000+', minVal:1000000,  gift:'₩500,000',  featured:true },
-    { nameEn:'Platinum', name:'플래티넘', min:'₩2,000,000+', minVal:2000000,  gift:'₩1,500,000' },
-    { nameEn:'Sovereign',name:'소브린',   min:'₩5,000,000+', minVal:5000000,  gift:'₩5,000,000' },
+    { nameEn:'Bronze',   name:'브론즈',   min:'₩200,000+',   minVal:200000,   gift:'₩50,000',   color:'#a0906e' },
+    { nameEn:'Silver',   name:'실버',     min:'₩500,000+',   minVal:500000,   gift:'₩150,000',  color:'#93b4c8' },
+    { nameEn:'Gold',     name:'골드',     min:'₩1,000,000+', minVal:1000000,  gift:'₩400,000',  color:'#C5A572', featured:true },
+    { nameEn:'Platinum', name:'플래티넘', min:'₩2,000,000+', minVal:2000000,  gift:'₩1,500,000',color:'#60a5fa' },
+    { nameEn:'Sovereign',name:'소브린',   min:'₩5,000,000+', minVal:5000000,  gift:'₩5,000,000',color:'#E3C187' },
   ];
   return (
     <div style={{ background:'linear-gradient(150deg,#0d0b07,#161208)', borderTop:'1px solid rgba(197,165,114,0.12)', borderBottom:'1px solid rgba(197,165,114,0.12)', position:'relative', overflow:'hidden', minHeight:isMobile?'auto':480 }}>
@@ -335,7 +335,7 @@ function AGPLaunchPane({ lang, navigate, prices, krwRate }) {
             {ko ? <>매달 원화로,<br /><span style={{ color:'#c5a572', fontStyle:'italic' }}>국제 현물가 그대로.</span></> : <>Every month in KRW,<br /><span style={{ color:'#c5a572', fontStyle:'italic' }}>at international spot.</span></>}
           </h2>
           <p style={{ fontFamily:SANS, fontSize:15, color:'#a09080', lineHeight:1.9, marginBottom:28 }}>
-            {ko ? '국내 금통장 이자 0%, 국내 소매 채널에서 구매 시 국제 현물가 대비 상당한 추가 비용이 발생합니다. AGP는 다릅니다 — 매달 자동이체 한 번으로, 실물 금을 국제 현물가에 그램 단위로 쌓습니다. 싱가포르 금고에, 귀하의 이름으로. 가입 첫 달, 등급에 따라 최대 ₩5,000,000 상당의 금이 즉시 적립됩니다. 언제든 중단 가능.' : 'Korean bank gold accounts yield 0%, and domestic retail channels carry a structural premium over international spot. AGP is different — one monthly auto-transfer accumulates real gold at international spot price, gram by gram. In a Singapore vault, in your name. Enroll this month and receive up to ₩5,000,000 in gold credited immediately. Cancel anytime.'}
+            {ko ? '국내 금통장 이자 0%, 국내 소매 채널에서 구매 시 국제 현물가 대비 상당한 추가 비용이 발생합니다. GoldPath는 다릅니다 — 매달 자동이체 한 번으로, 실물 금을 국제 현물가에 그램 단위로 쌓습니다. 싱가포르 금고에, 귀하의 이름으로. 가입 첫 달, 등급에 따라 최대 ₩5,000,000 상당의 금이 즉시 적립됩니다. 언제든 중단 가능.' : 'Korean bank gold accounts yield 0%, and domestic retail channels carry a structural premium over international spot. GoldPath is different — one monthly auto-transfer accumulates real gold at international spot price, gram by gram. In a Singapore vault, in your name. Enroll this month and receive up to ₩5,000,000 in gold credited immediately. Cancel anytime.'}
           </p>
           <div style={{ marginBottom:32 }}>
             {tiers.map((t, i) => (
@@ -353,7 +353,7 @@ function AGPLaunchPane({ lang, navigate, prices, krwRate }) {
             style={{ background:'#c5a572', border:'none', color:'#0a0a0a', padding:'15px 32px', fontFamily:SANS, fontSize:14, fontWeight:700, cursor:'pointer', letterSpacing:'0.02em', transition:'all 0.2s' }}
             onMouseEnter={e => e.currentTarget.style.background='#E3C187'}
             onMouseLeave={e => e.currentTarget.style.background='#c5a572'}>
-            {ko ? 'AGP 시작하기 →' : 'Start AGP →'}
+            {ko ? 'GoldPath 시작하기 →' : 'Start GoldPath →'}
           </button>
         </div>
         {/* Right — visual */}
@@ -558,7 +558,7 @@ const MONTHLY_DATA = [
 ];
 
 const FC_GATES = [
-  { num:'I',   label:'시작의 문',   labelEn:'The Opening',      gmv:5000,   discount:1.0 },
+  { num:'I',   label:'시작의 문',   labelEn:'The Opening',      gmv:4000,   discount:1.0 },
   { num:'II',  label:'셋의 표식',   labelEn:'The Three',        gmv:15000,  discount:1.5 },
   { num:'III', label:'정점',        labelEn:'The Apex',         gmv:35000,  discount:2.0 },
   { num:'IV',  label:'볼트 순례',   labelEn:'Vault Pilgrimage', gmv:65000,  discount:2.5 },
@@ -710,7 +710,7 @@ function PersonalOverpayCalc({ goldKR, goldAU, lang, isMobile }) {
   const savings = korCost - amt;
   const fKRW2 = v => `₩${Math.round(v).toLocaleString('ko-KR')}`;
   return (
-    <div style={{ background:'#111', border:'1px solid rgba(197,165,114,0.2)', padding:isMobile?'20px 16px':'28px 32px', marginBottom:20, position:'relative' }}>
+    <div style={{ background:'#0e0c08', border:'1px solid rgba(197,165,114,0.2)', padding:isMobile?'20px 16px':'28px 32px', marginBottom:20, position:'relative' }}>
       <div style={GOLD_LINE} />
       <div style={{ fontFamily:MONO, fontSize:10, color:T.goldDim, letterSpacing:'0.18em', textTransform:'uppercase', marginBottom:16 }}>
         {ko ? '내 투자 금액으로 계산하기' : 'Calculate for your amount'}
@@ -791,7 +791,7 @@ function AGPAccumulatorCalc({ prices, krwRate, lang, tiers }) {
           { l:ko?'Aurum 총비용':'Aurum total', v:fKRW2(monthly*12), c:T.goldDim },
           { l:ko?'절감액':'Savings', v:fKRW2(savings), c:'#4ade80' },
         ].map((s,i) => (
-          <div key={i} style={{ background:'#111', padding:'10px 12px', border:'1px solid #1a1a1a' }}>
+          <div key={i} style={{ background:'#0e0c08', padding:'10px 12px', border:'1px solid #1a1a1a' }}>
             <div style={{ fontFamily:SANS, fontSize:10, color:'#555', marginBottom:3 }}>{s.l}</div>
             <div style={{ fontFamily:MONO, fontSize:14, color:s.c, fontWeight:600 }}>{s.v}</div>
           </div>
@@ -859,7 +859,7 @@ function FoundersMiniCalc({ krwRate, lang, navigate }) {
           { l:ko?'할인율':'Discount', v:gate?`-${gate.discount}%`:'-', c:'#4ade80' },
           { l:ko?'연간 절감':'Ann. savings', v:gate?fKRW2(savings):'-', c:'#4ade80' },
         ].map((s,i) => (
-          <div key={i} style={{ background:'#111', padding:'10px 12px', textAlign:'center', border:'1px solid #1a1a1a' }}>
+          <div key={i} style={{ background:'#0e0c08', padding:'10px 12px', textAlign:'center', border:'1px solid #1a1a1a' }}>
             <div style={{ fontFamily:SANS, fontSize:10, color:'#555', marginBottom:3 }}>{s.l}</div>
             <div style={{ fontFamily:MONO, fontSize:13, color:s.c, fontWeight:600 }}>{s.v}</div>
           </div>
@@ -1306,10 +1306,10 @@ function KRWDebasementSection({ lang, isMobile, prices, krwRate: liveKrwRate }) 
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: isMobile ? 24 : 36, flexWrap: 'wrap', gap: 16 }}>
           <div>
-            <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(197,165,114,0.5)', letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
+            <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(197,165,114,0.5)', letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
               {ko ? '원화 구매력 vs 금 — 실제 데이터' : 'KRW Purchasing Power vs Gold — Live Data'}
             </div>
-            <h2 style={{ fontFamily: SERIF, fontStyle: 'italic', fontSize: isMobile ? 24 : 34, color: '#f5f0e8', fontWeight: 300, margin: 0 }}>
+            <h2 style={{ fontFamily: SERIF, fontStyle: 'italic', fontSize: 'clamp(22px,2.8vw,36px)', color: '#f5f0e8', fontWeight: 300, margin: 0 }}>
               {ko ? <>원화는 약해지고, <span style={{ color: '#c5a572' }}>금은 강해집니다.</span></> : <>KRW weakens. <span style={{ color: '#c5a572' }}>Gold strengthens.</span></>}
             </h2>
           </div>
@@ -1483,10 +1483,10 @@ function CBBuyingChart({ lang, isMobile }) {
       <div className="aurum-container" style={{ paddingTop: isMobile?32:64, paddingBottom: isMobile?32:64 }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexWrap:'wrap', gap:16, marginBottom:24 }}>
           <div>
-            <div style={{ fontFamily:MONO, fontSize:9, color:'rgba(74,222,128,0.6)', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:8 }}>
+            <div style={{ fontFamily:MONO, fontSize:10, color:'rgba(74,222,128,0.6)', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:8 }}>
               {ko ? '중앙은행 신호 · WGC 연간 데이터' : 'Central Bank Signal · WGC Annual Data'}
             </div>
-            <h2 style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:isMobile?22:34, color:'#f5f0e8', fontWeight:300, margin:0 }}>
+            <h2 style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:'clamp(22px,2.8vw,36px)', color:'#f5f0e8', fontWeight:300, margin:0 }}>
               {ko ? <>그들이 사는 것이 <span style={{ color:'#C5A572' }}>신호입니다.</span></> : <>What they buy <span style={{ color:'#C5A572' }}>is the signal.</span></>}
             </h2>
           </div>
@@ -1558,10 +1558,10 @@ function KoreaWealthAllocation({ lang, isMobile }) {
   return (
     <div ref={ref} style={{ background:'#0a0a0a', borderBottom:'1px solid rgba(197,165,114,0.08)', opacity:vis?1:0, transform:vis?'translateY(0)':'translateY(16px)', transition:'opacity 0.7s ease, transform 0.7s ease' }}>
       <div className="aurum-container" style={{ paddingTop:isMobile?32:64, paddingBottom:isMobile?32:64 }}>
-        <div style={{ fontFamily:MONO, fontSize:9, color:'rgba(197,165,114,0.5)', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:10 }}>
+        <div style={{ fontFamily:MONO, fontSize:10, color:'rgba(197,165,114,0.5)', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:10 }}>
           {ko ? '자산 배분 비교' : 'Asset Allocation Gap'}
         </div>
-        <h2 style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:isMobile?22:32, color:'#f5f0e8', fontWeight:300, margin:'0 0 8px' }}>
+        <h2 style={{ fontFamily:SERIF, fontStyle:'italic', fontSize:'clamp(22px,2.8vw,36px)', color:'#f5f0e8', fontWeight:300, margin:'0 0 8px' }}>
           {ko ? <>한국 가계는 금에 <span style={{ color:'#f87171' }}>0.3%</span>를 배분합니다.<br />중앙은행 평균은 <span style={{ color:'#C5A572' }}>20%</span>입니다.</> : <>Korean households allocate <span style={{ color:'#f87171' }}>0.3%</span> to gold.<br />Global central bank average: <span style={{ color:'#C5A572' }}>20%</span>.</>}
         </h2>
         <p style={{ fontFamily:SANS, fontSize:13, color:'#555', marginBottom: isMobile?24:36, maxWidth:600 }}>
@@ -1598,13 +1598,13 @@ function MergedLaunchSection({ lang, isMobile, goldKR, goldAU, navigate }) {
       featured: false,
     },
     {
-      iconLines: ['AGP'],
-      badge: ko ? '자동 적금 저축 플랜' : 'Auto Savings Plan',
-      title: ko ? 'AGP 적금 Plan' : 'AGP 적금 Plan',
+      iconLines: ['금환'],
+      badge: ko ? '원화 실물금 전환 플랜' : 'KRW to Physical Gold',
+      title: ko ? 'GoldPath 금환' : 'GoldPath 금환',
       desc: ko ? '월 20만원부터 시작하는 그램 단위 자동 적립. 토스뱅크 자동이체, 신용카드, 암호화폐로 입금하고 100g 도달 시 실물 바로 무료 전환.' : 'Auto-accumulate gold by the gram from ₩200K/month. Pay by Toss auto-transfer, card, or crypto — convert to a physical bar when you hit 100g.',
       bullets: ko ? ['월 200,000원부터 시작', '매일·매주·매월 자동 적립', '100g 도달 시 실물 바 무료 전환'] : ['From ₩200,000/month', 'Daily · weekly · monthly auto-accumulation', 'Free physical bar conversion at 100g'],
-      cta: ko ? 'AGP 시작하기 →' : 'Start AGP →',
-      route: 'agp',
+      cta: ko ? 'GoldPath 시작하기 →' : 'Start GoldPath →',
+      route: 'campaign-agp-launch',
       featured: true,
     },
   ];
@@ -1986,11 +1986,11 @@ function FinalCTASection({ lang, isMobile, goldKR, goldAU, navigate }) {
             : 'The structural premium in domestic retail will be there tomorrow too. 10% VAT does not go away. Convert your KRW to physical gold at international spot today.'}
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexDirection: isMobile ? 'column' : 'row', alignItems: 'center' }}>
-          <button onClick={() => navigate('agp')} style={{ background: '#c5a572', border: 'none', color: '#0a0a0a', padding: '16px 36px', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: SANS, minWidth: 220 }}>
-            {lang === 'ko' ? 'AGP 자동 적금 시작하기 →' : 'Start AGP Auto-Savings →'}
+          <button onClick={() => navigate('campaign-agp-launch')} style={{ background: '#c5a572', border: 'none', color: '#0a0a0a', padding: '16px 36px', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: SANS, minWidth: 220 }}>
+            {lang === 'ko' ? '금환 GoldPath 시작하기 →' : 'Start GoldPath 금환 →'}
           </button>
-          <button onClick={() => navigate('shop-physical')} style={{ background: 'transparent', border: '1px solid rgba(197,165,114,0.4)', color: '#c5a572', padding: '16px 36px', fontSize: 15, fontWeight: 600, cursor: 'pointer', fontFamily: SANS, minWidth: 220 }}>
-            {lang === 'ko' ? '실물 금 구매하기 →' : 'Buy Physical Gold →'}
+          <button onClick={() => navigate('campaign-founders')} style={{ background: 'transparent', border: '1px solid rgba(197,165,114,0.5)', color: '#c5a572', padding: '16px 36px', fontSize: 15, fontWeight: 600, cursor: 'pointer', fontFamily: SANS, minWidth: 220 }}>
+            {lang === 'ko' ? 'Founders Club 가입 →' : 'Join Founders Club →'}
           </button>
         </div>
       </div>
@@ -2012,7 +2012,7 @@ function ShopCardsSection({ lang, isMobile, navigate }) {
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 14 }}>
         {[
           { iconLines: ['AU', 'AG'], badge: lang === 'ko' ? '일회성 실물 구매' : 'One-time Physical Purchase', title: lang === 'ko' ? '실물 금·은 매매' : 'Physical Gold & Silver', desc: lang === 'ko' ? 'LBMA 승인 골드·실버 바를 일회성으로 구매합니다. 국제 현물가 + 투명한 프리미엄으로 고객님 명의 금고에 즉시 배분.' : 'Buy LBMA-approved gold and silver bars outright. International spot + transparent premium, allocated to your account instantly.', bullets: lang === 'ko' ? ['1 oz ~ 1 kg 바·1/2 oz 코인', '한 번의 결제·싱가포르 영구 보관', '유선·카드·암호화폐 결제 지원'] : ['1 oz – 1 kg bars · ½ oz coins', 'One payment · Singapore permanent vault', 'Wire · Card · Crypto accepted'], cta: lang === 'ko' ? '제품 둘러보기' : 'Browse Products', route: 'shop-physical', featured: false },
-          { iconLines: ['AGP'],      badge: lang === 'ko' ? '자동 적금 저축 플랜' : 'Auto Savings Plan', title: lang === 'ko' ? 'AGP 적금 Plan' : 'AGP 적금 Plan', desc: lang === 'ko' ? '월 20만원부터 시작하는 그램 단위 자동 적립. 토스뱅크 자동이체, 신용카드, 암호화폐로 입금하고 100g 도달 시 실물 바로 무료 전환.' : 'Auto-accumulate gold by the gram from ₩200K/month. Pay by Toss auto-transfer, card, or crypto — convert to a physical bar when you hit 100g.', bullets: lang === 'ko' ? ['월 200,000원부터 시작', '매일·매주·매월 자동 적립', '100g 도달 시 실물 바 무료 전환'] : ['From ₩200,000/month', 'Daily · weekly · monthly auto-accumulation', 'Free physical bar conversion at 100g'], cta: lang === 'ko' ? 'AGP 시작하기' : 'Start AGP', route: 'agp-intro', featured: true },
+          { iconLines: ['금환'],      badge: lang === 'ko' ? '원화 실물금 전환 플랜' : 'KRW to Physical Gold', title: lang === 'ko' ? 'GoldPath 금환' : 'GoldPath 금환', desc: lang === 'ko' ? '월 20만원부터 시작하는 그램 단위 자동 적립. 토스뱅크 자동이체, 신용카드, 암호화폐로 입금하고 100g 도달 시 실물 바로 무료 전환.' : 'Auto-accumulate gold by the gram from ₩200K/month. Pay by Toss auto-transfer, card, or crypto — convert to a physical bar when you hit 100g.', bullets: lang === 'ko' ? ['월 200,000원부터 시작', '매일·매주·매월 자동 적립', '100g 도달 시 실물 바 무료 전환'] : ['From ₩200,000/month', 'Daily · weekly · monthly auto-accumulation', 'Free physical bar conversion at 100g'], cta: lang === 'ko' ? 'GoldPath 시작하기' : 'Start GoldPath', route: 'campaign-agp-launch', featured: true },
         ].map((c, i) => (
           <div key={i} className="magnetic-card" onClick={() => navigate(c.route)}
             style={{ background: c.featured ? 'rgba(197,165,114,0.04)' : '#0a0a0a', border: `1px solid ${c.featured ? 'rgba(197,165,114,0.35)' : '#1e1e1e'}`, padding: isMobile ? '24px 20px' : '32px 28px', cursor: 'pointer', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
@@ -2177,9 +2177,6 @@ export default function HomePage({ navigate, prices, krwRate, currency, setCurre
 
       {/* ④ Korea Wealth Allocation Gap */}
       <KoreaWealthAllocation lang={lang} isMobile={isMobile} />
-
-      {/* ⑤ Live premium meter */}
-      <KimchiPremiumMeter prices={prices} krwRate={krwRate} lang={lang} goldKR={goldKR} goldAU={goldAU} />
 
       {/* ④ Paper vs Physical */}
       <PvPSection lang={lang} isMobile={isMobile} />
