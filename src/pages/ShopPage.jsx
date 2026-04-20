@@ -482,7 +482,7 @@ function CartDrawer({ open, cart, onClose, onRemove }) {
 // ═══════════════════════════════════════════════════════════════════════════
 // MAIN PAGE
 // ═══════════════════════════════════════════════════════════════════════════
-function ShopPage() {
+export default function ShopPage() {
   const [filters, setFilters] = useState({ metal: 'all', type: 'all' });
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
@@ -587,17 +587,5 @@ function ShopPage() {
         </div>
       )}
     </>
-  );
-}
-
-export default function ShopPage() {
-
-  return (
-    <div style={{ background: T.bg, color: T.text, minHeight: '100vh' }}>
-      
-      
-
-      <ShopPage />
-    </div>
   );
 }
