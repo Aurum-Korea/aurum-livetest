@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import QuietNav from '../components/QuietNav';
+import TickerBar from '../components/TickerBar';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
@@ -74,6 +75,7 @@ export default function SignupPage() {
 
   return (
     <>
+      <TickerBar />
       <QuietNav page="signup" />
 
       {/* Hero */}

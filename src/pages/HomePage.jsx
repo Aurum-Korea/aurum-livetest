@@ -1,7 +1,10 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import QuietNav from '../components/QuietNav';
+import TickerBar from '../components/TickerBar';
+import PromoBar from '../components/PromoBar';
 import QuietFooter from '../components/QuietFooter';
+import AUSquare from '../components/AUSquare';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
 import { AGP_CREDITS, TOTAL_CREDITS, fUSD, OZ_G, KR_RETAIL_MARKUP, SAVINGS_APY } from '../lib/constants';
@@ -57,70 +60,8 @@ const toggleBtn = (on) => ({
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
-// TICKER BAR (V2 · always top)
-// ═══════════════════════════════════════════════════════════════════════════
-function TickerBar({ variant = 'full' }) {
-  const ticks = [
-    { sym: 'XAUUSD', val: '4,842.10', d: '+0.78%', up: true },
-    { sym: 'XAUKRW', val: '6,974,080', d: '+1.22%', up: true },
-    { sym: 'USDKRW', val: '1,440.20', d: '+0.31%', up: true },
-    { sym: 'KR-PREM', val: '20.1%', d: '+0.4bp', up: true },
-    { sym: 'CB-Q3', val: '220t', d: '+28%', up: true },
-    { sym: 'KOSPI', val: '2,604', d: '−0.6%', up: false },
-    { sym: 'BTC', val: '98,240', d: '−1.1%', up: false },
-    { sym: 'SPX', val: '5,912', d: '+0.2%', up: true },
-  ];
-  return (
-    <div style={{ background: T.deepBlack, borderBottom: `1px solid ${T.goldBorder}`, height: 30, overflow: 'hidden', position: 'relative' }}>
-      <div style={{ display: 'flex', animation: 'ticker-scroll 60s linear infinite', whiteSpace: 'nowrap', height: 30, alignItems: 'center' }}>
-        {[...ticks, ...ticks, ...ticks].map((t, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '0 18px', height: 30, borderRight: '1px solid rgba(255,255,255,0.04)', fontFamily: T.mono, fontSize: 10.5 }}>
-            <span style={{ color: T.goldD, letterSpacing: '0.1em' }}>{t.sym}</span>
-            <span style={{ color: T.text }}>{t.val}</span>
-            <span style={{ color: t.up ? T.green : T.red, fontSize: 10 }}>{t.d}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
 // DROP COUNTDOWN BAR (V3 · below ticker during drop)
 // ═══════════════════════════════════════════════════════════════════════════
-function DropCountdownBar() {
-  const [t, setT] = useState({ d: 3, h: 14, m: 22, s: 41 });
-  useEffect(() => {
-    const id = setInterval(() => setT(x => {
-      let { d, h, m, s } = x; s--; if (s < 0) { s = 59; m--; } if (m < 0) { m = 59; h--; } if (h < 0) { h = 23; d--; }
-      return { d, h, m, s };
-    }), 1000);
-    return () => clearInterval(id);
-  }, []);
-  return (
-    <div style={{ background: 'linear-gradient(90deg, #0a0806, #0d0a06 50%, #0a0806)', borderBottom: `1px solid ${T.gold}`, padding: '8px 20px', fontFamily: T.mono, fontSize: 11 }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: T.gold, boxShadow: `0 0 10px ${T.gold}`, animation: 'pulse 1.8s ease-in-out infinite' }} />
-          <span style={{ color: T.gold, letterSpacing: '0.24em', fontWeight: 700, fontSize: 10 }}>FOUNDERS DROP · LIVE</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, color: T.text }}>
-          <span style={{ color: T.goldD, letterSpacing: '0.22em', fontSize: 9 }}>ENDS IN</span>
-          {[[t.d, 'D'], [t.h, 'H'], [t.m, 'M'], [t.s, 'S']].map(([v, l], i) => (
-            <span key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
-              <span style={{ fontSize: 14, fontWeight: 700, color: T.goldB, minWidth: 22, textAlign: 'center' }}>{String(v).padStart(2, '0')}</span>
-              <span style={{ fontSize: 8, color: T.goldD }}>{l}</span>
-            </span>
-          ))}
-        </div>
-        <div style={{ color: T.muted, letterSpacing: '0.18em', fontSize: 10 }}>
-          2,848 / 5,000 · <span style={{ color: T.gold }}>● JOINED</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ═══════════════════════════════════════════════════════════════════════════
 // NAV — V3 minimal + CTA
 // ═══════════════════════════════════════════════════════════════════════════
@@ -161,8 +102,6 @@ function HybridNav() {
 function QuietDoor() {
   return (
     <>
-      <QuietNav />
-
       {/* I · Nameplate breathing room */}
       <div style={{ padding: '80px 24px 40px', textAlign: 'center' }}>
         <div style={{ fontFamily: T.mono, fontSize: 10, letterSpacing: '0.34em', color: T.goldD, textTransform: 'uppercase' }}>
@@ -183,45 +122,44 @@ function QuietDoor() {
         </div>
       </div>
 
-      {/* III · The Photograph */}
+      {/* III · The Mark · rotating AU-in-square */}
       <div style={{ maxWidth: 1180, margin: '0 auto 120px', padding: '0 24px' }}>
         <div style={{
-          height: '55vh', minHeight: 340, position: 'relative', overflow: 'hidden',
+          height: '55vh', minHeight: 400, position: 'relative', overflow: 'hidden',
           background: `
-            radial-gradient(ellipse at 25% 40%, rgba(197,165,114,0.09) 0%, transparent 55%),
-            radial-gradient(ellipse at 80% 65%, rgba(197,165,114,0.05) 0%, transparent 50%),
+            radial-gradient(ellipse at 50% 50%, rgba(197,165,114,0.10) 0%, transparent 65%),
             linear-gradient(135deg, #161310 0%, #0d0b08 50%, #06050a 100%)
           `,
           border: `1px solid ${T.goldBorder}`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
-          {/* Suggested vault corridor abstraction */}
-          <svg viewBox="0 0 1200 600" width="100%" height="100%" style={{ position: 'absolute', inset: 0 }}>
+          {/* Ambient gold dust particles */}
+          <svg viewBox="0 0 1200 600" width="100%" height="100%" style={{ position: 'absolute', inset: 0, opacity: 0.4 }}>
             <defs>
-              <linearGradient id="lineGold" x1="0%" x2="100%"><stop offset="0%" stopColor="#6a5a3a" stopOpacity="0.1"/><stop offset="50%" stopColor="#C5A572" stopOpacity="0.4"/><stop offset="100%" stopColor="#6a5a3a" stopOpacity="0.1"/></linearGradient>
-              <radialGradient id="spotG" cx="50%" cy="50%"><stop offset="0%" stopColor="#E3C187" stopOpacity="0.6"/><stop offset="100%" stopColor="#C5A572" stopOpacity="0"/></radialGradient>
+              <radialGradient id="dustG" cx="50%" cy="50%"><stop offset="0%" stopColor="#E3C187" stopOpacity="0.5"/><stop offset="100%" stopColor="#C5A572" stopOpacity="0"/></radialGradient>
             </defs>
-            {/* Perspective lines suggesting vault corridor */}
-            {[...Array(7)].map((_, i) => {
-              const y = 100 + i * 65;
-              return <line key={i} x1="0" y1={y} x2="1200" y2={y} stroke="url(#lineGold)" strokeWidth="0.4" />;
+            {[...Array(18)].map((_, i) => {
+              const cx = (i * 67 + 80) % 1200;
+              const cy = (i * 131 + 40) % 600;
+              const r = 1.5 + (i % 4);
+              return <circle key={i} cx={cx} cy={cy} r={r} fill="url(#dustG)" />;
             })}
-            {[...Array(9)].map((_, i) => {
-              const x = i * 150;
-              return <line key={i} x1={x} y1="50" x2="600" y2="300" stroke="rgba(197,165,114,0.08)" strokeWidth="0.5" />;
-            })}
-            {[...Array(9)].map((_, i) => {
-              const x = i * 150;
-              return <line key={i} x1={x} y1="550" x2="600" y2="300" stroke="rgba(197,165,114,0.08)" strokeWidth="0.5" />;
-            })}
-            {/* Distant warm spot */}
-            <circle cx="600" cy="300" r="140" fill="url(#spotG)" />
-            <circle cx="600" cy="300" r="22" fill="#E3C187" opacity="0.9" filter="blur(1.5px)" />
           </svg>
+
+          {/* The rotating mark · 3D flip */}
+          <div style={{ position: 'relative', zIndex: 2 }}>
+            <AUSquare size={220} rotating />
+          </div>
+
+          {/* Corner labels */}
           <div style={{ position: 'absolute', bottom: 18, left: 22, fontFamily: T.mono, fontSize: 9, color: T.goldD, letterSpacing: '0.26em' }}>
-            FIG. I — MALCA-AMIT FTZ · CHANGI
+            FIG. I — THE MARK · 999.9 AU
           </div>
           <div style={{ position: 'absolute', bottom: 18, right: 22, fontFamily: T.serif, fontStyle: 'italic', fontSize: 13, color: T.goldD }}>
-            commissioned photography placeholder
+            Aurum · corporate seal
+          </div>
+          <div style={{ position: 'absolute', top: 22, left: 22, fontFamily: T.mono, fontSize: 9, color: T.goldD, letterSpacing: '0.26em', opacity: 0.6 }}>
+            SGP · MALCA-AMIT FTZ · MAS PSPM 2019
           </div>
         </div>
       </div>
@@ -261,7 +199,7 @@ function QuietDoor() {
         <button style={{ background: 'transparent', border: `1px solid ${T.goldBorder}`, color: T.gold, padding: '18px 36px', fontFamily: T.serif, fontStyle: 'italic', fontSize: 18, fontWeight: 400, letterSpacing: '0.04em', cursor: 'pointer', transition: 'all 0.3s' }}
           onMouseEnter={e => { e.target.style.borderColor = T.goldBorderS; e.target.style.background = T.goldGlow; }}
           onMouseLeave={e => { e.target.style.borderColor = T.goldBorder; e.target.style.background = 'transparent'; }}>
-          Request an introduction
+          파운더스 멤버십 예약 · Reserve Founders Membership
         </button>
       </div>
 
@@ -717,9 +655,6 @@ function DropFinale({ dropLive }) {
 function HybridDoor({ dropLive, socialMode }) {
   return (
     <>
-      <TickerBar />
-      {dropLive && <DropCountdownBar />}
-      <HybridNav />
       <HybridHero />
       <FourNumbers />
       <TierDrop dropLive={dropLive} />
@@ -739,7 +674,10 @@ export default function HomePage() {
 
   return (
     <div style={{ background: T.bg, color: T.text, minHeight: '100vh' }}>
+      {/* Universal top-bar stack: Ticker → Menu → Promo */}
+      <TickerBar />
       <QuietNav />
+      {dropLive && door !== 'quiet' && <PromoBar label="FOUNDERS DROP · LIVE" shortLabel="● LIVE" joined={2848} cap={5000} />}
 
       {door === 'quiet' ? <QuietDoor /> : <HybridDoor dropLive={dropLive} socialMode={socialMode} />}
 

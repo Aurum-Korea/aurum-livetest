@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import QuietNav from '../components/QuietNav';
+import TickerBar from '../components/TickerBar';
+import PromoBar from '../components/PromoBar';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
@@ -27,65 +29,6 @@ const GATES = [
 // ═══════════════════════════════════════════════════════════════════════════
 // SHARED — Ticker + optional Drop bar + Nav (matches homepage)
 // ═══════════════════════════════════════════════════════════════════════════
-function TickerBar() {
-  const ticks = [
-    { sym: 'XAUUSD', val: '4,842.10', d: '+0.78%', up: true },
-    { sym: 'XAUKRW', val: '6,974,080', d: '+1.22%', up: true },
-    { sym: 'USDKRW', val: '1,440.20', d: '+0.31%', up: true },
-    { sym: 'KR-PREM', val: '20.1%', d: '+0.4bp', up: true },
-    { sym: 'CB-Q3', val: '220t', d: '+28%', up: true },
-    { sym: 'FNDR', val: '253/500', d: 'G·I', up: true },
-    { sym: 'KOSPI', val: '2,604', d: '−0.6%', up: false },
-    { sym: 'BTC', val: '98,240', d: '−1.1%', up: false },
-  ];
-  return (
-    <div style={{ background: T.deepBlack, borderBottom: `1px solid ${T.goldBorder}`, height: 30, overflow: 'hidden' }}>
-      <div style={{ display: 'flex', animation: 'ticker-scroll 60s linear infinite', whiteSpace: 'nowrap', height: 30, alignItems: 'center' }}>
-        {[...ticks, ...ticks, ...ticks].map((t, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '0 18px', height: 30, borderRight: '1px solid rgba(255,255,255,0.04)', fontFamily: T.mono, fontSize: 10.5 }}>
-            <span style={{ color: T.goldD, letterSpacing: '0.1em' }}>{t.sym}</span>
-            <span style={{ color: T.text }}>{t.val}</span>
-            <span style={{ color: t.up ? T.green : T.red, fontSize: 10 }}>{t.d}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function DropBar() {
-  const [t, setT] = useState({ d: 3, h: 14, m: 22, s: 41 });
-  useEffect(() => {
-    const id = setInterval(() => setT(x => {
-      let { d, h, m, s } = x; s--; if (s < 0) { s = 59; m--; } if (m < 0) { m = 59; h--; } if (h < 0) { h = 23; d--; }
-      return { d, h, m, s };
-    }), 1000);
-    return () => clearInterval(id);
-  }, []);
-  return (
-    <div style={{ background: 'linear-gradient(90deg, #0a0806, #0d0a06 50%, #0a0806)', borderBottom: `1px solid ${T.gold}`, padding: '8px 20px', fontFamily: T.mono, fontSize: 11 }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: T.gold, boxShadow: `0 0 10px ${T.gold}`, animation: 'pulse 1.8s ease-in-out infinite' }} />
-          <span style={{ color: T.gold, letterSpacing: '0.24em', fontWeight: 700, fontSize: 10 }}>FOUNDERS · GATE I · LIVE</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, color: T.text }}>
-          <span style={{ color: T.goldD, letterSpacing: '0.22em', fontSize: 9 }}>ENDS IN</span>
-          {[[t.d, 'D'], [t.h, 'H'], [t.m, 'M'], [t.s, 'S']].map(([v, l], i) => (
-            <span key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
-              <span style={{ fontSize: 14, fontWeight: 700, color: T.goldB, minWidth: 22, textAlign: 'center' }}>{String(v).padStart(2, '0')}</span>
-              <span style={{ fontSize: 8, color: T.goldD }}>{l}</span>
-            </span>
-          ))}
-        </div>
-        <div style={{ color: T.muted, letterSpacing: '0.18em', fontSize: 10 }}>
-          253 / 500 · <span style={{ color: T.gold }}>● FOUNDERS</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function HybridNav() {
   const navigate = useNavigate();
   return (
@@ -103,7 +46,7 @@ function HybridNav() {
           ))}
         </div>
         <button onClick={() => navigate('/signup')} style={{ background: T.gold, color: T.bg, padding: '9px 18px', fontSize: 12, fontWeight: 700, fontFamily: T.sans, letterSpacing: '0.04em', borderRadius: 2 }}>
-          Schedule a call →
+          파운더스 멤버십 예약 · Reserve Founders Membership →
         </button>
       </div>
       <style>{`@media (min-width: 720px) { .desktop-links { display: flex !important; } }`}</style>
@@ -154,7 +97,7 @@ function FoundersHero() {
 
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <button onClick={() => navigate('/signup')} style={{ background: T.gold, border: 'none', color: T.bg, padding: '13px 24px', fontFamily: T.sans, fontWeight: 700, fontSize: 13, letterSpacing: '0.06em', cursor: 'pointer' }}>
-              Request an introduction →
+              파운더스 멤버십 예약 · Reserve Founders Membership →
             </button>
             <button style={{ background: 'transparent', border: `1px solid ${T.goldBorder}`, color: T.gold, padding: '13px 24px', fontFamily: T.serif, fontStyle: 'italic', fontSize: 15, cursor: 'pointer' }}>
               Calculate my gate ↓
@@ -472,7 +415,7 @@ function GateSimulator() {
               </div>
 
               <button onClick={() => navigate('/signup')} style={{ width: '100%', marginTop: 18, background: T.gold, color: T.bg, padding: 14, fontFamily: T.sans, fontWeight: 700, fontSize: 13, letterSpacing: '0.1em', cursor: 'pointer' }}>
-                {sim.currentGate ? `${sim.currentGate.n}등급으로 신청 →` : 'Request introduction →'}
+                {sim.currentGate ? `${sim.currentGate.n}등급으로 신청 →` : 'Reserve Founders Membership →'}
               </button>
             </div>
           </div>
@@ -842,7 +785,7 @@ function SpeakingWithFounders() {
         }}
         onMouseEnter={e => { e.target.style.borderColor = T.goldBorderS; e.target.style.background = T.goldGlow; }}
         onMouseLeave={e => { e.target.style.borderColor = T.goldBorder; e.target.style.background = 'transparent'; }}>
-          Schedule a call →
+          파운더스 멤버십 예약 · Reserve Founders Membership →
         </button>
         <div style={{ fontFamily: T.mono, fontSize: 10, color: T.muted, marginTop: 22, letterSpacing: '0.2em' }}>
           · 45 MIN · KOREAN OR ENGLISH · NO PREPARATION REQUIRED ·
@@ -902,11 +845,11 @@ export default function FoundersPage() {
 
   return (
     <div style={{ background: T.bg, color: T.text, minHeight: '100vh' }}>
-      <QuietNav page="founders" />
-      {/* ═══ HYBRID TOP (drop mechanics) ═══ */}
+      {/* Universal top-bar stack: Ticker → Menu → Promo */}
       <TickerBar />
-      {drop && <DropBar />}
-      <HybridNav />
+      <QuietNav page="founders" />
+      {drop && <PromoBar label="FOUNDERS · GATE I · LIVE" shortLabel="● LIVE" joined={253} cap={500} />}
+
       <FoundersHero />
       <GateLadder />
       <GateSimulator />

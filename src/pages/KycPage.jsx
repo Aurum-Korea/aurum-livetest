@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import QuietNav from '../components/QuietNav';
+import TickerBar from '../components/TickerBar';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
@@ -80,6 +81,7 @@ export default function KycPage() {
 
   return (
     <>
+      <TickerBar />
       <QuietNav page="kyc" />
 
       <div style={{ padding: '40px 24px 20px', textAlign: 'center', maxWidth: 720, margin: '0 auto' }}>

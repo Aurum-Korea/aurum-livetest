@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import QuietNav from '../components/QuietNav';
+import TickerBar from '../components/TickerBar';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
@@ -97,6 +98,7 @@ function Photo({ type = 'corridor', caption, tag, height = 420 }) {
 export default function WhyPage() {
   return (
     <>
+      <TickerBar />
       <QuietNav page="why" />
 
       {/* I · Hero */}

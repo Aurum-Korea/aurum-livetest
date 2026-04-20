@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import QuietNav from '../components/QuietNav';
+import TickerBar from '../components/TickerBar';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
@@ -46,6 +47,7 @@ function InviteLinkStrip() {
 export default function ReferralPage() {
   return (
     <>
+      <TickerBar />
       <QuietNav page="referral" />
 
       {/* HERO */}

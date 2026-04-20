@@ -1,7 +1,10 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import QuietNav from '../components/QuietNav';
+import TickerBar from '../components/TickerBar';
+import PromoBar from '../components/PromoBar';
 import QuietFooter from '../components/QuietFooter';
+import AUSquare from '../components/AUSquare';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
 import { AGP_CREDITS, TOTAL_CREDITS, fUSD, OZ_G, KR_RETAIL_MARKUP, SAVINGS_APY } from '../lib/constants';
@@ -57,70 +60,8 @@ function GoldPathCoinMark({ size = 220 }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// TICKER BAR (always on)
-// ═══════════════════════════════════════════════════════════════════════════
-function TickerBar() {
-  const ticks = [
-    { sym: 'XAUUSD', val: '4,842.10', d: '+0.78%', up: true },
-    { sym: 'XAUKRW', val: '6,974,080', d: '+1.22%', up: true },
-    { sym: 'USDKRW', val: '1,440.20', d: '+0.31%', up: true },
-    { sym: 'KR-PREM', val: '20.1%', d: '+0.4bp', up: true },
-    { sym: 'GOLDPATH', val: '2,848/5K', d: 'AGP·FND', up: true },
-    { sym: 'CB-Q3', val: '220t', d: '+28%', up: true },
-    { sym: 'KOSPI', val: '2,604', d: '−0.6%', up: false },
-    { sym: 'BTC', val: '98,240', d: '−1.1%', up: false },
-  ];
-  return (
-    <div style={{ background: T.deepBlack, borderBottom: `1px solid ${T.goldBorder}`, height: 30, overflow: 'hidden' }}>
-      <div style={{ display: 'flex', animation: 'ticker-scroll 60s linear infinite', whiteSpace: 'nowrap', height: 30, alignItems: 'center' }}>
-        {[...ticks, ...ticks, ...ticks].map((t, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '0 18px', height: 30, borderRight: '1px solid rgba(255,255,255,0.04)', fontFamily: T.mono, fontSize: 10.5 }}>
-            <span style={{ color: T.goldD, letterSpacing: '0.1em' }}>{t.sym}</span>
-            <span style={{ color: T.text }}>{t.val}</span>
-            <span style={{ color: t.up ? T.green : T.red, fontSize: 10 }}>{t.d}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
 // DROP COUNTDOWN · /start wears this always (drop is the page's reason)
 // ═══════════════════════════════════════════════════════════════════════════
-function DropCountdownBar() {
-  const [t, setT] = useState({ d: 3, h: 14, m: 22, s: 41 });
-  useEffect(() => {
-    const id = setInterval(() => setT(x => {
-      let { d, h, m, s } = x; s--; if (s < 0) { s = 59; m--; } if (m < 0) { m = 59; h--; } if (h < 0) { h = 23; d--; }
-      return { d, h, m, s };
-    }), 1000);
-    return () => clearInterval(id);
-  }, []);
-  return (
-    <div style={{ background: 'linear-gradient(90deg, #0a0806, #120d07 50%, #0a0806)', borderBottom: `1px solid ${T.gold}`, padding: '10px 20px', fontFamily: T.mono, fontSize: 11 }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ width: 7, height: 7, borderRadius: '50%', background: T.gold, boxShadow: `0 0 12px ${T.gold}`, animation: 'pulse 1.8s ease-in-out infinite' }} />
-          <span style={{ color: T.gold, letterSpacing: '0.24em', fontWeight: 700, fontSize: 10 }}>GOLDPATH 금환 · AGP FOUNDING · LIVE</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, color: T.text }}>
-          <span style={{ color: T.goldD, letterSpacing: '0.22em', fontSize: 9 }}>CLOSES IN</span>
-          {[[t.d, 'D'], [t.h, 'H'], [t.m, 'M'], [t.s, 'S']].map(([v, l], i) => (
-            <span key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 3, animation: i === 3 ? 'counter-tick 1s ease-in-out' : 'none' }}>
-              <span style={{ fontSize: 15, fontWeight: 700, color: T.goldB, minWidth: 22, textAlign: 'center' }}>{String(v).padStart(2, '0')}</span>
-              <span style={{ fontSize: 8, color: T.goldD }}>{l}</span>
-            </span>
-          ))}
-        </div>
-        <div style={{ color: T.muted, letterSpacing: '0.18em', fontSize: 10 }}>
-          <span style={{ color: T.goldB, fontWeight: 700 }}>2,848</span> / 5,000 · <span style={{ color: T.gold }}>● JOINED</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ═══════════════════════════════════════════════════════════════════════════
 // NAV — V3 minimal + CTA (locked choice §04)
 // ═══════════════════════════════════════════════════════════════════════════
@@ -414,15 +355,18 @@ function ProductHow() {
   return (
     <section style={{ background: T.bg1, padding: '80px 20px', borderBottom: `1px solid ${T.border}` }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-        {/* Product mark reveal */}
+        {/* Product mark reveal · AU brand + GoldPath product */}
         <div style={{ textAlign: 'center', marginBottom: 56 }}>
           <div style={{ fontFamily: T.mono, fontSize: 10, color: T.gold, letterSpacing: '0.3em', marginBottom: 18 }}>III · THE PRODUCT</div>
-          <div style={{ display: 'inline-block', padding: '32px 44px', background: T.deepBlack, border: `1px solid ${T.goldBorder}`, borderRadius: 2 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 36, padding: '40px 52px', background: T.deepBlack, border: `1px solid ${T.goldBorder}`, borderRadius: 2, flexWrap: 'wrap' }}>
+            <AUSquare size={140} rotating />
+            <div style={{ width: 1, height: 100, background: T.goldBorder }} className="start-product-divider" />
             <GoldPathCoinMark size={280} />
           </div>
           <div style={{ fontFamily: T.sansKr, fontSize: 14, color: T.muted, marginTop: 22, letterSpacing: '0.06em' }}>
             매달 실물 금 1g이 싱가포르 FTZ 금고에 당신 이름으로 쌓입니다.
           </div>
+          <style>{`@media (max-width: 640px) { .start-product-divider { display: none; } }`}</style>
         </div>
 
         {/* Three steps */}
@@ -711,10 +655,9 @@ function DevChrome() {
 export default function StartPage() {
   return (
     <div style={{ background: T.bg, color: T.text, minHeight: '100vh' }}>
-      <QuietNav page="start" />
       <TickerBar />
-      <DropCountdownBar />
-      <StartNav />
+      <QuietNav page="start" />
+      <PromoBar label="GOLDPATH 금환 · AGP FOUNDING · LIVE" shortLabel="● LIVE" joined={2848} cap={5000} />
       <DropHero />
       <ProofStrip />
       <WhyNow />

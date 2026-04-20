@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import QuietNav from '../components/QuietNav';
+import TickerBar from '../components/TickerBar';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
@@ -517,6 +518,7 @@ export default function ShopPage() {
 
   return (
     <>
+      <TickerBar />
       <QuietNav page="shop" />
       <ShopNav page="shop" cartCount={cartCount} onCartClick={() => setCartOpen(true)} />
 

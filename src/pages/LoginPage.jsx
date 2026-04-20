@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import QuietNav from '../components/QuietNav';
+import TickerBar from '../components/TickerBar';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
@@ -61,6 +62,7 @@ export default function LoginPage() {
 
   return (
     <>
+      <TickerBar />
       <QuietNav page="login" />
 
       <div style={{ padding: '80px 24px 30px', textAlign: 'center', maxWidth: 560, margin: '0 auto' }}>

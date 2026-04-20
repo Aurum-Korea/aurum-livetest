@@ -1,108 +1,227 @@
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { T } from '../lib/tokens';
 import { useLang } from '../lib/lang';
 import { useAuth } from '../lib/auth';
+import AUSquare from './AUSquare';
 
 // ═══════════════════════════════════════════════════════════════════════
-// AURUM · QuietNav · MINIMAL
-// Wordmark + 4 links (시작 / 패트론 / 상점 / 추천) + 한본/EN + login
+// AURUM · QuietNav · v8
+// AU-square logo · 5 links · 한본/EN · login/account
+// Mobile (<720px): hamburger drawer
 // ═══════════════════════════════════════════════════════════════════════
 
 const LINKS = [
-  { path: '/start',    ko: '시작',    en: 'Start' },
-  { path: '/founders', ko: '패트론',  en: 'Founders' },
-  { path: '/shop',     ko: '상점',    en: 'Shop' },
-  { path: '/referral', ko: '추천',    en: 'Refer' },
+  { path: '/start',    ko: '시작',          en: 'Start' },
+  { path: '/founders', ko: 'Founders Club', en: 'Founders Club' },
+  { path: '/goldpath', ko: 'GoldPath',      en: 'GoldPath' },
+  { path: '/shop',     ko: '상점',          en: 'Shop' },
+  { path: '/referral', ko: '추천',          en: 'Refer' },
 ];
 
 export default function QuietNav({ page }) {
   const { lang, setLang, t } = useLang();
   const { isAuthed } = useAuth();
   const location = useLocation();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const closeDrawer = () => setDrawerOpen(false);
 
   return (
-    <div style={{
-      padding: '20px 24px', position: 'sticky', top: 0, zIndex: 40,
-      background: 'rgba(10,10,10,0.82)', backdropFilter: 'blur(10px)',
-      borderBottom: `1px solid ${T.border}`,
-    }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none' }}>
-          <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: 22, color: T.text, fontWeight: 500 }}>Aurum</span>
-          {page && (
-            <span style={{ fontFamily: T.mono, fontSize: 9, color: T.goldD, letterSpacing: '0.26em', borderLeft: `1px solid ${T.border}`, paddingLeft: 12 }}>
-              / {page}
-            </span>
-          )}
-        </Link>
+    <>
+      <div style={{
+        padding: '14px 20px', position: 'sticky', top: 0, zIndex: 40,
+        background: 'rgba(10,10,10,0.86)', backdropFilter: 'blur(10px)',
+        borderBottom: `1px solid ${T.border}`,
+      }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 14 }}>
+          {/* Logo */}
+          <Link to="/" aria-label="Aurum home" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flexShrink: 0 }}>
+            <AUSquare size={28} />
+            {page && (
+              <span style={{ fontFamily: T.mono, fontSize: 9, color: T.goldD, letterSpacing: '0.24em', borderLeft: `1px solid ${T.border}`, paddingLeft: 10 }} className="aurum-nav-crumb">
+                / {page}
+              </span>
+            )}
+          </Link>
 
-        <nav className="aurum-nav-links" style={{ display: 'flex', gap: 28, alignItems: 'center' }}>
-          {LINKS.map(l => {
-            const isActive = location.pathname === l.path;
-            return (
-              <Link key={l.path} to={l.path} style={{
-                fontFamily: T.sansKr, fontSize: 13, fontWeight: 500,
-                color: isActive ? T.goldB : T.sub, textDecoration: 'none',
-                letterSpacing: '0.02em', position: 'relative', padding: '4px 0',
-                transition: 'color 0.2s',
+          {/* Desktop nav links */}
+          <nav className="aurum-nav-desktop" style={{ display: 'flex', gap: 22, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+            {LINKS.map(l => {
+              const isActive = location.pathname === l.path;
+              return (
+                <Link key={l.path} to={l.path} style={{
+                  fontFamily: T.sansKr, fontSize: 13, fontWeight: 500,
+                  color: isActive ? T.goldB : T.sub, textDecoration: 'none',
+                  letterSpacing: '0.02em', position: 'relative', padding: '4px 0',
+                  whiteSpace: 'nowrap', transition: 'color 0.2s',
+                }}
+                  onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = T.text; }}
+                  onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = T.sub; }}
+                >
+                  {lang === 'ko' ? l.ko : l.en}
+                  {isActive && <span style={{ position: 'absolute', left: 0, right: 0, bottom: -2, height: 1, background: T.gold }} />}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Desktop right cluster */}
+          <div className="aurum-nav-right-desktop" style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0 }}>
+            <button
+              onClick={() => setLang(lang === 'ko' ? 'en' : 'ko')}
+              style={{
+                background: 'transparent', border: `1px solid ${T.border}`,
+                padding: '4px 8px', fontFamily: T.mono, fontSize: 10, fontWeight: 600,
+                letterSpacing: '0.16em', color: T.goldD, cursor: 'pointer',
+                transition: 'all 0.2s', whiteSpace: 'nowrap',
               }}
-                onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = T.text; }}
-                onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = T.sub; }}
-              >
-                {lang === 'ko' ? l.ko : l.en}
-                {isActive && <span style={{ position: 'absolute', left: 0, right: 0, bottom: -2, height: 1, background: T.gold }} />}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
-          <button
-            onClick={() => setLang(lang === 'ko' ? 'en' : 'ko')}
-            style={{
-              background: 'transparent', border: `1px solid ${T.border}`,
-              padding: '4px 10px', fontFamily: T.mono, fontSize: 10, fontWeight: 600,
-              letterSpacing: '0.18em', color: T.goldD, cursor: 'pointer',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = T.goldBorderS; e.currentTarget.style.color = T.gold; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = T.goldD; }}
-            aria-label={t('언어 전환', 'Switch language')}
-          >
-            {lang === 'ko' ? '한본 · EN' : 'EN · 한본'}
-          </button>
-
-          {isAuthed ? (
-            <Link to="/terminal" style={{
-              fontFamily: T.mono, fontSize: 10, letterSpacing: '0.18em',
-              color: T.gold, textDecoration: 'none',
-              padding: '4px 10px', border: `1px solid ${T.goldBorder}`,
-            }}>
-              {t('내 계정', 'ACCOUNT')}
-            </Link>
-          ) : (
-            <Link to="/login" style={{
-              fontFamily: T.mono, fontSize: 10, letterSpacing: '0.18em',
-              color: T.goldD, textDecoration: 'none',
-            }}
-              onMouseEnter={e => { e.currentTarget.style.color = T.gold; }}
-              onMouseLeave={e => { e.currentTarget.style.color = T.goldD; }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = T.goldBorderS; e.currentTarget.style.color = T.gold; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = T.goldD; }}
+              aria-label={t('언어 전환', 'Switch language')}
             >
-              {t('로그인', 'LOGIN')}
-            </Link>
-          )}
+              {lang === 'ko' ? '한본 · EN' : 'EN · 한본'}
+            </button>
+
+            {isAuthed ? (
+              <Link to="/terminal" style={{
+                fontFamily: T.mono, fontSize: 10, letterSpacing: '0.18em',
+                color: T.gold, textDecoration: 'none',
+                padding: '4px 9px', border: `1px solid ${T.goldBorder}`, whiteSpace: 'nowrap',
+              }}>
+                {t('내 계정', 'ACCOUNT')}
+              </Link>
+            ) : (
+              <Link to="/login" style={{
+                fontFamily: T.mono, fontSize: 10, letterSpacing: '0.18em',
+                color: T.goldD, textDecoration: 'none', whiteSpace: 'nowrap',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.color = T.gold; }}
+                onMouseLeave={e => { e.currentTarget.style.color = T.goldD; }}
+              >
+                {t('로그인', 'LOGIN')}
+              </Link>
+            )}
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            className="aurum-nav-hamburger"
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Open menu"
+            style={{
+              display: 'none',
+              background: 'transparent', border: `1px solid ${T.border}`,
+              color: T.gold, cursor: 'pointer',
+              width: 36, height: 36, alignItems: 'center', justifyContent: 'center',
+              fontFamily: T.mono, fontSize: 18,
+            }}
+          >
+            ☰
+          </button>
         </div>
       </div>
 
+      {/* Mobile drawer */}
+      {drawerOpen && (
+        <div
+          onClick={closeDrawer}
+          style={{
+            position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.72)', zIndex: 100,
+            backdropFilter: 'blur(4px)',
+            animation: 'drawer-fade 0.2s ease-out',
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              position: 'absolute', top: 0, right: 0, bottom: 0,
+              width: 'min(320px, 86vw)',
+              background: T.deep || T.bg,
+              borderLeft: `1px solid ${T.goldBorder}`,
+              padding: '20px 0',
+              display: 'flex', flexDirection: 'column',
+              animation: 'drawer-slide-in 0.28s cubic-bezier(0.2,0.8,0.2,1)',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 20px 18px', borderBottom: `1px solid ${T.border}` }}>
+              <AUSquare size={28} />
+              <button
+                onClick={closeDrawer}
+                aria-label="Close menu"
+                style={{ background: 'transparent', border: `1px solid ${T.border}`, color: T.gold, cursor: 'pointer', width: 34, height: 34, fontSize: 16, fontFamily: T.mono }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <nav style={{ padding: '8px 0', flex: 1 }}>
+              {LINKS.map(l => {
+                const isActive = location.pathname === l.path;
+                return (
+                  <Link
+                    key={l.path}
+                    to={l.path}
+                    onClick={closeDrawer}
+                    style={{
+                      display: 'block', padding: '16px 24px',
+                      fontFamily: T.sansKr, fontSize: 16, fontWeight: 500,
+                      color: isActive ? T.gold : T.text,
+                      textDecoration: 'none',
+                      borderLeft: isActive ? `2px solid ${T.gold}` : '2px solid transparent',
+                      background: isActive ? 'rgba(197,165,114,0.06)' : 'transparent',
+                    }}
+                  >
+                    {lang === 'ko' ? l.ko : l.en}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div style={{ padding: '16px 24px', borderTop: `1px solid ${T.border}`, display: 'flex', gap: 10, alignItems: 'center', justifyContent: 'space-between' }}>
+              <button
+                onClick={() => setLang(lang === 'ko' ? 'en' : 'ko')}
+                style={{
+                  background: 'transparent', border: `1px solid ${T.border}`,
+                  padding: '8px 12px', fontFamily: T.mono, fontSize: 10, fontWeight: 600,
+                  letterSpacing: '0.16em', color: T.goldD, cursor: 'pointer',
+                }}
+              >
+                {lang === 'ko' ? '한본 · EN' : 'EN · 한본'}
+              </button>
+
+              {isAuthed ? (
+                <Link to="/terminal" onClick={closeDrawer} style={{
+                  fontFamily: T.mono, fontSize: 10, letterSpacing: '0.18em',
+                  color: T.gold, textDecoration: 'none',
+                  padding: '8px 12px', border: `1px solid ${T.goldBorder}`,
+                }}>
+                  {t('내 계정', 'ACCOUNT')}
+                </Link>
+              ) : (
+                <Link to="/login" onClick={closeDrawer} style={{
+                  fontFamily: T.mono, fontSize: 10, letterSpacing: '0.18em',
+                  color: T.goldD, textDecoration: 'none',
+                }}>
+                  {t('로그인', 'LOGIN')}
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       <style>{`
+        @keyframes drawer-fade { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes drawer-slide-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
         @media (max-width: 720px) {
-          .aurum-nav-links { gap: 16px !important; }
-          .aurum-nav-links a { font-size: 12px !important; }
-        }
-        @media (max-width: 480px) {
-          .aurum-nav-links { gap: 12px !important; }
+          .aurum-nav-desktop { display: none !important; }
+          .aurum-nav-right-desktop { display: none !important; }
+          .aurum-nav-hamburger { display: flex !important; }
+          .aurum-nav-crumb { display: none !important; }
         }
       `}</style>
-    </div>
+    </>
   );
 }
