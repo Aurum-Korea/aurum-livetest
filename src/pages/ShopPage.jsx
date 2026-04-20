@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import QuietNav from '../components/QuietNav';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
@@ -197,7 +196,7 @@ function ProductRender({ p }) {
 // ═══════════════════════════════════════════════════════════════════════════
 // CHROME
 // ═══════════════════════════════════════════════════════════════════════════
-) {
+function ShopNav({ page, cartCount, onCartClick }) {
   return (
     <div style={{ padding: '20px 24px', position: 'sticky', top: 0, zIndex: 40, background: 'rgba(10,10,10,0.82)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${T.border}` }}>
       <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -513,7 +512,7 @@ export default function ShopPage() {
 
   return (
     <>
-      <QuietNav page="shop" cartCount={cartCount} onCartClick={() => setCartOpen(true)} />
+      <ShopNav page="shop" cartCount={cartCount} onCartClick={() => setCartOpen(true)} />
 
       {/* Editorial hero — no category boxes, just the page itself */}
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '80px 24px 60px', textAlign: 'center' }}>
