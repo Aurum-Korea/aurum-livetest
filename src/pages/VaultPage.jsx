@@ -4,7 +4,95 @@ import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
 
-function Photo({ type = 'corridor', caption, tag, height = 420 }
+function Photo({ type = 'corridor', caption, tag, height = 420 }) {
+  const compositions = {
+    corridor: (
+      <svg viewBox="0 0 1200 600" width="100%" height="100%" style={{ position: 'absolute', inset: 0 }}>
+        <defs>
+          <linearGradient id="lineGold" x1="0%" x2="100%"><stop offset="0%" stopColor="#6a5a3a" stopOpacity="0.1"/><stop offset="50%" stopColor="#C5A572" stopOpacity="0.4"/><stop offset="100%" stopColor="#6a5a3a" stopOpacity="0.1"/></linearGradient>
+          <radialGradient id="spotG" cx="50%" cy="50%"><stop offset="0%" stopColor="#E3C187" stopOpacity="0.6"/><stop offset="100%" stopColor="#C5A572" stopOpacity="0"/></radialGradient>
+        </defs>
+        {[...Array(7)].map((_, i) => <line key={i} x1="0" y1={100 + i * 65} x2="1200" y2={100 + i * 65} stroke="url(#lineGold)" strokeWidth="0.4" />)}
+        {[...Array(9)].map((_, i) => <line key={`a${i}`} x1={i * 150} y1="50" x2="600" y2="300" stroke="rgba(197,165,114,0.08)" strokeWidth="0.5" />)}
+        {[...Array(9)].map((_, i) => <line key={`b${i}`} x1={i * 150} y1="550" x2="600" y2="300" stroke="rgba(197,165,114,0.08)" strokeWidth="0.5" />)}
+        <circle cx="600" cy="300" r="140" fill="url(#spotG)" />
+        <circle cx="600" cy="300" r="22" fill="#E3C187" opacity="0.9" filter="blur(1.5px)" />
+      </svg>
+    ),
+    bars: (
+      <svg viewBox="0 0 1200 600" width="100%" height="100%" style={{ position: 'absolute', inset: 0 }}>
+        <defs>
+          {[0,1,2,3,4].map(i => (
+            <linearGradient key={i} id={`barG${i}`} x1="0%" x2="100%" y1="0%" y2="0%">
+              <stop offset="0%" stopColor="#2a2418"/><stop offset="40%" stopColor="#C5A572"/><stop offset="60%" stopColor="#E3C187"/><stop offset="100%" stopColor="#6a5a3a"/>
+            </linearGradient>
+          ))}
+        </defs>
+        {[0,1,2,3,4].map(i => (
+          <rect key={i} x={200 + i * 30} y={280 - i * 25} width="700" height="60" fill={`url(#barG${i})`} stroke="#8a7d6b" strokeWidth="0.3" opacity={0.88 - i * 0.12} />
+        ))}
+      </svg>
+    ),
+    audit: (
+      <svg viewBox="0 0 1200 600" width="100%" height="100%" style={{ position: 'absolute', inset: 0 }}>
+        <rect x="200" y="200" width="800" height="260" fill="none" stroke="#C5A572" strokeWidth="0.5" opacity="0.4" />
+        <rect x="460" y="280" width="280" height="100" fill="url(#barG0)" opacity="0.7" />
+        <defs>
+          <linearGradient id="barG0" x1="0%" x2="100%" y1="0%" y2="0%">
+            <stop offset="0%" stopColor="#2a2418"/><stop offset="50%" stopColor="#C5A572"/><stop offset="100%" stopColor="#6a5a3a"/>
+          </linearGradient>
+        </defs>
+        <circle cx="300" cy="400" r="80" fill="none" stroke="#C5A572" strokeWidth="1" opacity="0.3" />
+        <circle cx="900" cy="400" r="80" fill="none" stroke="#C5A572" strokeWidth="1" opacity="0.3" />
+        <line x1="300" y1="320" x2="900" y2="320" stroke="#C5A572" strokeWidth="0.4" strokeDasharray="3 3" opacity="0.4" />
+      </svg>
+    ),
+    mark: (
+      <svg viewBox="0 0 1200 600" width="100%" height="100%" style={{ position: 'absolute', inset: 0 }}>
+        <defs>
+          <radialGradient id="coinBig" cx="32%" cy="28%" r="75%">
+            <stop offset="0%" stopColor="#F2D4A0"/>
+            <stop offset="28%" stopColor="#E3C187"/>
+            <stop offset="62%" stopColor="#C5A572"/>
+            <stop offset="88%" stopColor="#8a7448"/>
+            <stop offset="100%" stopColor="#4a3a20"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="600" cy="520" rx="200" ry="25" fill="#000" opacity="0.5" />
+        <circle cx="600" cy="300" r="200" fill="url(#coinBig)" />
+        <circle cx="600" cy="300" r="160" fill="none" stroke="rgba(0,0,0,0.28)" strokeWidth="1" />
+        <circle cx="600" cy="300" r="175" fill="none" stroke="rgba(255,228,180,0.22)" strokeWidth="0.6" />
+        <text x="600" y="330" textAnchor="middle" fontFamily="'Cormorant Garamond',Georgia,serif" fontStyle="italic" fontWeight="600" fontSize="180" fill="rgba(40,26,12,0.82)" letterSpacing="-0.02em">A</text>
+        <text x="600" y="400" textAnchor="middle" fontFamily="'JetBrains Mono',monospace" fontSize="14" letterSpacing="0.3em" fill="rgba(40,26,12,0.5)" fontWeight="700">999.9</text>
+      </svg>
+    ),
+  };
+
+  return (
+    <div style={{
+      height, position: 'relative', overflow: 'hidden',
+      background: `
+        radial-gradient(ellipse at 25% 40%, rgba(197,165,114,0.09) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 65%, rgba(197,165,114,0.05) 0%, transparent 50%),
+        linear-gradient(135deg, #161310 0%, #0d0b08 50%, #06050a 100%)
+      `,
+      border: `1px solid ${T.goldBorder}`,
+      marginBottom: 20,
+    }}>
+      {compositions[type]}
+      {tag && (
+        <div style={{ position: 'absolute', bottom: 18, left: 22, fontFamily: T.mono, fontSize: 9, color: T.goldD, letterSpacing: '0.26em' }}>
+          {tag}
+        </div>
+      )}
+      {caption && (
+        <div style={{ position: 'absolute', bottom: 18, right: 22, fontFamily: T.serif, fontStyle: 'italic', fontSize: 13, color: T.goldD }}>
+          {caption}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function VaultPage() {
   return (

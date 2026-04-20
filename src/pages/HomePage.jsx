@@ -3,7 +3,7 @@ import QuietNav from '../components/QuietNav';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
-import { GATES, AGP_CREDITS, TOTAL_CREDITS, PRODUCTS, calcPrice, fKRW, fUSD, SPOT_USD, FX_KRW, OZ_G, AURUM_MARKUP, KR_RETAIL_MARKUP, SAVINGS_APY } from '../lib/constants';
+import { AGP_CREDITS, TOTAL_CREDITS, fUSD, OZ_G, KR_RETAIL_MARKUP, SAVINGS_APY } from '../lib/constants';
 
 
 /* ═══════════════════════════════════════════════════════════════════════════

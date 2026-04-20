@@ -3,7 +3,7 @@ import QuietNav from '../components/QuietNav';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
-import { AGP_CREDITS, TOTAL_CREDITS, PRODUCTS, calcPrice, fKRW, fUSD, SPOT_USD, FX_KRW, OZ_G, AURUM_MARKUP, KR_RETAIL_MARKUP, SAVINGS_APY } from '../lib/constants';
+import { AGP_CREDITS, TOTAL_CREDITS, fUSD, OZ_G, KR_RETAIL_MARKUP, SAVINGS_APY } from '../lib/constants';
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -16,11 +16,11 @@ import { AGP_CREDITS, TOTAL_CREDITS, PRODUCTS, calcPrice, fKRW, fUSD, SPOT_USD, 
 // GATE DATA — the spine of the whole page
 // ═══════════════════════════════════════════════════════════════════════════
 const GATES = [
-  { n: 'I',   ko: '브론즈',     en: 'Bronze',           d: 1.0, gmv: 7_200_000,    joined: 253, mark: '스테인리스 마크',       markEn: 'Stainless mark',      desc: '가입과 함께 열립니다. 첫 번째 할인, 평생 유지.', descEn: 'Opens on enrollment. First discount, held for life.' },
-  { n: 'II',  ko: '실버',       en: 'Silver',           d: 1.5, gmv: 21_600_000,   joined: 104, mark: '시리얼 번호',           markEn: 'Numbered serial',     desc: '누적 ₩21.6M — 세 번의 공식 행사 초대, 시리얼 번호 부여.', descEn: '₩21.6M cumulative — three formal invitations, serial number issued.' },
-  { n: 'III', ko: '골드',       en: 'Gold',             d: 2.0, gmv: 50_400_000,   joined: 47,  mark: '10K 솔리드 골드 마크',  markEn: 'Solid 10K gold mark', desc: '10K 솔리드 골드 각인 마크. 연 2회 CEO 만찬.', descEn: 'Solid 10K gold engraved mark. Two annual CEO dinners.', apex: true },
-  { n: 'IV',  ko: '플래티넘',   en: 'Platinum',         d: 2.5, gmv: 93_600_000,   joined: 11,  mark: '싱가포르 볼트 방문',    markEn: 'Singapore vault visit', desc: 'Malca-Amit FTZ 현장 방문, 저녁 연회. 연 1회.', descEn: 'Malca-Amit FTZ on-site visit, private dinner. Once annually.' },
-  { n: 'V',   ko: '소브린',     en: 'Sovereign',        d: 3.0, gmv: 144_000_000,  joined: 3,   mark: '평생 각인 · 이니셜',    markEn: 'Lifetime engraved · initials', desc: '이름 각인 금 마크. 보험 증서에 영구 기재.', descEn: 'Engraved gold mark with initials. Permanent on insurance certificate.' },
+  { n: 'I',   ko: '시작의 문',     en: 'The Opening',       d: 1.0, gmv: 7_200_000,    joined: 253, mark: '스테인리스 마크',       markEn: 'Stainless mark',      desc: '가입과 함께 열립니다. 첫 번째 할인, 평생 유지.', descEn: 'Opens on enrollment. First discount, held for life.' },
+  { n: 'II',  ko: '셋의 표식',     en: 'The Three',          d: 1.5, gmv: 21_600_000,   joined: 104, mark: '시리얼 번호',           markEn: 'Numbered serial',     desc: '누적 ₩21.6M — 세 번의 공식 행사 초대, 시리얼 번호 부여.', descEn: '₩21.6M cumulative — three formal invitations, serial number issued.' },
+  { n: 'III', ko: '정점',          en: 'The Apex',           d: 2.0, gmv: 50_400_000,   joined: 47,  mark: '10K 솔리드 골드 마크',  markEn: 'Solid 10K gold mark', desc: '10K 솔리드 골드 각인 마크. 연 2회 CEO 만찬.', descEn: 'Solid 10K gold engraved mark. Two annual CEO dinners.', apex: true },
+  { n: 'IV',  ko: '볼트 순례',     en: 'Vault Pilgrimage',   d: 2.5, gmv: 93_600_000,   joined: 11,  mark: '싱가포르 볼트 방문',    markEn: 'Singapore vault visit', desc: 'Malca-Amit FTZ 현장 방문, 저녁 연회. 연 1회.', descEn: 'Malca-Amit FTZ on-site visit, private dinner. Once annually.' },
+  { n: 'V',   ko: '평생의 표식',   en: 'Lifetime Mark',      d: 3.0, gmv: 144_000_000,  joined: 3,   mark: '평생 각인 · 이니셜',    markEn: 'Lifetime engraved · initials', desc: '이름 각인 금 마크. 보험 증서에 영구 기재.', descEn: 'Engraved gold mark with initials. Permanent on insurance certificate.' },
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════

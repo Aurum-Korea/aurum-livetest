@@ -4,9 +4,39 @@ import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
 
-function FormCard({ children, width = 440 }
+function FormCard({ children, width = 440 }) {
+  return (
+    <div style={{
+      maxWidth: width, margin: '0 auto',
+      background: T.card, border: `1px solid ${T.goldBorder}`,
+      padding: '36px 36px 32px', position: 'relative',
+      animation: 'fade-up 0.4s cubic-bezier(0.2,0.8,0.2,1) both',
+    }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg, transparent, ${T.gold}, transparent)` }} />
+      {children}
+    </div>
+  );
+}
 
-function Field({ label, sub, required, children, tip }
+function Field({ label, sub, required, children, tip }) {
+  return (
+    <div style={{ marginBottom: 20 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
+        <label style={{ fontFamily: T.mono, fontSize: 10, color: T.goldD, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+          {label}
+          {required && <span style={{ color: T.gold, marginLeft: 4 }}>·</span>}
+        </label>
+        {tip && (
+          <span title={tip} style={{ fontFamily: T.mono, fontSize: 9, color: T.muted, letterSpacing: '0.14em', cursor: 'help' }}>
+            왜 묻는가? ⓘ
+          </span>
+        )}
+      </div>
+      {children}
+      {sub && <div style={{ fontFamily: T.mono, fontSize: 9, color: T.muted, letterSpacing: '0.08em', marginTop: 6, lineHeight: 1.5 }}>{sub}</div>}
+    </div>
+  );
+}
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
