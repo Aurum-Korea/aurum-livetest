@@ -12,11 +12,12 @@ import AUSquare from './AUSquare';
 // ═══════════════════════════════════════════════════════════════════════
 
 const LINKS = [
-  { path: '/start',    ko: '시작',          en: 'Start' },
-  { path: '/founders', ko: 'Founders Club', en: 'Founders Club' },
-  { path: '/goldpath', ko: 'GoldPath',      en: 'GoldPath' },
-  { path: '/shop',     ko: '상점',          en: 'Shop' },
-  { path: '/referral', ko: '추천',          en: 'Refer' },
+  { path: '/start',     ko: '시작',          en: 'Start' },
+  { path: '/founders',  ko: 'Founders Club', en: 'Founders Club' },
+  { path: '/goldpath',  ko: 'GoldPath',      en: 'GoldPath' },
+  { path: '/shop',      ko: '상점',          en: 'Shop' },
+  { path: '/analytics', ko: '분석',          en: 'Analytics' },
+  { path: '/referral',  ko: '추천',          en: 'Refer' },
 ];
 
 export default function QuietNav({ page }) {
@@ -46,7 +47,7 @@ export default function QuietNav({ page }) {
           </Link>
 
           {/* Desktop nav links */}
-          <nav className="aurum-nav-desktop" style={{ display: 'flex', gap: 22, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+          <nav className="aurum-nav-desktop" style={{ display: 'flex', gap: 18, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
             {LINKS.map(l => {
               const isActive = location.pathname === l.path;
               return (

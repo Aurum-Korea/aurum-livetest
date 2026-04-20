@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import StartPage from './pages/StartPage';
 import FoundersPage from './pages/FoundersPage';
 import GoldPathPage from './pages/GoldPathPage';
+import AnalyticsPage from './pages/AnalyticsPage';
 import TerminalPage from './pages/TerminalPage';
 import ShopPage from './pages/ShopPage';
 import VaultPage from './pages/VaultPage';
@@ -22,6 +23,7 @@ export default function App() {
       <Route path="/start" element={<StartPage />} />
       <Route path="/founders" element={<FoundersPage />} />
       <Route path="/goldpath" element={<GoldPathPage />} />
+      <Route path="/analytics" element={<AnalyticsPage />} />
       <Route path="/terminal" element={<RequireAuth><TerminalPage /></RequireAuth>} />
       <Route path="/shop" element={<ShopPage />} />
       <Route path="/vault" element={<VaultPage />} />
