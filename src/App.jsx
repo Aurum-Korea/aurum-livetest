@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import RequireAuth from './components/RequireAuth';
 
 import HomePage from './pages/HomePage';
 import StartPage from './pages/StartPage';
@@ -19,7 +20,7 @@ export default function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/start" element={<StartPage />} />
       <Route path="/founders" element={<FoundersPage />} />
-      <Route path="/terminal" element={<TerminalPage />} />
+      <Route path="/terminal" element={<RequireAuth><TerminalPage /></RequireAuth>} />
       <Route path="/shop" element={<ShopPage />} />
       <Route path="/vault" element={<VaultPage />} />
       <Route path="/why" element={<WhyPage />} />

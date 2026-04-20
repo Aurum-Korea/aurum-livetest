@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import QuietNav from '../components/QuietNav';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
@@ -15,7 +16,8 @@ import { AGP_CREDITS, TOTAL_CREDITS, fUSD, OZ_G, KR_RETAIL_MARKUP, SAVINGS_APY }
 // ═══════════════════════════════════════════════════════════════════════════
 // VIEWPORT TOGGLE (Claude-only dev chrome)
 // ═══════════════════════════════════════════════════════════════════════════
-function ViewportToggle({ door, setDoor, drop, setDrop, social, setSocial }) {
+function ViewportToggle({ door, setDoor, drop, setDrop, social, setSocial, devOnly }) {
+  if (devOnly && !import.meta.env.DEV) return null;
   return (
     <div style={{
       position: 'fixed', bottom: 16, left: '50%', transform: 'translateX(-50%)',
@@ -123,8 +125,15 @@ function DropCountdownBar() {
 // NAV — V3 minimal + CTA
 // ═══════════════════════════════════════════════════════════════════════════
 function HybridNav() {
+  const navigate = useNavigate();
+  const items = [
+    { label: 'Founders', to: '/founders' },
+    { label: 'GoldPath', to: '/start' },
+    { label: 'Why', to: '/why' },
+    { label: 'Vault', to: '/vault' },
+  ];
   return (
-    <div style={{ background: 'rgba(10,10,10,0.92)', backdropFilter: 'blur(14px)', borderBottom: `1px solid ${T.border}`, padding: '14px 20px', position: 'sticky', top: 0, zIndex: 40 }}>
+    <div style={{ background: 'rgba(10,10,10,0.92)', backdropFilter: 'blur(14px)', borderBottom: `1px solid ${T.border}`, padding: '14px 20px' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{ width: 22, height: 22, background: `linear-gradient(135deg, ${T.goldB}, ${T.gold} 50%, ${T.goldDeep})`, borderRadius: 3, boxShadow: `0 0 14px ${T.goldGlow}` }} />
@@ -132,11 +141,11 @@ function HybridNav() {
           <span style={{ fontFamily: T.mono, fontSize: 9, color: T.goldD, letterSpacing: '0.22em', marginLeft: 4 }}>001</span>
         </div>
         <div style={{ display: 'none', gap: 22 }} className="desktop-only">
-          {['Founders', 'GoldPath', 'Why', 'Vault'].map((s, i) => (
-            <span key={i} style={{ fontFamily: T.sans, fontSize: 13, color: T.sub, cursor: 'pointer', fontWeight: 500 }}>{s}</span>
+          {items.map((s, i) => (
+            <Link key={i} to={s.to} style={{ fontFamily: T.sans, fontSize: 13, color: T.sub, cursor: 'pointer', fontWeight: 500, textDecoration: 'none' }}>{s.label}</Link>
           ))}
         </div>
-        <button style={{ background: T.gold, color: T.bg, padding: '9px 18px', fontSize: 12, fontWeight: 700, fontFamily: T.sans, letterSpacing: '0.04em', borderRadius: 2 }}>
+        <button onClick={() => navigate('/signup')} style={{ background: T.gold, color: T.bg, padding: '9px 18px', fontSize: 12, fontWeight: 700, fontFamily: T.sans, letterSpacing: '0.04em', borderRadius: 2, border: 'none', cursor: 'pointer' }}>
           지금 시작 →
         </button>
       </div>
@@ -273,6 +282,7 @@ function QuietDoor() {
 // HYBRID HERO — Quiet bilingual hero BESIDE live sparkline
 // ═══════════════════════════════════════════════════════════════════════════
 function HybridHero() {
+  const navigate = useNavigate();
   const [flashIdx, setFlashIdx] = useState(-1);
   const priceRefs = [{ lbl: 'KOREA RETAIL', val: '₩186,800', note: '+VAT 10%', color: T.red, tone: 'dn' },
                      { lbl: 'AURUM', val: '₩155,670', note: '−16.7%', color: T.goldB, tone: 'hold' },
@@ -337,7 +347,7 @@ function HybridHero() {
 
           {/* CTA — V1 editorial bold */}
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <button style={{ background: T.gold, border: 'none', color: T.bg, padding: '13px 24px', fontFamily: T.sans, fontWeight: 700, fontSize: 13, letterSpacing: '0.06em', cursor: 'pointer' }}>
+            <button onClick={() => navigate('/signup')} style={{ background: T.gold, border: 'none', color: T.bg, padding: '13px 24px', fontFamily: T.sans, fontWeight: 700, fontSize: 13, letterSpacing: '0.06em', cursor: 'pointer' }}>
               GoldPath 시작하기 →
             </button>
             <button style={{ background: 'transparent', border: `1px solid ${T.goldBorder}`, color: T.gold, padding: '13px 24px', fontFamily: T.serif, fontStyle: 'italic', fontSize: 15, cursor: 'pointer' }}>
@@ -671,6 +681,7 @@ function CommunityBlock({ mode = 'handles' }) {
 // DROP FINALE FOOTER — V3
 // ═══════════════════════════════════════════════════════════════════════════
 function DropFinale({ dropLive }) {
+  const navigate = useNavigate();
   return (
     <>
       <section style={{ background: T.bg, padding: '80px 20px 60px' }}>
@@ -679,7 +690,7 @@ function DropFinale({ dropLive }) {
           <h2 style={{ fontFamily: T.serifKr, fontSize: 'clamp(48px, 8vw, 84px)', fontWeight: 500, color: T.text, lineHeight: 0.96, margin: '0 0 32px', letterSpacing: '-0.02em' }}>
             한 그램.<br/><em style={{ fontFamily: T.serif, fontStyle: 'italic', color: T.gold, fontWeight: 400 }}>지금.</em>
           </h2>
-          <button style={{ background: T.gold, color: T.bg, padding: '18px 44px', fontFamily: T.sans, fontWeight: 700, fontSize: 14, letterSpacing: '0.08em', cursor: 'pointer' }}>
+          <button onClick={() => navigate('/signup')} style={{ background: T.gold, color: T.bg, padding: '18px 44px', fontFamily: T.sans, fontWeight: 700, fontSize: 14, letterSpacing: '0.08em', cursor: 'pointer' }}>
             GoldPath 시작하기 →
           </button>
           <div style={{ fontFamily: T.mono, fontSize: 10, color: T.muted, marginTop: 18, letterSpacing: '0.22em' }}>
@@ -722,19 +733,17 @@ function HybridDoor({ dropLive, socialMode }) {
 // APP
 // ═══════════════════════════════════════════════════════════════════════════
 export default function HomePage() {
-  const [door, setDoor] = useState('hybrid');
+  const [door, setDoor] = useState('quiet');
   const [dropLive, setDropLive] = useState(true);
   const [socialMode, setSocialMode] = useState('side-by-side');
 
   return (
     <div style={{ background: T.bg, color: T.text, minHeight: '100vh' }}>
-      {/* CLAUDE NOTE BANNER — dismissible */}
-      
-      
+      <QuietNav />
 
       {door === 'quiet' ? <QuietDoor /> : <HybridDoor dropLive={dropLive} socialMode={socialMode} />}
 
-      <ViewportToggle door={door} setDoor={setDoor} drop={dropLive} setDrop={setDropLive} social={socialMode} setSocial={setSocialMode} />
+      <ViewportToggle door={door} setDoor={setDoor} drop={dropLive} setDrop={setDropLive} social={socialMode} setSocial={setSocialMode} devOnly />
     </div>
   );
 }

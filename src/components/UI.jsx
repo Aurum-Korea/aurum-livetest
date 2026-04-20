@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { T } from '../lib/tokens';
 
 // Section heading · § numeral + Korean + English italic
@@ -36,11 +37,17 @@ export function Prose({ children }) {
   );
 }
 
-// Primary gold-fill CTA
-export function PrimaryCTA({ children, onClick, disabled, fullWidth }) {
+// Primary gold-fill CTA · optional `to` prop for navigation
+export function PrimaryCTA({ children, onClick, disabled, fullWidth, to }) {
+  const navigate = useNavigate();
+  const handleClick = (e) => {
+    if (disabled) return;
+    if (onClick) onClick(e);
+    if (to && !e.defaultPrevented) navigate(to);
+  };
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       disabled={disabled}
       style={{
         width: fullWidth ? '100%' : 'auto',
@@ -60,11 +67,16 @@ export function PrimaryCTA({ children, onClick, disabled, fullWidth }) {
   );
 }
 
-// Ghost italic CTA
-export function GhostCTA({ children, onClick }) {
+// Ghost italic CTA · optional `to` prop
+export function GhostCTA({ children, onClick, to }) {
+  const navigate = useNavigate();
+  const handleClick = (e) => {
+    if (onClick) onClick(e);
+    if (to && !e.defaultPrevented) navigate(to);
+  };
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       style={{
         background: 'transparent', border: `1px solid ${T.goldBorder}`,
         color: T.gold, padding: '15px 28px',

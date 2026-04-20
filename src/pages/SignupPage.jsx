@@ -197,7 +197,7 @@ export default function SignupPage() {
                     Founders 가입을 완료하려면 본인인증이 필요합니다 — 약 3분 소요. 지금 진행하거나 이메일 링크로 나중에 완료 가능합니다.
                   </div>
                 </div>
-                <PrimaryCTA>본인인증 시작 · Begin KYC →</PrimaryCTA>
+                <PrimaryCTA to="/kyc">본인인증 시작 · Begin KYC →</PrimaryCTA>
                 <div style={{ fontFamily: T.mono, fontSize: 10, color: T.muted, marginTop: 14, letterSpacing: '0.18em' }}>
                   또는 <a style={{ color: T.gold, cursor: 'pointer' }}>나중에</a>
                 </div>

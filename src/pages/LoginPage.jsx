@@ -1,8 +1,10 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import QuietNav from '../components/QuietNav';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
+import { useAuth } from '../lib/auth';
 
 function FormCard({ children, width = 440 }) {
   return (
@@ -39,10 +41,23 @@ function Field({ label, sub, required, children, tip }) {
 }
 
 export default function LoginPage() {
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const returnTo = location.state?.from || '/terminal';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [totp, setTotp] = useState('');
   const [showTotp, setShowTotp] = useState(false);
+
+  const handleSubmit = () => {
+    if (!showTotp) {
+      setShowTotp(true);
+      return;
+    }
+    signIn({ id: 'demo', name: '김우성', email, memberId: 'FY-MMXXVI-1247' });
+    navigate(returnTo);
+  };
 
   return (
     <>
@@ -104,7 +119,7 @@ export default function LoginPage() {
             <a style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: 13, color: T.gold, cursor: 'pointer' }}>Forgot password</a>
           </div>
 
-          <PrimaryCTA onClick={() => !showTotp ? setShowTotp(true) : null}>
+          <PrimaryCTA onClick={handleSubmit}>
             {showTotp ? '로그인 → SIGN IN' : '계속 → CONTINUE'}
           </PrimaryCTA>
 
@@ -114,7 +129,7 @@ export default function LoginPage() {
         </FormCard>
 
         <div style={{ textAlign: 'center', marginTop: 28, fontFamily: T.sansKr, fontSize: 13, color: T.muted }}>
-          아직 가입하지 않았다면 <a style={{ color: T.gold, cursor: 'pointer', fontFamily: T.serif, fontStyle: 'italic', fontSize: 14 }}>Founders 신청</a>
+          아직 가입하지 않았다면 <Link to="/signup" style={{ color: T.gold, cursor: 'pointer', fontFamily: T.serif, fontStyle: 'italic', fontSize: 14, textDecoration: 'none' }}>Founders 신청</Link>
         </div>
       </div>
 

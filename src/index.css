@@ -137,3 +137,23 @@ input[type=range]::-webkit-slider-thumb {
   0%, 100% { transform: translateY(0) rotate(-2.5deg); }
   50% { transform: translateY(-6px) rotate(-2.5deg); }
 }
+
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
+@keyframes coin-float {
+  0%, 100% { transform: translateY(0) rotateY(0deg); }
+  50% { transform: translateY(-8px) rotateY(180deg); }
+}
+
+@keyframes counter-tick {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spark-glow {
+  0%, 100% { opacity: 0.4; filter: drop-shadow(0 0 4px rgba(197,165,114,0.4)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 12px rgba(197,165,114,0.8)); }
+}

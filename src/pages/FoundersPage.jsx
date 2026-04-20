@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import QuietNav from '../components/QuietNav';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
@@ -86,6 +87,7 @@ function DropBar() {
 }
 
 function HybridNav() {
+  const navigate = useNavigate();
   return (
     <div style={{ background: 'rgba(10,10,10,0.92)', backdropFilter: 'blur(14px)', borderBottom: `1px solid ${T.border}`, padding: '14px 20px', position: 'sticky', top: 0, zIndex: 40 }}>
       <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -100,7 +102,7 @@ function HybridNav() {
             <span key={i} style={{ fontFamily: T.sans, fontSize: 13, color: T.sub, cursor: 'pointer', fontWeight: 500 }}>{s}</span>
           ))}
         </div>
-        <button style={{ background: T.gold, color: T.bg, padding: '9px 18px', fontSize: 12, fontWeight: 700, fontFamily: T.sans, letterSpacing: '0.04em', borderRadius: 2 }}>
+        <button onClick={() => navigate('/signup')} style={{ background: T.gold, color: T.bg, padding: '9px 18px', fontSize: 12, fontWeight: 700, fontFamily: T.sans, letterSpacing: '0.04em', borderRadius: 2 }}>
           Schedule a call →
         </button>
       </div>
@@ -113,6 +115,7 @@ function HybridNav() {
 // § 03 — HERO · bilingual + live progress ring
 // ═══════════════════════════════════════════════════════════════════════════
 function FoundersHero() {
+  const navigate = useNavigate();
   const totalJoined = GATES.reduce((s, g) => s + g.joined, 0);
   const CAP = 500;
   const pct = totalJoined / CAP;
@@ -150,7 +153,7 @@ function FoundersHero() {
           </p>
 
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <button style={{ background: T.gold, border: 'none', color: T.bg, padding: '13px 24px', fontFamily: T.sans, fontWeight: 700, fontSize: 13, letterSpacing: '0.06em', cursor: 'pointer' }}>
+            <button onClick={() => navigate('/signup')} style={{ background: T.gold, border: 'none', color: T.bg, padding: '13px 24px', fontFamily: T.sans, fontWeight: 700, fontSize: 13, letterSpacing: '0.06em', cursor: 'pointer' }}>
               Request an introduction →
             </button>
             <button style={{ background: 'transparent', border: `1px solid ${T.goldBorder}`, color: T.gold, padding: '13px 24px', fontFamily: T.serif, fontStyle: 'italic', fontSize: 15, cursor: 'pointer' }}>
@@ -324,6 +327,7 @@ function GateLadder() {
 // § 05 — SIMULATOR · the conversion crown jewel
 // ═══════════════════════════════════════════════════════════════════════════
 function GateSimulator() {
+  const navigate = useNavigate();
   const [monthly, setMonthly] = useState(500_000);
   const [horizon, setHorizon] = useState(60);
 
@@ -467,7 +471,7 @@ function GateSimulator() {
                 )}
               </div>
 
-              <button style={{ width: '100%', marginTop: 18, background: T.gold, color: T.bg, padding: 14, fontFamily: T.sans, fontWeight: 700, fontSize: 13, letterSpacing: '0.1em', cursor: 'pointer' }}>
+              <button onClick={() => navigate('/signup')} style={{ width: '100%', marginTop: 18, background: T.gold, color: T.bg, padding: 14, fontFamily: T.sans, fontWeight: 700, fontSize: 13, letterSpacing: '0.1em', cursor: 'pointer' }}>
                 {sim.currentGate ? `${sim.currentGate.n}등급으로 신청 →` : 'Request introduction →'}
               </button>
             </div>
@@ -898,9 +902,7 @@ export default function FoundersPage() {
 
   return (
     <div style={{ background: T.bg, color: T.text, minHeight: '100vh' }}>
-      
-      
-
+      <QuietNav page="founders" />
       {/* ═══ HYBRID TOP (drop mechanics) ═══ */}
       <TickerBar />
       {drop && <DropBar />}
@@ -920,7 +922,7 @@ export default function FoundersPage() {
       <SpeakingWithFounders />
       <FoundersFooter />
 
-      <DevChrome drop={drop} setDrop={setDrop} />
+      {import.meta.env.DEV && <DevChrome drop={drop} setDrop={setDrop} />}
     </div>
   );
 }

@@ -242,8 +242,14 @@ export default function ReferralPage() {
       {/* CTA */}
       <div style={{ padding: '80px 24px 120px', textAlign: 'center' }}>
         <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <PrimaryCTA>카카오로 공유하기</PrimaryCTA>
-          <GhostCTA>내 초대 기록 보기</GhostCTA>
+          <PrimaryCTA onClick={() => {
+            if (navigator.share) {
+              navigator.share({ title: 'Aurum', text: '실물 금 · 싱가포르 보관', url: 'https://aurum.kr/i/woosung-k-7g4q9p' }).catch(() => {});
+            } else {
+              try { navigator.clipboard?.writeText('https://aurum.kr/i/woosung-k-7g4q9p'); } catch (e) {}
+            }
+          }}>카카오로 공유하기</PrimaryCTA>
+          <GhostCTA to="/terminal">내 초대 기록 보기</GhostCTA>
         </div>
         <div style={{ fontFamily: T.mono, fontSize: 10, color: T.muted, marginTop: 22, letterSpacing: '0.22em' }}>
           UNLIMITED INVITES · LIFETIME GMV TRACKING

@@ -1,8 +1,11 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import QuietNav from '../components/QuietNav';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
 import { AGP_CREDITS, TOTAL_CREDITS, fUSD, OZ_G, KR_RETAIL_MARKUP, SAVINGS_APY } from '../lib/constants';
+import { useAuth } from '../lib/auth';
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -198,24 +201,17 @@ function ProductRender({ p }) {
 // ═══════════════════════════════════════════════════════════════════════════
 function ShopNav({ page, cartCount, onCartClick }) {
   return (
-    <div style={{ padding: '20px 24px', position: 'sticky', top: 0, zIndex: 40, background: 'rgba(10,10,10,0.82)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${T.border}` }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: 22, color: T.text, fontWeight: 500 }}>Aurum</span>
-          <span style={{ fontFamily: T.mono, fontSize: 9, color: T.goldD, letterSpacing: '0.26em', borderLeft: `1px solid ${T.border}`, paddingLeft: 12 }}>/ {page}</span>
-        </div>
-        <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-          <span style={{ fontFamily: T.mono, fontSize: 10, color: T.goldD, letterSpacing: '0.22em' }}>한 · EN</span>
-          <button onClick={onCartClick} style={{
-            background: cartCount > 0 ? T.goldGlow : 'transparent',
-            border: `1px solid ${cartCount > 0 ? T.goldBorderS : T.border}`,
-            color: cartCount > 0 ? T.gold : T.sub,
-            padding: '6px 12px', fontFamily: T.mono, fontSize: 10, letterSpacing: '0.18em',
-            cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6,
-          }}>
-            CART <span style={{ fontWeight: 700 }}>{cartCount}</span>
-          </button>
-        </div>
+    <div style={{ padding: '12px 24px', background: T.bg1, borderBottom: `1px solid ${T.border}` }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+        <button onClick={onCartClick} style={{
+          background: cartCount > 0 ? T.goldGlow : 'transparent',
+          border: `1px solid ${cartCount > 0 ? T.goldBorderS : T.border}`,
+          color: cartCount > 0 ? T.gold : T.sub,
+          padding: '6px 14px', fontFamily: T.mono, fontSize: 10, letterSpacing: '0.18em',
+          cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8,
+        }}>
+          CART <span style={{ fontWeight: 700 }}>{cartCount}</span>
+        </button>
       </div>
     </div>
   );
@@ -369,7 +365,7 @@ function ProductCard({ p, onAdd, i }) {
 // ═══════════════════════════════════════════════════════════════════════════
 // CART DRAWER · KYC-deferred variant
 // ═══════════════════════════════════════════════════════════════════════════
-function CartDrawer({ open, cart, onClose, onRemove }) {
+function CartDrawer({ open, cart, onClose, onRemove, onCheckout }) {
   const subtotal = cart.reduce((acc, item) => acc + calcPrice(item).krw * item.qty, 0);
   if (!open) return null;
 
@@ -459,7 +455,7 @@ function CartDrawer({ open, cart, onClose, onRemove }) {
                 </div>
               </div>
 
-              <button style={{
+              <button onClick={onCheckout} style={{
                 width: '100%', background: T.gold, color: T.bg,
                 padding: '15px 20px', fontFamily: T.sans, fontWeight: 700,
                 fontSize: 13, letterSpacing: '0.1em', border: 'none', cursor: 'pointer',
@@ -482,10 +478,19 @@ function CartDrawer({ open, cart, onClose, onRemove }) {
 // MAIN PAGE
 // ═══════════════════════════════════════════════════════════════════════════
 export default function ShopPage() {
+  const navigate = useNavigate();
+  const { isAuthed } = useAuth();
   const [filters, setFilters] = useState({ metal: 'all', type: 'all' });
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [toast, setToast] = useState('');
+
+  const handleCheckout = () => {
+    setCartOpen(false);
+    // Not authed → send to signup, KycPage will complete auth
+    // Authed → send to terminal order ticket
+    navigate(isAuthed ? '/terminal' : '/signup');
+  };
 
   const filtered = useMemo(() => PRODUCTS.filter(p => {
     if (filters.metal !== 'all' && p.metal !== filters.metal) return false;
@@ -512,6 +517,7 @@ export default function ShopPage() {
 
   return (
     <>
+      <QuietNav page="shop" />
       <ShopNav page="shop" cartCount={cartCount} onCartClick={() => setCartOpen(true)} />
 
       {/* Editorial hero — no category boxes, just the page itself */}
@@ -572,7 +578,7 @@ export default function ShopPage() {
 
       <QuietFooter />
 
-      <CartDrawer open={cartOpen} cart={cart} onClose={() => setCartOpen(false)} onRemove={handleRemove} />
+      <CartDrawer open={cartOpen} cart={cart} onClose={() => setCartOpen(false)} onRemove={handleRemove} onCheckout={handleCheckout} />
 
       {toast && (
         <div style={{

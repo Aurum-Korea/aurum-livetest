@@ -3,6 +3,7 @@ import QuietNav from '../components/QuietNav';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
 import { T } from '../lib/tokens';
+import { useAuth } from '../lib/auth';
 
 function FormCard({ children, width = 440 }) {
   return (
@@ -59,6 +60,7 @@ function Field({ label, sub, required, children, tip }) {
 }
 
 export default function KycPage() {
+  const { signIn } = useAuth();
   const [step, setStep] = useState(0);
   const [method, setMethod] = useState(null); // 'nice' | 'kcb' | 'passport'
   const [phone, setPhone] = useState('');
@@ -358,7 +360,7 @@ export default function KycPage() {
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                   <button onClick={() => setStep(3)} style={{ background: 'transparent', border: `1px solid ${T.border}`, color: T.sub, padding: '15px', fontFamily: T.mono, fontSize: 11, letterSpacing: '0.2em' }}>← 이전</button>
-                  <PrimaryCTA>제출 · SUBMIT</PrimaryCTA>
+                  <PrimaryCTA to="/terminal" onClick={() => signIn({ id: 'demo', name: '김우성', memberId: 'FY-MMXXVI-1247' })}>제출 · SUBMIT</PrimaryCTA>
                 </div>
               </div>
             )}

@@ -272,7 +272,7 @@ export default function VaultPage() {
 
       {/* X · CTA */}
       <div style={{ padding: '60px 24px 120px', textAlign: 'center' }}>
-        <GhostCTA>Claim your invite →</GhostCTA>
+        <GhostCTA to="/signup">Claim your invite →</GhostCTA>
         <div style={{ fontFamily: T.mono, fontSize: 10, color: T.muted, marginTop: 20, letterSpacing: '0.22em' }}>
           FOUNDERS · 500 SEATS · BY INVITATION
         </div>

@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import QuietNav from '../components/QuietNav';
 import QuietFooter from '../components/QuietFooter';
 import { SectionHead, Prose, PrimaryCTA, GhostCTA } from '../components/UI';
@@ -124,6 +125,7 @@ function DropCountdownBar() {
 // NAV — V3 minimal + CTA (locked choice §04)
 // ═══════════════════════════════════════════════════════════════════════════
 function StartNav() {
+  const navigate = useNavigate();
   return (
     <div style={{ background: 'rgba(10,10,10,0.92)', backdropFilter: 'blur(14px)', borderBottom: `1px solid ${T.border}`, padding: '14px 20px', position: 'sticky', top: 0, zIndex: 40 }}>
       <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -137,7 +139,7 @@ function StartNav() {
             <span key={i} style={{ fontFamily: T.sansKr, fontSize: 13, color: T.sub, cursor: 'pointer', fontWeight: 500 }}>{s}</span>
           ))}
         </div>
-        <button style={{ background: T.gold, color: T.bg, padding: '10px 20px', fontSize: 12, fontWeight: 700, fontFamily: T.sansKr, letterSpacing: '0.04em', borderRadius: 2 }}>
+        <button onClick={() => navigate('/signup')} style={{ background: T.gold, color: T.bg, padding: '10px 20px', fontSize: 12, fontWeight: 700, fontFamily: T.sansKr, letterSpacing: '0.04em', borderRadius: 2 }}>
           ₩200K로 시작 →
         </button>
       </div>
@@ -150,6 +152,7 @@ function StartNav() {
 // § 01 — HERO · giant coin + drop energy
 // ═══════════════════════════════════════════════════════════════════════════
 function DropHero() {
+  const navigate = useNavigate();
   return (
     <section style={{ padding: '56px 20px 80px', position: 'relative', overflow: 'hidden', borderBottom: `1px solid ${T.border}` }}>
       {/* Giant faded AURUM background word */}
@@ -194,7 +197,7 @@ function DropHero() {
           </p>
 
           <div style={{ display: 'flex', gap: 10, marginBottom: 24, flexWrap: 'wrap' }}>
-            <button style={{ background: T.gold, color: T.bg, padding: '16px 28px', fontSize: 14, fontWeight: 700, fontFamily: T.sansKr, letterSpacing: '0.04em', borderRadius: 2 }}>
+            <button onClick={() => navigate('/signup')} style={{ background: T.gold, color: T.bg, padding: '16px 28px', fontSize: 14, fontWeight: 700, fontFamily: T.sansKr, letterSpacing: '0.04em', borderRadius: 2 }}>
               ₩200K로 시작 →
             </button>
             <button style={{ background: 'transparent', border: `1px solid ${T.goldBorder}`, color: T.gold, padding: '16px 24px', fontFamily: T.serif, fontStyle: 'italic', fontSize: 15, borderRadius: 2 }}>
@@ -649,6 +652,7 @@ function FAQ() {
 // § 08 — DROP FINALE · big repeat CTA
 // ═══════════════════════════════════════════════════════════════════════════
 function DropFinale() {
+  const navigate = useNavigate();
   return (
     <>
       <section style={{ background: T.bg, padding: '100px 20px' }}>
@@ -657,7 +661,7 @@ function DropFinale() {
             한 그램.<br/>
             <em style={{ fontFamily: T.serif, fontStyle: 'italic', color: T.gold, fontWeight: 500 }}>지금.</em>
           </h2>
-          <button style={{ background: T.gold, color: T.bg, padding: '20px 52px', fontFamily: T.sansKr, fontWeight: 700, fontSize: 16, letterSpacing: '0.08em', cursor: 'pointer', borderRadius: 2 }}>
+          <button onClick={() => navigate('/signup')} style={{ background: T.gold, color: T.bg, padding: '20px 52px', fontFamily: T.sansKr, fontWeight: 700, fontSize: 16, letterSpacing: '0.08em', cursor: 'pointer', borderRadius: 2 }}>
             ₩200K로 시작 →
           </button>
           <div style={{ fontFamily: T.mono, fontSize: 10, color: T.muted, marginTop: 20, letterSpacing: '0.2em' }}>
@@ -707,9 +711,7 @@ function DevChrome() {
 export default function StartPage() {
   return (
     <div style={{ background: T.bg, color: T.text, minHeight: '100vh' }}>
-      
-      
-
+      <QuietNav page="start" />
       <TickerBar />
       <DropCountdownBar />
       <StartNav />
@@ -721,7 +723,7 @@ export default function StartPage() {
       <Community />
       <FAQ />
       <DropFinale />
-      <DevChrome />
+      {import.meta.env.DEV && <DevChrome />}
     </div>
   );
 }

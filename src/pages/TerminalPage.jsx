@@ -613,9 +613,7 @@ function TerminalFooter() {
 export default function TerminalPage() {
   return (
     <div style={{ background: T.deepBlack, color: T.text, minHeight: '100vh' }}>
-      
-      
-
+      <QuietNav page="terminal" />
       <TerminalBar />
 
       <div style={{ maxWidth: 1340, margin: '0 auto', padding: '24px 16px 60px' }}>
