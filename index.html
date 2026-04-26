@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aurum · Page Previews</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --bg-2: #121212;
+  --gold: #C5A572;
+  --goldB: #E3C187;
+  --goldD: #8a7d6b;
+  --gold-line: rgba(197,165,114,0.22);
+  --text: #ececec;
+  --muted: #8a8480;
+  --border: rgba(255,255,255,0.06);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --sans: 'Outfit', system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 64px 32px 80px; }
+
+/* Header */
+.head {
+  display: flex; align-items: center; gap: 14px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--gold-line);
+  margin-bottom: 48px;
+}
+.seal {
+  width: 44px; height: 44px;
+  border: 1px solid var(--gold);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-style: italic; font-size: 22px;
+  color: var(--gold);
+  letter-spacing: -0.04em;
+}
+.head-text .name {
+  font-family: var(--sans); font-weight: 600;
+  font-size: 14px; letter-spacing: 0.30em;
+  color: var(--text); text-transform: uppercase;
+}
+.head-text .sub {
+  font-family: var(--mono);
+  font-size: 10px; letter-spacing: 0.28em;
+  color: var(--goldD); margin-top: 4px;
+  text-transform: uppercase;
+}
+
+/* Intro */
+.intro {
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 720px;
+  margin-bottom: 56px;
+}
+.intro em {
+  color: var(--goldB);
+  font-style: italic;
+}
+.intro strong {
+  color: var(--text);
+  font-weight: 400;
+}
+
+/* Eyebrow */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.34em;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.eyebrow::before {
+  content: ''; display: block;
+  width: 28px; height: 1px;
+  background: var(--gold);
+}
+
+/* Preview grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+@media (max-width: 800px) {
+  .grid { grid-template-columns: 1fr; }
+  .wrap { padding: 40px 20px 60px; }
+}
+
+.card {
+  display: flex; flex-direction: column;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card:hover {
+  border-color: rgba(197,165,114,0.40);
+  transform: translateY(-2px);
+}
+.card-screen {
+  height: 280px;
+  background: #000;
+  border-bottom: 1px solid var(--border);
+  background-size: cover;
+  background-position: top center;
+  position: relative;
+}
+.card-screen::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(10,10,10,0.4) 100%);
+  pointer-events: none;
+}
+.card-meta {
+  padding: 20px 22px 22px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.card-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: var(--goldD);
+}
+.card-title {
+  font-family: var(--serif);
+  font-size: 22px; font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.005em;
+}
+.card-title em { color: var(--goldB); font-style: italic; }
+.card-route {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--goldD);
+  letter-spacing: 0.10em;
+  margin-top: 4px;
+}
+.card-desc {
+  font-family: var(--serif);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted);
+  margin-top: 10px;
+}
+.card-link {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.30em;
+  color: var(--gold);
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.card-link .arrow { transition: transform 0.2s; }
+.card:hover .card-link .arrow { transform: translateX(4px); }
+
+/* Section divider */
+.divider {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.32em;
+  color: var(--goldD);
+  margin: 56px 0 28px;
+  padding-top: 28px;
+  border-top: 1px solid var(--gold-line);
+}
+
+/* Notes */
+.notes {
+  background: rgba(197,165,114,0.04);
+  border-left: 2px solid var(--gold);
+  padding: 22px 26px;
+  margin-top: 48px;
+  font-family: var(--serif);
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+.notes strong { color: var(--goldB); font-weight: 400; }
+.notes em { color: var(--text); font-style: italic; }
+.notes ul { margin: 12px 0 0; padding-left: 18px; }
+.notes li { margin-bottom: 6px; }
+
+.flow {
+  margin-top: 48px;
+  padding: 24px 26px;
+  border: 1px solid var(--gold-line);
+  background: var(--bg-2);
+}
+.flow-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.30em;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+.flow-steps {
+  display: flex; flex-wrap: wrap; gap: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.flow-steps .step {
+  background: rgba(255,255,255,0.02);
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+}
+.flow-steps .step.gold {
+  border-color: var(--gold);
+  color: var(--goldB);
+}
+.flow-steps .arrow { color: var(--goldD); padding-top: 8px; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="head">
+    <span class="seal"><em>Au</em></span>
+    <div class="head-text">
+      <div class="name">Aurum · Page Previews</div>
+      <div class="sub">아름 센추리 클럽 · 후원자 + 파트너 동선</div>
+    </div>
+  </div>
+
+  <div class="intro">
+    These are the four pages your prospects and partners will see <em>after</em> they click the magic link in the invitation email — surfaces you can't view normally because they're gated behind authentication. Each one is rendered with <strong>realistic mock data</strong> in its most-representative state, so you can review the entire flow without having to deploy and walk through it yourself.
+  </div>
+
+  <!-- Patron flow -->
+  <div class="eyebrow">PATRON · 후원자 동선</div>
+
+  <div class="grid">
+
+    <a class="card" href="code.html" target="_blank">
+      <div class="card-screen" style="background-image: url('shot-code.png');"></div>
+      <div class="card-meta">
+        <div class="card-num">§ 01</div>
+        <div class="card-title">Code <em>entry</em></div>
+        <div class="card-route">/code</div>
+        <div class="card-desc">Where the magic link from the invitation email lands. The code arrives pre-filled via the URL <em>?c=…</em> param, the cookie is set silently, and the patron is forwarded to the NDA gate. This page also serves as fallback if someone needs to retype the code manually.</div>
+        <div class="card-link"><span>OPEN PREVIEW</span> <span class="arrow">→</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="nda.html" target="_blank">
+      <div class="card-screen" style="background-image: url('shot-nda.png');"></div>
+      <div class="card-meta">
+        <div class="card-num">§ 02</div>
+        <div class="card-title">NDA <em>gate</em></div>
+        <div class="card-route">/nda</div>
+        <div class="card-desc">Two-card layout: download the bilingual NDA template, sign, upload back. This preview shows the post-upload <em>"awaiting review"</em> state — the stage where the patron is waiting for a partner to approve their signed NDA before the room opens.</div>
+        <div class="card-link"><span>OPEN PREVIEW</span> <span class="arrow">→</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="memo.html" target="_blank" style="grid-column: span 2;">
+      <div class="card-screen" style="background-image: url('shot-memo.png'); height: 320px;"></div>
+      <div class="card-meta">
+        <div class="card-num">§ 03</div>
+        <div class="card-title">The <em>materials</em> portal</div>
+        <div class="card-route">/memo</div>
+        <div class="card-desc">The destination. Three doc cards — Founders Memo, Companion, FAQ — shown only after both code and NDA are approved. Each click streams the gated PDF through the server-side auth check. The badge in the top-right shows the patron's code suffix as a subtle "you are here" indicator.</div>
+        <div class="card-link"><span>OPEN PREVIEW</span> <span class="arrow">→</span></div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Partner flow -->
+  <div class="eyebrow" style="margin-top: 64px;">PARTNER · 파트너 콘솔</div>
+
+  <div class="grid">
+    <a class="card" href="admin.html" target="_blank" style="grid-column: span 2;">
+      <div class="card-screen" style="background-image: url('shot-admin.png'); height: 380px;"></div>
+      <div class="card-meta">
+        <div class="card-num">§ 04</div>
+        <div class="card-title">Partners <em>console</em></div>
+        <div class="card-route">/admin · 파트너 전용</div>
+        <div class="card-desc">Where the three of you triage every inquiry. Six representative leads are seeded: a fresh inquiry, one in review with a partner note, an approved patron with NDA pending upload, an approved patron with NDA <em>awaiting your review</em> (auto-selected on load — the most actionable state), an approved patron with full archive history including a rejection-then-approval cycle, and one declined inquiry. The <strong>EXPORT NDAs</strong> button in the top nav downloads a CSV manifest of every uploaded NDA across all leads, for legal/compliance archiving.</div>
+        <div class="card-link"><span>OPEN PREVIEW</span> <span class="arrow">→</span></div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Flow diagram -->
+  <div class="flow">
+    <div class="flow-title">END-TO-END · 전체 동선</div>
+    <div class="flow-steps">
+      <span class="step">/interest form</span>
+      <span class="arrow">→</span>
+      <span class="step">partner approves in /admin</span>
+      <span class="arrow">→</span>
+      <span class="step gold">email lands in inbox</span>
+      <span class="arrow">→</span>
+      <span class="step">/code (auto-validates)</span>
+      <span class="arrow">→</span>
+      <span class="step">/nda upload</span>
+      <span class="arrow">→</span>
+      <span class="step">partner approves NDA in /admin</span>
+      <span class="arrow">→</span>
+      <span class="step gold">/memo opens</span>
+    </div>
+  </div>
+
+  <div class="notes">
+    <strong>What's mocked vs. what's real</strong>
+    <ul>
+      <li>The <em>code</em> page form click does nothing in preview (the real one validates against the server and forwards on)</li>
+      <li>The <em>NDA</em> page is frozen in the "awaiting review" state for inspection. A live patron would see this state until a partner approves their upload, at which point the page auto-updates within 30 seconds</li>
+      <li>The <em>memo</em> doc-card "OPEN" buttons would normally stream the actual PDFs through a gated server endpoint; in preview they'll 404 since the server isn't running</li>
+      <li>The <em>admin</em> dashboard's six leads are fictional but cover every state your real dashboard will show: NEW, REVIEWING, SENT/awaiting NDA, SENT/NDA awaiting review, SENT/NDA approved with archive history, DECLINED</li>
+      <li>All mutating actions in the preview (approve, reject, send email, etc.) are blocked — preview is read-only</li>
+    </ul>
+  </div>
+
+  <!-- Email recap -->
+  <div class="notes" style="margin-top: 24px;">
+    <strong>Want to revisit the invitation email itself?</strong> Open <em>email-preview.html</em> from the same folder — it's the gold-coded bilingual invitation that <em>kicks off this entire flow</em>, framed inside an email-client mockup so you can see exactly what the prospect sees in their inbox.
+  </div>
+
+</div>
+
+</body>
+</html>
