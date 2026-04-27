@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<meta name="theme-color" content="#0a0a0a">
+<title>Founders Materials · The Aurum Century Club</title>
+<meta name="description" content="Confidential founders materials.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0a0a'/><rect x='4' y='4' width='24' height='24' fill='none' stroke='%23C5A572' stroke-width='1.2'/><text x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='15' font-style='italic' fill='%23C5A572'>Au</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Serif+KR:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;--card:#0f0d0a;--card-2:#131210;
+  --text:#e8e3d8;--sub:#aaa39a;--muted:#6b655e;
+  --gold:#C5A572;--goldB:#E3C187;--goldD:#8a7d6b;--goldDeep:#6a5a3a;
+  --goldBorder:rgba(197,165,114,0.22);--goldBorderS:rgba(197,165,114,0.50);
+  --goldWash:rgba(197,165,114,0.04);--goldWashS:rgba(197,165,114,0.10);
+  --goldGlow:rgba(197,165,114,0.20);--border:rgba(255,255,255,0.08);--red:#c77061;
+  --serif:'Cormorant Garamond','Noto Serif KR',Georgia,serif;
+  --serifKr:'Noto Serif KR','Cormorant Garamond',Georgia,serif;
+  --sans:'Outfit',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --pad-x:clamp(20px,5.5vw,88px);
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--serifKr);font-weight:300;-webkit-font-smoothing:antialiased;min-height:100vh;min-width:320px;overflow-x:hidden}
+a{color:inherit;text-decoration:none}em{font-style:italic}
+::selection{background:rgba(197,165,114,0.30)}
+
+.amb{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 1100px 700px at 50% 0%,rgba(197,165,114,0.08),transparent 65%)}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:16px var(--pad-x);background:linear-gradient(180deg,rgba(10,10,10,0.85),rgba(10,10,10,0));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.lockup{display:flex;align-items:center;gap:14px}
+.seal{width:34px;height:34px;border:1px solid var(--gold);display:inline-flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;color:var(--gold);font-size:16px;letter-spacing:-0.04em;flex-shrink:0;transition:box-shadow .3s,border-color .3s}
+.lockup:hover .seal{box-shadow:0 0 18px var(--goldGlow);border-color:var(--goldB)}
+.lockup-text{display:flex;flex-direction:column;line-height:1}
+.lockup-text .word{font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:0.34em;color:var(--text)}
+.lockup-text .program{font-family:var(--mono);font-weight:400;font-size:8.5px;letter-spacing:0.36em;color:var(--goldD);margin-top:5px}
+.lang-toggle{display:inline-flex;align-items:center;gap:0;padding:6px 10px;border:1px solid var(--border)}
+.lang-toggle button{background:transparent;border:0;color:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:0.20em;padding:3px 7px;cursor:pointer;transition:color .2s}
+.lang-toggle button.active{color:var(--gold)}
+.lang-toggle .sep{color:var(--muted);font-size:10.5px}
+@media (max-width:640px){.nav{padding:13px var(--pad-x)}.lockup-text .word{font-size:12px}.lockup-text .program{font-size:7.5px}}
+
+.lang-en [data-lang="ko"]{display:none}
+.lang-ko [data-lang="en"]{display:none}
+
+.page{position:relative;z-index:2;min-height:100vh;padding:18vh var(--pad-x) 80px;max-width:1080px;margin:0 auto}
+
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:0.34em;color:var(--gold);margin-bottom:18px}
+.title{font-family:var(--serifKr);font-weight:500;font-size:clamp(36px,5.4vw,56px);line-height:1.1;letter-spacing:-0.015em;color:var(--text);margin:0 0 18px}
+.title em{font-family:var(--serif);font-style:italic;color:var(--gold)}
+.lede{font-family:var(--serifKr);font-weight:300;font-size:16px;line-height:1.78;color:var(--sub);margin:0 0 56px;max-width:680px}
+.lede em{font-family:var(--serif);font-style:italic;color:var(--goldB)}
+
+.divider{height:1px;background:var(--goldBorder);margin:0 0 48px}
+
+.docs{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:780px){.docs{grid-template-columns:1fr 1fr 1fr;gap:22px}}
+
+.doc{position:relative;background:var(--card);border:1px solid var(--border);padding:32px 26px 28px;display:flex;flex-direction:column;min-height:280px;transition:border-color .3s,background .3s,transform .3s}
+.doc:hover{border-color:var(--goldBorderS);background:var(--card-2);transform:translateY(-2px)}
+.doc::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--goldBorderS),transparent);opacity:0;transition:opacity .3s}
+.doc:hover::before{opacity:1}
+.doc-num{font-family:var(--mono);font-size:10px;letter-spacing:0.30em;color:var(--goldD);margin-bottom:18px}
+.doc-title{font-family:var(--serifKr);font-weight:500;font-size:24px;line-height:1.2;color:var(--text);margin:0 0 6px}
+.doc-title em{font-family:var(--serif);font-style:italic;color:var(--gold)}
+.doc-sub{font-family:var(--mono);font-size:9.5px;letter-spacing:0.26em;color:var(--goldD);text-transform:uppercase;margin-bottom:16px}
+.doc-desc{font-family:var(--serifKr);font-weight:300;font-size:13.5px;line-height:1.7;color:var(--sub);margin:0 0 24px;flex:1}
+.doc-meta{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:9.5px;letter-spacing:0.20em;color:var(--muted);padding-top:16px;border-top:1px solid var(--border);margin-bottom:18px}
+.doc-meta .pages{color:var(--goldD)}
+.doc-cta{display:inline-flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;border:1px solid var(--goldBorder);background:var(--goldWash);color:var(--gold);font-family:var(--mono);font-size:10.5px;letter-spacing:0.26em;cursor:pointer;transition:all .25s;text-transform:uppercase;width:100%}
+.doc-cta:hover{background:var(--goldWashS);border-color:var(--goldBorderS);color:var(--goldB)}
+.doc-cta .arrow{font-family:var(--serif);font-size:14px;letter-spacing:0;transition:transform .25s}
+.doc-cta:hover .arrow{transform:translateX(3px)}
+
+.ioi-cta{margin-top:96px;padding:56px 48px;border:1px solid var(--goldBorderS);background:linear-gradient(180deg,var(--goldWash),transparent);position:relative;overflow:hidden}
+.ioi-cta::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.5}
+.ioi-cta-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:0.34em;color:var(--gold);margin-bottom:18px}
+.ioi-cta-h{font-family:var(--serifKr);font-weight:500;font-size:clamp(28px,3.6vw,40px);line-height:1.15;letter-spacing:-0.01em;color:var(--text);margin:0 0 18px}
+.ioi-cta-h em{font-family:var(--serif);font-style:italic;color:var(--gold)}
+.ioi-cta-lede{font-family:var(--serifKr);font-weight:300;font-size:15.5px;line-height:1.75;color:var(--sub);margin:0 0 32px;max-width:580px}
+.ioi-cta-btn{display:inline-flex;align-items:center;gap:14px;padding:16px 28px;background:var(--gold);color:var(--bg);font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.26em;text-decoration:none;transition:background .2s,box-shadow .2s;white-space:nowrap}
+.ioi-cta-btn:hover{background:var(--goldB);box-shadow:0 8px 28px rgba(227,193,135,0.35)}
+.ioi-cta-btn .arrow{font-family:var(--mono);font-size:14px}
+.ioi-cta-note{margin-top:18px;font-family:var(--serifKr);font-style:italic;font-size:13px;color:var(--goldD);line-height:1.6}
+@media(max-width:640px){.ioi-cta{padding:40px 28px;margin-top:72px}.ioi-cta-btn{padding:14px 22px;font-size:10.5px;letter-spacing:0.22em}}
+
+.foot{margin-top:80px;padding-top:32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+.foot-left{font-family:var(--mono);font-size:10px;letter-spacing:0.24em;color:var(--muted);line-height:1.8}
+.foot-left .gold{color:var(--goldD)}
+.foot-right{font-family:var(--serifKr);font-style:italic;font-size:13px;color:var(--muted);max-width:340px;line-height:1.7;text-align:right}
+
+/* SUBMIT IOI block — closes the materials hub. Restrained: black on black,
+   gold rule, single button. Sits between doc cards and footer. */
+.ioi-cta{margin-top:80px;padding:48px 0 12px;border-top:1px solid var(--goldBorder);text-align:left}
+.ioi-cta-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:0.34em;color:var(--gold);margin:0 0 16px}
+.ioi-cta-h{font-family:var(--serifKr);font-weight:500;font-size:clamp(28px,4.4vw,40px);line-height:1.15;letter-spacing:-0.012em;color:var(--text);margin:0 0 14px}
+.ioi-cta-h em{font-family:var(--serif);font-style:italic;color:var(--gold)}
+.ioi-cta-lede{font-family:var(--serifKr);font-weight:300;font-size:15.5px;line-height:1.75;color:var(--sub);margin:0 0 28px;max-width:580px}
+.ioi-cta-btn{display:inline-flex;align-items:center;gap:14px;padding:14px 26px;background:var(--gold);color:var(--bg);text-decoration:none;font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:0.24em;white-space:nowrap;transition:background .2s,box-shadow .2s,transform .15s}
+.ioi-cta-btn:hover{background:var(--goldB);box-shadow:0 6px 22px rgba(227,193,135,0.28);transform:translateY(-1px)}
+.ioi-cta-btn .arrow{font-family:var(--mono);font-size:14px;letter-spacing:0;color:inherit}
+.ioi-cta-note{margin-top:14px;font-family:var(--serifKr);font-style:italic;font-size:13px;color:var(--goldD);line-height:1.6}
+@media (max-width:640px){.ioi-cta{margin-top:60px;padding:36px 0 8px}.ioi-cta-btn{padding:13px 22px;font-size:10.5px;letter-spacing:0.20em}}
+@media(max-width:640px){.foot-right{text-align:left}}
+
+.session{display:inline-flex;align-items:center;gap:10px;padding:6px 12px;border:1px solid var(--border);font-family:var(--mono);font-size:9.5px;letter-spacing:0.22em;color:var(--muted)}
+.session .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--goldGlow)}
+.session .code{color:var(--goldD)}
+
+/* Loading + error states */
+.gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px}
+.gate.hide{display:none}
+.gate-seal{width:48px;height:48px;border:1px solid var(--gold);display:inline-flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;color:var(--gold);font-size:22px;letter-spacing:-0.04em;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 var(--goldGlow)}50%{box-shadow:0 0 22px var(--goldGlow)}}
+.gate-text{font-family:var(--mono);font-size:10.5px;letter-spacing:0.30em;color:var(--muted);text-transform:uppercase}
+</style>
+</head>
+<body class="lang-ko">
+
+<div class="amb"></div>
+
+<!-- Initial gate while we verify session -->
+<div class="gate" id="gate">
+  <div class="gate-seal">Au</div>
+  <div class="gate-text" data-lang="en">Verifying access</div>
+  <div class="gate-text" data-lang="ko">접근 확인 중</div>
+</div>
+
+<header class="nav">
+  <a class="lockup" href="/" aria-label="Aurum">
+    <span class="seal">Au</span>
+    <span class="lockup-text">
+      <span class="word">AURUM</span>
+      <span class="program">CENTURY · CLUB</span>
+    </span>
+  </a>
+  <div style="display:flex;gap:12px;align-items:center">
+    <span class="session" id="session" style="display:none">
+      <span class="dot"></span>
+      <span data-lang="en">MEMBER</span>
+      <span data-lang="ko">멤버</span>
+      <span class="code" id="sessionCode"></span>
+    </span>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button id="btnEn" type="button">EN</button>
+      <span class="sep">·</span>
+      <button id="btnKo" type="button" class="active">한</button>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+
+  <div class="eyebrow" data-lang="en">FOUNDERS · MATERIALS</div>
+  <div class="eyebrow" data-lang="ko">창립 · 자료</div>
+
+  <h1 class="title">
+    <span data-lang="en">The room, <em>quietly</em>.</span>
+    <span data-lang="ko">조용한 방, <em>그 안으로</em>.</span>
+  </h1>
+
+  <p class="lede">
+    <span data-lang="en">Three documents. <em>The Package</em> defines the program in full. <em>The FAQ</em> answers the questions members commonly raise. <em>The Structural Memo</em> is written for your counsel — Korean tax / FX, and where appropriate, Singapore. Read in any order.</span>
+    <span data-lang="ko">세 가지 문서. <em>패키지</em>는 프로그램을 전체적으로 정의합니다. <em>FAQ</em>는 멤버들이 자주 묻는 질문에 답합니다. <em>구조 메모</em>는 귀하의 자문 변호사 — 한국 세무 / 외환, 그리고 필요한 경우 싱가포르 — 를 위해 작성된 문서입니다. 어떤 순서로 읽어도 좋습니다.</span>
+  </p>
+
+  <div class="divider"></div>
+
+  <div class="docs">
+
+    <article class="doc">
+      <div class="doc-num">§ 0 1</div>
+      <h3 class="doc-title">
+        <span data-lang="en">The <em>Package</em></span>
+        <span data-lang="ko"><em>패키지</em></span>
+      </h3>
+      <div class="doc-sub" data-lang="en">CENTURY CLUB · IN FULL</div>
+      <div class="doc-sub" data-lang="ko">The Aurum Century Club · 전체</div>
+      <p class="doc-desc">
+        <span data-lang="en">The program in full. Origin, mechanism, simplification, the platform, and the two opening positions Aurum is sourcing to seed the fund. Read first.</span>
+        <span data-lang="ko">프로그램 전체. 기원, 메커니즘, 간소화, 플랫폼, 그리고 펀드를 출범시키기 위해 Aurum이 소싱 중인 두 개의 개시 포지션. 먼저 읽어 주십시오.</span>
+      </p>
+      <div class="doc-meta">
+        <span data-lang="en">PDF · CONFIDENTIAL</span>
+        <span data-lang="ko">PDF · 기밀</span>
+        <span class="pages">18 pp</span>
+      </div>
+      <a class="doc-cta" href="/api/doc?id=package" target="_blank" rel="noopener">
+        <span data-lang="en">OPEN PACKAGE</span>
+        <span data-lang="ko">패키지 열기</span>
+        <span class="arrow">→</span>
+      </a>
+    </article>
+
+    <article class="doc">
+      <div class="doc-num">§ 0 2</div>
+      <h3 class="doc-title">
+        <span data-lang="en">Member <em>FAQ</em></span>
+        <span data-lang="ko">멤버 <em>FAQ</em></span>
+      </h3>
+      <div class="doc-sub" data-lang="en">QUESTIONS · IN PLAIN FORM</div>
+      <div class="doc-sub" data-lang="ko">질문 · 평문 형식</div>
+      <p class="doc-desc">
+        <span data-lang="en">The questions members commonly raise. Korean tax filings under the structure, where the gold sits, what happens if gold falls, term and exit, what Aurum delivers each year. Plain-language.</span>
+        <span data-lang="ko">멤버들이 자주 묻는 질문. 본 구조에서의 한국 세무 신고, 금 보관 위치, 금값 하락 시 처리, 만기 및 환매, Aurum이 매년 제공하는 자료. 평이한 언어로 정리.</span>
+      </p>
+      <div class="doc-meta">
+        <span data-lang="en">PDF · CONFIDENTIAL</span>
+        <span data-lang="ko">PDF · 기밀</span>
+        <span class="pages">6 pp</span>
+      </div>
+      <a class="doc-cta" href="/api/doc?id=faq" target="_blank" rel="noopener">
+        <span data-lang="en">OPEN FAQ</span>
+        <span data-lang="ko">FAQ 열기</span>
+        <span class="arrow">→</span>
+      </a>
+    </article>
+
+    <article class="doc">
+      <div class="doc-num">§ 0 3</div>
+      <h3 class="doc-title">
+        <span data-lang="en">Structural <em>Memo</em></span>
+        <span data-lang="ko">구조 <em>메모</em></span>
+      </h3>
+      <div class="doc-sub" data-lang="en">FOR QUALIFIED COUNSEL</div>
+      <div class="doc-sub" data-lang="ko">자문 변호사 검토용</div>
+      <p class="doc-desc">
+        <span data-lang="en">Written for your counsel. Regulatory brief on FETA, FSCMA, KoFIU, and NTS treatment under the fund structure, risk factors, and counsel's continuing scope. Share with your tax / FX advisor.</span>
+        <span data-lang="ko">자문 변호사를 위한 문서. 본 펀드 구조에서의 외국환거래법, 자본시장법, 금융정보분석원 및 국세청 관련 사항, 리스크 요인 및 자문사의 지속 업무 범위. 세무 / 외환 자문사와 공유하십시오.</span>
+      </p>
+      <div class="doc-meta">
+        <span data-lang="en">PDF · FOR COUNSEL</span>
+        <span data-lang="ko">PDF · 자문용</span>
+        <span class="pages">7 pp</span>
+      </div>
+      <a class="doc-cta" href="/api/doc?id=structural" target="_blank" rel="noopener">
+        <span data-lang="en">OPEN STRUCTURAL MEMO</span>
+        <span data-lang="ko">구조 메모 열기</span>
+        <span class="arrow">→</span>
+      </a>
+    </article>
+
+  </div>
+
+  <!-- SUBMIT IOI · 의향 표명 — appears at the bottom of the materials hub.
+       Auto-fetches the lead's IOI code via /api/ioi?op=context (cookie-based)
+       and routes to /ioi?c=<code> when clicked. If for any reason the code
+       can't be fetched (cookie expired, server hiccup), the link falls back
+       to /ioi which prompts for code entry. -->
+  <section class="ioi-cta" id="ioiCta">
+    <div class="ioi-cta-eyebrow">
+      <span data-lang="en">WHEN YOU ARE READY</span>
+      <span data-lang="ko">준비가 되시면</span>
+    </div>
+    <h2 class="ioi-cta-h">
+      <span data-lang="en">Indicate <em>commitment.</em></span>
+      <span data-lang="ko"><em>의향</em>을 표명하십시오.</span>
+    </h2>
+    <p class="ioi-cta-lede">
+      <span data-lang="en">A brief identity check, then the commitment form. Read the materials at your pace — the next step is here when you're ready.</span>
+      <span data-lang="ko">간단한 신원 확인 후 의향서 양식이 안내됩니다. 자료를 충분히 검토하신 후 다음 단계로 진행하시면 됩니다.</span>
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
+      <a class="ioi-cta-btn" id="ioiBtn" href="/ioi">
+        <span data-lang="en">SUBMIT IOI</span>
+        <span data-lang="ko">의향서 작성</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="ioi-cta-btn" id="portfolioBtn" href="/portfolio" style="display:none;background:transparent;color:var(--gold);border:1px solid var(--goldBorderS)">
+        <span data-lang="en">VIEW PORTFOLIO</span>
+        <span data-lang="ko">포트폴리오 보기</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+    <div class="ioi-cta-note" id="ioiBtnNote" style="display:none">
+      <span data-lang="en">You've already submitted an IOI. Track your status in your portfolio.</span>
+      <span data-lang="ko">이미 의향서를 제출하셨습니다. 포트폴리오에서 진행 상황을 확인하실 수 있습니다.</span>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="foot-left">
+      <div data-lang="en"><span class="gold">CONFIDENTIAL</span> · QUALIFIED INVESTORS ONLY</div>
+      <div data-lang="ko"><span class="gold">기밀</span> · 적격 투자자 전용</div>
+      <div style="margin-top:6px">TACC PTE LTD · SINGAPORE</div>
+    </div>
+    <div class="foot-right">
+      <span data-lang="en">Materials are provided to invited members only. Do not forward. Questions reach us through the partner who issued your invitation.</span>
+      <span data-lang="ko">초대받은 멤버에게만 제공되는 자료입니다. 전달하지 마십시오. 문의 사항은 초대를 발송한 파트너를 통해 전달해 주십시오.</span>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  // ---------- language toggle ----------
+  var html = document.documentElement;
+  var body = document.body;
+  var btnEn = document.getElementById('btnEn');
+  var btnKo = document.getElementById('btnKo');
+  function setLang(l){
+    body.classList.remove('lang-en','lang-ko');
+    body.classList.add('lang-'+l);
+    html.lang = l;
+    btnEn.classList.toggle('active', l==='en');
+    btnKo.classList.toggle('active', l==='ko');
+    try{ localStorage.setItem('aurum_lang', l); }catch(e){}
+  }
+  var saved = 'ko';
+  try{ saved = localStorage.getItem('aurum_lang') || 'ko'; }catch(e){}
+  setLang(saved);
+  btnEn.addEventListener('click', function(){ setLang('en'); });
+  btnKo.addEventListener('click', function(){ setLang('ko'); });
+
+  // ---------- session check ----------
+  // We hit /api/me which returns 200 if member is signed in (or admin),
+  // and 401 if not. This is best-effort UX — the /api/doc endpoint enforces.
+  var gate = document.getElementById('gate');
+  var sessionPill = document.getElementById('session');
+  var sessionCode = document.getElementById('sessionCode');
+
+  function hideGate(){ gate.classList.add('hide'); }
+  function redirectToCode(){ window.location.replace('/code'); }
+  function redirectToNda(){ window.location.replace('/nda'); }
+
+  // Attempt to verify by HEAD'ing the memo doc. If it 200s we're in.
+  fetch('/api/doc?id=memo', { method:'HEAD', credentials:'same-origin', cache:'no-store' })
+    .then(function(r){
+      if(r.status === 200){
+        var c = r.headers.get('X-Member-Code');
+        if(c){ sessionCode.textContent = c.slice(-4); sessionPill.style.display='inline-flex'; }
+        else { sessionPill.style.display='inline-flex'; sessionCode.textContent=''; }
+        hideGate();
+      } else if(r.status === 403 && r.headers.get('X-Aurum-Gate') === 'nda'){
+        redirectToNda();
+      } else if(r.status === 401 || r.status === 403){
+        redirectToCode();
+      } else {
+        hideGate();
+      }
+    })
+    .catch(function(){
+      hideGate();
+    });
+
+  // ---------- doc click handler ----------
+  // If a doc 401s/403s when clicked, route to the right place.
+  document.querySelectorAll('.doc-cta').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var url = a.getAttribute('href');
+      fetch(url, { method:'HEAD', credentials:'same-origin', cache:'no-store' })
+        .then(function(r){
+          if(r.status === 403 && r.headers.get('X-Aurum-Gate') === 'nda'){
+            setTimeout(function(){ window.location.replace('/nda'); }, 200);
+          } else if(r.status === 401 || r.status === 403){
+            setTimeout(function(){ window.location.replace('/code'); }, 200);
+          }
+        }).catch(function(){});
+    });
+  });
+
+  // ---------- SUBMIT IOI button — fetch IOI code from cookie context ----------
+  // /api/ioi?op=context reads the aurum_access cookie and returns the lead's
+  // ioi_code (and whether they've already submitted).  We update the button
+  // href to /ioi?c=<code> so the member never has to type the code.
+  // If they've ALREADY submitted, we hide the SUBMIT IOI button and show the
+  // VIEW PORTFOLIO button instead — the portfolio is now their primary surface.
+  var ioiBtn = document.getElementById('ioiBtn');
+  var portfolioBtn = document.getElementById('portfolioBtn');
+  var ioiBtnNote = document.getElementById('ioiBtnNote');
+  if(ioiBtn){
+    fetch('/api/ioi?op=context', { credentials:'same-origin', cache:'no-store' })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){
+        if(j && j.ok){
+          if(j.ioi_code){
+            ioiBtn.setAttribute('href', '/ioi?c=' + encodeURIComponent(j.ioi_code));
+          }
+          if(j.has_ioi){
+            // IOI already submitted — swap buttons and surface the note
+            ioiBtn.style.display = 'none';
+            portfolioBtn.style.display = 'inline-flex';
+            ioiBtnNote.style.display = 'block';
+          }
+        }
+        // If j.ok is false or no ioi_code, leave defaults — member enters code on /ioi
+      })
+      .catch(function(){});
+  }
+})();
+</script>
+
+</body>
+</html>

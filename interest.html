@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<meta name="theme-color" content="#0a0a0a">
+<title>Indicate Interest · The Aurum Century Club</title>
+<meta name="description" content="A short form to begin a private conversation with the partners.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0a0a'/><rect x='4' y='4' width='24' height='24' fill='none' stroke='%23C5A572' stroke-width='1.2'/><text x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='15' font-style='italic' fill='%23C5A572'>Au</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Serif+KR:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0a0a0a;--card:#0f0d0a;--card-2:#131210;
+  --text:#e8e3d8;--sub:#aaa39a;--muted:#6b655e;
+  --gold:#C5A572;--goldB:#E3C187;--goldD:#8a7d6b;--goldDeep:#6a5a3a;
+  --goldBorder:rgba(197,165,114,0.22);--goldBorderS:rgba(197,165,114,0.50);
+  --goldWash:rgba(197,165,114,0.04);--goldWashS:rgba(197,165,114,0.10);
+  --goldGlow:rgba(197,165,114,0.20);--border:rgba(255,255,255,0.08);--red:#c77061;
+  --serif:'Cormorant Garamond','Noto Serif KR',Georgia,serif;
+  --serifKr:'Noto Serif KR','Cormorant Garamond',Georgia,serif;
+  --sans:'Outfit',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --pad-x:clamp(20px,5.5vw,88px);
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--serifKr);font-weight:300;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;min-width:320px;overflow-x:hidden}
+a{color:inherit;text-decoration:none}em{font-style:italic}
+::selection{background:rgba(197,165,114,0.30);color:var(--text)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:16px var(--pad-x);background:linear-gradient(180deg,rgba(10,10,10,0.85),rgba(10,10,10,0));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;justify-content:space-between;align-items:center}
+.lockup{display:flex;align-items:center;gap:14px}
+.seal{width:34px;height:34px;border:1px solid var(--gold);display:inline-flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-weight:500;color:var(--gold);font-size:16px;letter-spacing:-0.04em;flex-shrink:0;transition:box-shadow 0.3s,border-color 0.3s}
+.lockup:hover .seal{box-shadow:0 0 18px var(--goldGlow);border-color:var(--goldB)}
+.lockup-text{display:flex;flex-direction:column;line-height:1}
+.lockup-text .word{font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:0.34em;color:var(--text)}
+.lockup-text .program{font-family:var(--mono);font-weight:400;font-size:8.5px;letter-spacing:0.36em;color:var(--goldD);margin-top:5px}
+.nav-back{font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:0.30em;color:var(--goldB);padding:9px 16px;border:1px solid var(--goldBorderS);background:var(--goldWash);display:inline-flex;align-items:center;gap:9px;transition:all 0.2s}
+.nav-back:hover{background:var(--goldWashS);border-color:var(--goldB);box-shadow:0 0 20px var(--goldGlow)}
+.nav-back .arrow{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--gold);transition:transform 0.2s}
+.nav-back:hover .arrow{transform:translateX(-3px)}
+@media (max-width:640px){.nav{padding:13px var(--pad-x)}.lockup-text .word{font-size:12px}.lockup-text .program{font-size:7.5px}.nav-back{font-size:9px;letter-spacing:0.24em;padding:7px 11px}}
+.page{min-height:100vh;padding:14vh var(--pad-x) 64px;position:relative;overflow:hidden}
+.page::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 1000px 700px at 50% 0%,rgba(197,165,114,0.07),transparent 65%);pointer-events:none}
+.page-inner{position:relative;z-index:2;max-width:620px;margin:0 auto}
+.head{margin-bottom:56px}
+.head-eyebrow{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:0.34em;margin-bottom:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.head-eyebrow .ko{font-family:var(--serifKr);font-weight:400;letter-spacing:0.18em;color:var(--goldD);font-size:13px}
+.head h1{font-family:var(--serifKr);font-weight:500;font-size:clamp(40px,6vw,64px);line-height:1.05;letter-spacing:-0.02em;color:var(--text);margin:0 0 22px}
+.head h1 em{font-family:var(--serif);font-style:italic;color:var(--gold);font-weight:500}
+.head p{font-family:var(--serifKr);font-weight:300;font-size:15.5px;line-height:1.78;color:var(--sub);margin:0}
+.head p em{font-family:var(--serif);font-style:italic;color:var(--goldB)}
+.form{display:flex;flex-direction:column;gap:36px}
+.field-group{display:flex;flex-direction:column;gap:8px}
+.field-label{font-family:var(--mono);font-size:9.5px;color:var(--goldD);letter-spacing:0.30em}
+.field-label .req{color:var(--gold);margin-left:4px}
+.field-label .opt{color:var(--muted);font-size:8.5px;margin-left:6px;letter-spacing:0.20em}
+.field-hint{font-family:var(--serif);font-style:italic;font-size:12.5px;color:var(--muted);margin-top:-2px}
+.field-input{width:100%;padding:14px 0;background:transparent;border:0;border-bottom:1px solid var(--border);color:var(--text);font-family:var(--serifKr);font-weight:300;font-size:16px;outline:none;transition:border-color 0.3s,box-shadow 0.3s}
+.field-input::placeholder{color:var(--muted);font-style:italic}
+.field-input:hover{border-bottom-color:var(--goldBorder)}
+.field-input:focus{border-bottom-color:var(--gold);box-shadow:0 1px 0 0 var(--gold)}
+.field-input.error{border-bottom-color:var(--red)}
+
+/* Dark dropdown — fix for white-bg <select> on iOS / Chrome.
+   Native <select> defaults to system colors; force dark surface + gold chevron. */
+select.field-input{
+  -webkit-appearance:none;appearance:none;
+  background-color:#0f0d0a;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M3 5l5 5 5-5' stroke='%23C5A572' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat:no-repeat;
+  background-position:right 0 center;
+  background-size:12px;
+  padding-right:24px;
+  cursor:pointer;
+  color:var(--text);
+  border-radius:0;
+}
+select.field-input option{background-color:#0f0d0a;color:var(--text);font-family:var(--serifKr)}
+select.field-input::-ms-expand{display:none}
+select.field-input:invalid{color:var(--muted)}
+textarea.field-input{resize:vertical;min-height:80px;padding:14px 0}
+select.field-input{appearance:none;-webkit-appearance:none;background-color:#0a0a0a;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%238a7d6b' stroke-width='1.2' fill='none'/></svg>");background-repeat:no-repeat;background-position:right 4px center;padding-right:24px;cursor:pointer;color:var(--text)}
+select.field-input option{background-color:#0a0a0a;color:var(--text);padding:8px}
+select.field-input option:checked,select.field-input option:hover{background-color:#1a1815;color:var(--goldB)}
+select.field-input option[disabled]{color:var(--muted)}
+.phone-row{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:end}
+.tier-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.tier-option{position:relative;border:1px solid var(--border);background:var(--card-2);padding:18px 16px;cursor:pointer;transition:all 0.3s var(--ease-out);display:flex;flex-direction:column;gap:4px}
+.tier-option:hover{border-color:var(--goldBorder);background:var(--card);transform:translateY(-1px)}
+.tier-option input[type="radio"]{position:absolute;opacity:0;pointer-events:none}
+.tier-option .check{position:absolute;top:12px;right:12px;width:16px;height:16px;border:1px solid var(--goldBorder);border-radius:50%;transition:border-color 0.3s,background 0.3s}
+.tier-option .check::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--gold);transform:scale(0);transition:transform 0.3s var(--ease-out)}
+.tier-option .tier-range{font-family:var(--serif);font-style:italic;font-weight:500;font-size:19px;color:var(--text);letter-spacing:-0.01em}
+.tier-option .tier-tag{font-family:var(--mono);font-size:9px;color:var(--goldD);letter-spacing:0.24em}
+.tier-option:has(input:checked){border-color:var(--gold);background:var(--goldWash);box-shadow:0 0 18px var(--goldGlow)}
+.tier-option:has(input:checked) .check{border-color:var(--gold)}
+.tier-option:has(input:checked) .check::after{transform:scale(1)}
+.tier-option:has(input:checked) .tier-range{color:var(--goldB)}
+.interest-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.interest-option{position:relative;border:1px solid var(--border);background:var(--card-2);padding:14px 16px 14px 44px;cursor:pointer;transition:all 0.3s var(--ease-out);font-family:var(--serifKr);font-weight:400;font-size:14.5px;color:var(--text)}
+.interest-option:hover{border-color:var(--goldBorder);background:var(--card)}
+.interest-option input[type="checkbox"]{position:absolute;opacity:0;pointer-events:none}
+.interest-option .box{position:absolute;top:50%;left:16px;transform:translateY(-50%);width:16px;height:16px;border:1px solid var(--goldBorder);transition:border-color 0.3s,background 0.3s}
+.interest-option .box::after{content:'';position:absolute;top:1px;left:4px;width:5px;height:9px;border:solid var(--bg);border-width:0 1.5px 1.5px 0;transform:rotate(45deg) scale(0);transition:transform 0.3s var(--ease-out)}
+.interest-option:has(input:checked){border-color:var(--gold);background:var(--goldWash);color:var(--goldB)}
+.interest-option:has(input:checked) .box{background:var(--gold);border-color:var(--gold)}
+.interest-option:has(input:checked) .box::after{transform:rotate(45deg) scale(1)}
+.nda{display:flex;align-items:flex-start;gap:14px;padding:18px;border:1px solid var(--goldBorder);background:var(--card);cursor:pointer;transition:border-color 0.3s,background 0.3s;position:relative}
+.nda:hover{border-color:var(--goldBorderS)}
+.nda input[type="checkbox"]{position:absolute;opacity:0;pointer-events:none}
+.nda .nda-box{width:18px;height:18px;border:1px solid var(--goldBorderS);flex-shrink:0;margin-top:1px;position:relative;transition:background 0.3s,border-color 0.3s}
+.nda .nda-box::after{content:'';position:absolute;top:1px;left:5px;width:5px;height:10px;border:solid var(--bg);border-width:0 1.5px 1.5px 0;transform:rotate(45deg) scale(0);transition:transform 0.3s var(--ease-out)}
+.nda:has(input:checked) .nda-box{background:var(--gold);border-color:var(--gold)}
+.nda:has(input:checked) .nda-box::after{transform:rotate(45deg) scale(1)}
+.nda-text{font-family:var(--serifKr);font-weight:300;font-size:13px;line-height:1.7;color:var(--sub)}
+.nda-text em{font-family:var(--serif);font-style:italic;color:var(--goldB)}
+.submit-row{margin-top:16px;display:flex;flex-direction:column;gap:18px}
+.submit-btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:20px 32px;font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:0.30em;text-transform:uppercase;border:1px solid var(--gold);background:var(--gold);color:var(--bg);cursor:pointer;transition:all 0.3s;width:100%;position:relative;overflow:hidden}
+.submit-btn:hover:not(:disabled){background:var(--goldB);border-color:var(--goldB);transform:translateY(-1px);box-shadow:0 8px 28px rgba(227,193,135,0.30)}
+.submit-btn:disabled{opacity:0.5;cursor:not-allowed}
+.submit-btn .arrow{font-family:var(--serif);font-style:italic;font-size:18px;letter-spacing:0;transition:transform 0.3s var(--ease-out)}
+.submit-btn:hover:not(:disabled) .arrow{transform:translateX(5px)}
+.submit-btn.loading .label,.submit-btn.loading .arrow{opacity:0}
+.submit-btn.loading::after{content:'';position:absolute;top:50%;left:50%;width:20px;height:20px;margin:-10px 0 0 -10px;border:2px solid var(--bg);border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.submit-foot{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:0.30em;text-align:center}
+.field-err{font-family:var(--serif);font-style:italic;font-size:12.5px;color:var(--red);margin-top:4px;display:none}
+.field-err.show{display:block}
+.confirm{display:none;text-align:center;padding:4vh 0 0}
+.confirm.show{display:block}
+.confirm-seal{width:88px;height:88px;border:1px solid var(--gold);display:inline-flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-weight:500;color:var(--gold);font-size:40px;letter-spacing:-0.04em;margin-bottom:36px;position:relative;animation:sealReveal 1s var(--ease-out) forwards;box-shadow:0 0 32px var(--goldGlow)}
+@keyframes sealReveal{from{opacity:0;transform:scale(0.6)}60%{transform:scale(1.06)}to{opacity:1;transform:scale(1)}}
+.confirm-eyebrow{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:0.34em;margin-bottom:20px}
+.confirm-eyebrow .ko{font-family:var(--serifKr);letter-spacing:0.18em;color:var(--goldD);font-size:13px;margin-left:12px}
+.confirm h1{font-family:var(--serifKr);font-weight:500;font-size:clamp(34px,5vw,52px);line-height:1.08;letter-spacing:-0.02em;color:var(--text);margin:0 0 24px}
+.confirm h1 em{font-family:var(--serif);font-style:italic;color:var(--gold);font-weight:500}
+.confirm-body{font-family:var(--serifKr);font-weight:300;font-size:16px;line-height:1.8;color:var(--sub);max-width:50ch;margin:0 auto 32px}
+.confirm-body em{font-family:var(--serif);font-style:italic;color:var(--goldB)}
+.confirm-stamp{display:inline-flex;align-items:center;gap:12px;padding:11px 18px;border:1px solid var(--goldBorderS);background:var(--goldWash);font-family:var(--mono);font-size:10px;color:var(--goldB);letter-spacing:0.30em;margin-bottom:36px}
+.confirm-stamp .pulse{width:7px;height:7px;border-radius:50%;background:var(--goldB);position:relative}
+.confirm-stamp .pulse::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:var(--goldB);opacity:0.6;animation:pulse 2.4s var(--ease-out) infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:0.6}50%{transform:scale(2.2);opacity:0}}
+.confirm-stamp .sep{color:var(--goldD)}
+.confirm-back{font-family:var(--mono);font-size:10.5px;color:var(--goldD);letter-spacing:0.30em;display:inline-flex;align-items:center;gap:10px;padding:10px 18px;transition:color 0.2s}
+.confirm-back:hover{color:var(--gold)}
+.foot{padding:36px var(--pad-x);border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.30em}
+.foot-members{padding:0 var(--pad-x) 28px;display:flex;justify-content:flex-end}
+.foot-members-link{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:9px;letter-spacing:0.36em;color:var(--muted);padding:6px 0;transition:color .3s;text-decoration:none}
+.foot-members-link:hover{color:var(--goldD)}
+.foot-members-link .dot{width:4px;height:4px;border-radius:50%;background:var(--muted);transition:background .3s,box-shadow .3s}
+.foot-members-link:hover .dot{background:var(--gold);box-shadow:0 0 8px var(--goldGlow)}
+.foot-members-link .arr{font-family:var(--serif);font-style:italic;font-size:11px;letter-spacing:0;transition:transform .3s}
+.foot-members-link:hover .arr{transform:translateX(2px)}
+@media (max-width:720px){.foot-members{justify-content:center;padding-bottom:32px}}
+.foot a{color:var(--goldD)}.foot .sep{margin:0 12px}
+@media (max-width:480px){.tier-grid{grid-template-columns:1fr}.interest-grid{grid-template-columns:1fr}.phone-row{grid-template-columns:100px 1fr;gap:12px}}
+.form.submitting,.head.submitting{animation:fadeOut 0.5s var(--ease-out) forwards;pointer-events:none}
+@keyframes fadeOut{to{opacity:0;transform:translateY(-12px)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}.confirm-stamp .pulse::before{animation:none}}
+
+/* ═══ I18N · BILINGUAL TOGGLE ═══ */
+/* Default: Korean visible, English hidden */
+[data-lang="en"] { display: none; }
+html.lang-en [data-lang="en"] { display: revert; }
+html.lang-en [data-lang="ko"] { display: none; }
+/* legacy .ko hiding removed */
+
+.lang-toggle {
+  display: inline-flex; align-items: center;
+  gap: 2px;
+  padding: 5px 8px;
+  border: 1px solid var(--goldBorder);
+  background: rgba(0,0,0,0.30);
+  margin-right: 12px;
+}
+.lang-toggle button {
+  background: transparent; border: 0; cursor: pointer;
+  font-family: var(--mono); font-weight: 500;
+  font-size: 9.5px; letter-spacing: 0.20em;
+  color: var(--goldDeep);
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+.lang-toggle button:hover { color: var(--gold); }
+.lang-toggle button.active { color: var(--goldB); }
+.lang-toggle .sep { color: var(--goldDeep); font-family: var(--mono); font-size: 9px; }
+@media (max-width: 460px) {
+  .lang-toggle { padding: 4px 6px; margin-right: 8px; }
+  .lang-toggle button { padding: 3px 5px; font-size: 9px; letter-spacing: 0.15em; }
+}
+/* nav row needs to allow toggle + cta */
+.nav-right { display: inline-flex; align-items: center; }
+
+
+/* ═══ v9 OVERRIDES — form legibility ═══ */
+
+/* Lang toggle right corner */
+.nav .lang-toggle {
+  margin-left: auto;
+  margin-right: 12px;
+}
+
+/* Bigger field labels and inputs */
+.field-label,
+.field-label-en,
+.field-label-ko {
+  font-size: 13px !important;
+  letter-spacing: 0.18em !important;
+}
+.field-input,
+textarea.field-input,
+select.field-input {
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  padding: 14px 0 !important;
+}
+.field-input::placeholder { font-size: 15px !important; }
+
+/* Bigger checkbox labels (interests, NDA confirmation) */
+.check-label,
+.check-row label,
+.nda-confirm label {
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+}
+
+/* Form intro text */
+.form-intro,
+.form-h,
+.confirm-body {
+  font-size: 17px !important;
+  line-height: 1.65 !important;
+}
+.form-h { font-size: clamp(34px, 4.4vw, 56px) !important; }
+
+/* Privacy/eligibility note */
+.eligibility,
+.privacy-note,
+.consent-text {
+  font-size: 13.5px !important;
+  line-height: 1.65 !important;
+}
+
+
+/* ═══ v9 MOBILE NAV FIX ═══ */
+@media (max-width: 480px) {
+  .nav { padding: 12px 14px; gap: 6px; }
+  .lockup-text .word { font-size: 11px; letter-spacing: 0.10em; }
+  .lockup-text .program { font-size: 6.5px; letter-spacing: 0.20em; }
+  .lockup .seal { width: 28px; height: 28px; }
+  .lockup .seal em { font-size: 14px; }
+  .nav .lang-toggle {
+    padding: 3px 5px;
+    margin-right: 6px;
+    margin-left: auto;
+  }
+  .nav .lang-toggle button { font-size: 8.5px; padding: 2px 4px; letter-spacing: 0.10em; }
+  .nav-cta { font-size: 8px; padding: 6px 9px; letter-spacing: 0.20em; }
+  .nav-cta .arrow { font-size: 9px; margin-left: 3px; }
+}
+
+
+/* ═══ v9c · KOREAN TYPOGRAPHY FIX ═══ */
+/* word-break: keep-all is the canonical CJK rule — prevents breaking
+   words like 있었습니다 → 있었습/니다 by keeping the verb intact */
+
+[data-lang="ko"],
+[data-lang="ko"] *,
+.ko,
+.word-ko,
+.divider-eyebrow .ko,
+.lockup-text .program,
+.landing-tag,
+.landing-meta {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+/* Lift the max-width on Korean H2 — was forcing breaks at wrong spots */
+[data-lang="ko"].sec-h,
+[data-lang="ko"].hero-h,
+[data-lang="ko"].ctas-h,
+[data-lang="ko"].confirm-h,
+[data-lang="ko"].deal-name,
+[data-lang="ko"].force-h,
+[data-lang="ko"].job-h {
+  max-width: none;
+}
+
+/* Korean-mode body copy — improve line height for comfortable reading */
+[data-lang="ko"].sec-lede,
+[data-lang="ko"].force-body,
+[data-lang="ko"].job-body,
+[data-lang="ko"] p:not(.deal-tag) {
+  line-height: 1.7;
+}
+
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="lockup">
+    <span class="seal"><em>Au</em></span>
+    <div class="lockup-text">
+      <span class="word">AURUM</span>
+      <span class="program">CENTURY CLUB</span>
+    </div>
+  </a>
+  <div class="lang-toggle" role="group" aria-label="Language"><button type="button" data-lang-btn="ko" class="active">한</button><span class="sep">/</span><button type="button" data-lang-btn="en">EN</button></div><a href="index.html" class="nav-back"><span class="arrow">&larr;</span> <span data-lang="en">BACK</span><span data-lang="ko">돌아가기</span></a>
+</nav>
+<main class="page">
+  <div class="page-inner">
+    <header class="head" id="head">
+      <div class="head-eyebrow">
+        <span data-lang="en">INDICATE INTEREST</span>
+        <span class="ko">관심 표명</span>
+      </div>
+      <h1 data-lang="en">Begin the <em>conversation.</em></h1><h1 data-lang="ko">대화를 <em>시작합니다.</em></h1>
+      <p data-lang="en">A short form to begin a private exchange with the partners. On verification, you will receive an <em>invitation code</em> giving access to the full memo and the two opening positions.</p><p data-lang="ko">파트너와의 비공개 소통을 시작하기 위한 짧은 양식입니다. 확인이 완료되면 <em>초대 코드</em>가 발급되며, 전체 투자 메모와 두 개시 포지션이 열립니다.</p>
+    </header>
+    <form class="form" id="form" autocomplete="on" novalidate>
+      <div class="field-group">
+        <label class="field-label" for="name"><span data-lang="en">FULL NAME</span><span data-lang="ko">성명</span><span class="req">·</span></label>
+        <input type="text" id="name" name="name" class="field-input" required placeholder="신분증에 기재된 대로" autocomplete="name" data-ph-en="As it appears on identification" data-ph-ko="신분증에 기재된 대로">
+        <div class="field-err" data-err="name"><span data-lang="en">Required.</span><span data-lang="ko">필수 항목입니다.</span></div>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="name_ko">한글 이름<span class="opt"><span data-lang="en">OPTIONAL</span><span data-lang="ko">선택</span></span></label>
+        <input type="text" id="name_ko" name="name_ko" class="field-input" lang="ko" placeholder="홍길동" data-ph-en="홍길동" data-ph-ko="홍길동">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="email"><span data-lang="en">EMAIL</span><span data-lang="ko">이메일</span><span class="req">·</span></label>
+        <input type="email" id="email" name="email" class="field-input" required placeholder="you@domain.com" autocomplete="email" data-ph-en="you@domain.com" data-ph-ko="you@domain.com">
+        <div class="field-err" data-err="email"><span data-lang="en">A valid email is required.</span><span data-lang="ko">유효한 이메일을 입력해 주세요.</span></div>
+      </div>
+      <div class="field-group">
+        <label class="field-label"><span data-lang="en">PHONE</span><span data-lang="ko">전화번호</span></label>
+        <div class="phone-row">
+          <select id="phone_cc" name="phone_cc" class="field-input">
+            <option value="+82" selected>🇰🇷 +82</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+65">🇸🇬 +65</option>
+            <option value="+852">🇭🇰 +852</option>
+            <option value="+81">🇯🇵 +81</option>
+            <option value="+86">🇨🇳 +86</option>
+            <option value="+886">🇹🇼 +886</option>
+            <option value="+61">🇦🇺 +61</option>
+            <option value="+971">🇦🇪 +971</option>
+            <option value="+41">🇨🇭 +41</option>
+            <option value="+other">other</option>
+          </select>
+          <input type="tel" id="phone" name="phone" class="field-input" placeholder="10-1234-5678" autocomplete="tel-national" data-ph-en="10-1234-5678" data-ph-ko="10-1234-5678">
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="country"><span data-lang="en">COUNTRY OF RESIDENCE</span><span data-lang="ko">거주 국가</span><span class="req">·</span></label>
+        <select id="country" name="country" class="field-input" required>
+          <option value="" disabled selected data-lang-en="— Select —" data-lang-ko="— 선택 —">— 선택 —</option>
+          <option value="KR" data-lang-en="South Korea" data-lang-ko="대한민국">대한민국</option>
+          <option value="SG" data-lang-en="Singapore" data-lang-ko="싱가포르">싱가포르</option>
+          <option value="HK" data-lang-en="Hong Kong SAR" data-lang-ko="홍콩">홍콩</option>
+          <option value="JP" data-lang-en="Japan" data-lang-ko="일본">일본</option>
+          <option value="US" data-lang-en="United States" data-lang-ko="미국">미국</option>
+          <option value="GB" data-lang-en="United Kingdom" data-lang-ko="영국">영국</option>
+          <option value="AU" data-lang-en="Australia" data-lang-ko="호주">호주</option>
+          <option value="CA" data-lang-en="Canada" data-lang-ko="캐나다">캐나다</option>
+          <option value="CH" data-lang-en="Switzerland" data-lang-ko="스위스">스위스</option>
+          <option value="AE" data-lang-en="United Arab Emirates" data-lang-ko="아랍에미리트">아랍에미리트</option>
+          <option value="OTHER" data-lang-en="Other" data-lang-ko="기타">기타</option>
+        </select>
+        <div class="field-err" data-err="country"><span data-lang="en">Required.</span><span data-lang="ko">필수 항목입니다.</span></div>
+      </div>
+      <div class="field-group">
+        <label class="field-label"><span data-lang="en">TOTAL INVESTABLE ASSETS</span><span data-lang="ko">총 투자 가능 자산</span><span class="req">·</span></label>
+        <div class="field-hint" data-lang="en">A sense of your overall portfolio — for program qualification only. Treated in confidence. The actual commitment amount is set later, at the IOI stage.</div><div class="field-hint" data-lang="ko">전체 포트폴리오 규모 — 프로그램 자격 확인용입니다. 기밀로 처리됩니다. 실제 약정 금액은 추후 의향 표명(IOI) 단계에서 결정됩니다.</div>
+        <div class="tier-grid">
+          <label class="tier-option">
+            <input type="radio" name="wealth" value="250k_500k" required>
+            <span class="check"></span>
+            <span class="tier-range">$250K – $500K</span>
+            <span class="tier-tag"><span data-lang="en">EMERGING</span><span data-lang="ko">신흥</span></span>
+          </label>
+          <label class="tier-option">
+            <input type="radio" name="wealth" value="500k_2m">
+            <span class="check"></span>
+            <span class="tier-range">$500K – $2M</span>
+            <span class="tier-tag"><span data-lang="en">ESTABLISHED</span><span data-lang="ko">안정</span></span>
+          </label>
+          <label class="tier-option">
+            <input type="radio" name="wealth" value="2m_5m">
+            <span class="check"></span>
+            <span class="tier-range">$2M – $5M</span>
+            <span class="tier-tag"><span data-lang="en">SENIOR</span><span data-lang="ko">시니어</span></span>
+          </label>
+          <label class="tier-option">
+            <input type="radio" name="wealth" value="5m_plus">
+            <span class="check"></span>
+            <span class="tier-range">$5M+</span>
+            <span class="tier-tag"><span data-lang="en">PRINCIPAL</span><span data-lang="ko">주축</span></span>
+          </label>
+        </div>
+        <div class="field-err" data-err="wealth"><span data-lang="en">Please select a range.</span><span data-lang="ko">범위를 선택해 주세요.</span></div>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="occupation"><span data-lang="en">OCCUPATION</span><span data-lang="ko">직업</span><span class="req">·</span></label>
+        <div class="field-hint" data-lang="en">What you do. A line, not a title.</div><div class="field-hint" data-lang="ko">하시는 일. 직함이 아닌 한 줄.</div>
+        <input type="text" id="occupation" name="occupation" class="field-input" required maxlength="120" placeholder="예: 물류 그룹 창업자 / 의사 / 패밀리 오피스 운영" data-ph-en="e.g., Founder, Logistics Group / Surgeon / Family office principal" data-ph-ko="예: 물류 그룹 창업자 / 의사 / 패밀리 오피스 운영">
+        <div class="field-err" data-err="occupation"><span data-lang="en">Required.</span><span data-lang="ko">필수 항목입니다.</span></div>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="source_of_wealth"><span data-lang="en">SOURCE OF WEALTH</span><span data-lang="ko">자산 형성 배경</span><span class="req">·</span></label>
+        <div class="field-hint" data-lang="en">Where the wealth originated.</div><div class="field-hint" data-lang="ko">자산이 형성된 주된 배경.</div>
+        <select id="source_of_wealth" name="source_of_wealth" class="field-input" required>
+          <option value="" disabled selected hidden></option>
+          <option value="business">Business income  ·  사업소득</option>
+          <option value="investment">Investment proceeds  ·  투자수익</option>
+          <option value="inheritance">Inheritance  ·  상속</option>
+          <option value="profession">Professional practice  ·  전문직 소득</option>
+          <option value="other">Other  ·  기타</option>
+        </select>
+        <div class="field-err" data-err="source_of_wealth"><span data-lang="en">Please select a source.</span><span data-lang="ko">배경을 선택해 주세요.</span></div>
+      </div>
+      <div class="field-group">
+        <label class="field-label"><span data-lang="en">EXPERIENCE &amp; INTEREST</span><span data-lang="ko">경험·관심사</span><span class="opt"><span data-lang="en">SELECT ALL THAT APPLY</span><span data-lang="ko">해당 사항 모두 선택</span></span></label>
+        <div class="interest-grid">
+          <label class="interest-option"><input type="checkbox" name="interest_deals" value="1"><span class="box"></span><span data-lang="en">Global private deals</span><span data-lang="ko">글로벌 사모 거래</span></label>
+          <label class="interest-option"><input type="checkbox" name="interest_gold" value="1"><span class="box"></span><span data-lang="en">Gold investment</span><span data-lang="ko">금 투자</span></label>
+          <label class="interest-option"><input type="checkbox" name="interest_familyoffice" value="1"><span class="box"></span><span data-lang="en">Family office establishment</span><span data-lang="ko">패밀리 오피스 설립</span></label>
+          <label class="interest-option"><input type="checkbox" name="interest_all" value="1"><span class="box"></span><span data-lang="en">All of the above</span><span data-lang="ko">위 항목 모두</span></label>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="referral"><span data-lang="en">INTRODUCED BY</span><span data-lang="ko">추천인</span><span class="opt"><span data-lang="en">OPTIONAL</span><span data-lang="ko">선택</span></span></label>
+        <input type="text" id="referral" name="referral" class="field-input" placeholder="추천하신 파트너 또는 회원의 성함" data-ph-en="Name of referring partner or member, if any" data-ph-ko="추천하신 파트너 또는 회원의 성함">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="note"><span data-lang="en">A BRIEF NOTE</span><span data-lang="ko">간단한 메모</span><span class="opt"><span data-lang="en">OPTIONAL</span><span data-lang="ko">선택</span></span></label>
+        <textarea id="note" name="note" class="field-input" rows="3" placeholder="파트너들에게 전하고 싶은 내용" data-ph-en="Anything you'd like the partners to know" data-ph-ko="파트너들에게 전하고 싶은 내용"></textarea>
+      </div>
+      <label class="nda">
+        <input type="checkbox" name="nda_ack" value="1" required>
+        <span class="nda-box"></span>
+        <span class="nda-text" data-lang="en"><em>I acknowledge</em> this is a confidential inquiry. Information disclosed here is private, not for distribution, and provided in good faith for partner review only.</span><span class="nda-text" data-lang="ko"><em>본 문의가 기밀임을 인지합니다.</em> 여기 제공된 정보는 비공개로 처리되고 외부에 배포되지 않으며, 오직 파트너 검토 목적으로 제공됩니다.</span>
+      </label>
+      <div class="field-err" data-err="nda_ack" style="margin-top:-24px;"><span data-lang="en">Please acknowledge to continue.</span><span data-lang="ko">진행하시려면 동의해 주세요.</span></div>
+      <div class="submit-row">
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <span class="label"><span data-lang="en">REQUEST INVITATION CODE</span><span data-lang="ko">초대 코드 요청</span></span>
+          <span class="arrow">&rarr;</span>
+        </button>
+        <div class="submit-foot" data-lang="en">QUALIFIED&nbsp;&nbsp;·&nbsp;&nbsp;BY&nbsp;INVITATION&nbsp;·&nbsp;&nbsp;PARTNER REVIEW</div><div class="submit-foot" data-lang="ko">적격&nbsp;&nbsp;·&nbsp;&nbsp;초청제&nbsp;·&nbsp;&nbsp;파트너 검토</div>
+      </div>
+    </form>
+    <div class="confirm" id="confirm">
+      <div class="confirm-seal"><em>Au</em></div>
+      <div class="confirm-eyebrow"><span data-lang="en">RECEIVED</span><span class="ko">접수 완료</span></div>
+      <h1 data-lang="en">Thank you<span id="confirm-name"></span>.</h1><h1 data-lang="ko">감사합니다<span id="confirm-name-ko"></span>.</h1>
+      <p class="confirm-body" data-lang="en">Your inquiry has been received by the partners. A member of the team will <em>reach out in due course</em> from a private address. On verification, your <em>invitation code</em> will be sent to the email you provided, granting access to the full memo and the two opening positions under NDA.</p><p class="confirm-body" data-lang="ko">문의가 파트너에게 전달되었습니다. 팀의 담당자가 <em>적절한 시점에</em> 비공개 주소로 연락드릴 예정입니다. 확인이 완료되면 <em>초대 코드</em>가 입력하신 이메일로 발송되며, 비밀유지계약 하에 전체 투자 메모와 두 개시 포지션이 열립니다.</p>
+      <div class="confirm-stamp">
+        <span class="pulse"></span>
+        <span><span data-lang="en">INAUGURAL CLOSE</span><span data-lang="ko">첫 마감</span></span>
+        <span class="sep">·</span>
+        <span>Q3 MMXXVI</span>
+      </div>
+      <div><a href="index.html" class="confirm-back"><span>&larr;</span> <span data-lang="en">RETURN HOME</span><span data-lang="ko">처음으로</span></a></div>
+    </div>
+  </div>
+</main>
+<footer class="foot">
+  <span data-lang="en">CONFIDENTIAL  ·  QUALIFIED INVESTORS ONLY</span><span data-lang="ko">기밀  ·  적격 투자자 전용</span>
+  <span class="sep">·</span>
+  TACC PTE LTD · MMXXVI
+</footer>
+
+<div class="foot-members">
+  <a href="/members" class="foot-members-link">
+    <span class="dot"></span>
+    <span data-lang="en">MEMBER LOG-IN</span>
+    <span data-lang="ko">멤버 로그인</span>
+    <span class="arr">→</span>
+  </a>
+</div>
+<script>
+(function(){
+  var form=document.getElementById('form');
+  var head=document.getElementById('head');
+  var confirm_=document.getElementById('confirm');
+  var confirmName=document.getElementById('confirm-name');
+  var submitBtn=document.getElementById('submit-btn');
+  var ENDPOINT='/api/submit';
+  function clearErrors(){
+    form.querySelectorAll('.field-err').forEach(function(el){el.classList.remove('show');});
+    form.querySelectorAll('.field-input').forEach(function(el){el.classList.remove('error');});
+  }
+  function showError(name,scroll){
+    var err=form.querySelector('[data-err="'+name+'"]');
+    if(err)err.classList.add('show');
+    var input=form.querySelector('[name="'+name+'"]');
+    if(input)input.classList.add('error');
+    if(scroll&&input)input.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  function validate(){
+    clearErrors();
+    var firstError=null;
+    var data=new FormData(form);
+    if(!data.get('name')||!data.get('name').trim())firstError=firstError||'name';
+    var email=(data.get('email')||'').trim();
+    if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))firstError=firstError||'email';
+    if(!data.get('country'))firstError=firstError||'country';
+    if(!data.get('wealth'))firstError=firstError||'wealth';
+    if(!data.get('occupation')||!data.get('occupation').trim())firstError=firstError||'occupation';
+    if(!data.get('source_of_wealth'))firstError=firstError||'source_of_wealth';
+    if(!data.get('nda_ack'))firstError=firstError||'nda_ack';
+    if(firstError){showError(firstError,true);return false;}
+    return true;
+  }
+  function getPayload(){
+    var data=new FormData(form);
+    var obj={};
+    data.forEach(function(v,k){obj[k]=v;});
+    obj._meta={page:'theaurumcc.com/interest',submitted_at:new Date().toISOString(),user_agent:navigator.userAgent};
+    return obj;
+  }
+  async function submitForm(payload){
+    if(!ENDPOINT){await new Promise(function(r){setTimeout(r,900);});return true;}
+    try{
+      var res=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
+      return res.ok;
+    }catch(err){console.error(err);return false;}
+  }
+  function showConfirmation(firstName){
+    head.classList.add('submitting');
+    form.classList.add('submitting');
+    setTimeout(function(){
+      head.style.display='none';
+      form.style.display='none';
+      if(firstName){
+        confirmName.textContent=', '+firstName;
+        var confirmNameKo=document.getElementById('confirm-name-ko');
+        if(confirmNameKo)confirmNameKo.textContent=', '+firstName+'님';
+      }
+      confirm_.classList.add('show');
+      window.scrollTo({top:0,behavior:'smooth'});
+    },500);
+    try{history.replaceState({},'','?confirmed=1');}catch(e){}
+  }
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+    if(!validate())return;
+    submitBtn.disabled=true;
+    submitBtn.classList.add('loading');
+    var payload=getPayload();
+    var ok=await submitForm(payload);
+    submitBtn.classList.remove('loading');
+    if(ok){
+      var firstName=(payload.name||'').trim().split(/\s+/)[0]||'';
+      showConfirmation(firstName);
+    }else{
+      submitBtn.disabled=false;
+      alert('There was a problem submitting your inquiry. Please try again in a moment.');
+    }
+  });
+  form.querySelectorAll('.field-input').forEach(function(input){
+    input.addEventListener('input',function(){
+      input.classList.remove('error');
+      var err=form.querySelector('[data-err="'+input.name+'"]');
+      if(err)err.classList.remove('show');
+    });
+  });
+  form.querySelectorAll('input[type="radio"],input[type="checkbox"]').forEach(function(input){
+    input.addEventListener('change',function(){
+      var err=form.querySelector('[data-err="'+input.name+'"]');
+      if(err)err.classList.remove('show');
+    });
+  });
+  if(location.search.indexOf('confirmed=1')>-1){
+    head.style.display='none';
+    form.style.display='none';
+    confirm_.classList.add('show');
+  }
+})();
+
+// ═══ I18N · LANGUAGE TOGGLE ═══
+(function () {
+  const STORAGE_KEY = 'aurum-lang';
+
+  function applyLang(lang) {
+    const html = document.documentElement;
+    html.classList.toggle('lang-ko', lang === 'ko');
+    html.classList.toggle('lang-en', lang === 'en');
+    html.lang = lang;
+    // swap placeholders
+    document.querySelectorAll('[data-ph-en]').forEach(el => {
+      el.placeholder = lang === 'en' ? el.dataset.phEn : el.dataset.phKo;
+    });
+    // swap aria-labels & titles
+    document.querySelectorAll('[data-aria-en]').forEach(el => {
+      el.setAttribute('aria-label', lang === 'en' ? el.dataset.ariaEn : el.dataset.ariaKo);
+    });
+    // swap option text content (for select dropdowns)
+    document.querySelectorAll('option[data-lang-en]').forEach(el => {
+      el.textContent = lang === 'en' ? el.dataset.langEn : el.dataset.langKo;
+    });
+    // toggle button state
+    document.querySelectorAll('.lang-toggle button').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.langBtn === lang);
+    });
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+  }
+
+  // Wire up clicks
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.lang-toggle button');
+    if (!btn) return;
+    applyLang(btn.dataset.langBtn);
+  });
+
+  // Initialize from storage (default = en)
+  let initial = 'ko';
+  try { initial = localStorage.getItem(STORAGE_KEY) || 'en'; } catch (e) {}
+  applyLang(initial);
+})();
+
+</script>
+</body>
+</html>
