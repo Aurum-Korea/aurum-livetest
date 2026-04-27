@@ -1,0 +1,937 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Indicate Commitment · 의향 표명 · Aurum Century Club</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' fill='none' stroke='%23C5A572' stroke-width='1.5'/%3E%3Ctext x='16' y='22' font-family='Georgia' font-style='italic' font-size='15' fill='%23C5A572' text-anchor='middle'%3EAu%3C/text%3E%3C/svg%3E">
+
+  <style>
+    /* ─── Brand tokens ─── */
+    :root {
+      --bg:        #0a0a0a;
+      --ink:       #e8e3d8;
+      --muted:    #aaa39a;
+      --gold:      #C5A572;
+      --goldB:     #E3C187;
+      --goldD:     #8a7d6b;
+      --line:      rgba(197,165,114,0.30);
+      --rule:      rgba(255,255,255,0.06);
+      --serif:     'Cormorant Garamond', 'Noto Serif KR', Georgia, serif;
+      --sans:      'Outfit', system-ui, -apple-system, sans-serif;
+      --mono:      'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+    body { font-family: var(--serif); -webkit-font-smoothing: antialiased; line-height: 1.5; min-height: 100vh; }
+    a { color: var(--goldB); text-decoration: none; }
+
+    /* Lang-switch system: matches index.html */
+    [data-lang="en"] { display: none; }
+    html.lang-en [data-lang="en"] { display: revert; }
+    html.lang-en [data-lang="ko"] { display: none; }
+
+    /* ─── Layout ─── */
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 60px 32px 80px;
+    }
+    @media (max-width: 640px) {
+      .page { padding: 40px 20px 60px; }
+    }
+
+    /* Lockup */
+    .lockup { display: inline-flex; align-items: center; gap: 14px; }
+    .seal {
+      width: 38px; height: 38px;
+      border: 1px solid var(--gold);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-style: italic; font-weight: 500;
+      color: var(--gold); font-size: 18px; letter-spacing: -0.04em;
+      flex-shrink: 0;
+    }
+    .lockup-text { display: flex; flex-direction: column; line-height: 1; }
+    .lockup-text .word {
+      font-family: var(--sans); font-weight: 600;
+      font-size: 14px; letter-spacing: 0.34em; color: var(--ink);
+    }
+    .lockup-text .program {
+      font-family: var(--mono); font-weight: 400;
+      font-size: 8.5px; letter-spacing: 0.36em; color: var(--goldD); margin-top: 5px;
+    }
+
+    /* Eyebrow + headline */
+    .eyebrow {
+      font-family: var(--mono); font-weight: 500;
+      font-size: 11px; letter-spacing: 0.34em; color: var(--gold);
+      margin-top: 48px;
+    }
+    h1.headline {
+      font-family: var(--serif); font-weight: 500;
+      font-size: clamp(34px, 6vw, 48px); line-height: 1.15;
+      letter-spacing: -0.01em; color: var(--ink);
+      margin: 14px 0 22px;
+    }
+    h1.headline em { color: var(--gold); font-style: italic; }
+    .lede {
+      font-family: var(--serif); font-size: 17px; line-height: 1.7;
+      color: var(--muted); margin: 0 0 36px; max-width: 580px;
+    }
+
+    /* Card */
+    .card {
+      border: 1px solid var(--line);
+      padding: 28px;
+      margin: 0 0 28px;
+      background: rgba(255,255,255,0.01);
+    }
+    @media (max-width: 640px) { .card { padding: 22px 18px; } }
+    .card-eyebrow {
+      font-family: var(--mono); font-weight: 500;
+      font-size: 9.5px; letter-spacing: 0.30em; color: var(--goldD);
+      margin: 0 0 18px;
+    }
+    .card-h {
+      font-family: var(--serif); font-weight: 500;
+      font-size: 22px; line-height: 1.25; color: var(--ink); margin: 0 0 14px;
+    }
+    .card-text {
+      font-family: var(--serif); font-size: 15.5px; line-height: 1.7;
+      color: var(--muted); margin: 0 0 14px;
+    }
+
+    /* Button */
+    .btn {
+      display: inline-block;
+      font-family: var(--mono); font-weight: 600;
+      font-size: 11px; letter-spacing: 0.22em;
+      padding: 14px 24px; border: 0; cursor: pointer;
+      background: var(--gold); color: var(--bg);
+      text-decoration: none; white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: var(--goldB); }
+    .btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+    .btn.ghost {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--line);
+    }
+    .btn.ghost:hover { background: rgba(197,165,114,0.08); }
+
+    /* Forms */
+    label.field {
+      display: block;
+      margin: 0 0 18px;
+    }
+    label.field > .lbl {
+      display: block;
+      font-family: var(--mono); font-weight: 500;
+      font-size: 9.5px; letter-spacing: 0.30em; color: var(--goldD);
+      margin-bottom: 8px;
+    }
+    label.field > .lbl .req { color: var(--gold); margin-left: 4px; }
+    input[type="text"], input[type="number"], input[type="email"], input[type="tel"], select, textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--rule);
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+      font-family: var(--serif); font-size: 17px;
+      padding: 12px 14px;
+      transition: border-color 0.2s;
+      -webkit-appearance: none; appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+    input.commit {
+      font-family: var(--mono); font-weight: 500;
+      font-size: 22px; letter-spacing: 0.06em;
+      padding: 16px 14px;
+    }
+    .hint {
+      font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.20em;
+      color: var(--goldD); margin-top: 6px;
+      text-transform: uppercase;
+    }
+    .hint.bare { text-transform: none; letter-spacing: 0.04em; font-size: 12px; font-family: var(--serif); }
+    .err {
+      font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.20em;
+      color: #d97a7a; margin-top: 6px; text-transform: uppercase;
+      display: none;
+    }
+    .err.shown { display: block; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; gap: 0; } }
+
+    /* Slider */
+    .slider-row {
+      display: flex; align-items: center; gap: 18px;
+      margin-bottom: 8px;
+    }
+    .slider-row input[type=range] {
+      flex: 1;
+      -webkit-appearance: none; appearance: none;
+      height: 2px; background: var(--line); outline: none; padding: 0;
+      border: 0;
+    }
+    .slider-row input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--gold); cursor: pointer;
+      border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--gold);
+    }
+    .slider-row input[type=range]::-moz-range-thumb {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--gold); cursor: pointer;
+      border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--gold);
+    }
+    .slider-val {
+      font-family: var(--mono); font-weight: 600;
+      font-size: 18px; color: var(--ink);
+      min-width: 50px; text-align: right;
+    }
+
+    /* Calculator output panel */
+    .calc {
+      background: rgba(197,165,114,0.04);
+      border: 1px solid var(--line);
+      padding: 20px 22px;
+      margin: 0 0 22px;
+    }
+    .calc-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--rule);
+      font-family: var(--serif); font-size: 15px;
+    }
+    .calc-row:last-child { border-bottom: 0; }
+    .calc-row .lbl {
+      font-family: var(--mono); font-size: 9.5px;
+      letter-spacing: 0.26em; color: var(--goldD);
+    }
+    .calc-row .val {
+      font-family: var(--mono); font-weight: 500;
+      font-size: 14px; color: var(--ink);
+    }
+    .calc-row.primary .val { color: var(--goldB); font-size: 17px; }
+
+    /* Caveat */
+    .caveat {
+      font-family: var(--serif); font-style: italic;
+      font-size: 13.5px; line-height: 1.6;
+      color: var(--goldD);
+      border-left: 1px solid var(--gold);
+      padding: 6px 14px;
+      margin: 0 0 24px;
+    }
+
+    /* Checkboxes */
+    label.cb {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 0;
+      font-family: var(--serif); font-size: 14.5px; line-height: 1.55;
+      color: var(--muted); cursor: pointer;
+    }
+    label.cb input { margin: 4px 0 0; flex-shrink: 0; accent-color: var(--gold); width: 16px; height: 16px; }
+    label.cb em { color: var(--goldB); font-style: italic; }
+
+    /* Top-of-page strip with code echo + lang toggle */
+    .topstrip {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .lang-toggle {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid var(--line);
+      padding: 4px 8px;
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.10em;
+    }
+    .lang-toggle button {
+      background: none; border: 0; padding: 2px 6px;
+      color: var(--goldD); cursor: pointer;
+      font-family: inherit; font-size: inherit; letter-spacing: inherit;
+    }
+    .lang-toggle button.active { color: var(--ink); }
+    .lang-toggle .sep { color: var(--rule); }
+
+    /* Status states */
+    .status-banner {
+      padding: 14px 18px;
+      margin: 0 0 28px;
+      border-left: 2px solid var(--gold);
+      background: rgba(197,165,114,0.04);
+      font-family: var(--serif); font-size: 14.5px; color: var(--ink);
+    }
+    .status-banner .pill {
+      display: inline-block; font-family: var(--mono); font-size: 9px;
+      letter-spacing: 0.30em; color: var(--gold);
+      margin-right: 10px; text-transform: uppercase;
+    }
+
+    /* Loader / hidden states */
+    .hidden { display: none !important; }
+    .loading {
+      display: inline-block; width: 12px; height: 12px;
+      border: 2px solid var(--rule); border-top-color: var(--gold);
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+      vertical-align: middle; margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Submit row */
+    .submit-row {
+      display: flex; align-items: center; gap: 16px;
+      margin-top: 22px;
+    }
+    .submit-row .help {
+      font-family: var(--serif); font-size: 13px; color: var(--goldD);
+      font-style: italic;
+    }
+
+    /* Done state */
+    .done-card {
+      border: 1px solid var(--line);
+      padding: 36px 32px;
+      text-align: left;
+    }
+    .done-card .check {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid var(--gold); color: var(--gold);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--mono); font-size: 20px;
+      margin-bottom: 22px;
+    }
+
+    footer {
+      margin-top: 60px;
+      padding-top: 22px;
+      border-top: 1px solid var(--rule);
+      font-family: var(--mono); font-size: 9.5px;
+      letter-spacing: 0.30em; color: var(--goldD);
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Top strip -->
+  <div class="topstrip">
+    <a href="/" class="lockup" aria-label="Home">
+      <span class="seal">Au</span>
+      <span class="lockup-text">
+        <span class="word">AURUM</span>
+        <span class="program">CENTURY · CLUB</span>
+      </span>
+    </a>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" data-lang-btn="ko" class="active">한</button>
+      <span class="sep">/</span>
+      <button type="button" data-lang-btn="en">EN</button>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- STATE: NO CODE / INVALID  (code entry form)  -->
+  <!-- ============================================ -->
+  <section id="s-codegate">
+    <div class="eyebrow">COMMITMENT  ·  의향 표명</div>
+    <h1 class="headline" data-lang="en">Indicate <em>commitment.</em></h1>
+    <h1 class="headline" data-lang="ko"><em>의향</em> 표명.</h1>
+
+    <p class="lede" data-lang="en">Enter the code from your invitation to begin.</p>
+    <p class="lede" data-lang="ko">초대장에 포함된 코드를 입력해 시작하십시오.</p>
+
+    <label class="field">
+      <span class="lbl"><span data-lang="en">CODE</span><span data-lang="ko">코드</span><span class="req">·</span></span>
+      <input type="text" id="code-input" autocomplete="off" placeholder="AURUM-IOI-XX-XXXX-XXXX" autocapitalize="characters" spellcheck="false" maxlength="22">
+      <div class="err" id="code-err"></div>
+    </label>
+
+    <button class="btn" id="code-submit" type="button">
+      <span data-lang="en">CONTINUE  →</span>
+      <span data-lang="ko">계속  →</span>
+    </button>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- STATE: KYC GATE                              -->
+  <!-- ============================================ -->
+  <section id="s-kyc" class="hidden">
+    <div class="eyebrow">COMMITMENT  ·  의향 표명</div>
+    <h1 class="headline" data-lang="en">Verify identity to <em>continue.</em></h1>
+    <h1 class="headline" data-lang="ko">신원 확인 후 <em>계속하십시오.</em></h1>
+
+    <p class="lede" data-lang="en">A brief mobile identity check. About 90 seconds.</p>
+    <p class="lede" data-lang="ko">간단한 모바일 신원 확인 절차입니다. 약 90초 소요됩니다.</p>
+
+    <div class="card">
+      <div class="card-eyebrow"><span data-lang="en">IDENTITY VERIFICATION</span><span data-lang="ko">신원 확인</span></div>
+      <p class="card-text" data-lang="en">You will be redirected to our verification partner. Once complete, you'll return here to the commitment form.</p>
+      <p class="card-text" data-lang="ko">신원 확인 파트너로 이동됩니다. 완료 후 의향서 양식 페이지로 자동 복귀합니다.</p>
+      <button class="btn" id="kyc-start" type="button">
+        <span data-lang="en">VERIFY IDENTITY  →</span>
+        <span data-lang="ko">신원 확인  →</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- STATE: COMMITMENT FORM (post-KYC)            -->
+  <!-- ============================================ -->
+  <section id="s-form" class="hidden">
+    <div class="eyebrow">COMMITMENT  ·  의향 표명</div>
+    <h1 class="headline" data-lang="en">Indicate <em>commitment.</em></h1>
+    <h1 class="headline" data-lang="ko"><em>의향</em> 표명.</h1>
+
+    <div class="status-banner">
+      <span class="pill" data-lang="en">VERIFIED</span><span class="pill" data-lang="ko">확인됨</span>
+      <span data-lang="en">Identity confirmed. Complete the form below.</span>
+      <span data-lang="ko">신원이 확인되었습니다. 아래 양식을 작성해 주십시오.</span>
+    </div>
+
+    <form id="ioi-form" novalidate>
+
+      <!-- ── Profile (investor profile) ──────────────────────────────── -->
+      <div class="card">
+        <div class="card-eyebrow"><span data-lang="en">PROFILE</span><span data-lang="ko">프로필</span></div>
+
+        <label class="field">
+          <span class="lbl"><span data-lang="en">ANNUAL INCOME (KRW)</span><span data-lang="ko">연 소득 (KRW)</span><span class="req">·</span></span>
+          <select name="income_range" required>
+            <option value="" disabled selected data-lang-en="— Select —" data-lang-ko="— 선택 —">— 선택 —</option>
+            <option value="<2억"      data-lang-en="Under ₩200M"     data-lang-ko="2억 미만">2억 미만</option>
+            <option value="2-5억"     data-lang-en="₩200M – ₩500M"   data-lang-ko="2억 – 5억">2억 – 5억</option>
+            <option value="5-10억"    data-lang-en="₩500M – ₩1B"     data-lang-ko="5억 – 10억">5억 – 10억</option>
+            <option value="10-30억"   data-lang-en="₩1B – ₩3B"       data-lang-ko="10억 – 30억">10억 – 30억</option>
+            <option value=">30억"     data-lang-en="Over ₩3B"        data-lang-ko="30억 초과">30억 초과</option>
+          </select>
+        </label>
+
+        <div class="grid-2">
+          <label class="field">
+            <span class="lbl"><span data-lang="en">NET WORTH (KRW)</span><span data-lang="ko">순자산 (KRW)</span><span class="req">·</span></span>
+            <select name="net_worth" required>
+              <option value="" disabled selected data-lang-en="— Select —" data-lang-ko="— 선택 —">— 선택 —</option>
+              <option value="<10억"    data-lang-en="Under ₩1B"       data-lang-ko="10억 미만">10억 미만</option>
+              <option value="10-50억"  data-lang-en="₩1B – ₩5B"       data-lang-ko="10억 – 50억">10억 – 50억</option>
+              <option value="50-100억" data-lang-en="₩5B – ₩10B"      data-lang-ko="50억 – 100억">50억 – 100억</option>
+              <option value="100-500억" data-lang-en="₩10B – ₩50B"    data-lang-ko="100억 – 500억">100억 – 500억</option>
+              <option value=">500억"   data-lang-en="Over ₩50B"       data-lang-ko="500억 초과">500억 초과</option>
+            </select>
+          </label>
+          <label class="field">
+            <span class="lbl"><span data-lang="en">LIQUID NET WORTH (KRW)</span><span data-lang="ko">유동 순자산 (KRW)</span><span class="req">·</span></span>
+            <select name="liquid_net_worth" required>
+              <option value="" disabled selected data-lang-en="— Select —" data-lang-ko="— 선택 —">— 선택 —</option>
+              <option value="<5억"     data-lang-en="Under ₩500M"      data-lang-ko="5억 미만">5억 미만</option>
+              <option value="5-20억"   data-lang-en="₩500M – ₩2B"      data-lang-ko="5억 – 20억">5억 – 20억</option>
+              <option value="20-50억"  data-lang-en="₩2B – ₩5B"        data-lang-ko="20억 – 50억">20억 – 50억</option>
+              <option value="50-100억" data-lang-en="₩5B – ₩10B"       data-lang-ko="50억 – 100억">50억 – 100억</option>
+              <option value=">100억"   data-lang-en="Over ₩10B"        data-lang-ko="100억 초과">100억 초과</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid-2">
+          <label class="field">
+            <span class="lbl"><span data-lang="en">PRIVATE-MARKET EXPERIENCE</span><span data-lang="ko">사모 시장 경험</span><span class="req">·</span></span>
+            <select name="investment_experience_yrs" required>
+              <option value="" disabled selected data-lang-en="— Select —" data-lang-ko="— 선택 —">— 선택 —</option>
+              <option value="0"      data-lang-en="None"          data-lang-ko="없음">없음</option>
+              <option value="1-3"    data-lang-en="1 – 3 years"    data-lang-ko="1 – 3년">1 – 3년</option>
+              <option value="3-10"   data-lang-en="3 – 10 years"   data-lang-ko="3 – 10년">3 – 10년</option>
+              <option value=">10"    data-lang-en="Over 10 years"  data-lang-ko="10년 이상">10년 이상</option>
+            </select>
+          </label>
+          <label class="field">
+            <span class="lbl"><span data-lang="en">TAX RESIDENCY</span><span data-lang="ko">세무상 거주지</span><span class="req">·</span></span>
+            <select name="tax_residency" required>
+              <option value="" disabled selected data-lang-en="— Select —" data-lang-ko="— 선택 —">— 선택 —</option>
+              <option value="KR"      data-lang-en="South Korea (only)"   data-lang-ko="대한민국 (단독)">대한민국 (단독)</option>
+              <option value="KR+"     data-lang-en="South Korea + other"  data-lang-ko="대한민국 + 기타">대한민국 + 기타</option>
+              <option value="other"   data-lang-en="Other only"           data-lang-ko="기타 단독">기타 단독</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="lbl"><span data-lang="en">EXISTING OFFSHORE INVESTMENT EXPOSURE</span><span data-lang="ko">기존 해외 투자 보유 현황</span></span>
+          <textarea name="offshore_exposure_text" rows="2" maxlength="1000" placeholder="간단히 — 자산군, 대략적 규모, 채널" data-ph-en="Briefly — asset class, rough size, channel" data-ph-ko="간단히 — 자산군, 대략적 규모, 채널"></textarea>
+          <div class="hint bare" data-lang="en">Optional. Helps partners contextualize your commitment.</div>
+          <div class="hint bare" data-lang="ko">선택. 약정 평가 시 참고용입니다.</div>
+        </label>
+
+        <label class="field">
+          <span class="lbl"><span data-lang="en">SOURCE OF FUNDS — THIS COMMITMENT</span><span data-lang="ko">자금 출처 — 본 약정</span><span class="req">·</span></span>
+          <select name="source_of_funds_commit" required>
+            <option value="" disabled selected data-lang-en="— Select —" data-lang-ko="— 선택 —">— 선택 —</option>
+            <option value="business"     data-lang-en="Business income"          data-lang-ko="사업 소득">사업 소득</option>
+            <option value="investment"   data-lang-en="Investment proceeds"      data-lang-ko="투자 수익">투자 수익</option>
+            <option value="inheritance"  data-lang-en="Inheritance"              data-lang-ko="상속">상속</option>
+            <option value="liquidity"    data-lang-en="Liquidity event (sale of asset / business)"  data-lang-ko="유동화 (자산 / 사업 매각)">유동화 (자산 / 사업 매각)</option>
+            <option value="other"        data-lang-en="Other"                    data-lang-ko="기타">기타</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="lbl"><span data-lang="en">DESIGNATED KOREAN FX BANK</span><span data-lang="ko">지정 외국환 은행</span><span class="req">·</span></span>
+          <input type="text" name="korean_fx_bank" required maxlength="200" placeholder="예: 우리은행 강남" data-ph-en="e.g. KEB Hana Bank, Gangnam branch" data-ph-ko="예: 우리은행 강남">
+          <div class="hint bare" data-lang="en">The Korean bank that will process the FETA filing on your wire. May be set later if undecided.</div>
+          <div class="hint bare" data-lang="ko">송금 시 FETA 신고를 처리할 외국환 은행. 미결정 시 추후 설정 가능.</div>
+        </label>
+
+        <label class="field">
+          <span class="lbl"><span data-lang="en">PEP DECLARATION</span><span data-lang="ko">PEP 신고</span><span class="req">·</span></span>
+          <select name="pep" required id="pep-select">
+            <option value="" disabled selected data-lang-en="— Select —" data-lang-ko="— 선택 —">— 선택 —</option>
+            <option value="no"   data-lang-en="I am not a PEP and have no PEP relations"     data-lang-ko="본인은 PEP가 아니며, 관련자도 없습니다">본인은 PEP가 아니며, 관련자도 없습니다</option>
+            <option value="yes"  data-lang-en="I am a PEP, or have PEP relations"            data-lang-ko="본인이 PEP이거나 관련자가 있습니다">본인이 PEP이거나 관련자가 있습니다</option>
+          </select>
+          <div class="hint bare" data-lang="en">PEP = Politically Exposed Person. Standard AML disclosure.</div>
+          <div class="hint bare" data-lang="ko">PEP = 정치적 주요 인물. 표준 AML 공시 사항입니다.</div>
+        </label>
+        <label class="field hidden" id="pep-relation-field">
+          <span class="lbl"><span data-lang="en">PEP RELATIONSHIP — DESCRIBE</span><span data-lang="ko">PEP 관계 — 설명</span></span>
+          <textarea name="pep_relation" rows="2" maxlength="500"></textarea>
+        </label>
+      </div>
+
+      <!-- ── Commitment ──────────────────────────────────────────────── -->
+      <div class="card">
+        <div class="card-eyebrow"><span data-lang="en">COMMITMENT</span><span data-lang="ko">약정</span></div>
+
+        <label class="field">
+          <span class="lbl"><span data-lang="en">COMMITMENT AMOUNT (KRW)</span><span data-lang="ko">약정 금액 (KRW)</span><span class="req">·</span></span>
+          <input type="text" id="krw-input" class="commit" inputmode="decimal" autocomplete="off" data-ph-en="500,000,000" data-ph-ko="5억" placeholder="5억">
+          <div class="hint" id="krw-hint" data-lang="en">MIN. 1 KG · ~₩471M AT CURRENT SPOT</div>
+          <div class="hint" id="krw-hint-ko" data-lang="ko">최소 1 kg · 시세 기준 약 4억 7,100만</div>
+          <div class="err" id="krw-err"></div>
+        </label>
+
+        <label class="field">
+          <span class="lbl"><span data-lang="en">LTV REQUEST (DRAW AT FIRST CLOSE)</span><span data-lang="ko">LTV 요청 (1차 마감 인출)</span><span class="req">·</span></span>
+          <div class="slider-row">
+            <input type="range" id="ltv-slider" min="0" max="75" step="5" value="65">
+            <span class="slider-val" id="ltv-val">65%</span>
+          </div>
+          <div class="hint bare" data-lang="en">0% – 75%. Aurum sizes the line at its discretion based on commitment level.</div>
+          <div class="hint bare" data-lang="ko">0% – 75%. Aurum이 약정 수준에 따라 재량으로 산정합니다.</div>
+        </label>
+
+        <!-- Live calculator -->
+        <div class="calc">
+          <div class="calc-row primary">
+            <span class="lbl"><span data-lang="en">GOLD HELD</span><span data-lang="ko">보유 금</span></span>
+            <span class="val" id="calc-kg">— kg</span>
+          </div>
+          <div class="calc-row">
+            <span class="lbl"><span data-lang="en">CREDIT DRAWN</span><span data-lang="ko">대출금</span></span>
+            <span class="val" id="calc-credit">—</span>
+          </div>
+          <div class="calc-row">
+            <span class="lbl"><span data-lang="en">WORKING CAPITAL</span><span data-lang="ko">운용 자본</span></span>
+            <span class="val" id="calc-total">—</span>
+          </div>
+          <div class="calc-row">
+            <span class="lbl"><span data-lang="en">SPOT (KRW/KG)</span><span data-lang="ko">시세 (KRW/kg)</span></span>
+            <span class="val" id="calc-spot">—</span>
+          </div>
+        </div>
+
+        <p class="caveat" data-lang="en">Final settlement is calculated at gold spot on the day your wire clears, plus two business days to convert. The KRW required at execution may differ from the figure above.</p>
+        <p class="caveat" data-lang="ko">최종 정산은 송금 도착일 + 영업일 2일의 환전 기간 후 시세로 계산됩니다. 실제 송금 시점의 KRW 금액은 위 표시 금액과 차이가 있을 수 있습니다.</p>
+      </div>
+
+      <!-- ── Acknowledgements + signature ────────────────────────────── -->
+      <div class="card">
+        <div class="card-eyebrow"><span data-lang="en">ACKNOWLEDGE & SIGN</span><span data-lang="ko">확인 및 서명</span></div>
+
+        <label class="cb">
+          <input type="checkbox" name="cb_indicative" required>
+          <span><span data-lang="en">I understand this is a <em>non-binding indication</em> of interest, not a subscription.</span>
+                <span data-lang="ko">본 의향서는 <em>비구속적 의향 표명</em>이며, 가입 약정이 아님을 확인합니다.</span></span>
+        </label>
+        <label class="cb">
+          <input type="checkbox" name="cb_materials" required>
+          <span><span data-lang="en">I have read the <em>Century Club Package</em>, <em>Member FAQ</em>, and the <em>Structural Memo</em> (or have shared the Structural Memo with my counsel).</span>
+                <span data-lang="ko"><em>센추리 클럽 패키지</em>, <em>멤버 FAQ</em>, <em>구조 메모</em>를 검토했거나, 구조 메모를 자문 변호사에게 공유했음을 확인합니다.</span></span>
+        </label>
+        <label class="cb">
+          <input type="checkbox" name="cb_seven_day" required>
+          <span><span data-lang="en">I commit to completing wire arrangements within seven (7) business days of receiving instructions.</span>
+                <span data-lang="ko">송금 안내 수령 후 7 영업일 이내에 송금을 완료할 것에 동의합니다.</span></span>
+        </label>
+        <label class="cb">
+          <input type="checkbox" name="cb_spot_caveat" required>
+          <span><span data-lang="en">I understand the KRW figure shown is <em>indicative</em>. Final settlement is calculated at gold spot on the day of wire receipt, plus two business days to convert.</span>
+                <span data-lang="ko">표시된 KRW 금액은 <em>참고용</em>이며, 최종 정산은 송금 도착일 + 영업일 2일의 환전 기간 후 시세로 계산됨을 이해합니다.</span></span>
+        </label>
+
+        <label class="field" style="margin-top: 22px">
+          <span class="lbl"><span data-lang="en">SIGNATURE — TYPED LEGAL NAME</span><span data-lang="ko">서명 — 법적 성명 입력</span><span class="req">·</span></span>
+          <input type="text" name="signature" required maxlength="200" autocomplete="name" data-ph-en="Type your full legal name" data-ph-ko="법적 성명을 입력하십시오">
+          <div class="hint bare" data-lang="en">Typed name constitutes electronic signature for this non-binding indication.</div>
+          <div class="hint bare" data-lang="ko">입력된 성명은 본 비구속적 의향 표명의 전자 서명으로 간주됩니다.</div>
+        </label>
+      </div>
+
+      <div class="submit-row">
+        <button class="btn" id="ioi-submit" type="submit">
+          <span data-lang="en">SUBMIT IOI  →</span>
+          <span data-lang="ko">의향 제출  →</span>
+        </button>
+        <span class="help" data-lang="en">Wire instructions follow once a partner confirms.</span>
+        <span class="help" data-lang="ko">파트너 확인 후 송금 안내가 발송됩니다.</span>
+      </div>
+
+      <div class="err" id="form-err" style="margin-top: 16px"></div>
+    </form>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- STATE: SUBMITTED                             -->
+  <!-- ============================================ -->
+  <section id="s-done" class="hidden">
+    <div class="eyebrow">SUBMITTED  ·  제출 완료</div>
+    <h1 class="headline" data-lang="en"><em>Submitted.</em></h1>
+    <h1 class="headline" data-lang="ko"><em>제출 완료.</em></h1>
+
+    <div class="done-card">
+      <div class="check">✓</div>
+      <p class="card-text" data-lang="en">Your IOI has been received. A partner will be in touch shortly. Wire instructions follow once verified.</p>
+      <p class="card-text" data-lang="ko">의향서가 접수되었습니다. 파트너가 곧 연락드릴 예정입니다. 확인 후 송금 안내가 발송됩니다.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div>AURUM  ·  TACC PTE LTD  ·  SINGAPORE</div>
+    <div style="margin-top: 8px; color: #3a3733">CONFIDENTIAL  ·  QUALIFIED INVESTORS ONLY</div>
+  </footer>
+</div>
+
+<script>
+// ─── Language toggle ─────────────────────────────────────
+(function() {
+  const STORAGE_KEY = 'aurum-lang';
+  function applyLang(lang) {
+    const html = document.documentElement;
+    html.classList.toggle('lang-ko', lang === 'ko');
+    html.classList.toggle('lang-en', lang === 'en');
+    html.lang = lang;
+    document.querySelectorAll('[data-ph-en]').forEach(el => {
+      el.placeholder = lang === 'en' ? (el.dataset.phEn || '') : (el.dataset.phKo || '');
+    });
+    document.querySelectorAll('option[data-lang-en]').forEach(opt => {
+      opt.textContent = lang === 'en' ? opt.dataset.langEn : opt.dataset.langKo;
+    });
+    document.querySelectorAll('.lang-toggle button').forEach(b => {
+      b.classList.toggle('active', b.dataset.langBtn === lang);
+    });
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+  }
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('.lang-toggle button');
+    if (b) applyLang(b.dataset.langBtn);
+  });
+  let initial = 'ko';
+  try { initial = localStorage.getItem(STORAGE_KEY) || 'ko'; } catch (e) {}
+  applyLang(initial);
+})();
+
+// ─── KRW format helpers (mirror server-side format.js) ───
+function formatKRW(amount, lang) {
+  if (amount == null || isNaN(amount)) return lang === 'en' ? '₩0' : '0';
+  const a = Math.round(amount);
+  if (lang === 'en') return '₩' + a.toLocaleString('en-US');
+  if (a === 0) return '0';
+  const EOK = 100_000_000, MAN = 10_000;
+  const eok = Math.floor(a / EOK);
+  const remainder = a % EOK;
+  const man = Math.floor(remainder / MAN);
+  const won = remainder % MAN;
+  const parts = [];
+  if (eok) parts.push(eok.toLocaleString('en-US') + '억');
+  if (man) parts.push(man.toLocaleString('en-US') + '만');
+  if (won) parts.push(won.toLocaleString('en-US') + '원');
+  return parts.join(' ') || '0';
+}
+
+function parseKRW(s) {
+  if (!s) return 0;
+  s = String(s).trim().replace(/[₩,\s원]/g, '');
+  if (!s) return 0;
+
+  // Western shorthand
+  const w = /^(\d+(?:\.\d+)?)\s*([kmbt])$/i.exec(s);
+  if (w) {
+    const n = parseFloat(w[1]);
+    const m = { k: 1e3, m: 1e6, b: 1e9, t: 1e12 }[w[2].toLowerCase()];
+    return Math.round(n * m);
+  }
+
+  let total = 0, used = false;
+  const eokM = /(\d+(?:\.\d+)?)억/.exec(s);
+  if (eokM) { total += parseFloat(eokM[1]) * 1e8; s = s.replace(eokM[0], ''); used = true; }
+  const manM = /(\d+(?:\.\d+)?)만/.exec(s);
+  if (manM) { total += parseFloat(manM[1]) * 1e4; s = s.replace(manM[0], ''); used = true; }
+  if (used) {
+    const rest = s.replace(/[^\d.]/g, '');
+    if (rest) total += parseFloat(rest);
+    return Math.round(total);
+  }
+  const n = Number(s);
+  return isNaN(n) ? NaN : Math.round(n);
+}
+
+function getLang() {
+  return document.documentElement.classList.contains('lang-en') ? 'en' : 'ko';
+}
+
+// ─── State machine ───────────────────────────────────────
+const state = {
+  code: null,
+  lead: null,
+  kyc_status: 'pending',
+  spot: null, // { krw_per_kg, ... }
+};
+
+function show(stateName) {
+  ['s-codegate', 's-kyc', 's-form', 's-done'].forEach(id => {
+    document.getElementById(id).classList.toggle('hidden', id !== stateName);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── On load: read code from URL or storage ──────────────
+(async function init() {
+  const url = new URL(window.location.href);
+  let code = (url.searchParams.get('c') || url.searchParams.get('code') || '').trim().toUpperCase();
+  if (code) {
+    await tryCode(code);
+  } else {
+    show('s-codegate');
+  }
+  // Fetch spot in background for the calc
+  fetchSpot();
+})();
+
+async function fetchSpot() {
+  try {
+    const r = await fetch('/api/ioi?op=spot');
+    if (!r.ok) throw new Error('no spot');
+    state.spot = await r.json();
+    updateCalc();
+  } catch (e) {
+    state.spot = { krw_per_kg: 471_000_000, source: 'fallback' };
+    updateCalc();
+  }
+}
+
+async function tryCode(code) {
+  state.code = code;
+  try {
+    const r = await fetch('/api/ioi?op=status&c=' + encodeURIComponent(code));
+    if (!r.ok) {
+      const j = await r.json().catch(() => ({}));
+      showCodeErr(j.error || 'invalid code');
+      show('s-codegate');
+      return;
+    }
+    const j = await r.json();
+    state.lead = j.lead;
+    state.kyc_status = j.kyc_status;
+
+    if (j.has_ioi) {
+      // Already submitted
+      show('s-done');
+    } else if (j.kyc_status === 'verified') {
+      show('s-form');
+    } else {
+      show('s-kyc');
+    }
+  } catch (e) {
+    showCodeErr('network error');
+    show('s-codegate');
+  }
+}
+
+function showCodeErr(msg) {
+  const el = document.getElementById('code-err');
+  el.textContent = msg;
+  el.classList.add('shown');
+}
+
+document.getElementById('code-submit').addEventListener('click', async () => {
+  const code = (document.getElementById('code-input').value || '').trim().toUpperCase();
+  if (!code) { showCodeErr('Required'); return; }
+  if (!code.startsWith('AURUM-IOI-')) { showCodeErr('Not an IOI code'); return; }
+  document.getElementById('code-err').classList.remove('shown');
+  await tryCode(code);
+});
+
+// ─── KYC start ───────────────────────────────────────────
+document.getElementById('kyc-start').addEventListener('click', async () => {
+  const btn = document.getElementById('kyc-start');
+  btn.innerHTML = '<span class="loading"></span><span>Verifying…</span>';
+  btn.disabled = true;
+  try {
+    const r = await fetch('/api/ioi?op=start-kyc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: state.code }),
+    });
+    if (!r.ok) throw new Error('kyc failed');
+    const j = await r.json();
+    if (j.mode === 'stub') {
+      // Stub mode — re-fetch status, should now be verified
+      setTimeout(() => tryCode(state.code), 600);
+    } else if (j.redirect) {
+      window.location.href = j.redirect;
+    }
+  } catch (e) {
+    btn.innerHTML = 'Try again';
+    btn.disabled = false;
+  }
+});
+
+// ─── PEP conditional ─────────────────────────────────────
+document.getElementById('pep-select').addEventListener('change', (e) => {
+  document.getElementById('pep-relation-field').classList.toggle('hidden', e.target.value !== 'yes');
+});
+
+// ─── Live calculator ─────────────────────────────────────
+function updateCalc() {
+  if (!state.spot) return;
+  const krw = parseKRW(document.getElementById('krw-input').value);
+  const ltv = Number(document.getElementById('ltv-slider').value);
+  const lang = getLang();
+
+  // Update spot hint
+  const krw_per_kg = state.spot.krw_per_kg;
+  document.getElementById('krw-hint').textContent = `MIN. 1 KG · ~${formatKRW(krw_per_kg, 'en')} AT CURRENT SPOT`;
+  document.getElementById('krw-hint-ko').textContent = `최소 1 kg · 시세 기준 약 ${formatKRW(krw_per_kg, 'ko')}`;
+
+  if (!krw || isNaN(krw)) {
+    document.getElementById('calc-kg').textContent = '— kg';
+    document.getElementById('calc-credit').textContent = '—';
+    document.getElementById('calc-total').textContent = '—';
+    document.getElementById('calc-spot').textContent = formatKRW(krw_per_kg, lang);
+    return;
+  }
+  const kg = krw / krw_per_kg;
+  const credit = Math.round(krw * (ltv / 100));
+  const total = krw + credit;
+
+  document.getElementById('calc-kg').textContent = kg.toFixed(2) + ' kg';
+  document.getElementById('calc-credit').textContent = formatKRW(credit, lang);
+  document.getElementById('calc-total').textContent = formatKRW(total, lang);
+  document.getElementById('calc-spot').textContent = formatKRW(krw_per_kg, lang);
+
+  // Validation hint
+  const errEl = document.getElementById('krw-err');
+  if (kg < 1) {
+    errEl.textContent = lang === 'en'
+      ? `Minimum 1 kg (~${formatKRW(krw_per_kg, 'en')} at current spot)`
+      : `최소 1 kg (시세 기준 약 ${formatKRW(krw_per_kg, 'ko')})`;
+    errEl.classList.add('shown');
+  } else {
+    errEl.classList.remove('shown');
+  }
+}
+
+document.getElementById('krw-input').addEventListener('input', updateCalc);
+document.getElementById('ltv-slider').addEventListener('input', () => {
+  document.getElementById('ltv-val').textContent = document.getElementById('ltv-slider').value + '%';
+  updateCalc();
+});
+
+// Lang change should re-render calc
+new MutationObserver(updateCalc).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+// ─── Form submit ─────────────────────────────────────────
+document.getElementById('ioi-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const errEl = document.getElementById('form-err');
+  errEl.classList.remove('shown');
+
+  const fd = new FormData(e.target);
+  const profile = {};
+  for (const [k, v] of fd.entries()) profile[k] = v;
+  profile.pep = profile.pep === 'yes';
+
+  const krw = parseKRW(document.getElementById('krw-input').value);
+  if (!krw || isNaN(krw)) {
+    errEl.textContent = 'Commitment amount required';
+    errEl.classList.add('shown');
+    return;
+  }
+  const ltv = Number(document.getElementById('ltv-slider').value);
+
+  // Required checkboxes
+  const cb_indicative = !!fd.get('cb_indicative');
+  const cb_materials = !!fd.get('cb_materials');
+  const cb_seven_day = !!fd.get('cb_seven_day');
+  const cb_spot_caveat = !!fd.get('cb_spot_caveat');
+  if (!cb_indicative || !cb_materials || !cb_seven_day || !cb_spot_caveat) {
+    errEl.textContent = 'All acknowledgements required';
+    errEl.classList.add('shown');
+    return;
+  }
+  const signature = String(fd.get('signature') || '').trim();
+  if (!signature) {
+    errEl.textContent = 'Signature required';
+    errEl.classList.add('shown');
+    return;
+  }
+
+  const btn = document.getElementById('ioi-submit');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading"></span><span>Submitting…</span>';
+
+  try {
+    const r = await fetch('/api/ioi?op=submit-ioi', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        code: state.code,
+        profile,
+        ioi: {
+          krw,
+          ltv_pct: ltv,
+          signature,
+          checkbox_indicative: cb_indicative,
+          checkbox_materials: cb_materials,
+          checkbox_seven_day: cb_seven_day,
+          checkbox_spot_caveat: cb_spot_caveat,
+        },
+      }),
+    });
+    const j = await r.json();
+    if (!r.ok) {
+      errEl.textContent = j.error || 'Submission failed';
+      errEl.classList.add('shown');
+      btn.disabled = false;
+      btn.innerHTML = '<span data-lang="en">SUBMIT IOI  →</span><span data-lang="ko">의향 제출  →</span>';
+      return;
+    }
+    show('s-done');
+  } catch (e) {
+    errEl.textContent = 'Network error — try again';
+    errEl.classList.add('shown');
+    btn.disabled = false;
+    btn.innerHTML = '<span data-lang="en">SUBMIT IOI  →</span><span data-lang="ko">의향 제출  →</span>';
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,3894 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<meta name="theme-color" content="#0a0a0a">
+<title>The Aurum Century Club</title>
+<meta name="description" content="A Singapore program for a founding group of Korean investors. Inaugural close · Q3 MMXXVI.">
+
+<meta property="og:title" content="The Aurum Century Club">
+<meta property="og:description" content="One kilogram. The Founding 100. Inaugural close · Q3 MMXXVI.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.theaurumcc.com">
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="canonical" href="https://www.theaurumcc.com/">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0a0a'/><rect x='4' y='4' width='24' height='24' fill='none' stroke='%23C5A572' stroke-width='1.2'/><text x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='15' font-style='italic' fill='%23C5A572'>Au</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Serif+KR:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   AURUM · CENTURY CLUB · v4
+   § cleanup · regulatory de-risk · Founding 100 front-and-fit
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --bg:         #0a0a0a;
+  --bg-2:       #0c0c0c;
+  --card:       #0f0d0a;
+  --card-2:     #131210;
+  --text:       #e8e3d8;
+  --sub:        #aaa39a;
+  --muted:      #6b655e;
+  --gold:       #C5A572;
+  --goldB:      #E3C187;
+  --goldD:      #8a7d6b;
+  --goldDeep:   #6a5a3a;
+  --goldBorder: rgba(197,165,114,0.22);
+  --goldBorderS:rgba(197,165,114,0.50);
+  --goldWash:   rgba(197,165,114,0.04);
+  --goldWashS:  rgba(197,165,114,0.10);
+  --goldGlow:   rgba(197,165,114,0.20);
+  --border:     rgba(255,255,255,0.08);
+  --red:        #c77061;
+
+  --serif:   'Cormorant Garamond', 'Noto Serif KR', Georgia, serif;
+  --serifKr: 'Noto Serif KR', 'Cormorant Garamond', Georgia, serif;
+  --sans:    'Outfit', system-ui, sans-serif;
+  --mono:    'JetBrains Mono', ui-monospace, monospace;
+
+  --pad-x: clamp(20px, 5.5vw, 88px);
+  --gap-section: clamp(96px, 14vh, 168px);
+  --content-max: 1240px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* , *::before, *::after { box-sizing: border-box; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 80px;
+}
+body {
+  margin: 0; padding: 0;
+  background: var(--bg); color: var(--text);
+  font-family: var(--serifKr); font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  min-width: 320px;
+}
+a { color: inherit; text-decoration: none; }
+em { font-style: italic; }
+hr.rule { border: 0; height: 1px; background: var(--goldBorder); margin: 0 var(--pad-x); }
+::selection { background: rgba(197,165,114,0.30); color: var(--text); }
+
+/* AMBIENT GLOW · cursor-follow on hero */
+.spotlight {
+  position: fixed;
+  pointer-events: none;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(197,165,114,0.10) 0%, transparent 65%);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  mix-blend-mode: screen;
+}
+@media (hover: hover) {
+  body.spot-on .spotlight { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NAV
+   ═══════════════════════════════════════════════════════════════════════════ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 50;
+  padding: 16px var(--pad-x);
+  background: linear-gradient(180deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex; justify-content: space-between; align-items: center;
+  transition: background 0.3s, border-color 0.3s;
+}
+.nav.scrolled {
+  background: rgba(10,10,10,0.94);
+  border-bottom: 1px solid var(--border);
+}
+.lockup { display: flex; align-items: center; gap: 14px; }
+.seal {
+  width: 34px; height: 34px;
+  border: 1px solid var(--gold);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  color: var(--gold); font-size: 16px;
+  letter-spacing: -0.04em;
+  flex-shrink: 0;
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+.lockup:hover .seal {
+  box-shadow: 0 0 18px var(--goldGlow);
+  border-color: var(--goldB);
+}
+.lockup-text { display: flex; flex-direction: column; line-height: 1; }
+.lockup-text .word {
+  font-family: var(--sans); font-weight: 600;
+  font-size: 14px; letter-spacing: 0.34em;
+  color: var(--text);
+}
+.lockup-text .program {
+  font-family: var(--mono); font-weight: 400;
+  font-size: 8.5px; letter-spacing: 0.36em;
+  color: var(--goldD);
+  margin-top: 5px;
+}
+.nav-cta {
+  font-family: var(--mono); font-weight: 500;
+  font-size: 10.5px; letter-spacing: 0.30em;
+  color: var(--goldB);
+  padding: 9px 16px;
+  border: 1px solid var(--goldBorderS);
+  background: var(--goldWash);
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.3s;
+  display: inline-flex; align-items: center; gap: 9px;
+  white-space: nowrap;
+}
+.nav-cta:hover {
+  background: var(--goldWashS);
+  border-color: var(--goldB);
+  box-shadow: 0 0 20px var(--goldGlow);
+}
+.nav-cta .arrow {
+  font-family: var(--serif); font-style: italic;
+  font-size: 13px; letter-spacing: 0;
+  color: var(--gold);
+  transition: transform 0.2s;
+}
+.nav-cta:hover .arrow { transform: translateX(3px); }
+
+/* MEMBERS — subtle nav link between lang toggle and primary CTA */
+.nav-members {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--mono); font-weight: 500;
+  font-size: 9.5px; letter-spacing: 0.30em;
+  color: var(--goldDeep);
+  padding: 5px 10px;
+  margin-right: 12px;
+  white-space: nowrap;
+  transition: color 0.25s;
+}
+.nav-members:hover { color: var(--goldB); }
+.nav-members .dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--goldDeep);
+  transition: background 0.25s, box-shadow 0.3s;
+}
+.nav-members:hover .dot {
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--goldGlow);
+}
+/* Both .label-desktop and .label-mobile have data-lang="en", so the
+   lang switcher reveals both when in English mode. We override one or
+   the other depending on viewport. The Korean span (data-lang="ko")
+   needs no special handling — shows as 멤버 on all viewports. */
+
+/* Mobile (≤640px): hide the desktop label (show LOG IN) */
+@media (max-width: 640px) {
+  html.lang-en .nav-members .label-desktop { display: none !important; }
+  .nav-members {
+    /* Tighter sizing on mobile — keep alongside lang toggle and CTA */
+    font-size: 8px;
+    letter-spacing: 0.20em;
+    padding: 5px 6px;
+    margin-right: 4px;
+    gap: 5px;
+  }
+  .nav-members .dot { width: 3px; height: 3px; }
+  /* Tighten the nav itself + lockup gap so MEMBERS + lang + INDICATE all fit */
+  .nav { padding: 12px 14px; }
+  .nav .lockup { gap: 10px; }
+}
+
+/* Desktop+tablet (≥641px): hide the mobile label (show MEMBERS) */
+@media (min-width: 641px) {
+  html.lang-en .nav-members .label-mobile { display: none !important; }
+}
+
+/* SIDE RAIL */
+.rail {
+  position: fixed;
+  right: clamp(16px, 2.5vw, 36px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  display: flex; flex-direction: column;
+  gap: 18px;
+  padding: 14px 0;
+}
+.rail::before, .rail::after {
+  content: '';
+  display: block;
+  width: 1px; height: 24px;
+  background: var(--goldBorder);
+  margin: 0 auto;
+}
+.rail-item {
+  width: 30px; height: 30px;
+  border: 1px solid var(--goldBorder);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: 11px; letter-spacing: -0.02em;
+  color: var(--goldDeep);
+  transition: all 0.3s var(--ease-out);
+  position: relative;
+}
+.rail-item::after {
+  content: attr(data-label);
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono); font-style: normal;
+  font-size: 9px; letter-spacing: 0.30em;
+  color: var(--goldD);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.rail-item:hover {
+  border-color: var(--gold);
+  color: var(--goldB);
+  box-shadow: 0 0 14px var(--goldGlow);
+}
+.rail-item:hover::after { opacity: 1; }
+.rail-item.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--bg);
+  box-shadow: 0 0 16px var(--goldGlow);
+}
+@media (max-width: 980px) { .rail { display: none; } }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  padding: 14vh var(--pad-x) 10vh;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 1100px 700px at 14% 0%, rgba(197,165,114,0.09), transparent 62%);
+  pointer-events: none;
+}
+.hero > * { position: relative; z-index: 2; }
+.hero-eyebrow {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--gold); letter-spacing: 0.34em;
+  margin-bottom: 30px;
+  display: flex; align-items: center; gap: 14px;
+  flex-wrap: wrap;
+}
+.hero-eyebrow .ko {
+  font-family: var(--serifKr); font-weight: 400;
+  letter-spacing: 0.18em;
+  color: var(--goldD); font-size: 13px;
+}
+.hero-h {
+  font-family: var(--serifKr); font-weight: 500;
+  font-size: clamp(62px, 11vw, 168px);
+  line-height: 0.94; letter-spacing: -0.025em;
+  color: var(--text);
+  margin: 0 0 32px;
+  max-width: 14ch;
+}
+.hero-h em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--gold); font-weight: 500;
+}
+.hero-lede {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: clamp(17px, 1.5vw, 22px);
+  line-height: 1.65; color: var(--sub);
+  max-width: 50ch;
+  margin: 0 0 40px;
+}
+.hero-lede em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--goldB); font-weight: 400;
+}
+.hero-meta {
+  display: flex; gap: clamp(20px, 4vw, 56px); align-items: baseline;
+  font-family: var(--mono); font-size: 10.5px;
+  color: var(--goldD); letter-spacing: 0.30em;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+.hero-meta .dot { color: var(--gold); }
+.hero-stamp {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 11px 18px;
+  border: 1px solid var(--goldBorderS);
+  background: var(--goldWash);
+  width: fit-content;
+  font-family: var(--mono); font-size: 10px;
+  color: var(--goldB); letter-spacing: 0.30em;
+}
+.hero-stamp .pulse {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--goldB);
+  position: relative;
+  flex-shrink: 0;
+}
+.hero-stamp .pulse::before {
+  content: '';
+  position: absolute; inset: -3px;
+  border-radius: 50%;
+  background: var(--goldB);
+  opacity: 0.6;
+  animation: pulse 2.4s var(--ease-out) infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(2.2); opacity: 0; }
+}
+.hero-stamp .sep { color: var(--goldD); }
+.hero-cue {
+  position: absolute; bottom: 4vh; left: var(--pad-x);
+  font-family: var(--mono); font-size: 9.5px;
+  color: var(--goldD); letter-spacing: 0.34em;
+  display: flex; align-items: center; gap: 14px;
+  opacity: 0.75;
+}
+.hero-cue::after {
+  content: ''; display: inline-block;
+  width: 48px; height: 1px; background: var(--goldBorder);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FOUNDING 100 · full viewport · NOW SECOND SECTION
+   ═══════════════════════════════════════════════════════════════════════════ */
+.f100 {
+  min-height: 100vh;
+  padding: clamp(56px, 8vh, 80px) var(--pad-x) clamp(40px, 6vh, 64px);
+  position: relative;
+  text-align: center;
+  background: var(--bg-2);
+  overflow: hidden;
+  scroll-margin-top: calc(24px - clamp(56px, 8vh, 80px));
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+}
+.f100::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 800px 600px at 50% 35%, rgba(197,165,114,0.07), transparent 65%);
+  pointer-events: none;
+}
+.f100 > * { position: relative; }
+.f100-eyebrow {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--gold); letter-spacing: 0.34em;
+  margin-bottom: clamp(20px, 3vh, 36px);
+}
+.f100-hero {
+  display: flex; align-items: baseline; justify-content: center;
+  gap: 14px;
+  margin-bottom: clamp(14px, 2vh, 22px);
+}
+.f100-hero .live {
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: clamp(120px, 18vw, 240px);
+  line-height: 0.95;
+  color: var(--goldB);
+  letter-spacing: -0.04em;
+  text-shadow: 0 0 32px rgba(227,193,135,0.18);
+}
+.f100-hero .slash {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: clamp(70px, 10vw, 130px);
+  color: var(--goldDeep);
+  letter-spacing: -0.02em; line-height: 1;
+}
+.f100-hero .cap {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: clamp(70px, 10vw, 130px);
+  color: var(--goldD);
+  letter-spacing: -0.02em; line-height: 1;
+}
+.f100-meta {
+  display: flex; align-items: center; justify-content: center;
+  gap: clamp(14px, 2vw, 28px);
+  margin-bottom: clamp(20px, 3vh, 36px);
+  flex-wrap: wrap;
+}
+.f100-meta .ko {
+  font-family: var(--serifKr); font-weight: 400;
+  font-size: 17px; color: var(--gold);
+  letter-spacing: 0.16em;
+}
+.f100-meta .dot { color: var(--goldD); }
+.f100-meta .label {
+  font-family: var(--mono); font-size: 10.5px;
+  color: var(--goldB); letter-spacing: 0.32em;
+}
+.f100-meta .date {
+  font-family: var(--mono); font-size: 10.5px;
+  color: var(--goldD); letter-spacing: 0.30em;
+}
+.f100-grid {
+  display: inline-grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 5px;
+  padding: 16px;
+  border: 1px solid var(--goldBorder);
+  background: rgba(0,0,0,0.30);
+  margin: 0 auto clamp(20px, 2.5vh, 32px);
+  max-width: calc(100% - 20px);
+}
+.f100-grid .seat {
+  width: clamp(16px, 2.2vw, 24px); height: clamp(16px, 2.2vw, 24px);
+  border: 1px solid var(--goldBorder);
+  background: rgba(197,165,114,0.04);
+  position: relative;
+  transition: background 0.4s;
+}
+.f100-grid .seat::before {
+  content: '';
+  position: absolute; inset: 4px;
+  background: var(--goldDeep); opacity: 0.45;
+}
+.f100-grid .seat.filled {
+  background: var(--goldB); border-color: var(--goldB);
+  box-shadow: 0 0 8px rgba(227,193,135,0.30);
+}
+.f100-grid .seat.filled::before { background: transparent; }
+.f100-closer {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: clamp(18px, 1.8vw, 24px);
+  color: var(--goldB);
+  margin-bottom: 12px;
+}
+.f100-closer em { color: var(--gold); font-weight: 500; }
+.f100-cap-mark {
+  font-family: var(--mono); font-size: 10.5px;
+  color: var(--gold); letter-spacing: 0.36em;
+}
+@media (max-height: 700px) and (min-width: 720px) {
+  .f100 { padding-top: 100px; padding-bottom: 60px; }
+  .f100-eyebrow { margin-bottom: 24px; }
+  .f100-meta { margin-bottom: 24px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SECTION · base
+   ═══════════════════════════════════════════════════════════════════════════ */
+.sec {
+  padding: var(--gap-section) var(--pad-x);
+  max-width: var(--content-max);
+  margin: 0 auto;
+  position: relative;
+  /* Anchor scroll fix: when reached via rail click, scroll past the top
+     padding so the section's visible content (eyebrow) lands just below
+     the nav, not 168px below it. The 24px is a small breathing gap. */
+  scroll-margin-top: calc(24px - var(--gap-section));
+}
+.sec-eyebrow {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--gold); letter-spacing: 0.34em;
+  margin-bottom: 22px;
+  display: flex; align-items: center; gap: 14px;
+  flex-wrap: wrap;
+}
+.sec-eyebrow .num {
+  font-family: var(--serif); font-style: italic;
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 0;
+  padding-right: 14px;
+  border-right: 1px solid var(--goldBorder);
+}
+.sec-eyebrow .ko {
+  font-family: var(--serifKr); font-weight: 400;
+  letter-spacing: 0.16em;
+  color: var(--goldD); font-size: 13px;
+}
+.sec-h {
+  font-family: var(--serifKr); font-weight: 500;
+  font-size: clamp(38px, 5.5vw, 76px);
+  line-height: 1.05; letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0 0 24px;
+  max-width: 18ch;
+}
+.sec-h em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--gold); font-weight: 500;
+}
+.sec-lede {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: clamp(16px, 1.4vw, 19.5px);
+  line-height: 1.78; color: var(--sub);
+  max-width: 60ch;
+  margin: 0;
+}
+.sec-lede em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--goldB); font-weight: 400;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ORIGIN · gap diagram (de-risked: generic wall labels)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.gap-diagram {
+  margin: clamp(56px, 7vh, 96px) auto 0;
+  padding: clamp(28px, 3.5vw, 56px);
+  border: 1px solid var(--goldBorder);
+  background: var(--card);
+  position: relative;
+  max-width: 1100px;
+  transition: border-color 0.4s, box-shadow 0.4s;
+}
+.gap-diagram:hover {
+  border-color: var(--goldBorderS);
+  box-shadow: 0 0 40px rgba(197,165,114,0.06);
+}
+.gap-diagram-h {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--gold); letter-spacing: 0.32em;
+  margin-bottom: 32px;
+  text-align: center;
+}
+.gap-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(20px, 4vw, 56px);
+}
+@media (max-width: 880px) {
+  .gap-row { grid-template-columns: 1fr; gap: 32px; }
+}
+.gap-side {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+.gap-side .glyph {
+  width: clamp(64px, 8vw, 88px); height: clamp(64px, 8vw, 88px);
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serifKr); font-weight: 400;
+  font-size: clamp(28px, 3vw, 36px);
+  color: var(--gold);
+}
+.gap-side .glyph.us {
+  border-color: var(--goldD); color: var(--goldD);
+}
+.gap-side .label {
+  font-family: var(--mono); font-size: 9.5px;
+  color: var(--goldB); letter-spacing: 0.30em;
+}
+.gap-side .desc {
+  font-family: var(--serif); font-style: italic;
+  font-size: 12px; color: var(--goldD);
+  line-height: 1.5;
+  max-width: 22ch;
+}
+.gap-walls {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  min-width: 0;
+}
+@media (max-width: 880px) {
+  .gap-walls { grid-template-columns: repeat(2, 1fr); max-width: 320px; margin: 0 auto; }
+}
+.gap-wall {
+  border: 1px solid rgba(199,112,97,0.30);
+  background: rgba(199,112,97,0.04);
+  padding: 14px 6px 10px;
+  text-align: center;
+  min-width: 0;
+}
+.gap-wall .x {
+  width: 22px; height: 22px;
+  border: 1px solid rgba(199,112,97,0.7);
+  border-radius: 50%;
+  margin: 0 auto 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--red);
+  font-family: var(--mono); font-size: 11px;
+}
+.gap-wall .label {
+  font-family: var(--mono); font-size: 8.5px;
+  color: var(--red); letter-spacing: 0.16em;
+  margin-bottom: 4px;
+}
+.gap-wall .desc {
+  font-family: var(--serif); font-style: italic;
+  font-size: 10px; color: var(--goldD);
+  line-height: 1.35;
+}
+.gap-bridge {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--goldBorder);
+  text-align: center;
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(16px, 1.5vw, 20px);
+  color: var(--text);
+}
+.gap-bridge em { color: var(--gold); font-weight: 500; }
+.gap-bridge .seal-inline {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px;
+  border: 1px solid var(--gold);
+  font-family: var(--serif); font-style: italic;
+  color: var(--gold); font-size: 11px;
+  vertical-align: -2px; margin-right: 6px;
+  font-weight: 500;
+}
+
+/* THREE FORCES */
+.forces-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(28px, 3.5vw, 56px);
+  margin-top: clamp(56px, 7vh, 96px);
+}
+@media (max-width: 880px) { .forces-grid { grid-template-columns: 1fr; gap: 48px; } }
+.force {
+  border-top: 1px solid var(--goldBorder);
+  padding-top: 28px;
+  position: relative;
+}
+.force::before {
+  content: '';
+  position: absolute; top: -1px; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width 0.6s var(--ease-out);
+}
+.force.visible::before { width: 40px; }
+.force-num {
+  font-family: var(--serif); font-style: italic;
+  font-size: 26px; color: var(--gold); font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+.force-icon {
+  width: 48px; height: 48px;
+  margin-bottom: 22px;
+  color: var(--gold);
+}
+.force-h {
+  font-family: var(--serifKr); font-weight: 500;
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.2; letter-spacing: -0.01em;
+  color: var(--text);
+  margin: 0 0 6px;
+  display: flex; align-items: baseline; gap: 12px;
+  flex-wrap: wrap;
+}
+.force-h .ko {
+  font-family: var(--serifKr); font-weight: 400;
+  font-size: 16px; color: var(--goldD);
+  letter-spacing: 0.12em;
+}
+.force-tag {
+  font-family: var(--serif); font-style: italic;
+  font-size: 15.5px; color: var(--gold);
+  margin-bottom: 16px;
+}
+.force-body {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: 14.5px; line-height: 1.78;
+  color: var(--sub);
+  margin-bottom: 20px;
+}
+.force-body em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--goldB);
+}
+.force-chips {
+  font-family: var(--mono); font-size: 9.5px;
+  color: var(--goldD); letter-spacing: 0.20em;
+  padding-top: 14px;
+  border-top: 1px dashed var(--goldBorder);
+}
+.forces-closer {
+  margin-top: clamp(56px, 7vh, 88px);
+  padding-top: 28px;
+  border-top: 1px solid var(--goldBorder);
+  text-align: center;
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(18px, 1.6vw, 22px);
+  color: var(--text);
+}
+.forces-closer em { color: var(--gold); font-weight: 500; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   QUALIFIER
+   ═══════════════════════════════════════════════════════════════════════════ */
+.qual-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(32px, 4vw, 64px);
+  margin-top: clamp(56px, 7vh, 88px);
+}
+@media (max-width: 880px) { .qual-grid { grid-template-columns: 1fr; gap: 48px; } }
+.qual-block .h {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--gold); letter-spacing: 0.32em;
+  margin-bottom: 16px;
+}
+.qual-block h3 {
+  font-family: var(--serifKr); font-weight: 500;
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.2; letter-spacing: -0.01em;
+  color: var(--text); margin: 0 0 18px;
+}
+.qual-block h3 em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--gold); font-weight: 500;
+}
+.qual-block p {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: 15.5px; line-height: 1.78;
+  color: var(--sub); margin: 0 0 14px;
+}
+.qual-block p em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--goldB); font-weight: 400;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MECHANISM
+   ═══════════════════════════════════════════════════════════════════════════ */
+.jobs-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 3vw, 40px);
+  margin-top: clamp(56px, 7vh, 88px);
+}
+@media (max-width: 880px) { .jobs-pair { grid-template-columns: 1fr; gap: 28px; } }
+.job-card {
+  border: 1px solid var(--goldBorder);
+  background: var(--card);
+  padding: clamp(28px, 3vw, 44px);
+  position: relative;
+  transition: border-color 0.3s, box-shadow 0.4s, transform 0.4s var(--ease-out);
+}
+.job-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--goldDeep) 100%);
+}
+.job-card:hover {
+  border-color: var(--goldBorderS);
+  box-shadow: 0 8px 32px rgba(197,165,114,0.08);
+  transform: translateY(-2px);
+}
+.job-eyebrow {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--gold); letter-spacing: 0.32em;
+  margin-bottom: 18px;
+  display: flex; align-items: center; gap: 12px;
+  flex-wrap: wrap;
+}
+.job-eyebrow .ko {
+  font-family: var(--serifKr);
+  letter-spacing: 0.16em;
+  color: var(--goldD); font-size: 13px;
+}
+.job-h {
+  font-family: var(--serifKr); font-weight: 500;
+  font-size: clamp(26px, 2.4vw, 36px);
+  line-height: 1.15; letter-spacing: -0.015em;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+.job-h em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--gold); font-weight: 500;
+}
+.job-tag {
+  font-family: var(--serif); font-style: italic;
+  font-size: 14px; color: var(--goldD);
+  margin-bottom: 22px;
+}
+.job-body {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: 14.5px; line-height: 1.78;
+  color: var(--sub);
+}
+.job-body em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--goldB);
+}
+.flow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: clamp(40px, 5vh, 64px);
+  border: 1px solid var(--goldBorder);
+  background: var(--card);
+}
+@media (max-width: 720px) {
+  .flow { grid-template-columns: 1fr 1fr; }
+  .flow .step:nth-child(2) { border-right: none; }
+  .flow .step:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+}
+@media (max-width: 480px) {
+  .flow { grid-template-columns: 1fr; }
+  .flow .step { border-right: none !important; border-bottom: 1px solid var(--border); }
+  .flow .step:last-child { border-bottom: none; }
+}
+.flow .step {
+  padding: 22px 18px;
+  border-right: 1px solid var(--border);
+  transition: background 0.3s;
+}
+.flow .step:last-child { border-right: none; }
+.flow .step:hover { background: rgba(197,165,114,0.03); }
+.flow .roman {
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: 17px; color: var(--gold);
+  margin-bottom: 5px;
+}
+.flow .action {
+  font-family: var(--mono); font-size: 8.5px;
+  color: var(--goldD); letter-spacing: 0.28em;
+  margin-bottom: 10px;
+}
+.flow .step h4 {
+  font-family: var(--serifKr); font-weight: 500;
+  font-size: 15px; color: var(--text);
+  margin: 0 0 6px; line-height: 1.3;
+}
+.flow .step h4 em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--gold); font-weight: 500;
+}
+.flow .step p {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: 11px; line-height: 1.55;
+  color: var(--sub);
+  margin: 0 0 12px;
+}
+.flow .value {
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: 14px; color: var(--goldB);
+  border-top: 1px dashed var(--goldBorder);
+  padding-top: 8px;
+}
+.flow .value .sub {
+  display: block;
+  font-family: var(--mono); font-style: normal;
+  font-size: 8px; color: var(--goldD);
+  letter-spacing: 0.20em;
+  margin-top: 3px;
+  font-weight: 400;
+}
+
+/* ENGINES */
+.engines-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(28px, 3vw, 48px);
+  margin-top: clamp(56px, 7vh, 88px);
+}
+@media (max-width: 880px) { .engines-pair { grid-template-columns: 1fr; gap: 32px; } }
+.engine-card {
+  padding-top: 28px;
+  border-top: 1px solid var(--goldBorder);
+}
+.engine-card .h {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--gold); letter-spacing: 0.32em;
+  margin-bottom: 14px;
+}
+.engine-card h3 {
+  font-family: var(--serifKr); font-weight: 500;
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.25; color: var(--text);
+  margin: 0 0 16px;
+}
+.engine-card h3 em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--gold); font-weight: 500;
+}
+.engine-card p {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: 14.5px; line-height: 1.78;
+  color: var(--sub); margin: 0;
+}
+.engine-card p em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--goldB);
+}
+.engines-chart {
+  margin-top: clamp(40px, 5vh, 64px);
+  padding: clamp(20px, 3vw, 36px);
+  border: 1px solid var(--goldBorder);
+  background: var(--card);
+}
+.engines-chart-h {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--gold); letter-spacing: 0.30em;
+  margin-bottom: 6px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+}
+.engines-chart-h .meta {
+  font-family: var(--serif); font-style: italic;
+  font-size: 11px; color: var(--goldD);
+  letter-spacing: 0; text-transform: none;
+}
+.engines-chart svg { display: block; width: 100%; height: auto; }
+.engines-sum {
+  margin-top: clamp(56px, 7vh, 88px);
+  padding-top: 28px;
+  border-top: 1px solid var(--goldBorder);
+  text-align: center;
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(20px, 1.8vw, 26px);
+  color: var(--goldD);
+}
+.engines-sum em { color: var(--text); }
+.engines-sum em.bright { color: var(--gold); font-weight: 500; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SUBSCRIPTION (was Simplification) · de-risked walls + replacement
+   ═══════════════════════════════════════════════════════════════════════════ */
+.walls-vis {
+  margin-top: clamp(56px, 7vh, 88px);
+  padding: clamp(24px, 3.5vw, 48px);
+  border: 1px solid var(--goldBorder);
+  background: var(--card);
+}
+.walls-vis-h {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--red); letter-spacing: 0.30em;
+  margin-bottom: 28px;
+  text-align: center;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+}
+.walls-vis-h .l, .walls-vis-h .r {
+  flex: 1; height: 1px; background: rgba(199,112,97,0.30);
+}
+.walls-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  min-width: 0;
+}
+@media (max-width: 720px) { .walls-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 460px) { .walls-grid { grid-template-columns: 1fr; } }
+.wall {
+  border: 1px solid rgba(199,112,97,0.25);
+  background: rgba(199,112,97,0.04);
+  padding: 22px 14px;
+  text-align: center;
+  min-width: 0;
+}
+.wall .x {
+  width: 32px; height: 32px;
+  border: 1px solid rgba(199,112,97,0.6);
+  border-radius: 50%;
+  margin: 0 auto 14px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--red);
+  font-family: var(--mono); font-size: 14px; font-weight: 500;
+}
+.wall .label {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--red); letter-spacing: 0.26em;
+  margin-bottom: 8px;
+}
+.wall .desc {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: 12px; line-height: 1.5;
+  color: var(--sub);
+}
+.walls-result {
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px dashed rgba(199,112,97,0.30);
+  text-align: center;
+  font-family: var(--serif); font-style: italic;
+  font-size: 14px; color: var(--red);
+}
+.simp-replace {
+  margin-top: clamp(40px, 5vh, 64px);
+  padding: clamp(24px, 3.5vw, 48px);
+  border: 1px solid var(--goldBorderS);
+  background: var(--card);
+}
+.simp-replace-h {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--gold); letter-spacing: 0.30em;
+  margin-bottom: 28px;
+  text-align: center;
+}
+.simp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--goldBorder);
+  border-bottom: 1px solid var(--goldBorder);
+}
+@media (max-width: 720px) { .simp-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 460px) { .simp-grid { grid-template-columns: 1fr; } }
+.simp-grid .cell {
+  padding: 18px 14px;
+  border-right: 1px solid var(--border);
+  min-width: 0;
+}
+.simp-grid .cell:last-child { border-right: none; }
+@media (max-width: 720px) {
+  .simp-grid .cell { border-bottom: 1px solid var(--border); }
+}
+.simp-grid .k {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--gold); letter-spacing: 0.26em;
+  margin-bottom: 10px;
+}
+.simp-grid .v {
+  font-family: var(--serifKr); font-weight: 400;
+  font-size: 13.5px; color: var(--text);
+  line-height: 1.4;
+}
+.simp-grid .v em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--goldB);
+}
+.simp-closer {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--goldBorder);
+  text-align: center;
+  font-family: var(--mono); font-size: 10px;
+  color: var(--gold); letter-spacing: 0.30em;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   OPENING BOOK · genericized
+   ═══════════════════════════════════════════════════════════════════════════ */
+.deals-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 2.5vw, 32px);
+  margin-top: clamp(56px, 7vh, 88px);
+}
+@media (max-width: 880px) { .deals-grid { grid-template-columns: 1fr; gap: 28px; } }
+.deal {
+  border: 1px solid var(--goldBorder);
+  background: var(--card);
+  position: relative;
+  display: flex; flex-direction: column;
+  transition: border-color 0.3s, box-shadow 0.4s, transform 0.4s var(--ease-out);
+}
+.deal:hover {
+  border-color: var(--goldBorderS);
+  box-shadow: 0 8px 32px rgba(197,165,114,0.10);
+  transform: translateY(-2px);
+}
+.deal-band {
+  background: rgba(197,165,114,0.06);
+  padding: 12px 22px;
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 1px solid var(--goldBorder);
+  flex-wrap: wrap; gap: 8px;
+}
+.deal-band .l {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--gold); letter-spacing: 0.30em;
+}
+.deal-band .r {
+  font-family: var(--serif); font-style: italic;
+  font-size: 12px; color: var(--goldD);
+}
+.deal-body { padding: clamp(28px, 3vw, 40px); flex: 1; }
+.deal-name-cap {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--goldD); letter-spacing: 0.30em;
+  margin-bottom: 10px;
+}
+.deal-name {
+  font-family: var(--serifKr); font-weight: 500;
+  font-size: clamp(28px, 2.8vw, 40px);
+  line-height: 1.05; letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0 0 6px;
+}
+.deal-name em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--gold); font-weight: 500;
+}
+.deal-tag {
+  font-family: var(--serif); font-style: italic;
+  font-size: 14px; color: var(--goldD);
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px dashed var(--goldBorder);
+}
+.deal-body p {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: 14.5px; line-height: 1.78;
+  color: var(--sub);
+  margin: 0 0 14px;
+}
+.deal-body p em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--goldB);
+}
+.deal-foot {
+  margin: 0 clamp(28px, 3vw, 40px) clamp(28px, 3vw, 40px);
+  padding-top: 18px;
+  border-top: 1px solid var(--goldBorder);
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 12px;
+}
+.deal-foot .l-k, .deal-foot .r-k {
+  font-family: var(--mono); font-size: 8.5px;
+  color: var(--goldD); letter-spacing: 0.28em;
+  margin-bottom: 4px;
+}
+.deal-foot .r-k { text-align: right; }
+.deal-foot .l-v {
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: 26px; color: var(--goldB);
+}
+.deal-foot .r-v {
+  font-family: var(--serif); font-style: italic;
+  font-size: 13px; color: var(--text); text-align: right;
+}
+.deals-summary {
+  margin-top: clamp(40px, 5vh, 64px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--goldBorder);
+  border-bottom: 1px solid var(--goldBorder);
+}
+@media (max-width: 720px) {
+  .deals-summary { grid-template-columns: 1fr; }
+}
+.deals-summary .cell {
+  padding: 22px 24px;
+  border-right: 1px solid var(--border);
+  min-width: 0;
+}
+.deals-summary .cell:last-child { border-right: none; }
+@media (max-width: 720px) {
+  .deals-summary .cell { border-right: none; border-bottom: 1px solid var(--border); }
+  .deals-summary .cell:last-child { border-bottom: none; }
+}
+.deals-summary .k {
+  font-family: var(--mono); font-size: 9.5px;
+  color: var(--goldD); letter-spacing: 0.28em;
+  margin-bottom: 10px;
+}
+.deals-summary .v {
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: clamp(24px, 2.4vw, 32px);
+  color: var(--goldB); line-height: 1; margin-bottom: 4px;
+}
+.deals-summary .v em { color: var(--gold); }
+.deals-summary .s {
+  font-family: var(--serif); font-style: italic;
+  font-size: 12.5px; color: var(--goldD);
+}
+.deals-disclaimer {
+  margin-top: 24px;
+  font-family: var(--serif); font-style: italic;
+  font-size: 11.5px; color: var(--muted);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PATH · 4-step process · NEW
+   ═══════════════════════════════════════════════════════════════════════════ */
+.path-wrap {
+  margin-top: clamp(56px, 7vh, 88px);
+}
+.path-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+@media (max-width: 880px) { .path-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .path-grid { grid-template-columns: 1fr; } }
+.path-step {
+  position: relative;
+  padding: 26px 20px 26px;
+  border: 1px solid var(--goldBorder);
+  background: var(--card);
+  transition: border-color 0.3s, transform 0.4s var(--ease-out), box-shadow 0.4s;
+}
+.path-step:hover {
+  border-color: var(--goldBorderS);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(197,165,114,0.07);
+}
+.path-step .num {
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: 32px; color: var(--gold);
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+.path-step .stage {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--goldB); letter-spacing: 0.30em;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed var(--goldBorder);
+}
+.path-step h4 {
+  font-family: var(--serifKr); font-weight: 500;
+  font-size: 17px; color: var(--text);
+  margin: 0 0 10px;
+  line-height: 1.25;
+}
+.path-step h4 em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--gold); font-weight: 500;
+}
+.path-step p {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: 12.5px; line-height: 1.65;
+  color: var(--sub);
+  margin: 0;
+}
+.path-step p em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--goldB);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NUMBERS · without fees now (4 cells)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.numbers {
+  padding: 0 var(--pad-x);
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+.qstats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--goldBorder);
+  border-bottom: 1px solid var(--goldBorder);
+}
+.qstats .cell {
+  padding: 26px 20px;
+  border-right: 1px solid var(--border);
+  min-width: 0;
+}
+.qstats .cell:last-child { border-right: none; }
+.qstats .k {
+  font-family: var(--mono); font-size: 9.5px;
+  color: var(--goldD); letter-spacing: 0.30em;
+  margin-bottom: 12px;
+}
+.qstats .v {
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: clamp(26px, 3vw, 38px);
+  color: var(--goldB); line-height: 1;
+}
+.qstats .v em { color: var(--gold); }
+@media (max-width: 720px) {
+  .qstats { grid-template-columns: repeat(2, 1fr); }
+  .qstats .cell { border-bottom: 1px solid var(--border); }
+  .qstats .cell:nth-last-child(-n+2) { border-bottom: none; }
+  .qstats .cell:nth-child(2n) { border-right: none; }
+}
+@media (max-width: 460px) {
+  .qstats { grid-template-columns: 1fr; }
+  .qstats .cell {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border);
+  }
+  .qstats .cell:last-child { border-bottom: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CTAS
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ctas {
+  padding: var(--gap-section) var(--pad-x);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  scroll-margin-top: calc(24px - var(--gap-section));
+}
+.ctas::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 800px 500px at 50% 50%, rgba(197,165,114,0.06), transparent 65%);
+  pointer-events: none;
+}
+.ctas > * { position: relative; }
+.ctas-h {
+  font-family: var(--serifKr); font-weight: 500;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.1; letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0 auto 24px;
+  max-width: 18ch;
+}
+.ctas-h em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--gold); font-weight: 500;
+}
+.ctas-sub {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(16px, 1.4vw, 20px);
+  color: var(--goldD);
+  margin: 0 auto 56px;
+  max-width: 54ch;
+  line-height: 1.6;
+}
+.ctas-sub em { color: var(--goldB); font-weight: 500; }
+.cta-row {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.cta {
+  display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  padding: 18px 32px;
+  font-family: var(--mono); font-weight: 500;
+  font-size: 12px; letter-spacing: 0.30em;
+  text-transform: uppercase;
+  border: 1px solid var(--goldBorderS);
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s, box-shadow 0.4s;
+  min-width: 240px;
+  position: relative;
+}
+.cta .arrow {
+  font-family: var(--serif); font-style: italic;
+  font-size: 18px; letter-spacing: 0;
+  margin-left: 4px;
+  transition: transform 0.3s var(--ease-out);
+}
+.cta:hover .arrow { transform: translateX(5px); }
+.cta-primary {
+  color: var(--bg); background: var(--gold); border-color: var(--gold);
+}
+.cta-primary:hover {
+  background: var(--goldB); border-color: var(--goldB);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(227,193,135,0.30);
+}
+.cta-ghost {
+  color: var(--goldB);
+  background: var(--goldWash);
+}
+.cta-ghost:hover {
+  background: var(--goldWashS); border-color: var(--goldB);
+  color: var(--goldB);
+  transform: translateY(-2px);
+  box-shadow: 0 0 28px var(--goldGlow);
+}
+.ctas-mailto {
+  margin-top: 28px;
+  font-family: var(--serif); font-style: italic;
+  font-size: 14.5px; color: var(--goldD);
+}
+.ctas-mailto a {
+  color: var(--goldB);
+  position: relative;
+  padding-bottom: 2px;
+}
+.ctas-mailto a::after {
+  content: '';
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: 1px; background: var(--goldBorderS);
+  transition: background 0.3s;
+}
+.ctas-mailto a:hover::after { background: var(--gold); }
+.ctas-foot {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--goldD); letter-spacing: 0.32em;
+  margin-top: 24px;
+}
+
+/* FOOTER */
+.foot {
+  padding: 56px var(--pad-x) 44px;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 32px;
+}
+@media (max-width: 720px) {
+  .foot { grid-template-columns: 1fr; gap: 18px; text-align: center; }
+  .foot-l, .foot-r { justify-self: center; }
+}
+.foot-l { display: flex; align-items: center; gap: 16px; }
+.foot-l .seal-sm {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px;
+  border: 1px solid var(--goldBorder);
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  color: var(--goldD); font-size: 13px;
+  letter-spacing: -0.04em;
+}
+.foot-l .meta { display: flex; flex-direction: column; line-height: 1.4; }
+.foot-l .word {
+  font-family: var(--mono); font-size: 9.5px;
+  color: var(--sub); letter-spacing: 0.30em;
+}
+.foot-l .pr {
+  font-family: var(--mono); font-size: 8.5px;
+  color: var(--muted); letter-spacing: 0.30em;
+  margin-top: 3px;
+}
+.foot-c {
+  text-align: center;
+  font-family: var(--serif); font-style: italic;
+  font-size: 13px; color: var(--goldD);
+}
+.foot-c a {
+  color: var(--goldB);
+  position: relative; padding-bottom: 2px;
+}
+.foot-c a::after {
+  content: '';
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: 1px; background: var(--goldBorderS);
+  transition: background 0.3s;
+}
+.foot-c a:hover::after { background: var(--gold); }
+.foot-c .sep {
+  display: inline-block;
+  margin: 0 12px;
+  color: var(--muted);
+  font-style: normal;
+}
+.foot-r {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--muted); letter-spacing: 0.30em;
+  text-align: right;
+}
+
+/* Discreet member log-in entry point — only visible to those who know to look */
+.foot-members {
+  padding: 0 var(--pad-x) 28px;
+  display: flex; justify-content: flex-end;
+  background: var(--bg);
+}
+.foot-members-link {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.36em; color: var(--muted);
+  padding: 6px 0;
+  transition: color 0.3s;
+}
+.foot-members-link:hover { color: var(--goldD); }
+.foot-members-link .dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--muted);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.foot-members-link:hover .dot {
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--goldGlow);
+}
+.foot-members-link .arr {
+  font-family: var(--serif); font-style: italic;
+  font-size: 11px; letter-spacing: 0;
+  transition: transform 0.3s;
+}
+.foot-members-link:hover .arr { transform: translateX(2px); }
+@media (max-width: 720px) {
+  .foot-members { justify-content: center; padding-bottom: 32px; }
+}
+
+/* SCROLL REVEAL */
+.reveal {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal.delay-1 { transition-delay: 0.10s; }
+.reveal.delay-2 { transition-delay: 0.20s; }
+.reveal.delay-3 { transition-delay: 0.30s; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+  .hero-stamp .pulse::before { animation: none; }
+}
+
+/* MOBILE TIGHT */
+@media (max-width: 720px) {
+  .hero-meta { flex-direction: column; gap: 8px; font-size: 10px; align-items: flex-start; }
+}
+@media (max-width: 640px) {
+  .hero-cue { display: none; }
+  .nav { padding: 13px var(--pad-x); }
+  .lockup-text .word { font-size: 12px; }
+  .lockup-text .program { font-size: 7.5px; }
+  .nav-cta { font-size: 9px; letter-spacing: 0.24em; padding: 7px 11px; }
+  .nav-cta .arrow { font-size: 11px; }
+  .f100-meta { flex-direction: column; gap: 6px; }
+  .f100-meta .dot { display: none; }
+  .cta { min-width: 0; width: 100%; }
+}
+
+/* ═══ I18N · BILINGUAL TOGGLE ═══ */
+/* Default: Korean visible, English hidden */
+[data-lang="en"] { display: none; }
+html.lang-en [data-lang="en"] { display: revert; }
+html.lang-en [data-lang="ko"] { display: none; }
+/* (Removed legacy .ko hiding rules — class="ko" accents always show) */
+
+.lang-toggle {
+  display: inline-flex; align-items: center;
+  gap: 2px;
+  padding: 5px 8px;
+  border: 1px solid var(--goldBorder);
+  background: rgba(0,0,0,0.30);
+  margin-right: 12px;
+}
+.lang-toggle button {
+  background: transparent; border: 0; cursor: pointer;
+  font-family: var(--mono); font-weight: 500;
+  font-size: 9.5px; letter-spacing: 0.20em;
+  color: var(--goldDeep);
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+.lang-toggle button:hover { color: var(--gold); }
+.lang-toggle button.active { color: var(--goldB); }
+.lang-toggle .sep { color: var(--goldDeep); font-family: var(--mono); font-size: 9px; }
+@media (max-width: 460px) {
+  .lang-toggle { padding: 4px 6px; margin-right: 8px; }
+  .lang-toggle button { padding: 3px 5px; font-size: 9px; letter-spacing: 0.15em; }
+}
+/* nav row needs to allow toggle + cta */
+.nav-right { display: inline-flex; align-items: center; }
+
+
+/* ═══ INTERACTIVE · TELESCOPE TOGGLE (Forces & Qualifier) ═══ */
+.forces-tele, .qual-tele {
+  margin-top: clamp(56px, 7vh, 96px);
+  position: relative;
+}
+.tele-pills {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid var(--goldBorder);
+  border-bottom: 1px solid var(--goldBorder);
+  margin-bottom: clamp(40px, 5vh, 56px);
+}
+.tele-pill {
+  flex: 1 1 0;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--border);
+  padding: 20px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  color: var(--goldD);
+  position: relative;
+  transition: color 0.3s, background 0.3s;
+  text-align: center;
+}
+.tele-pill:last-child { border-right: none; }
+.tele-pill:hover { color: var(--goldB); background: rgba(197,165,114,0.03); }
+.tele-pill::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 2px;
+  background: var(--gold);
+  transition: width 0.45s var(--ease-out);
+}
+.tele-pill.active::after { width: 100%; }
+.tele-pill.active {
+  color: var(--goldB);
+  background: var(--goldWash);
+}
+.tele-pill .pill-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(20px, 2vw, 24px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--gold);
+}
+.tele-pill .pill-lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.tele-pill .pill-lbl .ko {
+  font-family: var(--serifKr);
+  letter-spacing: 0.14em;
+  font-size: 12px;
+  color: var(--goldD);
+  font-weight: 400;
+}
+
+/* Pane */
+.tele-panel { position: relative; }
+.tele-pane {
+  display: none;
+  animation: paneIn 0.45s var(--ease-out);
+}
+.tele-pane.active { display: block; }
+@keyframes paneIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Force pane layout */
+.force-pane-grid {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+  max-width: 880px;
+}
+.force-pane-icon {
+  width: 88px; height: 88px;
+  border: 1px solid var(--goldBorder);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.force-pane-icon svg { width: 52px; height: 52px; }
+.force-pane-body .force-tag {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(20px, 2vw, 26px);
+  color: var(--gold);
+  margin: 0 0 18px;
+  line-height: 1.3;
+}
+.force-pane-body .force-body {
+  font-family: var(--serifKr);
+  font-weight: 300;
+  font-size: clamp(15px, 1.3vw, 17px);
+  line-height: 1.78;
+  color: var(--sub);
+  max-width: 56ch;
+  margin: 0 0 24px;
+}
+.force-pane-body .force-body em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--goldB);
+}
+.force-pane-body .force-chips {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--goldD);
+  letter-spacing: 0.24em;
+  padding-top: 14px;
+  border-top: 1px dashed var(--goldBorder);
+}
+
+/* Qualifier pane (no icon, just prose) */
+.qual-pane-body { max-width: 720px; }
+.qual-pane-body .h {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 0.30em;
+  margin: 0 0 14px;
+}
+.qual-pane-body h3 {
+  font-family: var(--serifKr);
+  font-weight: 500;
+  font-size: clamp(26px, 2.6vw, 36px);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin: 0 0 22px;
+}
+.qual-pane-body h3 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 500;
+}
+.qual-pane-body p {
+  font-family: var(--serifKr);
+  font-weight: 300;
+  font-size: clamp(15px, 1.3vw, 17px);
+  line-height: 1.78;
+  color: var(--sub);
+  margin: 0 0 14px;
+}
+.qual-pane-body p em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--goldB);
+}
+
+/* MOBILE: degrade to stacked content (no toggling on small screens) */
+@media (max-width: 880px) {
+  .tele-pills { display: none; }
+  .tele-pane {
+    display: block !important;
+    animation: none !important;
+    padding-top: 36px;
+    margin-top: 36px;
+    border-top: 1px solid var(--goldBorder);
+  }
+  .tele-pane:first-child {
+    padding-top: 0;
+    margin-top: 0;
+    border-top: none;
+  }
+  .force-pane-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .force-pane-icon {
+    width: 64px; height: 64px;
+  }
+  .force-pane-icon svg { width: 36px; height: 36px; }
+}
+
+/* Reduced motion: kill animations */
+@media (prefers-reduced-motion: reduce) {
+  .tele-pane { animation: none; }
+  .tele-pill::after { transition: none; }
+}
+
+/* ═══ INTERACTIVE · MECHANISM FLOW SEQUENTIAL ═══ */
+.flow { position: relative; overflow: hidden; }
+.flow::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--goldDeep) 0%, var(--gold) 50%, var(--goldB) 100%);
+  transition: width 1.4s var(--ease-out);
+  z-index: 2;
+  pointer-events: none;
+}
+.flow.lit::before { width: 100%; }
+.flow .step {
+  transition: background 0.4s, opacity 0.4s, border-top-color 0.5s;
+  border-top: 2px solid transparent;
+  position: relative;
+}
+.flow .step.lit {
+  border-top-color: var(--gold);
+}
+.flow.hovered .step:not(.focus) { opacity: 0.40; }
+.flow .step.focus {
+  background: var(--goldWash);
+  z-index: 3;
+}
+.flow .step.focus .roman { color: var(--goldB); }
+@media (prefers-reduced-motion: reduce) {
+  .flow::before, .flow .step { transition: none; }
+}
+
+/* ═══ INTERACTIVE · SUBSCRIPTION REVEAL ═══ */
+.walls-vis-wrap { position: relative; }
+.walls-vis {
+  transition: opacity 1.1s var(--ease-out), filter 1.1s var(--ease-out);
+}
+.walls-vis.dimmed {
+  /* dim effect removed — walls stay readable */
+}
+.walls-arrow {
+  position: relative;
+  text-align: center;
+  height: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.walls-arrow .glyph {
+  display: inline-block;
+  margin-top: -18px;
+  margin-bottom: 18px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 28px;
+  color: var(--gold);
+  text-shadow: 0 0 24px rgba(197,165,114,0.50);
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-out);
+  position: relative;
+  z-index: 2;
+}
+.walls-arrow.show .glyph {
+  opacity: 1;
+  animation: arrowBob 2.2s ease-in-out infinite;
+}
+@keyframes arrowBob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(6px); }
+}
+.simp-replace {
+  transition: border-color 0.9s var(--ease-out), box-shadow 0.9s var(--ease-out);
+}
+.simp-replace.glowing {
+  border-color: var(--goldBorderS);
+  box-shadow: 0 0 56px rgba(197,165,114,0.12);
+}
+@media (prefers-reduced-motion: reduce) {
+  .walls-vis, .simp-replace, .walls-arrow .glyph { transition: none; animation: none; }
+}
+
+
+/* Restore: H3 pillar headers inside telescope panes */
+.force-pane-body .force-h {
+  margin: 0 0 10px;
+  font-size: clamp(26px, 2.4vw, 34px);
+}
+.force-pane-body .force-h .ko {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--goldD);
+  letter-spacing: 0.12em;
+  font-family: var(--serifKr);
+}
+
+
+
+
+/* ═══ SECTION DIVIDER · compact, single-line chapter marker ═══ */
+.section-divider {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 22px 0 0;
+  margin: clamp(48px, 6vh, 80px) 0 clamp(28px, 3.5vh, 44px);
+  border-top: 1px solid var(--goldBorder);
+  position: relative;
+}
+.section-divider::before {
+  /* small left tick */
+  content: '';
+  position: absolute;
+  top: -1px; left: 0;
+  width: 24px; height: 1px;
+  background: var(--gold);
+}
+.section-divider .divider-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(28px, 3.2vw, 42px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--gold);
+}
+.section-divider .divider-eyebrow {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.section-divider .divider-eyebrow [data-lang="en"] {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 12.5px;
+  letter-spacing: 0.32em;
+  color: var(--goldB);
+}
+.section-divider .divider-eyebrow .ko {
+  font-family: var(--serifKr);
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  color: var(--goldD);
+  text-transform: none;
+}
+@media (max-width: 880px) {
+  .section-divider {
+    margin: 40px 0 22px;
+    padding-top: 16px;
+    gap: 14px;
+  }
+  .section-divider .divider-num { font-size: 26px; }
+  .section-divider .divider-eyebrow [data-lang="en"] { font-size: 11px; letter-spacing: 0.26em; }
+  .section-divider .divider-eyebrow .ko { font-size: 12px; }
+}
+
+
+/* ═══ LANDING · the door ═══ */
+.landing {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 24px 80px;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 45%, rgba(197,165,114,0.07), transparent 65%),
+    radial-gradient(ellipse 25% 20% at 50% 30%, rgba(197,165,114,0.04), transparent 70%);
+  overflow: hidden;
+  isolation: isolate;
+}
+.landing::before {
+  /* breathing ambient overlay */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(197,165,114,0.05), transparent 70%);
+  animation: landingBreathe 9s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes landingBreathe {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%      { opacity: 1; transform: scale(1.06); }
+}
+
+.landing-door {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  padding: 32px 40px;
+  transition: transform 0.6s var(--ease-out);
+}
+.landing-door:hover { transform: translateY(-3px); }
+.landing-door:hover .seal-frame {
+  border-color: var(--goldB);
+  box-shadow: 0 0 60px rgba(197,165,114,0.45), inset 0 0 30px rgba(197,165,114,0.10);
+}
+.landing-door:hover .landing-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.landing-seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.seal-frame {
+  width: 92px;
+  height: 92px;
+  border: 1px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.50);
+  box-shadow: 0 0 32px rgba(197,165,114,0.22), inset 0 0 16px rgba(197,165,114,0.05);
+  transition: border-color 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+}
+.seal-frame em {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 46px;
+  color: var(--gold);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.landing-wordmark {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.landing-wordmark .word-en {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: clamp(24px, 3.6vw, 42px);
+  letter-spacing: 0.20em;
+  color: var(--text);
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+.landing-wordmark .word-ko {
+  font-family: var(--serifKr);
+  font-weight: 400;
+  font-size: clamp(15px, 1.8vw, 20px);
+  letter-spacing: 0.22em;
+  color: var(--goldD);
+}
+
+.landing-rule {
+  width: 88px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.7;
+}
+
+.landing-tag {
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(16px, 1.7vw, 21px);
+  color: var(--goldB);
+  line-height: 1.4;
+  max-width: 38ch;
+}
+.landing-tag .ko-line {
+  display: block;
+  font-family: var(--serifKr);
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(13px, 1.3vw, 16px);
+  color: var(--goldD);
+  margin-top: 8px;
+  letter-spacing: 0.06em;
+}
+
+.landing-arrow {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 30px;
+  color: var(--gold);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  margin-top: 6px;
+  text-shadow: 0 0 16px rgba(197,165,114,0.50);
+}
+
+.landing-meta {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.30em;
+  color: var(--gold);
+  z-index: 1;
+}
+.landing-meta .pulse {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 12px rgba(197,165,114,0.70);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Sequential reveal on first load */
+.landing-door > * {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: landingFadeIn 1.1s var(--ease-out) forwards;
+}
+.landing-door .landing-seal     { animation-delay: 0.30s; }
+.landing-door .landing-wordmark { animation-delay: 0.55s; }
+.landing-door .landing-rule     { animation-delay: 0.85s; }
+.landing-door .landing-tag      { animation-delay: 1.10s; }
+.landing-meta {
+  opacity: 0;
+  animation: landingFadeIn 1s var(--ease-out) forwards;
+  animation-delay: 1.5s;
+}
+@keyframes landingFadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+.landing-meta {
+  /* override transform — the Y stays via translateX(-50%) for centering */
+}
+@keyframes landingMetaIn {
+  to { opacity: 1; }
+}
+.landing-meta { animation-name: landingMetaIn; transform: translateX(-50%); }
+
+@media (max-width: 640px) {
+  .landing { padding: 80px 20px 80px; }
+  .seal-frame { width: 76px; height: 76px; }
+  .seal-frame em { font-size: 38px; }
+  .landing-door { padding: 24px 20px; gap: 22px; }
+  .landing-meta { font-size: 9px; letter-spacing: 0.24em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing::before { animation: none; }
+  .landing-door > *, .landing-meta { animation: none; opacity: 1; transform: none; }
+  .landing-meta { transform: translateX(-50%); }
+}
+
+
+/* ═══ v9 OVERRIDES ═══ */
+
+/* Lang toggle — push to right corner, next to nav-cta */
+.nav .lang-toggle {
+  margin-left: auto;
+  margin-right: 12px;
+}
+
+/* Section divider — bigger Roman numeral + bigger eyebrow text */
+.section-divider .divider-num {
+  font-size: clamp(40px, 4.4vw, 60px) !important;
+}
+.section-divider .divider-eyebrow [data-lang="en"] {
+  font-size: 15px !important;
+  letter-spacing: 0.30em !important;
+}
+.section-divider .divider-eyebrow .ko {
+  font-size: 22px !important;
+  letter-spacing: 0.10em !important;
+  font-weight: 500 !important;
+}
+@media (max-width: 880px) {
+  .section-divider .divider-num { font-size: 36px !important; }
+  .section-divider .divider-eyebrow [data-lang="en"] { font-size: 13px !important; letter-spacing: 0.24em !important; }
+  .section-divider .divider-eyebrow .ko { font-size: 18px !important; }
+}
+
+/* Improve Korean readability — tighten lede line-height, give more reading width */
+[data-lang="ko"].sec-lede,
+[data-lang="ko"].hero-lede,
+[data-lang="ko"].force-body,
+[data-lang="ko"].job-body {
+  line-height: 1.65;
+}
+
+/* Make .ko accent stay on the same baseline as English caps (no orphan break) */
+.sec-eyebrow,
+.f100-eyebrow,
+.head-eyebrow,
+.job-eyebrow,
+.hero-eyebrow,
+.confirm-eyebrow {
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .sec-eyebrow,
+  .f100-eyebrow,
+  .head-eyebrow,
+  .job-eyebrow,
+  .hero-eyebrow,
+  .confirm-eyebrow {
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+}
+
+
+/* ═══ v9 MOBILE NAV FIX ═══ */
+@media (max-width: 480px) {
+  .nav { padding: 12px 14px; gap: 6px; }
+  .lockup-text .word { font-size: 11px; letter-spacing: 0.10em; }
+  .lockup-text .program { font-size: 6.5px; letter-spacing: 0.20em; }
+  .lockup .seal { width: 28px; height: 28px; }
+  .lockup .seal em { font-size: 14px; }
+  .nav .lang-toggle {
+    padding: 3px 5px;
+    margin-right: 6px;
+    margin-left: auto;
+  }
+  .nav .lang-toggle button { font-size: 8.5px; padding: 2px 4px; letter-spacing: 0.10em; }
+  .nav-cta { font-size: 8px; padding: 6px 9px; letter-spacing: 0.20em; }
+  .nav-cta .arrow { font-size: 9px; margin-left: 3px; }
+}
+
+
+/* ═══ v9c · KOREAN TYPOGRAPHY FIX ═══ */
+/* word-break: keep-all is the canonical CJK rule — prevents breaking
+   words like 있었습니다 → 있었습/니다 by keeping the verb intact */
+
+[data-lang="ko"],
+[data-lang="ko"] *,
+.ko,
+.word-ko,
+.divider-eyebrow .ko,
+.lockup-text .program,
+.landing-tag,
+.landing-meta {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+/* Lift the max-width on Korean H2 — was forcing breaks at wrong spots */
+[data-lang="ko"].sec-h,
+[data-lang="ko"].hero-h,
+[data-lang="ko"].ctas-h,
+[data-lang="ko"].confirm-h,
+[data-lang="ko"].deal-name,
+[data-lang="ko"].force-h,
+[data-lang="ko"].job-h {
+  max-width: none;
+}
+
+/* Korean-mode body copy — improve line height for comfortable reading */
+[data-lang="ko"].sec-lede,
+[data-lang="ko"].force-body,
+[data-lang="ko"].job-body,
+[data-lang="ko"] p:not(.deal-tag) {
+  line-height: 1.7;
+}
+
+
+/* ═══ v10 · POST-CLOSE TEASER (inside §VI Opening Book) ═══ */
+.post-close {
+  margin-top: clamp(40px, 5vh, 64px);
+  padding-top: clamp(32px, 4vh, 48px);
+  border-top: 1px solid var(--goldBorderS);
+  position: relative;
+}
+.post-close::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 0;
+  width: 18px; height: 1px;
+  background: var(--gold);
+}
+.post-close-band {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.30em;
+  color: var(--goldB);
+  margin-bottom: clamp(20px, 2.5vh, 28px);
+  display: inline-flex;
+  gap: 14px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.post-close-band [data-lang="ko"] {
+  font-family: var(--serifKr);
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: var(--goldD);
+  text-transform: none;
+}
+.post-close-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 2.5vw, 36px);
+}
+.pc-card {
+  padding: clamp(20px, 2.4vw, 28px);
+  border: 1px solid var(--goldBorderS);
+  background: rgba(0,0,0,0.20);
+  transition: border-color 0.4s, background 0.4s;
+}
+.pc-card:hover {
+  border-color: var(--goldBorder);
+  background: rgba(197,165,114,0.025);
+}
+.pc-name {
+  font-family: var(--serifKr);
+  font-weight: 500;
+  font-size: clamp(20px, 2.2vw, 26px);
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.pc-name em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 500;
+}
+.pc-card p {
+  font-family: var(--serif);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--goldB);
+  margin: 0;
+}
+.pc-card p em {
+  font-style: italic;
+  color: var(--goldBright);
+}
+@media (max-width: 760px) {
+  .post-close-grid { grid-template-columns: 1fr; gap: 14px; }
+  .pc-card p { font-size: 14px; line-height: 1.55; }
+}
+
+
+/* ═══ v10 · MOBILE COMPRESSION ═══ */
+/* Reduce vertical bloat without hiding content */
+
+@media (max-width: 768px) {
+  /* ═══ MOBILE FULL-PANE AUDIT FIX ═══
+     User wants every pane to fill the viewport on mobile so that scrolling
+     feels like discrete pane-to-pane transitions rather than continuous
+     content bleed. Previously these sections had `min-height: auto` to
+     "release from full viewport" — we reverse that. Use 100svh (small
+     viewport height) so iOS Safari URL bar doesn't push content above
+     the fold; fall back to 100vh on browsers without svh support. */
+
+  /* Section padding tightened across the board */
+  .sec {
+    padding-top: clamp(40px, 5vh, 60px);
+    padding-bottom: clamp(28px, 3.5vh, 40px);
+    /* Force full-pane on mobile — most .sec content is naturally taller
+       than 100vh so this only affects short ones, ensuring they fill */
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Hero — full pane on mobile (was: min-height: auto) */
+  .hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: clamp(72px, 12vh, 100px) var(--pad-x) clamp(40px, 6vh, 60px);
+  }
+  .hero-h {
+    font-size: clamp(48px, 11vw, 64px);
+    line-height: 1.0;
+  }
+  .hero-lede {
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  /* Founding 100 — full pane on mobile (was: min-height: auto !important) */
+  #founding-100 {
+    min-height: 100vh !important;
+    min-height: 100svh !important;
+    padding-top: clamp(48px, 6vh, 72px);
+    padding-bottom: clamp(36px, 5vh, 48px);
+  }
+  .f100-num {
+    font-size: clamp(72px, 18vw, 100px);
+  }
+  .f100-grid {
+    transform: scale(0.85);
+    transform-origin: center top;
+    margin: 12px auto -32px;
+  }
+
+  /* Numbers panel (qstats) — full pane, centered vertically on mobile */
+  .numbers {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* CTAs (interest section) — full pane, centered vertically on mobile */
+  .ctas {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Section dividers — tighter on mobile */
+  .section-divider {
+    margin: 32px 0 18px !important;
+    padding-top: 14px;
+    gap: 12px;
+  }
+
+  /* Section H2 — tighter on phone */
+  .sec-h {
+    font-size: clamp(32px, 8.5vw, 44px) !important;
+    line-height: 1.05;
+    margin-bottom: 18px;
+  }
+  .sec-lede {
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin-bottom: clamp(24px, 3.5vh, 36px);
+  }
+
+  /* Mechanism step cards — tighter stacking */
+  .flow-grid { gap: 12px; }
+  .flow-step {
+    padding: 18px 18px 16px;
+  }
+  .flow-step .step-h {
+    font-size: 17px;
+  }
+
+  /* Engines chart — tighter */
+  .engines-chart {
+    padding: 20px 12px 24px;
+  }
+  .engines-sum {
+    font-size: 15px;
+    padding: 16px var(--pad-x);
+  }
+
+  /* Walls panel — tighter */
+  .walls-vis { padding: 24px 16px; margin-top: 36px; }
+  .simp-replace { padding: 20px 16px; margin-top: 32px; }
+
+  /* Path / 4-step CTA — compact */
+  .path-grid { gap: 12px; }
+  .path-step { padding: 18px 16px; }
+  .ctas {
+    padding-top: clamp(56px, 7vh, 80px);
+    padding-bottom: clamp(48px, 6vh, 64px);
+  }
+  .ctas-h {
+    font-size: clamp(36px, 9vw, 52px);
+    line-height: 1.05;
+  }
+
+  /* Final CTA confirm panel — tighter */
+  .confirm {
+    padding: 32px 22px;
+    margin-top: 40px;
+  }
+
+  /* Footer compress */
+  footer {
+    padding: 28px var(--pad-x);
+  }
+
+  /* Two job cards (mechanism) — tighter */
+  .jobs-grid { gap: 16px; }
+  .job-card { padding: 22px 20px; }
+
+  /* Origin gap diagram — tighter */
+  .gap-figure {
+    padding: 20px 14px;
+    margin: 28px 0;
+  }
+}
+
+/* Even tighter for very small (< 420px) — iPhone SE class */
+@media (max-width: 420px) {
+  .hero-h { font-size: 44px; }
+  .sec-h { font-size: 30px !important; }
+  .ctas-h { font-size: 32px; }
+  .f100-num { font-size: 64px; }
+  #founding-100 { padding-top: 36px; padding-bottom: 28px; }
+  .section-divider { margin: 24px 0 14px !important; }
+}
+
+
+/* ═══ v11 · CLOSING · the exit door ═══ */
+.closing {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(80px, 12vh, 120px) 24px clamp(56px, 8vh, 80px);
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 45%, rgba(197,165,114,0.08), transparent 65%),
+    radial-gradient(ellipse 25% 20% at 50% 30%, rgba(197,165,114,0.04), transparent 70%);
+  overflow: hidden;
+  isolation: isolate;
+  border-top: 1px solid var(--goldBorderS);
+}
+.closing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(197,165,114,0.06), transparent 70%);
+  animation: landingBreathe 9s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.closing-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(20px, 2.6vh, 30px);
+  max-width: 760px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.closing-seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+/* uses .seal-frame from landing — already defined */
+
+.closing-h {
+  font-family: var(--serifKr);
+  font-weight: 500;
+  font-size: clamp(36px, 5.2vw, 64px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0;
+  max-width: none;
+}
+.closing-h em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.closing-rule {
+  width: 88px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.7;
+  margin: 4px 0;
+}
+
+.closing-tag {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(15px, 1.6vw, 19px);
+  color: var(--goldB);
+  line-height: 1.5;
+  max-width: 38ch;
+  margin: 0;
+}
+
+.closing-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 44px;
+  border: 1px solid var(--gold);
+  background: rgba(197,165,114,0.06);
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.32em;
+  color: var(--text);
+  text-decoration: none;
+  text-transform: uppercase;
+  margin-top: 14px;
+  transition: background 0.4s var(--ease-out),
+              border-color 0.4s var(--ease-out),
+              box-shadow 0.4s var(--ease-out),
+              transform 0.4s var(--ease-out);
+  cursor: pointer;
+}
+.closing-cta:hover {
+  background: rgba(197,165,114,0.14);
+  border-color: var(--goldBright);
+  box-shadow: 0 0 32px rgba(197,165,114,0.35);
+  transform: translateY(-2px);
+}
+.closing-arrow {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 19px;
+  color: var(--gold);
+  letter-spacing: 0;
+  transition: transform 0.4s var(--ease-out);
+}
+.closing-cta:hover .closing-arrow {
+  transform: translateX(4px);
+}
+
+.closing-foot {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.30em;
+  color: var(--goldDeep);
+  margin-top: 8px;
+}
+
+.closing-meta {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.30em;
+  color: var(--gold);
+  z-index: 1;
+}
+.closing-meta .pulse {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 12px rgba(197,165,114,0.70);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@media (max-width: 640px) {
+  .closing { padding: 80px 20px 80px; }
+  .closing-content { gap: 18px; }
+  .seal-frame { /* already responsive in landing CSS */ }
+  .closing-h { font-size: clamp(30px, 8vw, 44px); }
+  .closing-tag { font-size: 14.5px; }
+  .closing-cta { padding: 14px 32px; font-size: 11.5px; letter-spacing: 0.26em; gap: 10px; }
+  .closing-arrow { font-size: 16px; }
+  .closing-meta { font-size: 9px; letter-spacing: 0.24em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .closing::before { animation: none; }
+  .closing-meta .pulse { animation: none; }
+}
+
+/* ═══ v11 · Keep italic phrases together (no mid-em line breaks) ═══ */
+.sec-h em,
+.ctas-h em,
+.hero-h em,
+.confirm-h em,
+.closing-h em,
+.engines-sub em,
+.job-h em,
+.force-h em,
+.deal-name em,
+.qual-pane-body h3 em,
+.path-step h4 em {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+</style>
+</head>
+<body>
+
+<div class="spotlight" id="spotlight"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#top" class="lockup">
+    <span class="seal"><em>Au</em></span>
+    <div class="lockup-text">
+      <span class="word">AURUM</span>
+      <span class="program">CENTURY CLUB</span>
+    </div>
+  </a>
+  <div class="lang-toggle" role="group" aria-label="Language"><button type="button" data-lang-btn="ko" class="active">한</button><span class="sep">/</span><button type="button" data-lang-btn="en">EN</button></div><a href="/members" class="nav-members" aria-label="Member log-in"><span class="dot"></span><span data-lang="en" class="label-desktop">MEMBERS</span><span data-lang="en" class="label-mobile">LOG IN</span><span data-lang="ko">멤버</span></a><a href="interest.html" class="nav-cta"><span data-lang="en">INDICATE INTEREST</span><span data-lang="ko">관심 표명</span><span class="arrow">→</span></a>
+</nav>
+
+<!-- SIDE RAIL -->
+<nav class="rail" id="rail" aria-label="Section navigation">
+  <a href="#landing"         class="rail-item" data-section="landing"         data-label="ENTER">○</a>
+  <a href="#founding-100"    class="rail-item" data-section="founding-100"    data-label="THE 100">100</a>
+  <a href="#origin"          class="rail-item" data-section="origin"          data-label="ORIGIN">I</a>
+  <a href="#forces"          class="rail-item" data-section="forces"          data-label="THE FORM">II</a>
+  <a href="#qualifier"       class="rail-item" data-section="qualifier"       data-label="QUALIFIER">III</a>
+  <a href="#mechanism"       class="rail-item" data-section="mechanism"       data-label="MECHANISM">IV</a>
+  <a href="#subscription"    class="rail-item" data-section="subscription"    data-label="SIMPLIFICATION">V</a>
+  <a href="#book"            class="rail-item" data-section="book"            data-label="THE BOOK">VI</a>
+  <a href="#closing"         class="rail-item" data-section="closing"         data-label="INDICATE INTEREST">→</a>
+</nav>
+
+
+<!-- LANDING · the door -->
+<section class="landing" id="landing">
+  <a href="#top" class="landing-door" aria-label="Enter The Aurum Century Club">
+    <div class="landing-seal">
+      <div class="seal-frame"><em>Au</em></div>
+    </div>
+    <div class="landing-wordmark">
+      <div class="word-en">The Aurum Century Club</div>
+      <div class="word-ko" data-lang="ko">아름 센추리 클럽</div>
+    </div>
+    <div class="landing-rule"></div>
+    <div class="landing-tag">
+      <span data-lang="en">For the Founding 100. By invitation.</span>
+      <span data-lang="ko">창립 100인. 초청제.</span>
+    </div>
+    <div class="landing-arrow">→</div>
+  </a>
+  <div class="landing-meta">
+    <span class="pulse"></span>
+    <span data-lang="en">INAUGURAL CLOSE · Q3 MMXXVI</span>
+    <span data-lang="ko">제1차 클로즈 · Q3 MMXXVI</span>
+  </div>
+</section>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-eyebrow reveal">
+    <span><span data-lang="en">THE CENTURY CLUB</span></span>
+    <span class="ko" data-lang="ko">센추리 클럽</span>
+  </div>
+  <h1 class="hero-h reveal delay-1" data-lang="en">The <em>Kilo.</em></h1><h1 class="hero-h reveal delay-1" data-lang="ko">한 <em>킬로그램.</em></h1>
+  <p class="hero-lede reveal delay-2" data-lang="en">
+    Physical gold as the foundation. Private capital as the return.
+    A Singapore program for a founding group of <em>Korean&nbsp;investors.</em>
+  </p><p class="hero-lede reveal delay-2" data-lang="ko">
+    실물 금이 기반이며, 사모(私募) 자본이 수익을 만듭니다.
+    소수의 <em>한국 자산가</em>를 위한 싱가포르 프로그램입니다.
+  </p>
+  <div class="hero-meta reveal delay-3">
+    <span><span data-lang="en">SINGAPORE</span><span data-lang="ko">싱가포르</span> <span class="dot">·</span> <span data-lang="en">SEOUL</span><span data-lang="ko">서울</span></span>
+    <span><span data-lang="en">QUALIFIED INVESTORS ONLY</span><span data-lang="ko">적격 투자자 전용</span></span>
+  </div>
+  <div class="hero-stamp reveal delay-3">
+    <span class="pulse"></span>
+    <span><span data-lang="en">INAUGURAL CLOSE</span><span data-lang="ko">제1차 클로즈</span></span>
+    <span class="sep">·</span>
+    <span>Q3 MMXXVI</span>
+  </div>
+  <div class="hero-cue"><span data-lang="en">SCROLL</span><span data-lang="ko">스크롤</span></div>
+</section>
+
+<!-- FOUNDING 100 · cohort scoreboard — special, no Roman numeral -->
+<section class="f100" id="founding-100">
+  <div class="f100-eyebrow reveal"><span data-lang="en">THE FOUNDING 100</span><span data-lang="ko">창립 100인</span></div>
+  <div class="f100-hero reveal delay-1">
+    <span class="live" id="live-count">8</span><span class="slash">/</span><span class="cap">100</span>
+  </div>
+  <div class="f100-meta reveal delay-2">
+    <span class="ko" data-lang="en">백 · one hundred</span><span class="ko" data-lang="ko">백 · 100인</span>
+    <span class="dot">·</span>
+    <span class="label"><span data-lang="en">SUBSCRIBED</span><span data-lang="ko">등록 완료</span></span>
+    <span class="dot">·</span>
+    <span class="date"><span data-lang="en">AS OF MAY 2026</span><span data-lang="ko">2026년 5월 기준</span></span>
+  </div>
+  <div class="f100-grid reveal delay-3" id="grid"></div>
+  <div class="f100-closer reveal" data-lang="en">Once full, <em>the book closes.</em></div><div class="f100-closer reveal" data-lang="ko">정원이 차면, <em>모집이 마감됩니다.</em></div>
+  <div class="f100-cap-mark reveal delay-1" data-lang="en">·  AT 100  ·  CLOSED  ·</div><div class="f100-cap-mark reveal delay-1" data-lang="ko">·  100인 도달  ·  마감  ·</div>
+</section>
+
+<!-- I · ORIGIN -->
+<section class="sec" id="origin">
+  <div class="section-divider reveal">
+    <span class="divider-num">I.</span>
+    <div class="divider-eyebrow">
+      <span data-lang="en">ORIGIN</span>
+      <span class="ko">서장</span>
+    </div>
+  </div>
+  <h2 class="sec-h reveal delay-1" data-lang="en">
+    The deals were there.<br>
+    <em>We built the mechanism.</em>
+  </h2><h2 class="sec-h reveal delay-1" data-lang="ko">
+    거래는 이미 있었습니다.<br>
+    <em>저희는 그것을 담을 구조를 만들었습니다.</em>
+  </h2>
+  <p class="sec-lede reveal delay-2" data-lang="en">
+    The partners behind Aurum sourced US private positions across two decades
+    and placed them, one transaction at a time, with a small group of Korean
+    investors. <em>The capital was ready. The deals were available.</em>
+    What was missing was the mechanism to hold them.
+  </p><p class="sec-lede reveal delay-2" data-lang="ko">
+    Aurum의 파트너들은 지난 20년에 걸쳐 미국 사모 시장의 포지션을 발굴해, 
+    한국 자산가들에게 한 건씩 직접 연결해 왔습니다. <em>자본은 준비돼 있었고, 거래도 존재했습니다.</em>
+    부족했던 것은 그것들을 담아낼 구조였습니다.
+  </p>
+
+  <div class="gap-diagram reveal">
+    <div class="gap-diagram-h"><span data-lang="en">THE GAP <span style="color:var(--goldD); margin: 0 12px;">·</span> DIRECT ROUTE</span><span data-lang="ko">격차 <span style="color:var(--goldD); margin: 0 12px;">·</span> 직접 경로</span></div>
+    <div class="gap-row">
+      <div class="gap-side">
+        <div class="glyph">韓</div>
+        <div class="label"><span data-lang="en">KOREAN HNW</span><span data-lang="ko">한국 자산가</span></div>
+        <div class="desc" data-lang="en">Capital ready. Direct-deal appetite, no path.</div><div class="desc" data-lang="ko">자본은 준비. 직접 투자 의향. 그러나 길은 없음.</div>
+      </div>
+      <div class="gap-walls">
+        <div class="gap-wall"><div class="x">×</div><div class="label"><span data-lang="en">FILINGS</span><span data-lang="ko">신고</span></div><div class="desc" data-lang="en">per-deal regulatory burden</div><div class="desc" data-lang="ko">거래마다 규제 부담</div></div>
+        <div class="gap-wall"><div class="x">×</div><div class="label"><span data-lang="en">CAPS</span><span data-lang="ko">한도</span></div><div class="desc" data-lang="en">pool and concentration limits</div><div class="desc" data-lang="ko">풀·집중도 제한</div></div>
+        <div class="gap-wall"><div class="x">×</div><div class="label"><span data-lang="en">REVIEWS</span><span data-lang="ko">심사</span></div><div class="desc" data-lang="en">compliance review on each wire</div><div class="desc" data-lang="ko">송금마다 컴플라이언스 검토</div></div>
+        <div class="gap-wall"><div class="x">×</div><div class="label"><span data-lang="en">ACCESS</span><span data-lang="ko">접근</span></div><div class="desc" data-lang="en">closed to single tickets</div><div class="desc" data-lang="ko">단독 티켓에는 닫혀 있음</div></div>
+      </div>
+      <div class="gap-side">
+        <div class="glyph us">美</div>
+        <div class="label"><span data-lang="en">US INSTITUTIONAL</span><span data-lang="ko">미국 기관 시장</span></div>
+        <div class="desc" data-lang="en">Closed primaries. Curated books. Relationship-gated.</div><div class="desc" data-lang="ko">비공개 1차 시장. 선별된 도서. 관계 기반 진입.</div>
+      </div>
+    </div>
+    <div class="gap-bridge" data-lang="en">
+      <span class="seal-inline"><em>Au</em></span>
+      Aurum is <em>the fund built to hold them.</em>
+    </div><div class="gap-bridge" data-lang="ko">
+      <span class="seal-inline"><em>Au</em></span>
+      Aurum은 <em>그것들을 담기 위해 만들어진 펀드입니다.</em>
+    </div>
+  </div>
+</section>
+
+<!-- II · THE FORM (Three Forces) -->
+<section class="sec" id="forces">
+  <div class="section-divider reveal">
+    <span class="divider-num">II.</span>
+    <div class="divider-eyebrow">
+      <span data-lang="en">THE FORM</span>
+      <span class="ko">형태</span>
+    </div>
+  </div>
+  <h2 class="sec-h reveal delay-1" data-lang="en">Three forces. <em>One fund.</em></h2><h2 class="sec-h reveal delay-1" data-lang="ko">세 가지 힘. <em>하나의 펀드.</em></h2>
+  <p class="sec-lede reveal delay-2" data-lang="en">
+    The decision was not what to build. The decision was where. Three answers
+    came into alignment at one place — Singapore. <em>The combination is what is new.</em>
+  </p><p class="sec-lede reveal delay-2" data-lang="ko">
+    질문은 '무엇을 만들 것인가'가 아니었다. '어디서 만들 것인가'였다. 세 가지 답이 한 곳에서 맞물렸다 — 싱가포르.
+    <em>그 조합이 새로운 것이다.</em>
+  </p>
+
+  <div class="forces-tele reveal">
+    <div class="tele-pills" role="tablist" aria-label="Three forces">
+      <button type="button" class="tele-pill active" data-pillar="1" role="tab" aria-selected="true">
+        <span class="pill-num">I.</span>
+        <span class="pill-lbl">
+          <span data-lang="en">ACCESS</span><span data-lang="ko">접근</span>
+          <span class="ko" data-lang="en">접근</span>
+        </span>
+      </button>
+      <button type="button" class="tele-pill" data-pillar="2" role="tab" aria-selected="false">
+        <span class="pill-num">II.</span>
+        <span class="pill-lbl">
+          <span data-lang="en">SINGAPORE</span><span data-lang="ko">싱가포르</span>
+          <span class="ko" data-lang="en">싱가포르</span>
+        </span>
+      </button>
+      <button type="button" class="tele-pill" data-pillar="3" role="tab" aria-selected="false">
+        <span class="pill-num">III.</span>
+        <span class="pill-lbl">
+          <span data-lang="en">GOLD</span><span data-lang="ko">금</span>
+          <span class="ko" data-lang="en">금</span>
+        </span>
+      </button>
+    </div>
+
+    <div class="tele-panel">
+      <div class="tele-pane active" data-pillar="1" role="tabpanel">
+        <div class="force-pane-grid">
+          <div class="force-pane-icon">
+            <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="8" y="14" width="40" height="32"/>
+              <line x1="8" y1="22" x2="48" y2="22"/>
+              <circle cx="42" cy="32" r="3" fill="currentColor"/>
+              <line x1="20" y1="32" x2="36" y2="32" stroke-dasharray="2,3"/>
+            </svg>
+          </div>
+          <div class="force-pane-body">
+            <h3 class="force-h"><span data-lang="en">Access</span><span data-lang="ko">접근</span><span class="ko" data-lang="en">접근</span></h3>
+            <p class="force-tag" data-lang="en">The deals that do not advertise.</p><p class="force-tag" data-lang="ko">광고하지 않는 거래.</p>
+            <p class="force-body" data-lang="en">
+              Pre-IPO secondaries and disciplined US private credit clear through
+              <em>relationships, not brokered channels.</em> The partners behind Aurum
+              have built those relationships across two decades. Members inherit the
+              relationship — not the brokerage.
+            </p><p class="force-body" data-lang="ko">
+              프리-IPO 세컨더리와 절제된 미국 사모 크레딧은 
+              <em>관계를 통해서만 닿을 수 있습니다 — 중개 채널이 아닙니다.</em> 
+              Aurum의 파트너들은 그 관계를 20년에 걸쳐 구축해 왔습니다. 
+              회원이 물려받는 것은 관계 자체이지, 중개가 아닙니다.
+            </p>
+            <div class="force-chips" data-lang="en">SOURCED  ·  DIRECT  ·  CURATED</div><div class="force-chips" data-lang="ko">발굴  ·  직접  ·  선별</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tele-pane" data-pillar="2" role="tabpanel">
+        <div class="force-pane-grid">
+          <div class="force-pane-icon">
+            <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="10" y="36" width="36" height="14"/>
+              <rect x="14" y="26" width="28" height="10"/>
+              <rect x="18" y="16" width="20" height="10"/>
+              <line x1="14" y1="40" x2="42" y2="40"/>
+              <line x1="18" y1="30" x2="38" y2="30"/>
+              <circle cx="28" cy="11" r="2" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="force-pane-body">
+            <h3 class="force-h"><span data-lang="en">Singapore</span><span data-lang="ko">싱가포르</span><span class="ko" data-lang="en">싱가포르</span></h3>
+            <p class="force-tag" data-lang="en">Capital grows where it sits.</p><p class="force-tag" data-lang="ko">자본은 머무는 곳에서 자란다.</p>
+            <p class="force-body" data-lang="en">
+              A Singapore fund structure holds offshore investments outside the
+              per-deal repatriation cycle. Income and gains accumulate at the fund
+              level — <em>the growth stays where it is, compounding, not recurring.</em>
+              World-class regulatory framework.
+            </p><p class="force-body" data-lang="ko">
+              싱가포르 펀드 구조는 해외 투자 자산을 거래마다 본국으로 송환하는 
+              과정 밖에서 보유합니다. 수익과 이익은 펀드 레벨에서 누적됩니다 — 
+              <em>자본은 그 자리에 머물며 복리로 쌓이고, 매번 다시 시작하지 않습니다.</em>
+              세계적 수준의 규제 체계.
+            </p>
+            <div class="force-chips" data-lang="en">SINGAPORE  ·  REGULATED  ·  ESTABLISHED</div><div class="force-chips" data-lang="ko">싱가포르  ·  규제  ·  안정</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tele-pane" data-pillar="3" role="tabpanel">
+        <div class="force-pane-grid">
+          <div class="force-pane-icon">
+            <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="8" y="22" width="40" height="14" rx="1"/>
+              <line x1="14" y1="28" x2="42" y2="28"/>
+              <text x="28" y="33" font-family="Georgia,serif" font-size="9" font-style="italic" fill="currentColor" text-anchor="middle" stroke="none">Au</text>
+              <line x1="14" y1="36" x2="42" y2="36"/>
+            </svg>
+          </div>
+          <div class="force-pane-body">
+            <h3 class="force-h"><span data-lang="en">Gold</span><span data-lang="ko">금</span><span class="ko" data-lang="en">금</span></h3>
+            <p class="force-tag" data-lang="en">Not the gift. The asset.</p><p class="force-tag" data-lang="ko">선물이 아니다. 자산이다.</p>
+            <p class="force-body" data-lang="en">
+              In Korea, gold is the wedding token, the quiet inheritance — bought
+              domestically <em>at a premium few realize.</em> Across a generation, the
+              asset has appreciated against every G10 currency. Singapore is the
+              world's deepest bullion market.
+            </p><p class="force-body" data-lang="ko">
+              한국에서 금은 혼수, 조용한 상속. 국내에서 
+              <em>적지 않은 프리미엄을 얹어</em> 매입됩니다. 
+              한 세대에 걸쳐 G10 통화 모두에 대해 가치가 상승했습니다. 
+              싱가포르는 세계에서 가장 깊은 금괴 시장입니다.
+            </p>
+            <div class="force-chips" data-lang="en">INSTITUTIONAL  ·  ALLOCATED  ·  SG HUB</div><div class="force-chips" data-lang="ko">기관급  ·  할당  ·  싱가포르 허브</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="forces-closer reveal" data-lang="en">
+    Access opens. Singapore holds. <em>Gold protects.</em>
+  </div><div class="forces-closer reveal" data-lang="ko">
+    접근이 열린다. 싱가포르가 보유한다. <em>금이 지킨다.</em>
+  </div>
+</section>
+
+<!-- III · QUALIFIER -->
+<section class="sec" id="qualifier">
+  <div class="section-divider reveal">
+    <span class="divider-num">III.</span>
+    <div class="divider-eyebrow">
+      <span data-lang="en">THE QUALIFIER</span>
+      <span class="ko">자격</span>
+    </div>
+  </div>
+  <h2 class="sec-h reveal delay-1" data-lang="en">One kilogram. <em>The Founding 100.</em></h2><h2 class="sec-h reveal delay-1" data-lang="ko">한 킬로. <em>창립 100인.</em></h2>
+  <p class="sec-lede reveal delay-2" data-lang="en">
+    Physical gold is the qualifier. Private capital access is the product.
+    What follows is what each <em>Century Club member</em> will receive at launch.
+  </p><p class="sec-lede reveal delay-2" data-lang="ko">
+    자격의 기준은 실물 금. 제공되는 것은 사모 자본 접근. 
+    아래는 모든 <em>센추리 클럽 회원</em>이 출범 시 받게 되는 것입니다.
+  </p>
+
+  <div class="qual-tele reveal">
+    <div class="tele-pills" role="tablist" aria-label="The kilogram's journey">
+      <button type="button" class="tele-pill active" data-pillar="1" role="tab" aria-selected="true">
+        <span class="pill-num">I.</span>
+        <span class="pill-lbl">
+          <span data-lang="en">YOU HOLD</span><span data-lang="ko">보유</span>
+          <span class="ko" data-lang="en">보유</span>
+        </span>
+      </button>
+      <button type="button" class="tele-pill" data-pillar="2" role="tab" aria-selected="false">
+        <span class="pill-num">II.</span>
+        <span class="pill-lbl">
+          <span data-lang="en">AURUM DEPLOYS</span><span data-lang="ko">운용</span>
+          <span class="ko" data-lang="en">운용</span>
+        </span>
+      </button>
+      <button type="button" class="tele-pill" data-pillar="3" role="tab" aria-selected="false">
+        <span class="pill-num">III.</span>
+        <span class="pill-lbl">
+          <span data-lang="en">YOU RECEIVE</span><span data-lang="ko">수령</span>
+          <span class="ko" data-lang="en">수령</span>
+        </span>
+      </button>
+    </div>
+
+    <div class="tele-panel">
+      <div class="tele-pane active" data-pillar="1" role="tabpanel">
+        <div class="qual-pane-body">
+          <div class="h"><span data-lang="en">WHAT YOU HOLD</span><span data-lang="ko">회원이 보유하는 것</span></div>
+          <h3 data-lang="en">What <em>you hold.</em></h3><h3 data-lang="ko">회원이 <em>보유하는 것.</em></h3>
+          <p data-lang="en">
+            Institutional-grade physical gold, allocated to the member's name,
+            held in segregated custody at a Singapore freeport — <em>fully insured,</em>
+            serial-identified.
+          </p><p data-lang="ko">
+            회원 명의로 할당된 기관급 실물 금. 싱가포르 프리포트의 분리 보관소에서 보관됩니다 — 
+            <em>완전 보험 가입,</em> 일련번호 기록.
+          </p>
+          <p data-lang="en">
+            The bar collateralizes a credit line at a Singapore institutional bank.
+            The metal never moves; the credit it unlocks deploys.
+          </p><p data-lang="ko">
+            금괴는 싱가포르 기관 은행의 신용 한도를 담보합니다. 
+            금속은 움직이지 않고, 그것이 풀어내는 신용만 운용됩니다.
+          </p>
+        </div>
+      </div>
+      <div class="tele-pane" data-pillar="2" role="tabpanel">
+        <div class="qual-pane-body">
+          <div class="h"><span data-lang="en">WHAT AURUM DOES WITH IT</span><span data-lang="ko">Aurum이 운용하는 방식</span></div>
+          <h3 data-lang="en">What <em>Aurum does with it.</em></h3><h3 data-lang="ko">Aurum이 <em>하는 일.</em></h3>
+          <p data-lang="en">
+            Credit deploys into <em>two sleeves:</em> pre-IPO growth equity and US
+            mid-market private credit, with selective access to <em>institutional
+            real estate</em> deals. A standing <em>20% reserve</em> is held in cash
+            and short-dated US Treasuries.
+          </p><p data-lang="en">
+            <em>Reinvestment is the default path</em> — fund-level returns compound
+            across vintages.
+          </p><p data-lang="ko">
+            신용은 <em>두 갈래로 운용됩니다:</em> 프리-IPO 성장 주식과 미국 중형 사모 
+            크레딧, 그리고 선별적 <em>기관급 부동산</em> 거래 접근. 
+            <em>20% 상시 유보분</em>은 현금 및 단기 미국 국채로 보유합니다.
+          </p><p data-lang="ko">
+            <em>재투자가 기본 경로</em> — 펀드 레벨 수익이 빈티지를 가로질러 복리로 쌓입니다.
+          </p>
+        </div>
+      </div>
+      <div class="tele-pane" data-pillar="3" role="tabpanel">
+        <div class="qual-pane-body">
+          <div class="h"><span data-lang="en">WHAT YOU RECEIVE</span><span data-lang="ko">회원이 받는 것</span></div>
+          <h3 data-lang="en">What <em>you receive.</em></h3><h3 data-lang="ko">회원이 <em>받는 것.</em></h3>
+          <p data-lang="en">
+            Direct allocation in Aurum Fund deal flow. A kilogram of gold in your
+            name, working as collateral while it appreciates. <em>One Singapore
+            subscription</em> in place of the compounding paperwork that comes with
+            every direct deal.
+          </p><p data-lang="ko">
+            Aurum 펀드의 거래 흐름에 직접 할당. 회원 명의의 금 1킬로그램이 
+            가치 상승과 동시에 담보로 일합니다. <em>거래마다 누적되는 서류 작업을 
+            단 한 번의 싱가포르 구독</em>으로 대체.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IV · MECHANISM -->
+<section class="sec" id="mechanism">
+  <div class="section-divider reveal">
+    <span class="divider-num">IV.</span>
+    <div class="divider-eyebrow">
+      <span data-lang="en">MECHANISM</span>
+      <span class="ko">메커니즘</span>
+    </div>
+  </div>
+  <h2 class="sec-h reveal delay-1" data-lang="en">One kilogram. <em>Two jobs.</em></h2><h2 class="sec-h reveal delay-1" data-lang="ko">한 킬로. <em>두 가지 역할.</em></h2>
+  <p class="sec-lede reveal delay-2" data-lang="en">
+    A single kilogram does <em>two jobs at once</em> — it protects the member, and
+    it funds the deal pipeline through a Singapore credit line. <em>No bank, no
+    family office, no product in Asia combines the two.</em>
+  </p><p class="sec-lede reveal delay-2" data-lang="ko">
+    한 킬로의 금이 <em>동시에 두 역할을 합니다</em> — 회원을 보호하고, 
+    싱가포르 신용 한도를 통해 거래 파이프라인에 자금을 공급합니다. 
+    <em>아시아의 어떤 은행도, 패밀리 오피스도, 상품도 이 둘을 결합하지 않습니다.</em>
+  </p>
+
+  <div class="jobs-pair">
+    <div class="job-card reveal">
+      <div class="job-eyebrow"><span data-lang="en">JOB ONE</span> <span class="ko">보호</span></div>
+      <h3 class="job-h" data-lang="en">The bar <em>protects.</em></h3><h3 class="job-h" data-lang="ko">금괴는 <em>지킨다.</em></h3>
+      <div class="job-tag" data-lang="en">Protection · unmoved · unseized</div><div class="job-tag" data-lang="ko">보호 · 부동 · 불변</div>
+      <p class="job-body" data-lang="en">
+        Allocated and segregated at a Singapore freeport.
+        <em>Serial-identified.</em> Fully insured. The member's name on the
+        certificate. Conservative LTV monitoring with member alerts well before
+        any margin threshold. <em>The metal is still, and it is safe.</em>
+      </p><p class="job-body" data-lang="ko">
+        싱가포르 프리포트에 할당·분리 보관. <em>일련번호 기록.</em> 
+        완전 보험. 회원 명의의 보관 증서. 보수적인 LTV 모니터링과 
+        마진 임계 도달 한참 전 회원 알림. <em>금속은 정지해 있고, 안전합니다.</em>
+      </p>
+    </div>
+    <div class="job-card reveal delay-1">
+      <div class="job-eyebrow"><span data-lang="en">JOB TWO</span> <span class="ko">생산</span></div>
+      <h3 class="job-h" data-lang="en">The credit <em>earns.</em></h3><h3 class="job-h" data-lang="ko">신용은 <em>일한다.</em></h3>
+      <div class="job-tag" data-lang="en">Production · deployed · productive</div><div class="job-tag" data-lang="ko">생산 · 운용 · 가동</div>
+      <p class="job-body" data-lang="en">
+        A credit line collateralized by the bar at <em>institutional pricing.</em>
+        Proceeds deploy into pre-IPO equity and US private credit at
+        <em>~15% base IRR target,</em> net of fees.
+      </p><p class="job-body" data-lang="ko">
+        금괴를 담보로 한 <em>기관급 가격의</em> 신용 한도. 
+        자금은 프리-IPO 주식과 미국 사모 크레딧에 운용됩니다 — 
+        수수료 차감 후 <em>약 15% 기본 IRR 목표.</em>
+      </p>
+    </div>
+  </div>
+
+  <div class="flow reveal">
+    <div class="step">
+      <div class="roman">I.</div>
+      <div class="action"><span data-lang="en">DEPOSIT</span><span data-lang="ko">예치</span></div>
+      <h4 data-lang="en">Member <em>gold bar</em></h4><h4 data-lang="ko">회원 <em>금괴</em></h4>
+      <p data-lang="en">Institutional-grade · serial-identified</p><p data-lang="ko">기관급 · 일련번호</p>
+      <div class="value">1 kg<span class="sub"><span data-lang="en">ALLOCATED</span><span data-lang="ko">할당</span></span></div>
+    </div>
+    <div class="step">
+      <div class="roman">II.</div>
+      <div class="action"><span data-lang="en">CUSTODY</span><span data-lang="ko">보관</span></div>
+      <h4 data-lang="en">Singapore <em>custody</em></h4><h4 data-lang="ko">싱가포르 <em>보관</em></h4>
+      <p data-lang="en">Freeport · segregated · insured</p><p data-lang="ko">프리포트 · 분리 · 보험</p>
+      <div class="value"><span data-lang="en">Allocated</span><span data-lang="ko">할당</span><span class="sub"><span data-lang="en">SEGREGATED</span><span data-lang="ko">분리</span></span></div>
+    </div>
+    <div class="step">
+      <div class="roman">III.</div>
+      <div class="action"><span data-lang="en">PLEDGE → CREDIT</span><span data-lang="ko">담보 → 신용</span></div>
+      <h4 data-lang="en">Credit <em>line</em></h4><h4 data-lang="ko">신용 <em>한도</em></h4>
+      <p data-lang="en">Singapore institutional · institutional pricing</p><p data-lang="ko">싱가포르 기관 · 기관급 가격</p>
+      <div class="value"><span data-lang="en">Working</span><span data-lang="ko">가동</span><span class="sub"><span data-lang="en">CAPITAL</span><span data-lang="ko">자본</span></span></div>
+    </div>
+    <div class="step">
+      <div class="roman">IV.</div>
+      <div class="action"><span data-lang="en">DEPLOY</span><span data-lang="ko">운용</span></div>
+      <h4 data-lang="en">Two <em>sleeves</em></h4><h4 data-lang="ko">두 <em>갈래</em></h4>
+      <p data-lang="en">Pre-IPO equity · US private credit</p><p data-lang="ko">프리-IPO 주식 · 미국 사모 크레딧</p>
+      <div class="value">~15%<span class="sub"><span data-lang="en">BASE IRR · NET</span><span data-lang="ko">기본 IRR · 순</span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TWO ENGINES (still under §IV — Mechanism) -->
+<section class="sec">
+  <div class="sec-eyebrow reveal">
+    <span data-lang="en">COMPOUNDING</span>
+    <span class="ko">복리</span>
+  </div>
+  <h2 class="sec-h reveal delay-1" data-lang="en">Two engines. <em>One NAV.</em></h2><h2 class="sec-h reveal delay-1" data-lang="ko">두 개의 엔진. <em>하나의 NAV.</em></h2>
+  <p class="sec-lede reveal delay-2" data-lang="en">
+    The kilogram becomes <em>two compounding instruments at once.</em> The metal
+    appreciates on its own arc. The credit it generates compounds on the
+    pipeline's. The member's NAV is the sum.
+  </p><p class="sec-lede reveal delay-2" data-lang="ko">
+    한 킬로는 동시에 <em>두 개의 복리 자산</em>이 됩니다. 금속은 자신의 궤적으로 
+    가치가 오릅니다. 그것이 생성한 신용은 파이프라인의 궤적으로 복리됩니다. 
+    회원의 NAV는 그 합입니다.
+  </p>
+
+  <div class="engines-pair">
+    <div class="engine-card reveal">
+      <div class="h"><span data-lang="en">ENGINE I  ·  GOLD FLOOR</span><span data-lang="ko">엔진 I  ·  금 바닥</span></div>
+      <h3 data-lang="en">Compounds at the rate of <em>money supply.</em></h3><h3 data-lang="ko"><em>통화 공급</em>의 속도로 복리.</h3>
+      <p data-lang="en">
+        The kilogram appreciates passively against won, dollar, yen — the
+        asymmetry that makes Korean families hold it in the first place.
+        Aurum doesn't accelerate it. It simply <em>stops the metal from sitting idle.</em>
+      </p><p data-lang="ko">
+        한 킬로는 원, 달러, 엔 모두에 대해 수동적으로 가치가 오릅니다 — 
+        애초에 한국 가정이 금을 보유하는 이유인 비대칭. Aurum은 그 속도를 
+        가속하지 않습니다. 그저 <em>금속이 가만히 놓여 있는 상태를 끝낼 뿐입니다.</em>
+      </p>
+    </div>
+    <div class="engine-card reveal delay-1">
+      <div class="h"><span data-lang="en">ENGINE II  ·  THE PIPELINE</span><span data-lang="ko">엔진 II  ·  파이프라인</span></div>
+      <h3 data-lang="en">Compounds at the rate of <em>the deal book.</em></h3><h3 data-lang="ko"><em>거래 북</em>의 속도로 복리.</h3>
+      <p data-lang="en">
+        The credit drawn against the bar deploys into pre-IPO equity at 18–25%
+        and private credit at 10–14% gross. <em>The bar grows the floor; the
+        deals grow the ceiling.</em>
+      </p><p data-lang="ko">
+        금괴를 담보로 인출한 신용은 18–25%의 프리-IPO 주식과 
+        10–14% 그로스의 사모 크레딧에 운용됩니다. 
+        <em>금괴는 바닥을 올리고, 거래는 천장을 올립니다.</em>
+      </p>
+    </div>
+  </div>
+
+  <div class="engines-chart reveal">
+    <div class="engines-chart-h">
+      <span><span data-lang="en">FIVE-YEAR PATH  ·  ENGINE II  ·  RETURN BANDS</span><span data-lang="ko">5년 경로  ·  엔진 II  ·  수익 밴드</span></span>
+      <span class="meta"><span data-lang="en">gross IRR ranges · by deal type · illustrative</span><span data-lang="ko">그로스 IRR 범위 · 거래 유형별 · 예시</span></span>
+    </div>
+    <svg viewBox="0 0 900 340" preserveAspectRatio="xMidYMid meet">
+      <!-- Plot grid -->
+      <line x1="60" y1="40" x2="660" y2="40" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <line x1="60" y1="120" x2="660" y2="120" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <line x1="60" y1="200" x2="660" y2="200" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <line x1="60" y1="280" x2="660" y2="280" stroke="rgba(197,165,114,0.30)" stroke-width="1"/>
+      <!-- Y-axis labels -->
+      <text x="48" y="44" font-family="JetBrains Mono,monospace" font-size="10" fill="#8a7d6b" text-anchor="end">30%</text>
+      <text x="48" y="124" font-family="JetBrains Mono,monospace" font-size="10" fill="#8a7d6b" text-anchor="end">20%</text>
+      <text x="48" y="204" font-family="JetBrains Mono,monospace" font-size="10" fill="#8a7d6b" text-anchor="end">10%</text>
+      <text x="48" y="284" font-family="JetBrains Mono,monospace" font-size="10" fill="#8a7d6b" text-anchor="end">0%</text>
+      <!-- X-axis labels -->
+      <text x="60" y="305" font-family="JetBrains Mono,monospace" font-size="10" fill="#8a7d6b" text-anchor="middle">YR 0</text>
+      <text x="360" y="305" font-family="JetBrains Mono,monospace" font-size="10" fill="#8a7d6b" text-anchor="middle">YR 2.5</text>
+      <text x="660" y="305" font-family="JetBrains Mono,monospace" font-size="10" fill="#8a7d6b" text-anchor="middle">YR 5</text>
+      <!-- Pre-IPO line (red, top performer) -->
+      <line x1="60" y1="280" x2="660" y2="40" stroke="#c77061" stroke-width="2"/>
+      <circle cx="660" cy="40" r="5" fill="#c77061"/>
+      <!-- Growth Equity line (gold) -->
+      <line x1="60" y1="280" x2="660" y2="80" stroke="#C5A572" stroke-width="2"/>
+      <circle cx="660" cy="80" r="5" fill="#C5A572"/>
+      <!-- Blended NAV path (bright gold dashed, primary) -->
+      <line x1="60" y1="280" x2="660" y2="155" stroke="#E3C187" stroke-width="2.5" stroke-dasharray="3,3"/>
+      <circle cx="660" cy="155" r="5" fill="#E3C187"/>
+      <!-- Private Credit line (dim gold dashed) -->
+      <line x1="60" y1="280" x2="660" y2="200" stroke="#8a7d6b" stroke-width="1.8" stroke-dasharray="4,4"/>
+      <circle cx="660" cy="200" r="5" fill="#8a7d6b"/>
+      <!-- LEGEND PANEL — right side, well-spaced -->
+      <line x1="685" y1="36" x2="700" y2="36" stroke="#c77061" stroke-width="2"/>
+      <text x="710" y="40" font-family="JetBrains Mono,monospace" font-size="11" fill="#c77061" letter-spacing="1.5">PRE-IPO SECONDARY</text>
+      <text x="710" y="56" font-family="Cormorant Garamond,serif" font-size="12" font-style="italic" fill="#c77061">18–30% gross</text>
+      <line x1="685" y1="92" x2="700" y2="92" stroke="#C5A572" stroke-width="2"/>
+      <text x="710" y="96" font-family="JetBrains Mono,monospace" font-size="11" fill="#C5A572" letter-spacing="1.5">GROWTH EQUITY</text>
+      <text x="710" y="112" font-family="Cormorant Garamond,serif" font-size="12" font-style="italic" fill="#C5A572">15–25% gross</text>
+      <line x1="685" y1="148" x2="700" y2="148" stroke="#E3C187" stroke-width="2.5" stroke-dasharray="3,3"/>
+      <text x="710" y="152" font-family="JetBrains Mono,monospace" font-size="11" fill="#E3C187" letter-spacing="1.5">BLENDED NAV</text>
+      <text x="710" y="168" font-family="Cormorant Garamond,serif" font-size="12" font-style="italic" fill="#E3C187">~15% net IRR · base</text>
+      <line x1="685" y1="204" x2="700" y2="204" stroke="#8a7d6b" stroke-width="1.8" stroke-dasharray="4,4"/>
+      <text x="710" y="208" font-family="JetBrains Mono,monospace" font-size="11" fill="#8a7d6b" letter-spacing="1.5">PRIVATE CREDIT</text>
+      <text x="710" y="224" font-family="Cormorant Garamond,serif" font-size="12" font-style="italic" fill="#8a7d6b">10–14% gross</text>
+      <!-- Footnote -->
+      <text x="660" y="325" font-family="Cormorant Garamond,serif" font-size="10.5" font-style="italic" fill="#6b655e" text-anchor="end">Stylized illustration. Not a forecast.</text>
+    </svg>
+  </div>
+
+  <div class="engines-sum reveal" data-lang="en">
+    The metal sits still. The capital works. <em class="bright">The NAV is the sum.</em>
+  </div><div class="engines-sum reveal" data-lang="ko">
+    금속은 정지. 자본은 가동. <em class="bright">NAV는 그 합.</em>
+  </div>
+</section>
+
+<!-- V · SIMPLIFICATION -->
+<section class="sec" id="subscription">
+  <div class="section-divider reveal">
+    <span class="divider-num">V.</span>
+    <div class="divider-eyebrow">
+      <span data-lang="en">SIMPLIFICATION</span>
+      <span class="ko">단순화</span>
+    </div>
+  </div>
+  <h2 class="sec-h reveal delay-1" data-lang="en">Four walls. <em>One subscription.</em></h2><h2 class="sec-h reveal delay-1" data-lang="ko">네 개의 벽. <em>하나의 구독.</em></h2>
+  <p class="sec-lede reveal delay-2" data-lang="en">
+    Capital deployed deal-by-deal hits four practical walls. Each wall generates
+    paperwork that compounds with every transaction.
+    <em>One Singapore subscription replaces all of it.</em>
+  </p><p class="sec-lede reveal delay-2" data-lang="ko">
+    거래마다 직접 운용되는 자본은 네 개의 실질적 벽을 만납니다. 
+    각 벽은 거래마다 누적되는 서류 작업을 만듭니다. 
+    <em>단 한 번의 싱가포르 구독이 그 모두를 대체합니다.</em>
+  </p>
+
+  <div class="walls-vis-wrap"><div class="walls-vis reveal">
+    <div class="walls-vis-h">
+      <span class="l"></span>
+      <span><span data-lang="en">DIRECT ROUTE  ·  BLOCKED</span><span data-lang="ko">직접 경로  ·  차단</span></span>
+      <span class="r"></span>
+    </div>
+    <div class="walls-grid">
+      <div class="wall">
+        <div class="x">×</div>
+        <div class="label"><span data-lang="en">FILINGS</span><span data-lang="ko">신고</span></div>
+        <div class="desc" data-lang="en">per-deal regulatory filings</div><div class="desc" data-lang="ko">거래마다 규제 신고</div>
+      </div>
+      <div class="wall">
+        <div class="x">×</div>
+        <div class="label"><span data-lang="en">CAPS</span><span data-lang="ko">한도</span></div>
+        <div class="desc" data-lang="en">pool & concentration limits</div><div class="desc" data-lang="ko">풀·집중도 제한</div>
+      </div>
+      <div class="wall">
+        <div class="x">×</div>
+        <div class="label"><span data-lang="en">REVIEWS</span><span data-lang="ko">심사</span></div>
+        <div class="desc" data-lang="en">compliance review per wire</div><div class="desc" data-lang="ko">송금마다 컴플라이언스 검토</div>
+      </div>
+      <div class="wall">
+        <div class="x">×</div>
+        <div class="label"><span data-lang="en">ACCESS</span><span data-lang="ko">접근</span></div>
+        <div class="desc" data-lang="en">closed to single tickets</div><div class="desc" data-lang="ko">단독 티켓에는 닫혀 있음</div>
+      </div>
+    </div>
+    <div class="walls-result" data-lang="en">— each direct deal, another wall. each wall, another year of paperwork.</div><div class="walls-result" data-lang="ko">— 직접 거래마다 또 하나의 벽. 벽마다 또 한 해의 서류 작업.</div>
+  </div>
+  <div class="walls-arrow"><span class="glyph">↓</span></div>
+  </div>
+
+  <div class="simp-replace reveal">
+    <div class="simp-replace-h"><span data-lang="en">SINGLE-FILING ROUTE  ·  AURUM FUNDS</span><span data-lang="ko">단일 신고 경로  ·  Aurum 펀드</span></div>
+    <div class="simp-grid">
+      <div class="cell"><div class="k"><span data-lang="en">SUBSCRIPTION</span><span data-lang="ko">구독</span></div><div class="v" data-lang="en">One filing <em>at entry</em></div><div class="v" data-lang="ko"><em>진입 시</em> 한 번의 신고</div></div>
+      <div class="cell"><div class="k"><span data-lang="en">BANK CYCLE</span><span data-lang="ko">은행 사이클</span></div><div class="v" data-lang="en">One <em>designated</em> channel</div><div class="v" data-lang="ko"><em>지정된</em> 한 채널</div></div>
+      <div class="cell"><div class="k"><span data-lang="en">REPORTING</span><span data-lang="ko">보고</span></div><div class="v" data-lang="en">One <em>annual</em> report</div><div class="v" data-lang="ko"><em>연 1회</em> 보고서</div></div>
+      <div class="cell"><div class="k"><span data-lang="en">REDEMPTION</span><span data-lang="ko">환매</span></div><div class="v" data-lang="en">One <em>at exit</em></div><div class="v" data-lang="ko"><em>회수 시</em> 한 번</div></div>
+    </div>
+    <div class="simp-closer"><span data-lang="en">ONE SUBSCRIPTION  ·  MEMBER OBLIGATIONS REMAIN UNCHANGED</span><span data-lang="ko">한 번의 구독  ·  회원 의무는 변동 없음</span></div>
+  </div>
+</section>
+
+<!-- VI · OPENING BOOK -->
+<section class="sec" id="book">
+  <div class="section-divider reveal">
+    <span class="divider-num">VI.</span>
+    <div class="divider-eyebrow">
+      <span data-lang="en">OPENING BOOK</span>
+      <span class="ko">개시 도서</span>
+    </div>
+  </div>
+  <h2 class="sec-h reveal delay-1" data-lang="en">Two positions. <em>One opening book.</em></h2><h2 class="sec-h reveal delay-1" data-lang="ko">두 개의 포지션. <em>하나의 개시 도서.</em></h2>
+  <p class="sec-lede reveal delay-2" data-lang="en">
+    Aurum has sourced two positions of the kind that rarely clear an open
+    market. The fund forms around them. Participating members receive
+    <em>pro-rata allocation in both</em> at first close.
+  </p><p class="sec-lede reveal delay-2" data-lang="ko">
+    Aurum은 공개 시장에서 좀처럼 정리되지 않는 두 개의 포지션을 발굴했습니다. 
+    펀드는 그 둘을 중심으로 형성됩니다. 참여 회원은 첫 마감에 
+    <em>두 포지션에 대해 비례 할당</em>을 받습니다.
+  </p>
+
+  <div class="deals-grid">
+    <div class="deal reveal">
+      <div class="deal-band">
+        <span class="l"><span data-lang="en">POSITION № 01</span><span data-lang="ko">포지션 № 01</span></span>
+        <span class="r" data-lang="en">late-stage secondary</span><span class="r" data-lang="ko">후기 단계 세컨더리</span>
+      </div>
+      <div class="deal-body">
+        <div class="deal-name-cap"><span data-lang="en">FOUNDATION MODELS · ENTERPRISE AI</span><span data-lang="ko">파운데이션 모델 · 엔터프라이즈 AI</span></div>
+        <h3 class="deal-name" data-lang="en"><em>The AI assistant</em><br>businesses run on.</h3><h3 class="deal-name" data-lang="ko"><em>기업이 운영에 사용하는</em><br>AI 어시스턴트.</h3>
+        <div class="deal-tag" data-lang="en">Used inside Fortune 500 firms. Revenue growing at a rare pace.</div><div class="deal-tag" data-lang="ko">포춘 500대 기업이 사용. 보기 드문 속도로 매출 성장.</div>
+        <p data-lang="en">
+          A genuinely scarce secondary opportunity at current valuation. Aurum
+          routes through a <em>direct co-investor relationship.</em>
+        </p><p data-lang="ko">
+          현 밸류에이션 기준으로 진정으로 희소한 세컨더리 기회. Aurum은 
+          <em>직접 공동투자 관계</em>를 통해 접근합니다.
+        </p>
+        <p data-lang="en">
+          Primary market is closed; secondary allocations are tightly curated.
+          <em>Names disclosed under NDA.</em>
+        </p><p data-lang="ko">
+          프라이머리 시장은 마감, 세컨더리 할당은 엄격하게 큐레이션됩니다. 
+          <em>회사명은 NDA 하 공개.</em>
+        </p>
+      </div>
+      <div class="deal-foot">
+        <div>
+          <div class="l-k"><span data-lang="en">AURUM ALLOCATION</span><span data-lang="ko">Aurum 할당</span></div>
+          <div class="l-v">$10 M</div>
+        </div>
+        <div>
+          <div class="r-k"><span data-lang="en">TARGET</span><span data-lang="ko">목표</span></div>
+          <div class="r-v"><span data-lang="en">at close</span><span data-lang="ko">마감 시</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="deal reveal delay-1">
+      <div class="deal-band">
+        <span class="l"><span data-lang="en">POSITION № 02</span><span data-lang="ko">포지션 № 02</span></span>
+        <span class="r" data-lang="en">pre-IPO crossover</span><span class="r" data-lang="ko">프리-IPO 크로스오버</span>
+      </div>
+      <div class="deal-body">
+        <div class="deal-name-cap"><span data-lang="en">DEFENSE · AI</span><span data-lang="ko">방위 · AI</span></div>
+        <h3 class="deal-name" data-lang="en"><em>Autonomous defense systems</em><br>used by allied governments.</h3><h3 class="deal-name" data-lang="ko"><em>동맹국 정부가 운용하는</em><br>자율 방위 시스템.</h3>
+        <div class="deal-tag" data-lang="en">Active US and allied contracts. Pre-IPO crossover round.</div><div class="deal-tag" data-lang="ko">미국 및 동맹국 계약 진행. 프리-IPO 크로스오버 라운드.</div>
+        <p data-lang="en">
+          Dual-use sector with structural tailwinds and a clear path to liquidity.
+          <em>Closes quickly.</em>
+        </p><p data-lang="ko">
+          구조적 순풍을 받는 듀얼유즈 섹터, 명확한 유동화 경로. 
+          <em>빠르게 마감됩니다.</em>
+        </p>
+        <p data-lang="en">
+          Aurum routes through a late-stage crossover round; strategic ticket
+          available because of an LP's partial reallocation.
+          <em>Names disclosed under NDA.</em>
+        </p><p data-lang="ko">
+          Aurum은 후기 단계 크로스오버 라운드를 통해 접근, 
+          한 LP의 부분 재할당으로 전략적 티켓 확보. 
+          <em>회사명은 NDA 하 공개.</em>
+        </p>
+      </div>
+      <div class="deal-foot">
+        <div>
+          <div class="l-k"><span data-lang="en">AURUM ALLOCATION</span><span data-lang="ko">AURUM 할당</span></div>
+          <div class="l-v">$10 M</div>
+        </div>
+        <div>
+          <div class="r-k"><span data-lang="en">TARGET</span><span data-lang="ko">목표</span></div>
+          <div class="r-v"><span data-lang="en">at close</span><span data-lang="ko">마감 시</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="deals-summary reveal">
+    <div class="cell">
+      <div class="k"><span data-lang="en">OPENING BOOK</span><span data-lang="ko">개시 도서</span></div>
+      <div class="v"><em>$20</em> M</div>
+      <div class="s" data-lang="en">two positions · closed together</div><div class="s" data-lang="ko">두 포지션 · 동시 마감</div>
+    </div>
+    <div class="cell">
+      <div class="k"><span data-lang="en">PER POSITION</span><span data-lang="ko">포지션당</span></div>
+      <div class="v"><em>$10</em> M</div>
+      <div class="s" data-lang="en">Aurum Funds allocation</div><div class="s" data-lang="ko">Aurum 펀드 할당</div>
+    </div>
+    <div class="cell">
+      <div class="k"><span data-lang="en">CLOSE TIMING</span><span data-lang="ko">마감 시기</span></div>
+      <div class="v">Q3 <em>'26</em></div>
+      <div class="s" data-lang="en">subject to deal timing</div><div class="s" data-lang="ko">거래 일정에 따름</div>
+    </div>
+  </div>
+
+  <div class="post-close reveal">
+    <div class="post-close-band">
+      <span data-lang="en">BEYOND OPENING</span>
+      <span data-lang="ko">첫 마감 이후</span>
+    </div>
+    <div class="post-close-grid">
+      <div class="pc-card">
+        <div class="pc-name" data-lang="en"><em>The pipeline.</em></div>
+        <div class="pc-name" data-lang="ko"><em>파이프라인.</em></div>
+        <p data-lang="en">Sourced positions rotate through a <em>private channel</em> — not a marketplace.</p>
+        <p data-lang="ko">발굴된 포지션이 <em>비공개 채널</em>을 통해 회원에게 전달됩니다 — 시장이 아닙니다.</p>
+      </div>
+      <div class="pc-card">
+        <div class="pc-name" data-lang="en"><em>The portal.</em></div>
+        <div class="pc-name" data-lang="ko"><em>포털.</em></div>
+        <p data-lang="en">Members see <em>position, NAV, LTV</em> through the platform — <em>the inside view.</em></p>
+        <p data-lang="ko">회원은 플랫폼을 통해 <em>포지션, NAV, LTV</em>를 확인합니다 — <em>내부 시야.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="deals-disclaimer reveal" data-lang="en">
+    Sourced positions as of MMXXVI Q1 — subject to availability and final terms at close. Specifics under NDA.
+  </div><div class="deals-disclaimer reveal" data-lang="ko">
+    MMXXVI Q1 기준 발굴 포지션 — 가용성 및 최종 조건은 마감 시 결정. 세부사항은 NDA 하 공개.
+  </div>
+</section>
+
+<!-- NUMBERS · 4 cells, no fees -->
+<section class="numbers reveal">
+  <div class="qstats">
+    <div class="cell"><div class="k"><span data-lang="en">BASE IRR</span><span data-lang="ko">기본 IRR</span></div><div class="v">~<em>15</em>%</div></div>
+    <div class="cell"><div class="k"><span data-lang="en">UPSIDE IRR</span><span data-lang="ko">상방 IRR</span></div><div class="v"><em>18–25</em>%</div></div>
+    <div class="cell"><div class="k"><span data-lang="en">MIN.</span><span data-lang="ko">최소</span></div><div class="v"><em>1</em>&nbsp;kg<em>+</em></div></div>
+    <div class="cell"><div class="k"><span data-lang="en">TERM</span><span data-lang="ko">기간</span></div><div class="v"><em>5–7</em>&nbsp;yr</div></div>
+  </div>
+</section>
+
+<!-- CTAS -->
+<section class="ctas" id="interest">
+  <div class="sec-eyebrow reveal" style="justify-content:center;margin-bottom:32px;">
+    <span data-lang="en">THE PATH</span>
+    <span class="ko">절차</span>
+  </div>
+  <h2 class="ctas-h reveal" data-lang="en">
+    Four steps. <em>One conversation.</em>
+  </h2><h2 class="ctas-h reveal" data-lang="ko">
+    네 단계. <em>하나의 대화.</em>
+  </h2>
+  <p class="ctas-sub reveal delay-1" data-lang="en">
+    Admission is by <em>private process.</em> Each step is completed before the
+    next is offered. The full memo is shared only after invitation.
+  </p><p class="ctas-sub reveal delay-1" data-lang="ko">
+    진입은 <em>비공개 절차</em>로 진행됩니다. 각 단계가 완료된 후에야 다음 단계가 제공됩니다. 
+    투자 메모 전체는 초청 후에만 공유됩니다.
+  </p>
+
+  <div class="path-wrap reveal delay-2">
+    <div class="path-grid">
+      <div class="path-step">
+        <div class="num">I.</div>
+        <div class="stage"><span data-lang="en">INDICATE</span><span data-lang="ko">표명</span></div>
+        <h4 data-lang="en">Submit a <em>brief inquiry.</em></h4><h4 data-lang="ko">간단한 <em>문의 제출.</em></h4>
+        <p data-lang="en">A short form to the partners. On verification, you receive an <em>invitation code.</em></p><p data-lang="ko">파트너들에게 보내는 짧은 양식. 검증 후 <em>초대 코드</em>가 발송됩니다.</p>
+      </div>
+      <div class="path-step">
+        <div class="num">II.</div>
+        <div class="stage">NDA</div>
+        <h4 data-lang="en">Sign the <em>NDA.</em></h4><h4 data-lang="ko"><em>NDA</em> 서명.</h4>
+        <p data-lang="en">The code unlocks the full deck and detailed access to the two opening positions.</p><p data-lang="ko">코드로 전체 자료와 두 개시 포지션에 대한 상세 접근이 열립니다.</p>
+      </div>
+      <div class="path-step">
+        <div class="num">III.</div>
+        <div class="stage">IOI</div>
+        <h4 data-lang="en">Indicate your <em>commitment.</em></h4><h4 data-lang="ko"><em>참여 의사</em> 표명.</h4>
+        <p data-lang="en">A short Indication of Interest confirms readiness to deploy at first close.</p><p data-lang="ko">짧은 IOI로 첫 마감 시 운용 준비가 확인됩니다.</p>
+      </div>
+      <div class="path-step">
+        <div class="num">IV.</div>
+        <div class="stage"><span data-lang="en">ADMITTED</span><span data-lang="ko">승인</span></div>
+        <h4 data-lang="en">Partner <em>approval.</em></h4><h4 data-lang="ko">파트너 <em>승인.</em></h4>
+        <p data-lang="en">On approval, your seat in the Founding 100 is reserved and onboarding begins.</p><p data-lang="ko">승인 시 창립 100인의 자리가 예약되고 온보딩이 시작됩니다.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- CLOSING · the exit door — mirrors the opening landing -->
+<section class="closing" id="closing">
+  <div class="closing-content reveal">
+    <div class="closing-seal">
+      <div class="seal-frame"><em>Au</em></div>
+    </div>
+    <h2 class="closing-h" data-lang="en">The book opens <em>now.</em><br>It closes <em>at 100.</em></h2>
+    <h2 class="closing-h" data-lang="ko">도서는 <em>지금</em> 열립니다.<br><em>100인</em>에서 마감됩니다.</h2>
+    <div class="closing-rule"></div>
+    <p class="closing-tag" data-lang="en">Each conversation begins at the same place.</p>
+    <p class="closing-tag" data-lang="ko">모든 대화는 같은 곳에서 시작됩니다.</p>
+    <a href="interest.html" class="closing-cta">
+      <span data-lang="en">INDICATE INTEREST</span><span data-lang="ko">관심 표명</span>
+      <span class="closing-arrow">→</span>
+    </a>
+    <div class="closing-foot" data-lang="en">QUALIFIED&nbsp;&nbsp;·&nbsp;&nbsp;BY&nbsp;INVITATION&nbsp;&nbsp;·&nbsp;&nbsp;NDA ON REQUEST</div>
+    <div class="closing-foot" data-lang="ko">적격&nbsp;&nbsp;·&nbsp;&nbsp;초청제&nbsp;&nbsp;·&nbsp;&nbsp;NDA 별도 제공</div>
+  </div>
+  <div class="closing-meta">
+    <span class="pulse"></span>
+    <span data-lang="en">INAUGURAL CLOSE · Q3 MMXXVI</span>
+    <span data-lang="ko">제1차 클로즈 · Q3 MMXXVI</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="foot-l">
+    <span class="seal-sm"><em>Au</em></span>
+    <div class="meta">
+      <span class="word">TACC PTE LTD</span>
+      <span class="pr">CENTURY CLUB  ·  MMXXVI</span>
+    </div>
+  </div>
+  <div class="foot-c">
+    <a href="https://www.theaurumcc.com">theaurumcc.com</a>
+    <span class="sep">·</span>
+    <span data-lang="en">Singapore</span><span data-lang="ko">싱가포르</span> <span class="sep">·</span> <span data-lang="en">Seoul</span><span data-lang="ko">서울</span>
+  </div>
+  <div class="foot-r" data-lang="en">CONFIDENTIAL  ·  QUALIFIED INVESTORS ONLY</div><div class="foot-r" data-lang="ko">기밀  ·  적격 투자자 전용</div>
+</footer>
+
+<div class="foot-members">
+  <a href="/members" class="foot-members-link">
+    <span class="dot"></span>
+    <span data-lang="en">MEMBER LOG-IN</span>
+    <span data-lang="ko">멤버 로그인</span>
+    <span class="arr">→</span>
+  </a>
+</div>
+
+<script>
+// 100-grid
+(function buildGrid() {
+  const grid = document.getElementById('grid');
+  if (!grid) return;
+  const SUBSCRIBED = 8;
+  const TOTAL = 100;
+  for (let i = 0; i < TOTAL; i++) {
+    const seat = document.createElement('div');
+    seat.className = 'seat' + (i < SUBSCRIBED ? ' filled' : '');
+    grid.appendChild(seat);
+  }
+})();
+
+// Scroll-reveal
+(function reveal() {
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal,.force').forEach(el => el.classList.add('visible'));
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    },
+    { threshold: 0.10, rootMargin: '0px 0px -8% 0px' }
+  );
+  document.querySelectorAll('.reveal,.force').forEach(el => io.observe(el));
+})();
+
+// Nav scroll-state
+(function navScroll() {
+  const nav = document.getElementById('nav');
+  const onScroll = () => {
+    if (window.scrollY > 24) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+// Side-rail tracking
+(function railTracker() {
+  const rail = document.getElementById('rail');
+  if (!rail) return;
+  const items = rail.querySelectorAll('.rail-item');
+  const sectionMap = {};
+  items.forEach(item => {
+    const id = item.dataset.section;
+    const target = document.getElementById(id);
+    if (target) sectionMap[id] = { item, target };
+  });
+  if (!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const id = e.target.id;
+          items.forEach(it => it.classList.remove('active'));
+          if (sectionMap[id]) sectionMap[id].item.classList.add('active');
+        }
+      });
+    },
+    { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+  );
+  Object.values(sectionMap).forEach(s => io.observe(s.target));
+})();
+
+// Cursor spotlight
+(function spotlight() {
+  if (window.matchMedia('(hover: none)').matches) return;
+  const sp = document.getElementById('spotlight');
+  const hero = document.querySelector('.hero');
+  if (!sp || !hero) return;
+  const onMove = (e) => {
+    sp.style.left = e.clientX + 'px';
+    sp.style.top = e.clientY + 'px';
+  };
+  hero.addEventListener('mousemove', onMove);
+  hero.addEventListener('mouseenter', () => document.body.classList.add('spot-on'));
+  hero.addEventListener('mouseleave', () => document.body.classList.remove('spot-on'));
+})();
+
+// Count-up on 8/100
+(function countUp() {
+  const el = document.getElementById('live-count');
+  if (!el) return;
+  const target = parseInt(el.textContent, 10);
+  if (!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          el.textContent = '0';
+          let i = 0;
+          const tick = () => {
+            i++;
+            el.textContent = i;
+            if (i < target) setTimeout(tick, 180);
+          };
+          setTimeout(tick, 300);
+          io.disconnect();
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+  io.observe(el);
+})();
+
+// ═══ I18N · LANGUAGE TOGGLE ═══
+(function () {
+  const STORAGE_KEY = 'aurum-lang';
+
+  function applyLang(lang) {
+    const html = document.documentElement;
+    html.classList.toggle('lang-ko', lang === 'ko');
+    html.classList.toggle('lang-en', lang === 'en');
+    html.lang = lang;
+    // swap placeholders
+    document.querySelectorAll('[data-ph-en]').forEach(el => {
+      el.placeholder = lang === 'en' ? el.dataset.phEn : el.dataset.phKo;
+    });
+    // swap aria-labels & titles
+    document.querySelectorAll('[data-aria-en]').forEach(el => {
+      el.setAttribute('aria-label', lang === 'en' ? el.dataset.ariaEn : el.dataset.ariaKo);
+    });
+    // toggle button state
+    document.querySelectorAll('.lang-toggle button').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.langBtn === lang);
+    });
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+  }
+
+  // Wire up clicks
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.lang-toggle button');
+    if (!btn) return;
+    applyLang(btn.dataset.langBtn);
+  });
+
+  // Initialize from storage (default = en)
+  let initial = 'ko';
+  try { initial = localStorage.getItem(STORAGE_KEY) || 'en'; } catch (e) {}
+  applyLang(initial);
+})();
+
+</script>
+
+<script>
+
+// ═══ INTERACTIVE · TELESCOPE (Forces + Qualifier) ═══
+(function () {
+  function setupTelescope(rootSelector, opts) {
+    opts = opts || {};
+    var root = document.querySelector(rootSelector);
+    if (!root) return;
+    var pills = root.querySelectorAll('.tele-pill');
+    var panes = root.querySelectorAll('.tele-pane');
+    var userInteracted = false;
+    var autoTimer = null;
+
+    function show(idx) {
+      pills.forEach(function (p) {
+        var on = +p.dataset.pillar === idx;
+        p.classList.toggle('active', on);
+        p.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      panes.forEach(function (p) {
+        p.classList.toggle('active', +p.dataset.pillar === idx);
+      });
+    }
+
+    function rotate() {
+      var cur = root.querySelector('.tele-pill.active');
+      if (!cur) return;
+      var total = pills.length;
+      var next = (+cur.dataset.pillar % total) + 1;
+      show(next);
+    }
+
+    pills.forEach(function (pill) {
+      pill.addEventListener('click', function () {
+        show(+pill.dataset.pillar);
+        if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+        userInteracted = true;
+      });
+    });
+
+    // Keyboard: arrow-key navigation across pills
+    root.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      var cur = root.querySelector('.tele-pill.active');
+      if (!cur) return;
+      var total = pills.length;
+      var idx = +cur.dataset.pillar;
+      var next = e.key === 'ArrowRight'
+        ? (idx % total) + 1
+        : ((idx - 2 + total) % total) + 1;
+      show(next);
+      var btn = root.querySelector('.tele-pill[data-pillar="' + next + '"]');
+      if (btn) btn.focus();
+      if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+      userInteracted = true;
+    });
+
+    // Auto-rotate (only if requested and reduced-motion not preferred)
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (opts.autoRotate && !reducedMotion && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && !userInteracted && !autoTimer) {
+            autoTimer = setInterval(rotate, opts.interval || 5500);
+          } else if (!e.isIntersecting && autoTimer) {
+            clearInterval(autoTimer);
+            autoTimer = null;
+          }
+        });
+      }, { threshold: 0.4 });
+      io.observe(root);
+    }
+  }
+
+  setupTelescope('.forces-tele', { autoRotate: true, interval: 5500 });
+  setupTelescope('.qual-tele',   { autoRotate: false });
+})();
+
+// ═══ INTERACTIVE · MECHANISM FLOW (sequential light + hover freeze) ═══
+(function () {
+  var flow = document.querySelector('.flow');
+  if (!flow) return;
+  var steps = flow.querySelectorAll('.step');
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if ('IntersectionObserver' in window && !reducedMotion) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          flow.classList.add('lit');
+          steps.forEach(function (s, i) {
+            setTimeout(function () { s.classList.add('lit'); }, 280 * (i + 1));
+          });
+          io.unobserve(flow);
+        }
+      });
+    }, { threshold: 0.35 });
+    io.observe(flow);
+  } else {
+    flow.classList.add('lit');
+    steps.forEach(function (s) { s.classList.add('lit'); });
+  }
+
+  // Hover or focus freeze
+  function focusStep(targetStep) {
+    flow.classList.add('hovered');
+    steps.forEach(function (s) { s.classList.toggle('focus', s === targetStep); });
+  }
+  function clearFocus() {
+    flow.classList.remove('hovered');
+    steps.forEach(function (s) { s.classList.remove('focus'); });
+  }
+  steps.forEach(function (step) {
+    step.addEventListener('mouseenter', function () { focusStep(step); });
+    step.addEventListener('mouseleave', clearFocus);
+    step.addEventListener('focusin',   function () { focusStep(step); });
+    step.addEventListener('focusout',  clearFocus);
+    // Make focusable for keyboard
+    if (!step.hasAttribute('tabindex')) step.setAttribute('tabindex', '0');
+  });
+})();
+
+// ═══ INTERACTIVE · SUBSCRIPTION REVEAL (walls dim, replacement glow) ═══
+(function () {
+  var walls = document.querySelector('.walls-vis');
+  var replace = document.querySelector('.simp-replace');
+  var arrow = document.querySelector('.walls-arrow');
+  if (!walls || !replace) return;
+
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reducedMotion) {
+    if (arrow) arrow.classList.add('show');
+    return;
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          walls.classList.add('dimmed');
+          replace.classList.add('glowing');
+          if (arrow) arrow.classList.add('show');
+          io.unobserve(replace);
+        }
+      });
+    }, { threshold: 0.35 });
+    io.observe(replace);
+  } else {
+    if (arrow) arrow.classList.add('show');
+  }
+})();
+
+</script>
+</body>
+</html>
