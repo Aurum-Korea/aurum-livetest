@@ -1260,6 +1260,13 @@ input,textarea,select{font-family:inherit;color:inherit}
     <div class="modal-sub">Capital deploys from the drawn LTV facility, pro-rated by kg ownership across all admitted members. Fund Cash Reserve is never tapped.</div>
 
     <label>
+      <span class="field-lbl">DEAL  ·  pick a queued deal or enter a new one</span>
+      <select id="dep-queued-pick" style="margin-bottom:10px">
+        <option value="">— Enter new deal —</option>
+      </select>
+    </label>
+
+    <label>
       <span class="field-lbl">DEAL NAME</span>
       <input type="text" id="dep-name" placeholder="e.g. Singapore RE Bridge Loan" autocomplete="off">
     </label>
@@ -1296,6 +1303,52 @@ input,textarea,select{font-family:inherit;color:inherit}
     <div class="deploy-actions">
       <button class="btn-cancel" id="dep-cancel">CANCEL</button>
       <button class="btn-confirm" id="dep-confirm" disabled>DEPLOY  →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ QUEUE A DEAL MODAL ═══ -->
+<div class="deploy-overlay" id="queue-overlay">
+  <div class="deploy-modal">
+    <div class="modal-eyebrow">QUEUE  ·  STAGE A DEAL FOR REVIEW</div>
+    <h2>Add a <em>queued deal.</em></h2>
+    <div class="modal-sub">Stage a deal you're considering. It appears in the deal book as QUEUED until you click DEPLOY. Queued deals are stored locally on this device.</div>
+
+    <label>
+      <span class="field-lbl">DEAL NAME</span>
+      <input type="text" id="q-name" placeholder="e.g. Singapore RE Bridge Loan" autocomplete="off">
+    </label>
+
+    <div class="deploy-row">
+      <label>
+        <span class="field-lbl">PROPOSED SIZE  ·  KRW</span>
+        <input type="number" id="q-size" placeholder="0" min="0" step="1000000">
+      </label>
+      <label>
+        <span class="field-lbl">COUNTERPARTY  ·  optional</span>
+        <input type="text" id="q-counterparty" placeholder="e.g. Acme Bridge Capital">
+      </label>
+    </div>
+
+    <div class="deploy-row">
+      <label>
+        <span class="field-lbl">TERM  ·  MONTHS</span>
+        <input type="number" id="q-term" placeholder="12" min="1" max="120">
+      </label>
+      <label>
+        <span class="field-lbl">TARGET IRR  ·  %</span>
+        <input type="number" id="q-irr" placeholder="0.0" min="0" max="100" step="0.1">
+      </label>
+    </div>
+
+    <label>
+      <span class="field-lbl">NOTES  ·  optional</span>
+      <textarea id="q-notes" rows="3" placeholder="Sourcing context, rationale, terms, etc." style="width:100%;padding:12px 14px;background:var(--bg);color:var(--text);border:1px solid var(--border);font-family:var(--serifKr);font-size:13px;line-height:1.6;resize:vertical"></textarea>
+    </label>
+
+    <div class="deploy-actions">
+      <button class="btn-cancel" id="q-cancel">CANCEL</button>
+      <button class="btn-confirm" id="q-confirm">+ ADD TO QUEUE</button>
     </div>
   </div>
 </div>
@@ -2578,11 +2631,10 @@ function renderDetail() {
       ${l.note ? `<div class="note-block"><span class="lbl">NOTE FROM MEMBER</span>${esc(l.note)}</div>` : ''}
     </details>
 
-    <!-- Tab nav: 5-tab consolidation. Smart-default tab determined by lead state. -->
+    <!-- Tab nav: 4-tab consolidation. INVESTMENTS removed — deals are fund-level (deploy via OPS view). -->
     <div class="tab-nav" id="tab-nav-${esc(l.id)}">
       <button class="tab-btn" data-tab="prospects">ON-BOARDING</button>
       <button class="tab-btn" data-tab="custody">CUSTODY</button>
-      <button class="tab-btn" data-tab="investments">INVESTMENTS</button>
       <button class="tab-btn" data-tab="comms">DOCUMENTS</button>
       <button class="tab-btn" data-tab="audit">AUDIT</button>
     </div>
@@ -2684,15 +2736,15 @@ function renderDetail() {
     })}
 
     ${renderSection({
-      kind: 'positions', tab: 'investments',
+      kind: 'positions', tab: 'custody',
       defaultOpen: false,
-      titleEn: 'POSITIONS', titleKo: '포지션', lead: l,
-      extraTitle: '<span style="font-family:var(--mono);font-size:9px;letter-spacing:0.20em;color:var(--goldD);margin-left:8px">PHASE 3</span>',
+      titleEn: "MEMBER'S SLICE OF FUND DEALS", titleKo: '펀드 거래 지분', lead: l,
+      extraTitle: '<span style="font-family:var(--mono);font-size:9px;letter-spacing:0.20em;color:var(--goldD);margin-left:8px">PRO-RATA · READ-ONLY</span>',
       body: renderPositionsPanel(l),
     })}
 
     ${renderSection({
-      kind: 'capitalCalls', tab: 'investments',
+      kind: 'capitalCalls', tab: 'comms',
       defaultOpen: false,
       titleEn: 'CAPITAL CALLS', titleKo: '자본 청구', lead: l,
       body: renderCapitalCallsPanel(l),
@@ -3631,111 +3683,74 @@ function renderDocsPanel(l) {
 // ── Positions panel (Phase 3) — manage portfolio positions ────────────
 function renderPositionsPanel(l) {
   if (!l.wire || !l.wire.cleared_at) {
-    return `<div class="flow-panel f-empty">Positions activate after wire clears (Phase 3 — first deployments expected Q4 2026).</div>`;
+    return `<div class="flow-panel f-empty">Slice activates after wire clears. Member then participates pro-rata in every fund deal.</div>`;
   }
-  const positions = l.positions || [];
+  const positions = (l.positions || []).filter((p) => p.deal_id || p.deal_name);
+
+  // Compute member's pro-rata share of cohort
+  const memberKg = (l.bars || []).reduce((s, b) => s + (b.kg || 0), 0) || (l.ioi && l.ioi.kg) || 0;
+  const cohortKg = (state.leads || []).reduce((s, x) => {
+    if (!x.wire || !x.wire.cleared_at) return s;
+    const k = (x.bars || []).reduce((a, b) => a + (b.kg || 0), 0) || (x.ioi && x.ioi.kg) || 0;
+    return s + k;
+  }, 0);
+  const sharePct = cohortKg > 0 ? (memberKg / cohortKg) * 100 : 0;
 
   let rows = '';
   if (positions.length) {
     rows = `<table style="width:100%;border-collapse:collapse;margin:12px 0">
       <thead>
         <tr style="border-bottom:1px solid var(--border)">
-          <th style="text-align:left;padding:8px;font-family:var(--mono);font-size:9px;letter-spacing:0.24em;color:var(--goldD)">Code</th>
-          <th style="text-align:left;padding:8px;font-family:var(--mono);font-size:9px;letter-spacing:0.24em;color:var(--goldD)">Tags</th>
-          <th style="text-align:right;padding:8px;font-family:var(--mono);font-size:9px;letter-spacing:0.24em;color:var(--goldD)">Committed</th>
-          <th style="text-align:right;padding:8px;font-family:var(--mono);font-size:9px;letter-spacing:0.24em;color:var(--goldD)">Drawn</th>
-          <th style="text-align:right;padding:8px;font-family:var(--mono);font-size:9px;letter-spacing:0.24em;color:var(--goldD)">Marked</th>
-          <th style="text-align:left;padding:8px;font-family:var(--mono);font-size:9px;letter-spacing:0.24em;color:var(--goldD)">Status</th>
-          <th style="text-align:right;padding:8px;font-family:var(--mono);font-size:9px;letter-spacing:0.24em;color:var(--goldD)">Action</th>
+          <th style="text-align:left;padding:8px;font-family:var(--mono);font-size:9px;letter-spacing:0.24em;color:var(--goldD)">DEAL</th>
+          <th style="text-align:right;padding:8px;font-family:var(--mono);font-size:9px;letter-spacing:0.24em;color:var(--goldD)">SHARE</th>
+          <th style="text-align:right;padding:8px;font-family:var(--mono);font-size:9px;letter-spacing:0.24em;color:var(--goldD)">ALLOCATED</th>
+          <th style="text-align:right;padding:8px;font-family:var(--mono);font-size:9px;letter-spacing:0.24em;color:var(--goldD)">MARKED</th>
+          <th style="text-align:right;padding:8px;font-family:var(--mono);font-size:9px;letter-spacing:0.24em;color:var(--goldD)">Δ</th>
+          <th style="text-align:left;padding:8px;font-family:var(--mono);font-size:9px;letter-spacing:0.24em;color:var(--goldD)">STATUS</th>
         </tr>
       </thead>
       <tbody>`;
     for (const p of positions) {
-      const tags = [p.sector, p.stage, p.type !== 'other' ? p.type : null].filter(Boolean).join(' · ');
+      const cost = p.invested_at_krw || p.committed_krw || 0;
+      const marked = p.marked_krw || cost;
+      const delta = cost > 0 ? ((marked - cost) / cost) * 100 : 0;
+      const deltaC = delta > 0.05 ? 'var(--green)' : delta < -0.05 ? 'var(--red)' : 'var(--muted)';
+      const deltaStr = delta > 0.05 ? `+${delta.toFixed(1)}%` : delta < -0.05 ? `${delta.toFixed(1)}%` : 'flat';
+      const sharePctText = p.share_pct ? `${Number(p.share_pct).toFixed(1)}%` : '—';
       rows += `<tr style="border-bottom:1px dashed var(--rule)">
-        <td style="padding:10px 8px;font-family:var(--mono);font-size:11px;color:var(--goldB);letter-spacing:0.10em;font-weight:500">${esc(p.code)}</td>
-        <td style="padding:10px 8px;font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:0.16em;text-transform:uppercase">${esc(tags)}</td>
-        <td style="padding:10px 8px;font-family:var(--mono);font-size:11px;color:var(--text);text-align:right">${fmtKrw(p.committed_krw)}</td>
-        <td style="padding:10px 8px;font-family:var(--mono);font-size:11px;color:var(--text);text-align:right">${fmtKrw(p.drawn_krw)}</td>
-        <td style="padding:10px 8px;font-family:var(--mono);font-size:11px;text-align:right;${p.marked_krw > p.committed_krw ? 'color:var(--green)' : (p.marked_krw < p.committed_krw ? 'color:var(--red)' : 'color:var(--text)')}">${fmtKrw(p.marked_krw)}</td>
+        <td style="padding:10px 8px;font-family:var(--serif);font-size:14px;color:var(--text)">${esc(p.deal_name || p.code || 'Deal')}${p.term_months ? `<span style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.10em;margin-left:8px">${p.term_months}MO</span>` : ''}</td>
+        <td style="padding:10px 8px;font-family:var(--mono);font-size:11px;color:var(--gold);text-align:right">${sharePctText}</td>
+        <td style="padding:10px 8px;font-family:var(--mono);font-size:11px;color:var(--text);text-align:right">${fmtKrw(cost)}</td>
+        <td style="padding:10px 8px;font-family:var(--mono);font-size:11px;color:var(--text);text-align:right">${fmtKrw(marked)}</td>
+        <td style="padding:10px 8px;font-family:var(--mono);font-size:11px;text-align:right;color:${deltaC}">${deltaStr}</td>
         <td style="padding:10px 8px;font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase">${p.status === 'active' ? '<span style="color:var(--green)">ACTIVE</span>' : p.status === 'realized' ? '<span style="color:var(--gold)">REALIZED</span>' : '<span style="color:var(--red)">WRITTEN OFF</span>'}</td>
-        <td style="padding:10px 8px;text-align:right">
-          <button class="btn-tiny" data-action="position-update-prompt" data-pos-id="${esc(p.id)}" data-drawn="${p.drawn_krw}" data-marked="${p.marked_krw}">EDIT</button>
-          <button class="btn-tiny" data-action="position-remove" data-pos-id="${esc(p.id)}">REMOVE</button>
-        </td>
       </tr>`;
     }
     rows += `</tbody></table>`;
   } else {
-    rows = '<div class="empty" style="padding:24px;text-align:center;font-style:italic;color:var(--muted)">No positions deployed yet.</div>';
+    rows = '<div class="empty" style="padding:24px;text-align:center;font-style:italic;color:var(--muted)">No deals deployed yet. Use OPERATIONS → DEPLOY TO DEAL to fund the cohort.</div>';
   }
 
-  // Aggregates
-  const totalCommitted = positions.reduce((s, p) => s + (p.committed_krw || 0), 0);
-  const totalDrawn = positions.reduce((s, p) => s + (p.drawn_krw || 0), 0);
-  const totalMarked = positions.reduce((s, p) => s + (p.marked_krw || 0), 0);
+  // Aggregates: this member's allocated + marked across deals
+  const totalCost = positions.reduce((s, p) => s + (p.invested_at_krw || p.committed_krw || 0), 0);
+  const totalMarked = positions.reduce((s, p) => s + (p.marked_krw || p.invested_at_krw || p.committed_krw || 0), 0);
 
   const aggLine = positions.length ? `<div class="ioi-facts" style="margin:12px 0">
-    <div class="ioi-fact"><div class="lbl">Committed</div><div class="val gold">${fmtKrw(totalCommitted)}</div></div>
-    <div class="ioi-fact"><div class="lbl">Drawn</div><div class="val">${fmtKrw(totalDrawn)}</div></div>
+    <div class="ioi-fact"><div class="lbl">Member's allocated</div><div class="val gold">${fmtKrw(totalCost)}</div></div>
     <div class="ioi-fact"><div class="lbl">Marked</div><div class="val">${fmtKrw(totalMarked)}</div></div>
+    <div class="ioi-fact"><div class="lbl">Cohort share</div><div class="val">${sharePct.toFixed(1)}%</div></div>
   </div>` : '';
-
-  // Add-position form
-  const form = `<div style="margin-top:14px;padding:14px;background:rgba(255,255,255,0.02);border:1px solid var(--border)">
-    <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.28em;color:var(--goldD);margin-bottom:10px;text-transform:uppercase">Deploy new position</div>
-    <div style="display:grid;grid-template-columns:0.7fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px">
-      <div>
-        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.20em;color:var(--muted);margin-bottom:4px">Code</div>
-        <input id="pos-code" type="text" placeholder="E3" maxlength="16" style="width:100%;padding:8px 10px;background:rgba(0,0,0,0.30);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:12px;letter-spacing:0.10em;text-transform:uppercase">
-      </div>
-      <div>
-        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.20em;color:var(--muted);margin-bottom:4px">Sector</div>
-        <input id="pos-sector" type="text" placeholder="AI · FinTech · ..." style="width:100%;padding:8px 10px;background:rgba(0,0,0,0.30);border:1px solid var(--border);color:var(--text);font-family:var(--serifKr);font-size:13px">
-      </div>
-      <div>
-        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.20em;color:var(--muted);margin-bottom:4px">Stage</div>
-        <input id="pos-stage" type="text" placeholder="Series D · ..." style="width:100%;padding:8px 10px;background:rgba(0,0,0,0.30);border:1px solid var(--border);color:var(--text);font-family:var(--serifKr);font-size:13px">
-      </div>
-      <div>
-        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.20em;color:var(--muted);margin-bottom:4px">Type</div>
-        <select id="pos-type" style="padding:8px 10px;background:#0f0d0a;border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:11px">
-          <option value="venture">VENTURE</option>
-          <option value="equity">EQUITY</option>
-          <option value="private_credit">PRIVATE CREDIT</option>
-          <option value="real_estate">REAL ESTATE</option>
-          <option value="other">OTHER</option>
-        </select>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end">
-      <div>
-        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.20em;color:var(--muted);margin-bottom:4px">Committed (KRW)</div>
-        <input id="pos-committed" type="number" step="1000000" placeholder="100000000" style="width:100%;padding:8px 10px;background:rgba(0,0,0,0.30);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:12px">
-      </div>
-      <div>
-        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.20em;color:var(--muted);margin-bottom:4px">Drawn (KRW)</div>
-        <input id="pos-drawn" type="number" step="1000000" placeholder="0" style="width:100%;padding:8px 10px;background:rgba(0,0,0,0.30);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:12px">
-      </div>
-      <div>
-        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.20em;color:var(--muted);margin-bottom:4px">Marked (KRW)</div>
-        <input id="pos-marked" type="number" step="1000000" placeholder="0" style="width:100%;padding:8px 10px;background:rgba(0,0,0,0.30);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:12px">
-      </div>
-      <button class="btn-big" data-action="position-add">DEPLOY  →</button>
-    </div>
-  </div>`;
 
   return `<div class="flow-panel ${positions.length ? 'f-active' : 'f-pending'}">
     <div class="flow-row">
       <span class="flow-pip"></span>
       <div class="flow-body">
-        <div class="flow-head">${positions.length} ACTIVE POSITION${positions.length === 1 ? '' : 'S'}</div>
-        <div class="flow-msg">${positions.length ? `${fmtKrw(totalDrawn)} deployed across ${positions.length} ${positions.length === 1 ? 'position' : 'positions'}` : 'Phase 3 — first deployments Q4 2026'}</div>
+        <div class="flow-head">${positions.length} DEAL${positions.length === 1 ? '' : 'S'} · ${memberKg.toFixed(1)} kg / ${cohortKg.toFixed(1)} kg = ${sharePct.toFixed(1)}% OF COHORT</div>
+        <div class="flow-msg">Deals are deployed at fund level. Member's slice is auto-pro-rated by kg ownership.</div>
       </div>
     </div>
     ${aggLine}
     ${rows}
-    ${form}
   </div>`;
 }
 
@@ -4486,6 +4501,34 @@ function restoreMode() {
     const lid = new URL(location.href).searchParams.get('lead');
     if (lid) mode = 'members';
   } catch {}
+  // Seed two example queued deals on very first load (only if user has never
+  // touched the queue). After the first deploy or remove, this guard is
+  // tripped permanently.
+  try {
+    const seeded = localStorage.getItem('aurum-deals-seeded');
+    const existingQueue = loadQueuedDeals();
+    if (!seeded && existingQueue.length === 0) {
+      addQueuedDeal({
+        name: 'Singapore RE Bridge Loan',
+        proposed_krw: 250_000_000,
+        term_months: 9,
+        target_irr: 14,
+        counterparty: 'Marina Bridge Capital Pte Ltd',
+        notes: '6-month senior secured bridge to a developer refinancing a CBD office tranche. Asset value 2.4× facility, LTV 42%. Standard recourse + completion covenants.',
+        funding_source: 'ltv',
+      });
+      addQueuedDeal({
+        name: 'KR Trade Finance Pool',
+        proposed_krw: 95_000_000,
+        term_months: 12,
+        target_irr: 11,
+        counterparty: 'Hanyang Receivables Fund III',
+        notes: 'Diversified short-duration receivables pool — KR exporters into JP, TW, VN. Underwriter has 14yr track record, no realized losses since 2018. Senior tranche participation.',
+        funding_source: 'ltv',
+      });
+      localStorage.setItem('aurum-deals-seeded', '1');
+    }
+  } catch {}
   setMode(mode);
 }
 
@@ -4507,9 +4550,40 @@ function refreshModeBadges() {
 // Today positions live on individual leads. We group them by name across all
 // leads to reconstruct fund-level deals. New deploy_to_deal action (api/admin/update.js)
 // writes the same shape, so this works for both backfilled + new deals.
+// Queued deals — partner-staged proposals not yet deployed. Persisted to
+// localStorage so the partner's working list survives reloads. Becomes a
+// fund-level deal once DEPLOY TO DEAL fires.
+const QUEUED_DEALS_KEY = 'aurum-queued-deals';
+function loadQueuedDeals() {
+  try {
+    const raw = localStorage.getItem(QUEUED_DEALS_KEY);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr : [];
+  } catch { return []; }
+}
+function saveQueuedDeals(deals) {
+  try { localStorage.setItem(QUEUED_DEALS_KEY, JSON.stringify(deals)); } catch {}
+}
+function addQueuedDeal(deal) {
+  const list = loadQueuedDeals();
+  list.push({
+    id: 'q_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    ...deal,
+    status: 'queued',
+    queued_at: Date.now(),
+  });
+  saveQueuedDeals(list);
+}
+function removeQueuedDeal(id) {
+  const list = loadQueuedDeals().filter((d) => d.id !== id);
+  saveQueuedDeals(list);
+}
+
 function collectFundDeals() {
   const leads = state.leads || [];
   const deals = new Map();
+  // Active + realized — reconstructed from per-member positions
   for (const l of leads) {
     if (!l.positions) continue;
     for (const p of l.positions) {
@@ -4527,6 +4601,7 @@ function collectFundDeals() {
           totalCost: 0,
           totalMarked: 0,
           memberShares: [],
+          queued: false,
         });
       }
       const d = deals.get(key);
@@ -4542,6 +4617,25 @@ function collectFundDeals() {
         marked,
       });
     }
+  }
+  // Queued — partner-staged proposals
+  for (const q of loadQueuedDeals()) {
+    deals.set(q.id, {
+      id: q.id,
+      name: q.name,
+      status: 'queued',
+      term_months: q.term_months || null,
+      target_irr: q.target_irr || null,
+      source: q.funding_source || 'ltv',
+      funded_at: null,
+      proposed_krw: q.proposed_krw || 0,
+      counterparty: q.counterparty || null,
+      notes: q.notes || null,
+      totalCost: 0,
+      totalMarked: 0,
+      memberShares: [],
+      queued: true,
+    });
   }
   return Array.from(deals.values());
 }
@@ -4573,8 +4667,10 @@ function renderOpsView() {
       statusH = `<em>Capital staged.</em>  Facility open, ready for first deployment.`;
     }
     const interestRate = 0.0485;
-    const dailyInterest = t.totalDrawn * interestRate / 365;
-    statusDetail = `${t.memberCount} admitted member${t.memberCount === 1 ? '' : 's'}  ·  ${t.totalKg.toFixed(1)} kg vaulted  ·  Facility drawn ${t.fundLtvDrawnPct.toFixed(1)}%  <span style="color:var(--dim);margin:0 8px">·</span>  Bank interest ~${(interestRate * 100).toFixed(2)}% on drawn balance ($${dailyInterest.toFixed(0)} today)`;
+    const dailyInterestKrw = t.totalDrawn * interestRate / 365;
+    const dailyInterestUsd = dailyInterestKrw / usdKrw;
+    const interestStr = dailyInterestUsd >= 1 ? `$${Math.round(dailyInterestUsd)}` : `$${dailyInterestUsd.toFixed(2)}`;
+    statusDetail = `${t.memberCount} admitted member${t.memberCount === 1 ? '' : 's'}  ·  ${t.totalKg.toFixed(1)} kg vaulted  ·  Facility drawn ${t.fundLtvDrawnPct.toFixed(1)}%  <span style="color:var(--dim);margin:0 8px">·</span>  Bank interest ~${(interestRate * 100).toFixed(2)}% on drawn balance (${interestStr} today)`;
   }
   $('pulse-status').innerHTML = statusH;
   $('pulse-detail').innerHTML = statusDetail;
@@ -4758,7 +4854,7 @@ function renderDealBook() {
     return '$' + Math.round(u);
   };
 
-  const active = deals.filter((d) => d.status === 'active' || !d.status).length;
+  const active = deals.filter((d) => d.status === 'active' || (!d.status && !d.queued)).length;
   const realized = deals.filter((d) => d.status === 'realized').length;
   const queued = deals.filter((d) => d.status === 'queued').length;
   const totalDeployed = deals.reduce((s, d) => s + d.totalCost, 0);
@@ -4768,64 +4864,108 @@ function renderDealBook() {
     <span class="sep">·</span>  ${fmtUsd(totalDeployed)} DEPLOYED  <span class="sep">·</span>  ${fmtUsd(cashAvailable)} AVAILABLE
   `;
 
-  if (deals.length === 0) {
-    list.innerHTML = `<div class="deals-empty">No deals yet. Click <strong style="color:var(--gold)">DEPLOY TO DEAL</strong> on the Operations view to fund the first one.</div>`;
-    return;
-  }
-
-  // Sort: active first, then queued, then realized
+  // Sort: active, queued, realized
   const order = { active: 0, queued: 1, realized: 2 };
   deals.sort((a, b) => (order[a.status] ?? 3) - (order[b.status] ?? 3));
 
-  list.innerHTML = deals.map((d, i) => {
-    const num = String(i + 1).padStart(2, '0');
-    const fmtDate = d.funded_at ? new Date(d.funded_at).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'}).toUpperCase() : 'NOT YET FUNDED';
-    const metaParts = [`FUNDED ${fmtDate}`];
-    if (d.term_months) metaParts.push(`${d.term_months} mo term`);
-    if (d.target_irr) metaParts.push(`target IRR ${d.target_irr}%`);
-    if (d.source) metaParts.push(`from ${d.source === 'ltv' ? 'drawn LTV' : 'reserve'}`);
-    const deltaPct = d.totalCost > 0 ? ((d.totalMarked - d.totalCost) / d.totalCost) * 100 : 0;
-    const deltaStr = deltaPct > 0.05 ? `+${deltaPct.toFixed(1)}%` : deltaPct < -0.05 ? `${deltaPct.toFixed(1)}%` : 'flat';
-    const deltaColor = deltaPct > 0.05 ? 'var(--green)' : deltaPct < -0.05 ? 'var(--red)' : 'var(--muted)';
-    const totalKg = d.memberShares.reduce((s, m) => s + m.kg, 0);
-    const memberRows = d.memberShares.map((m) => {
-      const pct = totalKg > 0 ? (m.kg / totalKg) * 100 : 0;
-      const mDelta = m.cost > 0 ? ((m.marked - m.cost) / m.cost) * 100 : 0;
-      const mDeltaStr = mDelta > 0.05 ? `+${mDelta.toFixed(1)}%` : mDelta < -0.05 ? `${mDelta.toFixed(1)}%` : 'flat';
-      const mDeltaC = mDelta > 0.05 ? 'var(--green)' : mDelta < -0.05 ? 'var(--red)' : 'var(--muted)';
-      return `<tr>
-        <td class="member-name">${esc(m.name)}</td>
-        <td>${m.kg.toFixed(1)} / ${totalKg.toFixed(1)}</td>
-        <td class="pct">${pct.toFixed(1)}%</td>
-        <td>${fmtUsd(m.cost)}</td>
-        <td>${fmtUsd(m.marked)}</td>
-        <td style="color:${mDeltaC}">${mDeltaStr}</td>
-      </tr>`;
-    }).join('');
-    return `
-      <div class="deal-row" data-deal-i="${i}">
-        <div class="deal-num">${num}</div>
-        <div class="deal-info">
-          <div class="deal-name">${esc(d.name)}</div>
-          <div class="deal-meta">${metaParts.map(esc).join('<span class="sep">·</span>')}</div>
+  let html = '';
+  if (deals.length === 0) {
+    html = `<div class="deals-empty">No deals yet. Click <strong style="color:var(--gold)">+ ADD DEAL</strong> below to queue one.</div>`;
+  } else {
+    html = deals.map((d, i) => {
+      const num = String(i + 1).padStart(2, '0');
+      if (d.queued) {
+        // Queued deal row — different shape (no MTM, has DEPLOY button + REMOVE)
+        const proposed = d.proposed_krw || 0;
+        const metaParts = ['QUEUED · NOT YET FUNDED'];
+        if (d.term_months) metaParts.push(`${d.term_months} mo term`);
+        if (d.target_irr) metaParts.push(`target IRR ${d.target_irr}%`);
+        if (d.counterparty) metaParts.push(`counterparty: ${d.counterparty}`);
+        return `
+          <div class="deal-row" data-deal-i="${i}">
+            <div class="deal-num">${num}</div>
+            <div class="deal-info">
+              <div class="deal-name">${esc(d.name)}</div>
+              <div class="deal-meta">${metaParts.map(esc).join('<span class="sep">·</span>')}</div>
+            </div>
+            <div class="deal-amount">${proposed > 0 ? fmtUsd(proposed) : '—'}<div class="sub">PROPOSED</div></div>
+            <div class="deal-amount" style="color:var(--muted)">—<div class="sub">MTM</div></div>
+            <div class="deal-status queued">QUEUED</div>
+          </div>
+          <div class="deal-expanded" data-deal-exp="${i}">
+            <h3>
+              <span>QUEUED DEAL  ·  ready for deployment</span>
+              <span class="deal-status-controls">
+                <button data-queued-deploy="${esc(d.id)}">⚡ DEPLOY THIS DEAL</button>
+                <button data-queued-remove="${esc(d.id)}">REMOVE FROM QUEUE</button>
+              </span>
+            </h3>
+            ${d.notes ? `<div style="font-family:var(--serifKr);font-size:13px;color:var(--sub);line-height:1.7;padding:10px 14px;background:var(--card);border-left:2px solid var(--gold);margin-bottom:14px">${esc(d.notes)}</div>` : ''}
+            <div style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.04em">
+              When you click DEPLOY, this deal opens in the deployment form pre-filled. The system pro-rates the proposed amount across all admitted members by kg ownership, debits drawn LTV cash, and writes a position record on each member.
+            </div>
+          </div>
+        `;
+      }
+      // Active / realized deal row
+      const fmtDate = d.funded_at ? new Date(d.funded_at).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'}).toUpperCase() : 'NOT YET FUNDED';
+      const metaParts = [`FUNDED ${fmtDate}`];
+      if (d.term_months) metaParts.push(`${d.term_months} mo term`);
+      if (d.target_irr) metaParts.push(`target IRR ${d.target_irr}%`);
+      if (d.source) metaParts.push(`from ${d.source === 'ltv' ? 'drawn LTV' : 'reserve'}`);
+      const deltaPct = d.totalCost > 0 ? ((d.totalMarked - d.totalCost) / d.totalCost) * 100 : 0;
+      const deltaStr = deltaPct > 0.05 ? `+${deltaPct.toFixed(1)}%` : deltaPct < -0.05 ? `${deltaPct.toFixed(1)}%` : 'flat';
+      const deltaColor = deltaPct > 0.05 ? 'var(--green)' : deltaPct < -0.05 ? 'var(--red)' : 'var(--muted)';
+      const totalKg = d.memberShares.reduce((s, m) => s + m.kg, 0);
+      const memberRows = d.memberShares.map((m) => {
+        const pct = totalKg > 0 ? (m.kg / totalKg) * 100 : 0;
+        const mDelta = m.cost > 0 ? ((m.marked - m.cost) / m.cost) * 100 : 0;
+        const mDeltaStr = mDelta > 0.05 ? `+${mDelta.toFixed(1)}%` : mDelta < -0.05 ? `${mDelta.toFixed(1)}%` : 'flat';
+        const mDeltaC = mDelta > 0.05 ? 'var(--green)' : mDelta < -0.05 ? 'var(--red)' : 'var(--muted)';
+        return `<tr>
+          <td class="member-name">${esc(m.name)}</td>
+          <td>${m.kg.toFixed(1)} / ${totalKg.toFixed(1)}</td>
+          <td class="pct">${pct.toFixed(1)}%</td>
+          <td>${fmtUsd(m.cost)}</td>
+          <td>${fmtUsd(m.marked)}</td>
+          <td style="color:${mDeltaC}">${mDeltaStr}</td>
+        </tr>`;
+      }).join('');
+      return `
+        <div class="deal-row" data-deal-i="${i}">
+          <div class="deal-num">${num}</div>
+          <div class="deal-info">
+            <div class="deal-name">${esc(d.name)}</div>
+            <div class="deal-meta">${metaParts.map(esc).join('<span class="sep">·</span>')}</div>
+          </div>
+          <div class="deal-amount">${fmtUsd(d.totalCost)}<div class="sub">DEPLOYED</div></div>
+          <div class="deal-amount" style="color:${deltaColor}">${deltaStr}<div class="sub">MTM</div></div>
+          <div class="deal-status ${esc(d.status || 'active')}">${esc((d.status || 'active').toUpperCase())}</div>
         </div>
-        <div class="deal-amount">${fmtUsd(d.totalCost)}<div class="sub">DEPLOYED</div></div>
-        <div class="deal-amount" style="color:${deltaColor}">${deltaStr}<div class="sub">MTM</div></div>
-        <div class="deal-status ${esc(d.status || 'active')}">${esc((d.status || 'active').toUpperCase())}</div>
-      </div>
-      <div class="deal-expanded" data-deal-exp="${i}">
-        <h3>
-          <span>PRO-RATA ALLOCATION  ·  by kg ownership</span>
-        </h3>
-        <table class="member-share-table">
-          <thead><tr>
-            <th>MEMBER</th><th>KG / TOTAL</th><th class="pct">SHARE</th><th>ALLOCATED</th><th>MARKED</th><th>Δ</th>
-          </tr></thead>
-          <tbody>${memberRows}</tbody>
-        </table>
-      </div>
-    `;
-  }).join('');
+        <div class="deal-expanded" data-deal-exp="${i}">
+          <h3>
+            <span>PRO-RATA ALLOCATION  ·  by kg ownership</span>
+          </h3>
+          <table class="member-share-table">
+            <thead><tr>
+              <th>MEMBER</th><th>KG / TOTAL</th><th class="pct">SHARE</th><th>ALLOCATED</th><th>MARKED</th><th>Δ</th>
+            </tr></thead>
+            <tbody>${memberRows}</tbody>
+          </table>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ADD DEAL row at the bottom — partner queues a new deal proposal
+  html += `
+    <div style="margin-top:18px;padding:24px;border:1px dashed var(--border);text-align:center">
+      <button class="pab-btn" id="btn-queue-deal" style="background:transparent;color:var(--gold);border:1px solid var(--gold);padding:12px 20px">+ QUEUE A DEAL</button>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.16em;color:var(--muted);margin-top:10px">stage a deal for review · DEPLOY when ready</div>
+    </div>
+  `;
+
+  list.innerHTML = html;
 
   // Wire row click to toggle expanded
   list.querySelectorAll('[data-deal-i]').forEach((row) => {
@@ -4835,6 +4975,31 @@ function renderDealBook() {
       if (!wasExpanded) row.classList.add('expanded');
     });
   });
+
+  // Wire queued-deal action buttons
+  list.querySelectorAll('[data-queued-deploy]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.getAttribute('data-queued-deploy');
+      openDeployModalForQueued(id);
+    });
+  });
+  list.querySelectorAll('[data-queued-remove]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.getAttribute('data-queued-remove');
+      if (confirm('Remove this queued deal?')) {
+        removeQueuedDeal(id);
+        renderDealBook();
+        if (typeof renderOpsView === 'function') renderOpsView();
+        toast('Deal removed from queue', 'ok');
+      }
+    });
+  });
+
+  // Wire ADD DEAL button
+  const addBtn = $('btn-queue-deal');
+  if (addBtn) addBtn.addEventListener('click', openQueueDealModal);
 }
 
 // ─── DEPLOY MODAL ─────────────────────────────────────────────────────────
@@ -4844,19 +5009,57 @@ function openDeployModal() {
     toast('No drawn LTV cash available to deploy', 'err');
     return;
   }
+  // Populate queued-pick dropdown
+  populateQueuedPick();
   // Reset form
+  $('dep-queued-pick').value = '';
   $('dep-name').value = '';
   $('dep-size').value = '';
   $('dep-term').value = '';
   $('dep-irr').value = '';
   $('dep-source').value = 'ltv';
+  state._consumingQueuedId = null;
   updateDeployPreview();
   $('deploy-overlay').classList.add('show');
   setTimeout(() => $('dep-name').focus(), 100);
 }
 
+// Open the deploy modal pre-filled with a specific queued deal
+function openDeployModalForQueued(queuedId) {
+  const t = state._fundTotals;
+  if (!t || t.cashAvailable < 1) {
+    toast('No drawn LTV cash available to deploy', 'err');
+    return;
+  }
+  const queued = loadQueuedDeals().find((q) => q.id === queuedId);
+  if (!queued) { toast('Queued deal not found', 'err'); return; }
+  populateQueuedPick();
+  $('dep-queued-pick').value = queuedId;
+  $('dep-name').value = queued.name || '';
+  $('dep-size').value = queued.proposed_krw || '';
+  $('dep-term').value = queued.term_months || '';
+  $('dep-irr').value = queued.target_irr || '';
+  $('dep-source').value = 'ltv';
+  state._consumingQueuedId = queuedId;
+  updateDeployPreview();
+  $('deploy-overlay').classList.add('show');
+}
+
+function populateQueuedPick() {
+  const select = $('dep-queued-pick');
+  if (!select) return;
+  const queued = loadQueuedDeals();
+  const opts = ['<option value="">— Enter new deal —</option>'];
+  for (const q of queued) {
+    const proposedTxt = q.proposed_krw ? ` · ${formatKrwShort(q.proposed_krw)}` : '';
+    opts.push(`<option value="${esc(q.id)}">${esc(q.name)}${esc(proposedTxt)}</option>`);
+  }
+  select.innerHTML = opts.join('');
+}
+
 function closeDeployModal() {
   $('deploy-overlay').classList.remove('show');
+  state._consumingQueuedId = null;
 }
 
 function updateDeployPreview() {
@@ -4944,6 +5147,11 @@ async function confirmDeploy() {
       term_months: term,
       target_irr: irr,
     });
+    // If this came from a queued deal, remove from queue
+    if (state._consumingQueuedId) {
+      removeQueuedDeal(state._consumingQueuedId);
+      state._consumingQueuedId = null;
+    }
     toast('Deal deployed · pro-rated across cohort', 'ok');
     closeDeployModal();
     await load();          // refreshes leads + triggers renderFundBand → renderDealBook → renderOpsView
@@ -4955,6 +5163,42 @@ async function confirmDeploy() {
   }
 }
 
+// ─── QUEUE A DEAL MODAL ───────────────────────────────────────────────────
+function openQueueDealModal() {
+  $('q-name').value = '';
+  $('q-size').value = '';
+  $('q-counterparty').value = '';
+  $('q-term').value = '';
+  $('q-irr').value = '';
+  $('q-notes').value = '';
+  $('queue-overlay').classList.add('show');
+  setTimeout(() => $('q-name').focus(), 100);
+}
+function closeQueueDealModal() { $('queue-overlay').classList.remove('show'); }
+function confirmQueueDeal() {
+  const name = String($('q-name').value || '').trim();
+  if (!name) { toast('Deal name required', 'err'); return; }
+  const proposed = Number($('q-size').value || 0);
+  const term = Number($('q-term').value || 0) || null;
+  const irr = Number($('q-irr').value || 0) || null;
+  const counterparty = String($('q-counterparty').value || '').trim() || null;
+  const notes = String($('q-notes').value || '').trim() || null;
+  addQueuedDeal({
+    name,
+    proposed_krw: proposed > 0 ? proposed : 0,
+    term_months: term,
+    target_irr: irr,
+    counterparty,
+    notes,
+    funding_source: 'ltv',
+  });
+  toast('Deal queued · ready to deploy when needed', 'ok');
+  closeQueueDealModal();
+  renderDealBook();
+  if (typeof renderOpsView === 'function') renderOpsView();
+  if (typeof refreshModeBadges === 'function') refreshModeBadges();
+}
+
 // Wire deploy modal events
 (function wireDeployModal() {
   const overlay = $('deploy-overlay');
@@ -4963,11 +5207,39 @@ async function confirmDeploy() {
   $('dep-cancel').addEventListener('click', closeDeployModal);
   $('dep-confirm').addEventListener('click', confirmDeploy);
   $('dep-size').addEventListener('input', updateDeployPreview);
+  // Auto-fill from queued pick
+  $('dep-queued-pick').addEventListener('change', (e) => {
+    const id = e.target.value;
+    if (!id) {
+      state._consumingQueuedId = null;
+      return;
+    }
+    const queued = loadQueuedDeals().find((q) => q.id === id);
+    if (!queued) return;
+    $('dep-name').value = queued.name || '';
+    $('dep-size').value = queued.proposed_krw || '';
+    $('dep-term').value = queued.term_months || '';
+    $('dep-irr').value = queued.target_irr || '';
+    state._consumingQueuedId = id;
+    updateDeployPreview();
+  });
   // Close on overlay click (not modal click)
   overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDeployModal(); });
   // Esc to close
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && overlay.classList.contains('show')) closeDeployModal();
+  });
+})();
+
+// Wire queue-deal modal
+(function wireQueueModal() {
+  const overlay = $('queue-overlay');
+  if (!overlay) return;
+  $('q-cancel').addEventListener('click', closeQueueDealModal);
+  $('q-confirm').addEventListener('click', confirmQueueDeal);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeQueueDealModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('show')) closeQueueDealModal();
   });
 })();
 
