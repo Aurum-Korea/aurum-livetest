@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Console v2 — streamlined</title>
+<style>
+:root{
+  --bg:#0a0a0a; --bg-2:#121110; --card:#171513; --card-2:#1c1a17;
+  --border:#272420; --rule:#1f1c18; --goldBorder:rgba(197,165,114,0.30);
+  --gold:#C5A572; --goldB:#E3C187; --goldD:#8a7d6b; --goldDeep:#5a4f42;
+  --goldWash:rgba(197,165,114,0.06); --goldGlow:rgba(197,165,114,0.50);
+  --text:#e8e3d8; --sub:#aaa39a; --muted:#6b655e; --dim:#3a3631;
+  --green:#7aa885; --red:#bf6b5a; --blue:#7c93b8; --amber:#d4a857;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;
+  --serifKr:'Noto Serif KR',Georgia,serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13px}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;border-bottom:1px solid var(--border);background:var(--bg-2)}
+.nav-l{display:flex;align-items:center;gap:14px}
+.nav-l .seal{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border:1px solid var(--gold);font-family:var(--serif);font-style:italic;font-size:18px;color:var(--gold)}
+.nav-l .word{font-family:var(--mono);font-size:11px;letter-spacing:0.32em;color:var(--text);font-weight:600}
+.nav-l .sub{font-family:var(--mono);font-size:9px;letter-spacing:0.22em;color:var(--muted);margin-top:3px}
+.nav-r{display:flex;gap:8px;align-items:center}
+.partner-pill{font-family:var(--mono);font-size:9.5px;letter-spacing:0.22em;color:var(--gold);padding:6px 10px;border:1px solid var(--goldBorder)}
+.btn-ghost{font-family:var(--mono);font-size:10px;letter-spacing:0.26em;color:var(--sub);padding:7px 13px;border:1px solid var(--border);background:transparent;cursor:pointer}
+.btn-ghost:hover{color:var(--goldB);border-color:var(--goldBorder)}
+
+/* ─── MODE TABS ─── */
+.mode-tabs{display:flex;gap:0;padding:0 28px;background:var(--bg-2);border-bottom:1px solid var(--border)}
+.mode-tab{font-family:var(--mono);font-size:10.5px;letter-spacing:0.28em;color:var(--muted);background:transparent;border:0;padding:16px 22px;cursor:pointer;border-bottom:2px solid transparent;text-transform:uppercase;transition:all .2s}
+.mode-tab:hover{color:var(--sub)}
+.mode-tab.active{color:var(--goldB);border-bottom-color:var(--gold)}
+.mode-tab .badge{display:inline-block;margin-left:8px;font-size:9px;color:var(--goldD);background:var(--goldWash);border:1px solid var(--goldBorder);padding:1px 6px;letter-spacing:0.18em}
+.mode-tab.active .badge{color:var(--goldB);border-color:var(--gold)}
+
+/* ─── OPERATIONS VIEW ─── */
+.ops-wrap{padding:28px;display:flex;flex-direction:column;gap:24px}
+
+/* Fund pulse — single primary status line + action panel */
+.pulse{padding:24px 28px;background:linear-gradient(135deg,rgba(197,165,114,0.10),rgba(197,165,114,0.02));border:1px solid var(--goldBorder);border-left:3px solid var(--gold)}
+.pulse-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:18px}
+.pulse-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:0.32em;color:var(--gold);text-transform:uppercase}
+.pulse-status{font-family:var(--serif);font-style:italic;font-size:24px;line-height:1.3;color:var(--text);margin:6px 0 0;letter-spacing:-0.005em;font-weight:500}
+.pulse-status em{color:var(--goldB);font-style:italic}
+.pulse-detail{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;color:var(--sub);margin-top:8px;line-height:1.7}
+
+/* Compact KPI row inside the pulse */
+.pulse-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid var(--goldBorder);padding-top:18px;margin-top:18px}
+.pulse-kpi{padding:0 18px;border-right:1px solid var(--rule);min-width:0}
+.pulse-kpi:first-child{padding-left:0}
+.pulse-kpi:last-child{border-right:0;padding-right:0}
+.pulse-kpi .lbl{font-family:var(--mono);font-size:9px;letter-spacing:0.22em;color:var(--goldDeep);text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.pulse-kpi .val{font-family:var(--serif);font-size:24px;font-weight:500;color:var(--text);font-variant-numeric:tabular-nums;line-height:1}
+.pulse-kpi.hero .val{color:var(--goldB);font-style:italic;font-size:30px}
+.pulse-kpi .sub{font-family:var(--mono);font-size:9.5px;color:var(--sub);letter-spacing:0.04em;margin-top:6px}
+.pulse-kpi .pill{display:inline-flex;align-items:center;gap:4px;font-size:8px;letter-spacing:0.20em;padding:2px 6px;border:1px solid var(--rule);color:var(--muted);text-transform:uppercase}
+.pulse-kpi .pill.active{color:var(--green);border-color:rgba(122,168,133,0.30);background:rgba(122,168,133,0.05)}
+.pulse-kpi .pill.idle{color:var(--amber);border-color:rgba(212,168,87,0.30);background:rgba(212,168,87,0.05)}
+.pulse-kpi .pill.deployed{color:var(--gold);border-color:var(--goldBorder);background:var(--goldWash)}
+
+/* ─── ACTION QUEUE ─── */
+.action-queue{padding:0}
+.aq-head{font-family:var(--mono);font-size:10px;letter-spacing:0.30em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.aq-head .count{color:var(--goldD)}
+.aq-list{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.aq-card{padding:18px;background:var(--card);border:1px solid var(--border);border-left:2px solid var(--gold);display:flex;flex-direction:column;gap:10px}
+.aq-card.urgent{border-left-color:var(--amber)}
+.aq-card.info{border-left-color:var(--blue)}
+.aq-card .aq-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:0.26em;color:var(--goldD);text-transform:uppercase}
+.aq-card .aq-h{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--text);line-height:1.25;margin:2px 0}
+.aq-card .aq-meta{font-family:var(--mono);font-size:10.5px;color:var(--sub);letter-spacing:0.04em;line-height:1.6}
+.aq-card .aq-action{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;background:var(--gold);color:var(--bg);font-family:var(--mono);font-size:10.5px;letter-spacing:0.22em;text-transform:uppercase;text-decoration:none;font-weight:600;align-self:flex-start;margin-top:6px;cursor:pointer;border:0}
+.aq-card .aq-action.secondary{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+.aq-card .aq-action:hover{background:var(--goldB)}
+.aq-card .aq-action.secondary:hover{background:var(--goldWash)}
+
+/* ─── PRIMARY ACTION (DEPLOY) ─── */
+.primary-action-bar{padding:20px 28px;background:rgba(197,165,114,0.04);border:1px solid var(--goldBorder);display:flex;justify-content:space-between;align-items:center;gap:18px}
+.pab-text{flex:1;min-width:0}
+.pab-h{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--text);margin:0}
+.pab-h em{color:var(--goldB)}
+.pab-sub{font-family:var(--mono);font-size:11px;color:var(--sub);letter-spacing:0.04em;margin-top:6px}
+.pab-btn{padding:14px 24px;background:var(--gold);color:var(--bg);font-family:var(--mono);font-size:11px;letter-spacing:0.26em;font-weight:600;text-transform:uppercase;border:0;cursor:pointer;flex-shrink:0}
+.pab-btn:hover{background:var(--goldB)}
+
+/* ─── DEAL BOOK VIEW ─── */
+.deals-wrap{padding:28px}
+.deals-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px}
+.deals-head h2{font-family:var(--serif);font-style:italic;font-size:28px;color:var(--text);margin:0;letter-spacing:-0.005em;font-weight:500}
+.deals-head h2 em{color:var(--goldB)}
+.deals-head .meta{font-family:var(--mono);font-size:10px;letter-spacing:0.22em;color:var(--muted)}
+
+.deal-row{display:grid;grid-template-columns:auto 1fr auto auto auto;gap:24px;padding:20px 22px;background:var(--card);border:1px solid var(--border);align-items:center;margin-bottom:10px;cursor:pointer;transition:background .2s}
+.deal-row:hover{background:var(--card-2);border-color:var(--goldBorder)}
+.deal-num{font-family:var(--serif);font-style:italic;font-size:32px;color:var(--goldDeep);min-width:42px;line-height:1}
+.deal-info{min-width:0;display:flex;flex-direction:column;gap:4px}
+.deal-name{font-family:var(--serif);font-size:18px;color:var(--text);line-height:1.3;font-weight:500}
+.deal-meta{font-family:var(--mono);font-size:10px;letter-spacing:0.10em;color:var(--sub)}
+.deal-meta .sep{color:var(--dim);margin:0 8px}
+.deal-amount{font-family:var(--mono);font-size:14px;color:var(--text);font-variant-numeric:tabular-nums;text-align:right}
+.deal-amount .sub{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;margin-top:3px}
+.deal-status{padding:4px 10px;font-family:var(--mono);font-size:9px;letter-spacing:0.22em;text-transform:uppercase}
+.deal-status.active{color:var(--green);background:rgba(122,168,133,0.08);border:1px solid rgba(122,168,133,0.30)}
+.deal-status.realized{color:var(--gold);background:var(--goldWash);border:1px solid var(--goldBorder)}
+.deal-status.queued{color:var(--amber);background:rgba(212,168,87,0.06);border:1px solid rgba(212,168,87,0.30)}
+.deal-arrow{font-family:var(--serif);font-style:italic;font-size:24px;color:var(--goldD)}
+
+/* Deal expansion (member breakdown) */
+.deal-expanded{padding:24px 22px 0;background:var(--bg-2);border:1px solid var(--goldBorder);border-top:0;margin-top:-10px;margin-bottom:10px}
+.deal-expanded h3{font-family:var(--mono);font-size:9.5px;letter-spacing:0.30em;color:var(--gold);text-transform:uppercase;margin:0 0 14px}
+.member-share-table{width:100%;border-collapse:collapse;margin-bottom:18px}
+.member-share-table th{font-family:var(--mono);font-size:9px;letter-spacing:0.22em;color:var(--goldD);text-transform:uppercase;font-weight:400;text-align:left;padding:8px 16px 8px 0;border-bottom:1px solid var(--rule)}
+.member-share-table td{font-family:var(--mono);font-size:11px;color:var(--text);padding:10px 16px 10px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-variant-numeric:tabular-nums}
+.member-share-table .member-name{font-family:var(--serif);font-size:14px;color:var(--text)}
+.member-share-table .pct{color:var(--gold)}
+
+/* ─── MEMBER DETAIL (streamlined) ─── */
+.mem-wrap{padding:28px;max-width:1100px;margin:0 auto}
+.mem-back{font-family:var(--mono);font-size:10px;letter-spacing:0.24em;color:var(--goldD);text-decoration:none;margin-bottom:14px;display:inline-block;cursor:pointer}
+.mem-head{padding:0 0 20px;border-bottom:1px solid var(--goldBorder);margin-bottom:24px}
+.mem-pill{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:0.22em;color:var(--green);background:rgba(122,168,133,0.06);border:1px solid rgba(122,168,133,0.30);padding:5px 12px;text-transform:uppercase;margin-bottom:14px}
+.mem-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.mem-name{font-family:var(--serif);font-size:38px;color:var(--text);font-weight:500;line-height:1.1;letter-spacing:-0.012em;margin:0 0 8px}
+.mem-share-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.24em;color:var(--goldD);text-transform:uppercase}
+.mem-share-eyebrow strong{color:var(--goldB);font-weight:500}
+
+.mem-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+
+.mem-panel{padding:22px 24px;background:var(--card);border:1px solid var(--border)}
+.mem-panel h3{font-family:var(--mono);font-size:9.5px;letter-spacing:0.30em;color:var(--gold);text-transform:uppercase;margin:0 0 16px}
+.mem-panel .sub-h{font-family:var(--mono);font-size:9px;letter-spacing:0.24em;color:var(--goldD);text-transform:uppercase;margin:18px 0 10px}
+
+/* Slice panel — pro-rata breakdown */
+.slice-rows{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--rule)}
+.slice-cell{padding:14px 16px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.slice-cell:nth-child(2n){border-right:0}
+.slice-cell:nth-last-child(-n+2){border-bottom:0}
+.slice-cell .lbl{font-family:var(--mono);font-size:9px;letter-spacing:0.22em;color:var(--goldDeep);text-transform:uppercase;margin-bottom:5px}
+.slice-cell .val{font-family:var(--serif);font-size:22px;color:var(--text);font-weight:500;line-height:1;font-variant-numeric:tabular-nums}
+.slice-cell .val.gold{color:var(--goldB);font-style:italic}
+.slice-cell .sub{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.04em;margin-top:5px}
+
+/* Journey panel — operational status */
+.journey-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--rule);font-size:11px}
+.journey-row:last-child{border-bottom:0}
+.journey-row .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:0.22em;color:var(--goldD);text-transform:uppercase}
+.journey-row .val{font-family:var(--mono);font-size:11px;color:var(--text);font-variant-numeric:tabular-nums}
+.journey-row .val.ok{color:var(--green)}
+.journey-row .val.pending{color:var(--amber)}
+.journey-row .val.muted{color:var(--muted)}
+
+/* Bottom — positions list */
+.mem-positions{margin-top:24px;padding:22px 24px;background:var(--card);border:1px solid var(--border)}
+.position-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:18px;padding:14px 0;border-bottom:1px solid var(--rule);align-items:center}
+.position-row:last-child{border-bottom:0}
+.position-row .num{font-family:var(--serif);font-style:italic;color:var(--goldDeep);font-size:18px}
+.position-row .name{font-family:var(--serif);font-size:15px;color:var(--text)}
+.position-row .meta{font-family:var(--mono);font-size:10px;letter-spacing:0.04em;color:var(--sub);margin-top:2px}
+.position-row .amt{font-family:var(--mono);font-size:13px;color:var(--text);font-variant-numeric:tabular-nums;text-align:right}
+.position-row .amt .sub{font-size:9px;color:var(--muted);letter-spacing:0.10em}
+.position-row .pct{font-family:var(--mono);font-size:11px;color:var(--gold);text-align:right;min-width:60px}
+
+/* Micro-section: which view we're showing */
+.viewlabel{font-family:var(--mono);font-size:9px;letter-spacing:0.30em;color:var(--gold);text-transform:uppercase;padding:8px 28px;background:rgba(197,165,114,0.04);border-bottom:1px solid var(--goldBorder)}
+</style>
+</head>
+<body>
+
+<!-- ─────────── NAV ─────────── -->
+<nav class="nav">
+  <div class="nav-l">
+    <span class="seal"><em>Au</em></span>
+    <div>
+      <div class="word">PARTNERS CONSOLE</div>
+      <div class="sub">Aurum · v2 mock</div>
+    </div>
+  </div>
+  <div class="nav-r">
+    <span class="partner-pill">JWC</span>
+    <button class="btn-ghost">↻ REFRESH</button>
+    <button class="btn-ghost">↓ EXPORT</button>
+    <button class="btn-ghost">LOG OUT</button>
+  </div>
+</nav>
+
+<!-- ─────────── MODE TABS ─────────── -->
+<div class="mode-tabs">
+  <button class="mode-tab active" data-mode="ops">OPERATIONS</button>
+  <button class="mode-tab" data-mode="members">MEMBERS <span class="badge">8</span></button>
+  <button class="mode-tab" data-mode="deals">DEAL BOOK <span class="badge">3</span></button>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- VIEW 1 · OPERATIONS                                                  -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<div class="viewlabel">VIEW 1 · OPERATIONS — Fund pulse + action queue</div>
+<div class="ops-wrap">
+
+  <!-- FUND PULSE -->
+  <div class="pulse">
+    <div class="pulse-head">
+      <div>
+        <div class="pulse-eyebrow">FUND PULSE  ·  TODAY</div>
+        <div class="pulse-status"><em>Capital ready.</em>  3 deals queued, $753K available to deploy.</div>
+        <div class="pulse-detail">
+          8 admitted members  ·  8 kg vaulted at Singapore Freeport  ·  Facility open at SCB
+          <span style="color:var(--dim);margin:0 8px">·</span>
+          Bank interest accruing at 4.85% on drawn balance ($98 today)
+        </div>
+      </div>
+    </div>
+
+    <div class="pulse-kpis">
+      <div class="pulse-kpi">
+        <div class="lbl">KILO <span class="pill active">VAULTED</span></div>
+        <div class="val">8.0</div>
+        <div class="sub">8 members, all allocated</div>
+      </div>
+      <div class="pulse-kpi hero">
+        <div class="lbl">FUND NAV <span style="color:var(--green)">↑ 0.3%</span></div>
+        <div class="val">$1.59M</div>
+        <div class="sub">net of facility liability + interest</div>
+      </div>
+      <div class="pulse-kpi">
+        <div class="lbl">GOLD <span class="pill active">@ LIVE</span></div>
+        <div class="val">$1.27M</div>
+        <div class="sub">8 kg @ $159K/kg</div>
+      </div>
+      <div class="pulse-kpi">
+        <div class="lbl">FACILITY <span class="pill active">59% AVG</span></div>
+        <div class="val">$753K</div>
+        <div class="sub">drawn @ weighted avg LTV</div>
+      </div>
+      <div class="pulse-kpi">
+        <div class="lbl">DEPLOYED <span class="pill deployed">2 ACTIVE</span></div>
+        <div class="val">$345K</div>
+        <div class="sub">$408K idle ready to deploy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRIMARY ACTION -->
+  <div class="primary-action-bar">
+    <div class="pab-text">
+      <div class="pab-h">$408K idle in facility, accruing <em>4.85% interest</em>.</div>
+      <div class="pab-sub">Deploy now to a deal or repay drawn principal to stop the carry.</div>
+    </div>
+    <button class="pab-btn">DEPLOY TO DEAL  →</button>
+  </div>
+
+  <!-- ACTION QUEUE -->
+  <div class="action-queue">
+    <div class="aq-head">
+      <span>ACTION QUEUE  ·  3 ITEMS NEED ATTENTION</span>
+      <span class="count">last refreshed 2 min ago</span>
+    </div>
+
+    <div class="aq-list">
+      <div class="aq-card urgent">
+        <div class="aq-eyebrow">WIRE TO REVIEW</div>
+        <div class="aq-h">3 wires received <em>awaiting confirmation</em></div>
+        <div class="aq-meta">
+          $580K total · pending bank reconciliation<br>
+          Park Hayoung, Kim Sangwon, Lee Jiho
+        </div>
+        <button class="aq-action secondary">REVIEW WIRES  →</button>
+      </div>
+
+      <div class="aq-card">
+        <div class="aq-eyebrow">BARS TO CONFIRM</div>
+        <div class="aq-h">5 kg in transit <em>ETA Mon</em></div>
+        <div class="aq-meta">
+          Loomis Singapore · serials AU-2026-0008 to 0012<br>
+          Auto-pledge to SCB on vault confirmation
+        </div>
+        <button class="aq-action secondary">VIEW SHIPMENT  →</button>
+      </div>
+
+      <div class="aq-card info">
+        <div class="aq-eyebrow">DEAL OPPORTUNITY</div>
+        <div class="aq-h">Sourcing pipeline: <em>3 deals</em> ready</div>
+        <div class="aq-meta">
+          Bridge loan SG · trade finance KR · pre-IPO · review pending<br>
+          Can support up to $850K aggregate
+        </div>
+        <button class="aq-action secondary">REVIEW DEALS  →</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- VIEW 2 · DEAL BOOK                                                  -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<div class="viewlabel" style="margin-top:40px">VIEW 2 · DEAL BOOK — fund-level deals, not per-member</div>
+<div class="deals-wrap">
+  <div class="deals-head">
+    <h2>The <em>book.</em></h2>
+    <div class="meta">2 ACTIVE  ·  1 REALIZED  ·  $345K DEPLOYED  ·  $408K AVAILABLE</div>
+  </div>
+
+  <!-- Deal 1 — expanded -->
+  <div class="deal-row">
+    <div class="deal-num">01</div>
+    <div class="deal-info">
+      <div class="deal-name">Singapore RE Bridge Loan</div>
+      <div class="deal-meta">
+        FUNDED MAR 12, 2026
+        <span class="sep">·</span>
+        9 mo term
+        <span class="sep">·</span>
+        target IRR 14%
+        <span class="sep">·</span>
+        funded from drawn LTV
+      </div>
+    </div>
+    <div class="deal-amount">
+      $250K
+      <div class="sub">DEPLOYED</div>
+    </div>
+    <div class="deal-amount" style="color:var(--green)">
+      +0.4%
+      <div class="sub">MTM</div>
+    </div>
+    <div class="deal-status active">ACTIVE</div>
+  </div>
+
+  <!-- Deal 1 expansion: pro-rata member breakdown -->
+  <div class="deal-expanded">
+    <h3>PRO-RATA ALLOCATION  ·  by kg ownership</h3>
+    <table class="member-share-table">
+      <thead>
+        <tr>
+          <th>MEMBER</th>
+          <th>KG / TOTAL</th>
+          <th class="pct">SHARE</th>
+          <th>ALLOCATED</th>
+          <th>MARKED</th>
+          <th>Δ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="member-name">Hayoung Park</td>
+          <td>3 / 8</td>
+          <td class="pct">37.5%</td>
+          <td>$93,750</td>
+          <td>$94,125</td>
+          <td style="color:var(--green)">+0.4%</td>
+        </tr>
+        <tr>
+          <td class="member-name">Sangwon Kim</td>
+          <td>5 / 8</td>
+          <td class="pct">62.5%</td>
+          <td>$156,250</td>
+          <td>$156,875</td>
+          <td style="color:var(--green)">+0.4%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Deal 2 -->
+  <div class="deal-row">
+    <div class="deal-num">02</div>
+    <div class="deal-info">
+      <div class="deal-name">KR Trade Finance Pool</div>
+      <div class="deal-meta">
+        FUNDED MAR 28, 2026
+        <span class="sep">·</span>
+        12 mo term
+        <span class="sep">·</span>
+        target IRR 11%
+      </div>
+    </div>
+    <div class="deal-amount">
+      $95K
+      <div class="sub">DEPLOYED</div>
+    </div>
+    <div class="deal-amount" style="color:var(--muted)">
+      flat
+      <div class="sub">MTM</div>
+    </div>
+    <div class="deal-status active">ACTIVE</div>
+  </div>
+
+  <!-- Deal 3 -->
+  <div class="deal-row">
+    <div class="deal-num">03</div>
+    <div class="deal-info">
+      <div class="deal-name">Pre-IPO Secondary · TBD</div>
+      <div class="deal-meta">
+        UNDER REVIEW
+        <span class="sep">·</span>
+        proposed $300K
+        <span class="sep">·</span>
+        target IRR 18%
+      </div>
+    </div>
+    <div class="deal-amount">
+      $300K
+      <div class="sub">PROPOSED</div>
+    </div>
+    <div class="deal-amount" style="color:var(--muted)">—</div>
+    <div class="deal-status queued">QUEUED</div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- VIEW 3 · MEMBER DETAIL (streamlined)                                -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<div class="viewlabel" style="margin-top:40px">VIEW 3 · MEMBER DETAIL — slice + journey, no fund-level noise</div>
+<div class="mem-wrap">
+
+  <a class="mem-back">← BACK TO MEMBERS</a>
+
+  <div class="mem-head">
+    <span class="mem-pill"><span class="dot"></span>ADMITTED · MEMBER · JOINED MAR 8</span>
+    <h1 class="mem-name">Hayoung Park</h1>
+    <div class="mem-share-eyebrow">3 / 8 kg  ·  <strong>37.5% of cohort</strong>  ·  approved 75% LTV</div>
+  </div>
+
+  <div class="mem-grid">
+
+    <!-- LEFT: Their slice -->
+    <div class="mem-panel">
+      <h3>THEIR SLICE  ·  pro-rata view</h3>
+      <div class="slice-rows">
+        <div class="slice-cell">
+          <div class="lbl">KILO</div>
+          <div class="val gold">3.00</div>
+          <div class="sub">LBMA bar AU-2026-0001</div>
+        </div>
+        <div class="slice-cell">
+          <div class="lbl">CURRENT NAV</div>
+          <div class="val gold">$594K</div>
+          <div class="sub">↑ 0.3% vs $593K wired</div>
+        </div>
+        <div class="slice-cell">
+          <div class="lbl">GOLD HELD</div>
+          <div class="val">$476K</div>
+          <div class="sub">3 kg @ live</div>
+        </div>
+        <div class="slice-cell">
+          <div class="lbl">FUND CASH RESERVE</div>
+          <div class="val">$119K</div>
+          <div class="sub">20% buffer · not deployable</div>
+        </div>
+        <div class="slice-cell">
+          <div class="lbl">LTV DRAWN</div>
+          <div class="val">$357K</div>
+          <div class="sub">75% × gold at admission</div>
+        </div>
+        <div class="slice-cell">
+          <div class="lbl">DEPLOYED</div>
+          <div class="val">$94K</div>
+          <div class="sub">$263K idle in facility</div>
+        </div>
+      </div>
+
+      <div class="sub-h">POSITIONS  ·  pro-rata of fund deals</div>
+      <div class="position-row">
+        <div class="num">01</div>
+        <div>
+          <div class="name">Singapore RE Bridge Loan</div>
+          <div class="meta">37.5% of fund deal · 9 mo term</div>
+        </div>
+        <div class="amt">$94,125<div class="sub">MTM</div></div>
+        <div class="pct" style="color:var(--green)">+0.4%</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Their journey -->
+    <div class="mem-panel">
+      <h3>JOURNEY  ·  operational state</h3>
+      <div class="journey-row">
+        <span class="lbl">INQUIRY RECEIVED</span>
+        <span class="val ok">FEB 28 · approved</span>
+      </div>
+      <div class="journey-row">
+        <span class="lbl">NDA</span>
+        <span class="val ok">MAR 02 · countersigned</span>
+      </div>
+      <div class="journey-row">
+        <span class="lbl">IOI SUBMITTED</span>
+        <span class="val ok">MAR 04 · 3 kg @ 75% LTV</span>
+      </div>
+      <div class="journey-row">
+        <span class="lbl">IOI VERIFIED</span>
+        <span class="val ok">MAR 05 · approved at 75%</span>
+      </div>
+      <div class="journey-row">
+        <span class="lbl">WIRE</span>
+        <span class="val ok">MAR 07 · cleared $593K</span>
+      </div>
+      <div class="journey-row">
+        <span class="lbl">GOLD PURCHASED</span>
+        <span class="val ok">MAR 08 · settled @ $158.5K/kg</span>
+      </div>
+      <div class="journey-row">
+        <span class="lbl">VAULTED</span>
+        <span class="val ok">MAR 09 · Singapore Freeport</span>
+      </div>
+      <div class="journey-row">
+        <span class="lbl">FACILITY OPENED</span>
+        <span class="val ok">MAR 09 · auto-drawn $357K</span>
+      </div>
+      <div class="journey-row">
+        <span class="lbl">PORTFOLIO ACCESS</span>
+        <span class="val ok">MAR 10 · password set</span>
+      </div>
+      <div class="journey-row">
+        <span class="lbl">LAST LOGIN</span>
+        <span class="val muted">3 hours ago</span>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:18px">
+        <button class="btn-ghost" style="flex:1">⋯ RESEND</button>
+        <button class="btn-ghost" style="flex:1">↗ AS MEMBER</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
