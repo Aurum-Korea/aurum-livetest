@@ -2,16 +2,16 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8" />
-<title>AURUM · Founders · The Kilo · Folio 001</title>
+<title>The Aurum Century Club · The Kilo · Folio 001</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Serif+KR:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════════════════════════════════════
-   AURUM Founders · PRINT EDITION · 15 pp · Letter
+   The Aurum Century Club · PRINT EDITION · 18 pp · Letter
    Dark register throughout · HTML-version graphics applied to PDF page format
    ═══════════════════════════════════════════════════════════════════════════ */
-@page { size: Letter; margin: 0; }
+@page { size: Letter; margin: 0; background: #0a0a0a; }
 
 :root {
   --bg:         #0a0a0a;
@@ -84,12 +84,12 @@ em { font-style: italic; }
   width: 22px; height: 22px;
   border: 1px solid var(--gold);
   font-family: var(--serif); font-weight: 500;
-  color: var(--gold); font-size: 11px; letter-spacing: 0;
+  color: var(--gold); font-size: 12px; letter-spacing: -0.04em;
 }
-.head .au em { font-style: normal; }
+.head .au em { font-style: italic; }
 .head .word {
-  font-family: var(--sans); font-weight: 500; font-size: 10px;
-  color: var(--text); letter-spacing: 0.28em;
+  font-family: var(--sans); font-weight: 600; font-size: 10px;
+  color: var(--text); letter-spacing: 0.34em;
 }
 .foot {
   margin-top: auto;
@@ -101,132 +101,8 @@ em { font-style: italic; }
 .foot .conf { color: var(--goldD); }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   PAGE 1 · COVER — Masthead edition
-   "THE AURUM CENTURY CLUB presents" — editorial spine.  The Kilo = Issue One.
+   PAGE 1 · COVER
    ═══════════════════════════════════════════════════════════════════════════ */
-
-/* The cover page becomes a full-bleed dark canvas with three zones:
-   top (masthead) / middle (issue title + lede) / bottom (legal stamp).
-   No running header, no running footer — pure cover treatment. */
-.page--cover {
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.page--cover::before {
-  /* Stronger gold radial wash for the cover, anchored top-center */
-  background:
-    radial-gradient(ellipse 1100px 800px at 50% -10%, rgba(197,165,114,0.10), transparent 70%),
-    radial-gradient(ellipse 700px 500px at 50% 110%, rgba(197,165,114,0.05), transparent 65%);
-}
-
-.cover-frame {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 1.0in 0.9in 0.75in;
-  position: relative;
-  z-index: 1;
-}
-
-/* Masthead — top zone */
-.cover-masthead {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-  margin-top: 0.5in;
-}
-.cover-masthead .seal {
-  width: 56px; height: 56px;
-  border: 1px solid var(--gold);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--serif); font-style: italic; font-weight: 500;
-  color: var(--gold); font-size: 26px;
-  letter-spacing: -0.04em;
-}
-.cover-masthead .property {
-  font-family: var(--sans); font-weight: 600;
-  font-size: 13px; letter-spacing: 0.42em;
-  color: var(--text);
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.cover-masthead .presents {
-  font-family: var(--serif); font-style: italic; font-weight: 400;
-  font-size: 18px; letter-spacing: 0.04em;
-  color: var(--gold);
-  margin-top: 2px;
-}
-.cover-masthead .rule {
-  width: 48px;
-  height: 1px;
-  background: var(--gold);
-  margin-top: 4px;
-  opacity: 0.6;
-}
-
-/* Middle — issue title and lede */
-.cover-issue {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
-  margin: auto 0;
-  /* Pull slightly above true center for optical balance */
-  padding-bottom: 0.3in;
-}
-.cover-issue .issue-meta {
-  font-family: var(--mono); font-weight: 400;
-  font-size: 9.5px; letter-spacing: 0.36em;
-  color: var(--goldD);
-  text-transform: uppercase;
-}
-.cover-issue .issue-title {
-  font-family: var(--serif); font-weight: 500;
-  font-size: 124px; line-height: 0.95;
-  letter-spacing: -0.025em;
-  color: var(--text);
-  margin: 0;
-}
-.cover-issue .issue-title em {
-  font-style: italic;
-  color: var(--gold);
-  font-weight: 500;
-}
-.cover-issue .issue-lede {
-  font-family: var(--serif); font-weight: 400;
-  font-size: 22px; line-height: 1.45;
-  color: var(--sub);
-  max-width: 5.4in;
-  margin: 0;
-}
-.cover-issue .issue-lede em {
-  font-style: italic;
-  color: var(--goldB);
-}
-
-/* Footer — legal stamp */
-.cover-stamp {
-  font-family: var(--mono); font-weight: 400;
-  font-size: 8.5px; letter-spacing: 0.36em;
-  color: var(--muted);
-  text-align: center;
-  text-transform: uppercase;
-  padding-top: 16px;
-  border-top: 1px solid var(--border);
-}
-.cover-stamp .sep {
-  display: inline-block;
-  margin: 0 10px;
-  color: var(--goldD);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   PAGE 1 · COVER — legacy classes (kept for fallback, no longer used by cover) */
 .cover-top {
   display: flex; justify-content: space-between;
   font-family: var(--mono); font-size: 8.5px;
@@ -234,25 +110,29 @@ em { font-style: italic; }
 }
 .cover-mark {
   margin-top: 0.9in;
-  display: flex; align-items: flex-start; gap: 20px;
+  display: flex; align-items: center; gap: 14px;
 }
 .cover-mark .au {
-  width: 72px; height: 72px;
-  border: 1.2px solid var(--gold);
+  width: 42px; height: 42px;
+  border: 1px solid var(--gold);
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--serif); font-weight: 500;
-  color: var(--gold); font-size: 36px;
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  color: var(--gold); font-size: 20px;
+  letter-spacing: -0.04em;
+  flex-shrink: 0;
 }
-.cover-mark .au em { font-style: normal; }
+.cover-mark .au em { font-style: italic; }
 .cover-mark .wm {
-  font-family: var(--sans); font-weight: 500;
-  font-size: 50px; color: var(--text); letter-spacing: 0.18em;
+  font-family: var(--sans); font-weight: 600;
+  font-size: 18px; color: var(--text); letter-spacing: 0.34em;
   line-height: 1;
+  display: flex; flex-direction: column;
 }
 .cover-mark .wm .sub {
-  display: block; margin-top: 8px;
-  font-family: var(--mono); font-size: 10px;
-  color: var(--goldD); letter-spacing: 0.32em;
+  display: block; margin-top: 6px;
+  font-family: var(--mono); font-weight: 400;
+  font-size: 11px;
+  color: var(--goldD); letter-spacing: 0.36em;
 }
 .cover-eyebrow {
   margin-top: 1.4in;
@@ -264,9 +144,9 @@ em { font-style: italic; }
   letter-spacing: 0.2em; margin-left: 14px;
 }
 .cover-title {
-  margin-top: 18px;
+  margin-top: 24px;
   font-family: var(--serifKr); font-weight: 400;
-  font-size: 96px; line-height: 0.96; letter-spacing: -0.025em;
+  font-size: 108px; line-height: 0.96; letter-spacing: -0.025em;
   color: var(--text);
 }
 .cover-title em {
@@ -653,7 +533,7 @@ h2.page-h em {
   display: flex;
   flex-direction: column;
 }
-.mech-step + .mech-step { border-left: none; }
+.mech-step + .mech-step { margin-left: -1px; }
 .mech-step .roman {
   font-family: var(--serif); font-style: italic; font-weight: 500;
   font-size: 18px; color: var(--gold); margin-bottom: 12px;
@@ -856,10 +736,10 @@ h2.page-h em {
 
 .gap-flow {
   display: grid; grid-template-columns: 56px repeat(4, 1fr) 80px;
-  align-items: center; gap: 9px;
+  align-items: stretch; gap: 9px;
 }
-.gap-patron { text-align: center; }
-.gap-patron .circle {
+.gap-member { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.gap-member .circle {
   width: 40px; height: 40px; border-radius: 50%;
   border: 1px solid var(--goldBorderS);
   display: flex; align-items: center; justify-content: center;
@@ -867,20 +747,21 @@ h2.page-h em {
   font-size: 18px; color: var(--goldB);
   margin: 0 auto 6px;
 }
-.gap-patron .lbl {
+.gap-member .lbl {
   font-family: var(--mono); font-size: 7px;
   color: var(--goldD); letter-spacing: 0.18em;
   line-height: 1.3;
 }
 .wall {
-  padding: 10px 7px;
+  padding: 24px 7px 10px;
   border: 1px solid rgba(199,112,97,0.45);
   background: rgba(199,112,97,0.04);
   text-align: center; position: relative;
+  display: flex; flex-direction: column; justify-content: flex-start;
 }
 .wall::after {
   content: '✗';
-  position: absolute; top: -9px; left: 50%;
+  position: absolute; top: 6px; left: 50%;
   transform: translateX(-50%);
   width: 18px; height: 18px;
   background: var(--red); color: var(--bg);
@@ -908,6 +789,7 @@ h2.page-h em {
 .gap-result {
   font-family: var(--serif); font-style: italic;
   font-size: 11px; color: var(--red); line-height: 1.3;
+  display: flex; align-items: center; justify-content: center;
 }
 
 .gap-aurum-row {
@@ -936,8 +818,9 @@ h2.page-h em {
   box-shadow: 0 0 30px var(--goldGlow);
 }
 .gap-hex .au {
-  font-family: var(--serif); font-weight: 500;
+  font-family: var(--serif); font-style: italic; font-weight: 500;
   font-size: 22px; color: var(--goldB); line-height: 1;
+  letter-spacing: -0.04em;
 }
 .gap-hex .lbl {
   font-family: var(--mono); font-size: 6.5px;
@@ -1055,8 +938,8 @@ h2.page-h em {
   display: inline-flex; align-items: center; justify-content: center;
   width: 22px; height: 22px;
   border: 1px solid var(--gold);
-  font-family: var(--serif); font-weight: 500;
-  font-size: 11px; color: var(--gold); letter-spacing: 0;
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: 12px; color: var(--gold); letter-spacing: -0.04em;
 }
 .once-strip {
   margin-top: 16px;
@@ -1229,8 +1112,8 @@ h2.page-h em {
 .aurum-card .stamp-meta .seal {
   display: inline-flex; align-items: center; justify-content: center;
   width: 22px; height: 22px; border: 1px solid var(--gold);
-  font-family: var(--serif); font-style: normal; font-weight: 500;
-  color: var(--gold); font-size: 11px; letter-spacing: 0;
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  color: var(--gold); font-size: 12px; letter-spacing: -0.04em;
 }
 .aurum-card .good-foot {
   font-family: var(--serif); font-style: italic;
@@ -1292,7 +1175,7 @@ h2.page-h em {
   font-family: var(--mono); font-size: 8.5px;
   color: var(--gold); letter-spacing: 0.26em;
 }
-.patron-obligation {
+.member-obligation {
   margin-top: 8px;
   padding: 9px 14px;
   font-family: var(--serif); font-style: italic;
@@ -1301,7 +1184,7 @@ h2.page-h em {
   border-top: 1px dashed var(--goldBorder);
   text-align: left;
 }
-.patron-obligation em {
+.member-obligation em {
   color: var(--goldB); font-style: italic;
 }
 
@@ -1734,7 +1617,7 @@ h2.page-h em {
 }
 .pipe-steps .step {
   padding: 12px 14px;
-  border-right: 1px solid var(--border);
+  border-right: 1px solid var(--goldBorder);
   background: var(--card);
 }
 .pipe-steps .step:last-child { border-right: none; }
@@ -2040,9 +1923,10 @@ table.deals tbody tr:last-child td { border-bottom: none; }
   width: 78px; height: 78px; margin: 0 auto 28px;
   border: 1px solid var(--gold);
   font-family: var(--serif); font-weight: 500;
-  color: var(--gold); font-size: 34px;
+  color: var(--gold); font-size: 40px;
+  letter-spacing: -0.04em;
 }
-.closer-seal em { font-style: normal; }
+.closer-seal em { font-style: italic; }
 .closer-eyebrow {
   font-family: var(--mono); font-size: 9px;
   color: var(--goldD); letter-spacing: 0.32em;
@@ -2105,39 +1989,843 @@ table.deals tbody tr:last-child td { border-bottom: none; }
   font-family: var(--serif); font-style: italic;
   font-size: 11px; color: var(--goldD);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PAGE 07 · FOUNDING 100 · spliced-in styles (overrides "Three doors")
+   ═══════════════════════════════════════════════════════════════════════════ */
+.onepager-2col {
+  display: grid; grid-template-columns: 1fr 2.85in;
+  gap: 28px; margin-top: 14px;
+}
+.onepager-prose .h {
+  font-family: var(--mono); font-size: 8.5px;
+  color: var(--gold); letter-spacing: 0.28em; margin-bottom: 8px;
+}
+.onepager-prose h3 {
+  font-family: var(--serifKr); font-weight: 500;
+  font-size: 20px; color: var(--text); margin: 0 0 9px;
+}
+.onepager-prose h3 em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--gold); font-weight: 500;
+}
+.onepager-prose p {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: 12.5px; color: var(--sub); line-height: 1.78; margin: 0 0 13px;
+}
+.onepager-prose p em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--goldB);
+}
+.onepager-prose .block + .block {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE FOUNDING 100 · right-side hero
+   ═══════════════════════════════════════════════════════════════════════════ */
+.f100 {
+  border: 1px solid var(--goldBorderS);
+  background: var(--card);
+  padding: 18px 18px 16px;
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.f100::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 200px 280px at 50% 30%, rgba(197,165,114,0.05), transparent 70%);
+  pointer-events: none;
+}
+.f100 > * { position: relative; }
+
+.f100-eyebrow {
+  font-family: var(--mono); font-size: 8px;
+  color: var(--gold); letter-spacing: 0.28em;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.f100-hero {
+  text-align: center;
+  margin-bottom: 14px;
+}
+.f100-hero .progress {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  line-height: 1;
+}
+.f100-hero .live {
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: 96px;
+  color: var(--goldB);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.f100-hero .slash {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: 56px;
+  color: var(--goldDeep);
+  letter-spacing: -0.02em;
+}
+.f100-hero .cap {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: 56px;
+  color: var(--goldD);
+  letter-spacing: -0.02em;
+}
+.f100-hero .ko {
+  display: block;
+  font-family: var(--serifKr); font-weight: 400;
+  font-size: 13px; color: var(--gold);
+  letter-spacing: 0.16em;
+  margin-top: 10px;
+}
+.f100-hero .label {
+  display: block;
+  font-family: var(--mono); font-size: 8.5px;
+  color: var(--goldB); letter-spacing: 0.32em;
+  margin-top: 6px;
+}
+.f100-hero .date {
+  display: block;
+  font-family: var(--mono); font-size: 7.5px;
+  color: var(--goldD); letter-spacing: 0.28em;
+  margin-top: 4px;
+}
+
+/* ── 10x10 cohort grid ─────────────────────────────────────────────────── */
+.f100-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 3px;
+  padding: 12px;
+  margin: 0 auto 12px;
+  border: 1px solid var(--goldBorder);
+  background: rgba(0,0,0,0.20);
+  width: fit-content;
+}
+.f100-grid .seat {
+  width: 14px; height: 14px;
+  border: 1px solid var(--goldBorder);
+  background: rgba(197,165,114,0.04);
+  position: relative;
+}
+.f100-grid .seat::before {
+  content: '';
+  position: absolute; inset: 4px;
+  background: var(--goldDeep);
+  opacity: 0.5;
+}
+.f100-grid .seat.filled {
+  background: var(--goldB);
+  border-color: var(--goldB);
+}
+.f100-grid .seat.filled::before {
+  background: transparent;
+}
+
+.f100-grid-cap {
+  font-family: var(--serif); font-style: italic;
+  font-size: 10.5px; color: var(--goldD);
+  text-align: center;
+  margin-bottom: 14px;
+}
+.f100-grid-cap em {
+  color: var(--goldB);
+  font-weight: 500;
+}
+
+/* ── two-up math ───────────────────────────────────────────────────────── */
+.f100-math {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--goldBorder);
+  border-bottom: 1px solid var(--goldBorder);
+  margin: 0 -2px 12px;
+}
+.f100-math .cell {
+  padding: 10px 8px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+}
+.f100-math .cell:last-child { border-right: none; }
+.f100-math .k {
+  font-family: var(--mono); font-size: 7.5px;
+  color: var(--goldD); letter-spacing: 0.24em;
+  margin-bottom: 5px;
+}
+.f100-math .v {
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: 18px; color: var(--text); line-height: 1;
+}
+.f100-math .v em { color: var(--goldB); }
+.f100-math .s {
+  font-family: var(--serif); font-style: italic;
+  font-size: 10px; color: var(--goldD);
+  margin-top: 3px;
+}
+
+/* ── hard-cap closer ──────────────────────────────────────────────────── */
+.f100-cap {
+  text-align: center;
+  padding: 8px 6px 0;
+  margin-top: auto;
+}
+.f100-cap .at {
+  font-family: var(--mono); font-size: 9.5px;
+  color: var(--gold); letter-spacing: 0.32em;
+  margin-bottom: 4px;
+}
+.f100-cap .closed {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: 13px; color: var(--goldB);
+  letter-spacing: 0.01em;
+}
+.f100-cap .closed em { color: var(--gold); font-weight: 500; }
+
+/* ── CTA · register today ─────────────────────────────────────────────── */
+.f100-cta {
+  display: block;
+  margin-top: 14px;
+  padding: 11px 12px 10px;
+  border: 1px solid var(--goldBorderS);
+  background: rgba(197,165,114,0.04);
+  text-align: center;
+  text-decoration: none;
+  font-family: var(--mono); font-weight: 500;
+  font-size: 9.5px;
+  letter-spacing: 0.30em;
+  color: var(--goldB);
+  transition: background 0.15s, border-color 0.15s;
+}
+.f100-cta:hover {
+  background: rgba(197,165,114,0.10);
+  border-color: var(--goldB);
+}
+.f100-cta .arrow {
+  display: inline-block;
+  margin-left: 9px;
+  font-family: var(--serif); font-style: italic;
+  font-size: 14px;
+  letter-spacing: 0;
+  vertical-align: -1px;
+  color: var(--gold);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SECTION I · ORIGIN · spliced-in styles
+   ═══════════════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════════
+   ORIGIN · CONTENT 1 · the gap
+   ═══════════════════════════════════════════════════════════════════════════ */
+.origin-eyebrow {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--goldD); letter-spacing: 0.32em;
+  margin-bottom: 14px;
+}
+.origin-eyebrow .ko {
+  font-family: var(--serifKr); color: var(--gold);
+  letter-spacing: 0.18em; margin-left: 12px;
+}
+
+.origin-prose {
+  margin-top: 4px;
+  margin-bottom: 24px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 36px;
+}
+.origin-prose .col {
+  border-left: 1px solid var(--goldBorder);
+  padding-left: 22px;
+}
+.origin-prose .colhead {
+  font-family: var(--mono); font-size: 8.5px;
+  color: var(--gold); letter-spacing: 0.28em;
+  margin-bottom: 9px;
+}
+.origin-prose .colhead .ko {
+  font-family: var(--serifKr); letter-spacing: 0.1em;
+  font-size: 11px; margin-left: 8px; color: var(--goldB);
+}
+.origin-prose h3 {
+  font-family: var(--serifKr); font-weight: 500;
+  font-size: 18px; color: var(--text); margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+.origin-prose h3 em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--gold); font-weight: 500;
+}
+.origin-prose p {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: 12px; color: var(--sub); line-height: 1.75; margin: 0 0 8px;
+}
+.origin-prose p em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--goldB);
+}
+
+.origin-gap {
+  margin-top: 6px;
+  border: 1px solid var(--goldBorder);
+  background: var(--card);
+  padding: 18px 22px 16px;
+}
+.origin-gap .gap-band {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 16px;
+  font-family: var(--mono); font-size: 8.5px;
+  color: var(--goldD); letter-spacing: 0.28em;
+}
+.origin-gap .gap-band .l { color: var(--gold); }
+.origin-gap .gap-band .r {
+  font-family: var(--serif); font-style: italic;
+  font-size: 11px; color: var(--goldD); letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.origin-flow {
+  display: grid;
+  grid-template-columns: 0.85fr 1.5fr 0.85fr;
+  align-items: stretch; gap: 14px;
+}
+
+.origin-pole {
+  border: 1px solid var(--goldBorder);
+  padding: 14px 14px 12px;
+  background: rgba(197,165,114,0.025);
+  display: flex; flex-direction: column;
+}
+.origin-pole .anchor {
+  width: 38px; height: 38px;
+  border: 1px solid var(--goldBorderS);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serifKr); font-weight: 500;
+  font-size: 18px; color: var(--goldB);
+  margin: 0 auto 10px;
+}
+.origin-pole .label {
+  font-family: var(--mono); font-size: 7.5px;
+  color: var(--gold); letter-spacing: 0.26em;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.origin-pole h4 {
+  font-family: var(--serifKr); font-weight: 500;
+  font-size: 13.5px; color: var(--text); margin: 0 0 5px;
+  text-align: center; line-height: 1.25;
+}
+.origin-pole h4 em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--gold); font-weight: 500;
+}
+.origin-pole .lines {
+  margin-top: 6px;
+  border-top: 1px dashed var(--goldBorder);
+  padding-top: 8px;
+}
+.origin-pole .lines li {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: 10.5px; color: var(--sub); line-height: 1.55;
+  list-style: none;
+  padding: 2px 0;
+}
+.origin-pole .lines li em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--goldB);
+}
+.origin-pole ul { margin: 0; padding: 0; }
+
+.origin-walls {
+  border: 1px solid rgba(199,112,97,0.30);
+  background: rgba(199,112,97,0.04);
+  padding: 14px 12px 12px;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.origin-walls .label {
+  font-family: var(--mono); font-size: 7.5px;
+  color: var(--red); letter-spacing: 0.28em;
+  text-align: center; margin-bottom: 14px;
+}
+.origin-walls .wall-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 8px; flex: 1;
+}
+.origin-walls .wall {
+  border: 1px solid rgba(199,112,97,0.28);
+  padding: 14px 6px 8px;
+  text-align: center;
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: rgba(0,0,0,0.20);
+}
+.origin-walls .wall .x {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--red);
+  background: rgba(199,112,97,0.10);
+  color: var(--red);
+  font-family: var(--mono); font-size: 8px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 6px;
+}
+.origin-walls .wall .k {
+  font-family: var(--mono); font-size: 7.5px;
+  color: var(--red); letter-spacing: 0.18em;
+  margin-bottom: 3px;
+}
+.origin-walls .wall .v {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: 9px; color: var(--sub); line-height: 1.4;
+}
+.origin-walls .strike {
+  margin-top: 12px;
+  font-family: var(--serif); font-style: italic;
+  font-size: 11px; color: var(--red);
+  text-align: center; letter-spacing: 0.02em;
+  padding-top: 9px;
+  border-top: 1px dashed rgba(199,112,97,0.28);
+}
+
+.origin-flow-arrows {
+  position: relative;
+  margin-top: 6px;
+  height: 18px;
+  display: grid;
+  grid-template-columns: 0.85fr 1.5fr 0.85fr;
+  gap: 14px;
+}
+.origin-flow-arrows .arr {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 9px;
+  color: var(--goldD); letter-spacing: 0.24em;
+}
+.origin-flow-arrows .arr::before,
+.origin-flow-arrows .arr::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--goldBorder);
+}
+.origin-flow-arrows .arr.blocked::before,
+.origin-flow-arrows .arr.blocked::after {
+  background: rgba(199,112,97,0.32);
+}
+.origin-flow-arrows .arr span { padding: 0 10px; }
+.origin-flow-arrows .arr.blocked span { color: var(--red); }
+
+.origin-gap-foot {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--goldBorder);
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: var(--mono); font-size: 8.5px;
+  color: var(--goldD); letter-spacing: 0.24em;
+}
+.origin-gap-foot .strike {
+  font-family: var(--serif); font-style: italic;
+  font-size: 12px; color: var(--goldB); letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.origin-bridge {
+  margin-top: 16px;
+  text-align: center;
+  font-family: var(--serif); font-style: italic;
+  font-size: 16px; color: var(--goldB);
+  letter-spacing: 0.01em;
+}
+.origin-bridge em { color: var(--gold); font-weight: 500; }
+.origin-bridge .seal {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px;
+  border: 1px solid var(--gold);
+  color: var(--gold); font-size: 12px;
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  letter-spacing: -0.04em;
+  margin: 0 6px; vertical-align: middle;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ORIGIN · CONTENT 2 · three forces · English-first redesign
+   ═══════════════════════════════════════════════════════════════════════════ */
+.origin-pillars {
+  margin-top: 18px;
+  display: flex;
+  gap: 14px;
+}
+.origin-pillar {
+  flex: 1 1 0;
+  min-width: 0;
+  border: 1px solid var(--goldBorder);
+  background: var(--card);
+  padding: 18px 18px 14px;
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.origin-pillar .pi-num {
+  position: absolute;
+  top: 12px; right: 14px;
+  font-family: var(--mono); font-size: 8px;
+  color: var(--goldD); letter-spacing: 0.24em;
+}
+.origin-pillar .pi-icon {
+  width: 44px; height: 44px;
+  margin: 6px auto 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+.origin-pillar .pi-icon svg { width: 100%; height: 100%; }
+.origin-pillar .pi-name {
+  font-family: var(--serifKr); font-weight: 400;
+  font-size: 30px; color: var(--text);
+  text-align: center;
+  letter-spacing: -0.01em; line-height: 1;
+  margin-bottom: 4px;
+}
+.origin-pillar .pi-ko {
+  font-family: var(--serifKr); font-weight: 400;
+  font-size: 11px; color: var(--gold);
+  text-align: center; letter-spacing: 0.16em;
+  margin-bottom: 14px;
+}
+.origin-pillar .pi-rule {
+  height: 1px;
+  background: var(--goldBorder);
+  margin: 0 -2px 12px;
+}
+.origin-pillar .pi-tagline {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: 14.5px; color: var(--goldB);
+  text-align: center;
+  line-height: 1.3; margin: 0 0 14px;
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+}
+.origin-pillar .pi-tagline em {
+  color: var(--gold); font-weight: 500;
+}
+.origin-pillar p {
+  font-family: var(--serifKr); font-weight: 300;
+  font-size: 11.5px; color: var(--sub); line-height: 1.7;
+  margin: 0 0 12px;
+  flex: 1;
+}
+.origin-pillar p em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--goldB);
+}
+.origin-pillar .pi-foot {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px dashed var(--goldBorder);
+  font-family: var(--mono); font-size: 7.5px;
+  color: var(--gold); letter-spacing: 0.24em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ── trajectory chart ───────────────────────────────────────────────────── */
+.origin-traj {
+  margin-top: 18px;
+  border: 1px solid var(--goldBorder);
+  background: var(--card);
+  padding: 14px 18px 12px;
+}
+.origin-traj-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 6px;
+}
+.origin-traj-head .l {
+  font-family: var(--mono); font-size: 8.5px;
+  color: var(--gold); letter-spacing: 0.28em;
+}
+.origin-traj-head .r {
+  font-family: var(--serif); font-style: italic;
+  font-size: 10.5px; color: var(--goldD);
+}
+.origin-traj-svg {
+  width: 100%; height: 130px;
+  display: block;
+}
+.origin-traj-foot {
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--goldBorder);
+  display: grid; grid-template-columns: repeat(4, 1fr);
+}
+.origin-traj-foot .cell {
+  border-right: 1px solid var(--border);
+  padding: 6px 10px;
+}
+.origin-traj-foot .cell:last-child { border-right: none; }
+.origin-traj-foot .cell.accent {
+  background: rgba(197,165,114,0.07);
+  border-right: 1px solid var(--goldBorderS);
+  padding: 6px 12px;
+}
+.origin-traj-foot .k {
+  font-family: var(--mono); font-size: 7.5px;
+  color: var(--goldD); letter-spacing: 0.24em; margin-bottom: 3px;
+}
+.origin-traj-foot .cell.accent .k {
+  color: var(--gold);
+}
+.origin-traj-foot .v {
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: 14px; color: var(--goldB); line-height: 1;
+}
+.origin-traj-foot .cell.accent .v {
+  font-size: 17px;
+  color: var(--gold);
+  font-weight: 600;
+}
+.origin-traj-foot .s {
+  font-family: var(--serif); font-style: italic;
+  font-size: 9px; color: var(--muted); margin-top: 2px;
+}
+.origin-traj-foot .cell.accent .s {
+  color: var(--goldD);
+}
+
+.origin-converge {
+  margin-top: 14px;
+  padding: 12px 18px;
+  border-top: 1px dashed var(--goldBorder);
+  border-bottom: 1px dashed var(--goldBorder);
+  display: flex; justify-content: space-between; align-items: center; gap: 14px;
+  font-family: var(--mono); font-size: 9px;
+  color: var(--goldD); letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+.origin-converge em {
+  font-family: var(--serif); font-style: italic;
+  color: var(--goldB); font-size: 13.5px;
+  letter-spacing: 0.02em; text-transform: none;
+}
+.origin-handoff {
+  margin-top: 14px;
+  text-align: center;
+  font-family: var(--serif); font-style: italic;
+  font-size: 14px; color: var(--goldD); line-height: 1.5;
+}
+.origin-handoff em {
+  color: var(--goldB);
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   READABILITY PASS · v3 · global body-prose breathing room
+   Slight font and line-height bumps across all body prose for legibility.
+   Each selector matches an existing rule and overrides type metrics only.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Lede paragraphs on every content page */
+.page-lede {
+  font-size: 15.5px;
+  line-height: 1.82;
+}
+
+/* Mechanism explainer (page 9) */
+.what-block p { font-size: 12px; line-height: 1.72; }
+.job p { font-size: 12.5px; line-height: 1.78; }
+.mech-step p { font-size: 12px; line-height: 1.72; }
+
+/* Two engines (page 10) */
+.engine-pair p { font-size: 12.5px; line-height: 1.78; }
+
+/* Featured deals · case studies (page 17) */
+.case-col p { font-size: 12px; line-height: 1.7; }
+.simp-close p { font-size: 12px; line-height: 1.72; }
+
+/* Pipeline · platform extras (page 14-15) */
+.pipe-extra p { font-size: 11.5px; line-height: 1.7; }
+
+
+/* ─── Page 7 · Founding 100 · v2 (timeless static hero) ─────────────── */
+.f100-hero-v2 {
+  text-align: center;
+  margin-bottom: 18px;
+  padding: 4px 0 10px;
+}
+.f100-hero-v2 .hero-numeral {
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: 96px;
+  color: var(--goldB);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.f100-hero-v2 .hero-rule {
+  width: 70%;
+  height: 1px;
+  margin: 10px auto 9px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 35%, var(--gold) 65%, transparent 100%);
+  opacity: 0.45;
+}
+.f100-hero-v2 .hero-meta {
+  font-family: var(--mono); font-weight: 500;
+  font-size: 8px; color: var(--gold);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+.f100-hero-v2 .hero-sub {
+  font-family: var(--serif); font-style: italic;
+  font-size: 11px; color: var(--goldD);
+  margin-top: 4px;
+}
+
+/* Refined grid frame with corner marks */
+.f100-grid-frame {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto 12px;
+  padding: 6px;
+}
+.f100-grid-frame::before,
+.f100-grid-frame::after {
+  content: '';
+  position: absolute;
+  width: 8px; height: 8px;
+  border: 1px solid var(--gold);
+  opacity: 0.5;
+}
+.f100-grid-frame::before {
+  top: 0; left: 0;
+  border-right: none; border-bottom: none;
+}
+.f100-grid-frame::after {
+  bottom: 0; right: 0;
+  border-left: none; border-top: none;
+}
+.f100-grid-frame .corner-tr,
+.f100-grid-frame .corner-bl {
+  position: absolute;
+  width: 8px; height: 8px;
+  border: 1px solid var(--gold);
+  opacity: 0.5;
+}
+.f100-grid-frame .corner-tr {
+  top: 0; right: 0;
+  border-left: none; border-bottom: none;
+}
+.f100-grid-frame .corner-bl {
+  bottom: 0; left: 0;
+  border-right: none; border-top: none;
+}
+
+/* Closing line v2 (timeless framing) */
+.f100-cap-v2 {
+  text-align: center;
+  padding: 8px 6px 0;
+  margin-top: auto;
+}
+.f100-cap-v2 .meta {
+  font-family: var(--mono); font-size: 8.5px;
+  color: var(--gold); letter-spacing: 0.30em;
+  margin-bottom: 6px;
+}
+.f100-cap-v2 .closed {
+  font-family: var(--serif); font-style: italic;
+  font-size: 14px; color: var(--goldB); line-height: 1.3;
+}
+.f100-cap-v2 .closed em {
+  font-weight: 500; color: var(--text); font-style: italic;
+}
+
+
+/* ─── Magazine masthead (cover) ─────────────────────────────────────── */
+.masthead {
+  margin-top: 0.7in;
+  text-align: left;
+  padding-bottom: 0;
+}
+.masthead .pub {
+  font-family: var(--sans); font-weight: 600;
+  font-size: 20px;
+  color: var(--text);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.masthead .presents {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: 16px;
+  color: var(--goldD);
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+.masthead .rule {
+  width: 56px;
+  height: 1px;
+  margin: 12px 0 0;
+  background: var(--gold);
+  opacity: 0.55;
+}
+
+/* Colophon footer */
+.colophon {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--goldBorderS);
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--mono); font-size: 8px;
+  color: var(--goldDeep); letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+.colophon .imprint {
+  display: inline-flex; align-items: center; gap: 12px;
+}
+.colophon .imprint .au-mini {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px;
+  border: 1px solid var(--gold);
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  color: var(--gold); font-size: 9px; letter-spacing: -0.04em;
+}
+
+/* Cover lede pushed up because masthead now leads */
+.cover-eyebrow-v2 {
+  margin-top: 1.4in;
+}
+
 </style>
 </head>
 <body>
 
 <!-- ═══════════════════════════════════════════════════════════════════════════
-     PAGE 1 · COVER · Issue One — The Kilo
+     PAGE 1 · COVER
      ═══════════════════════════════════════════════════════════════════════════ -->
-<section class="page page--cover">
-  <div class="cover-frame">
-
-    <!-- Masthead — establishes the editorial property -->
-    <div class="cover-masthead">
-      <div class="seal"><em>Au</em></div>
-      <div class="property">THE AURUM CENTURY CLUB</div>
-      <div class="presents">presents</div>
-      <div class="rule"></div>
+<section class="page">
+  <!-- ── Top logo lockup (restored) ───────────────────────────────────── -->
+  <div class="cover-mark">
+    <div class="au"><em>Au</em></div>
+    <div class="wm">
+      AURUM
+      <span class="sub">CENTURY CLUB</span>
     </div>
+  </div>
 
-    <!-- Issue — the title, the promise -->
-    <div class="cover-issue">
-      <div class="issue-meta">ISSUE ONE  ·  MMXXVI  ·  창립호</div>
-      <h1 class="issue-title">The <em>Kilo.</em></h1>
-      <p class="issue-lede">
-        Physical gold as the foundation.<br/>
-        Private capital as the return.
-      </p>
-    </div>
+  <!-- ── Masthead: left-aligned, sits above cover star ──────────────────── -->
+  <div class="masthead">
+    <div class="pub">The Aurum Century Club</div>
+    <div class="presents">presents</div>
+    <div class="rule"></div>
+  </div>
 
-    <!-- Stamp — legal anchor, no page number on the cover -->
-    <div class="cover-stamp">
-      AURUM<span class="sep">·</span>TACC PTE LTD<span class="sep">·</span>MMXXVI<span class="sep">·</span>www.theaurumcc.com
-    </div>
+  <!-- ── Cover star ────────────────────────────────────────────────────── -->
+  <h1 class="cover-title" style="margin-top:24px;">The <em>Kilo.</em></h1>
+  <p class="cover-lede">
+    Physical gold as the foundation. Private capital as the return.<br/>
+    A Singapore program for a founding group of <em>qualified&nbsp;investors.</em>
+  </p>
 
+  <!-- ── Original disclaimer footer ───────────────────────────────────── -->
+  <div class="foot">
+    <span class="conf">CONFIDENTIAL  ·  QUALIFIED INVESTORS ONLY  ·  FOR DISCUSSION ONLY  ·  NOT AN OFFER OR SOLICITATION</span>
+    <span>01</span>
   </div>
 </section>
 
@@ -2147,12 +2835,12 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 <section class="page">
   <div class="head">
     <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
-    <span>FOUNDERS PACKAGE  ·  TOC</span>
+    <span>CENTURY CLUB PACKAGE  ·  TOC</span>
   </div>
 
   <h1 class="toc-h1">What is <em>inside.</em></h1>
   <p class="toc-lede">
-    The program at a glance — followed by how it works, why Korean capital needs this structure,
+    The program at a glance — followed by how it works, why this structure exists,
     and how new deals reach you.
   </p>
 
@@ -2160,50 +2848,50 @@ table.deals tbody tr:last-child td { border-bottom: none; }
     <div class="toc-row">
       <div class="num">I</div>
       <div>
-        <div class="ti">The program  ·  <em>one kilogram, three doors</em></div>
-        <div class="desc">The program in a single page. What it is, what it costs, what a patron receives.</div>
+        <div class="ti">The Origin  ·  <em>how the fund found its place</em></div>
+        <div class="desc">Why Aurum exists. The gap we saw, the three forces, the fund built to hold them.</div>
       </div>
-      <div class="pg">PG. 04</div>
+      <div class="pg">PG. 03</div>
     </div>
     <div class="toc-row">
       <div class="num">II</div>
       <div>
-        <div class="ti">Mechanism  ·  <em>two jobs, two engines</em></div>
-        <div class="desc">How gold protects and the credit earns. How both compound into patron NAV over the life of the fund.</div>
+        <div class="ti">The program  ·  <em>one kilogram, the founding 100</em></div>
+        <div class="desc">The program in a single page. What it is, what it costs, what a member receives.</div>
       </div>
       <div class="pg">PG. 06</div>
     </div>
     <div class="toc-row">
       <div class="num">III</div>
       <div>
-        <div class="ti">The simplification  ·  <em>once, not every time</em></div>
-        <div class="desc">Four Korean regulatory walls and the single subscription that replaces them.</div>
+        <div class="ti">Mechanism  ·  <em>two jobs, two engines</em></div>
+        <div class="desc">Gold protects, credit earns, both compound into member NAV.</div>
       </div>
-      <div class="pg">PG. 09</div>
+      <div class="pg">PG. 08</div>
     </div>
     <div class="toc-row">
       <div class="num">IV</div>
       <div>
-        <div class="ti">The Platform  ·  <em>where new deals reach you first</em></div>
-        <div class="desc">The Aurum Investment Platform and live portal. Patron-gated deal flow and live visibility into every position.</div>
+        <div class="ti">The simplification  ·  <em>once, not every time</em></div>
+        <div class="desc">The cross-border compliance gap — and how one subscription closes it.</div>
       </div>
       <div class="pg">PG. 11</div>
     </div>
     <div class="toc-row">
       <div class="num">V</div>
       <div>
-        <div class="ti">Featured deals  ·  <em>the opening book</em></div>
-        <div class="desc">Two exceptional positions Aurum is sourcing to seed the fund — the $20M opening book.</div>
+        <div class="ti">The Platform  ·  <em>where new deals reach you first</em></div>
+        <div class="desc">Member-gated deal flow and live position visibility through the Aurum platform.</div>
       </div>
-      <div class="pg">PG. 14</div>
+      <div class="pg">PG. 13</div>
     </div>
     <div class="toc-row">
       <div class="num">VI</div>
       <div>
-        <div class="ti">A note  ·  <em>from the partners</em></div>
-        <div class="desc">Letter to the founding group, at first close.</div>
+        <div class="ti">Featured deals  ·  <em>the opening book</em></div>
+        <div class="desc">Two exceptional positions Aurum is sourcing to seed the fund — the $20M opening book.</div>
       </div>
-      <div class="pg">PG. 15</div>
+      <div class="pg">PG. 16</div>
     </div>
   </div>
 
@@ -2214,21 +2902,348 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════════════
-     PAGE 3 · DIVIDER I
+     SECTION I · THE ORIGIN · pages 03 · 04 · 05  (NEW · spliced in)
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION I · DIVIDER · The Origin
      ═══════════════════════════════════════════════════════════════════════════ -->
 <section class="page">
   <div class="head">
     <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
-    <span>I  ·  PATRON ONE-PAGER</span>
+    <span>I  ·  THE ORIGIN</span>
   </div>
   <div class="divider">
     <div class="divider-num">I</div>
-    <h2 class="divider-h">The program, <em>in one page.</em></h2>
-    <p class="divider-sub">What it is, what it costs, <em>what a patron receives.</em></p>
+    <h2 class="divider-h">The <em>Origin.</em></h2>
+    
+    <p class="divider-sub">
+      What was missing.<br/>
+      <em>The fund we built.</em>
+    </p>
   </div>
   <div class="foot">
-    <span class="conf">THE KILO  ·  PATRON ONE-PAGER</span>
+    <span class="conf">CONFIDENTIAL  ·  QUALIFIED INVESTORS ONLY</span>
     <span>03</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION I · CONTENT 1 · the gap
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
+    <span>I  ·  ORIGIN  ·  HOW WE BEGAN</span>
+  </div>
+
+  <div class="origin-eyebrow">ORIGIN</div>
+
+  <h2 class="page-h">The deals were there.<br/><em>We built the mechanism.</em></h2>
+
+  <p class="page-lede">
+    The principals have backgrounds in <em>US private market investing</em> and <em>Korean cross-border capital placement.</em>
+    <em>The capital was ready. The deals were available.</em>
+    What was missing was the mechanism to hold them.
+  </p>
+
+  <div class="origin-prose">
+    <div class="col">
+      <div class="colhead">FRICTION</div>
+      <h3>Demand <em>outgrew the structures</em> built to serve it.</h3>
+      <p>
+        Cross-border appetite for offshore private positions rose faster than the channels designed to receive
+        it. Each direct deal triggered another regulatory filing, another AML review, another year-end line
+        on the member's overseas account return. <em>The friction compounded with every deal.</em>
+      </p>
+    </div>
+    <div class="col">
+      <div class="colhead">ACCESS</div>
+      <h3>Institutional access <em>did not arrive</em> by accident.</h3>
+      <p>
+        The general partners that clear the kind of deal worth doing — the closed primaries, the curated
+        secondaries, the disciplined credit books — work through long relationships, not broker channels.
+        <em>The right counterparties were not advertising.</em>
+      </p>
+    </div>
+  </div>
+
+  <!-- ── the gap diagram ─────────────────────────────────────────────────── -->
+  <div class="origin-gap">
+    <div class="gap-band">
+      <span class="l">THE GAP  ·  DIRECT ROUTE</span>
+      <span class="r">Two decades of capital arriving — at a structure that could not receive it.</span>
+    </div>
+
+    <div class="origin-flow">
+
+      <div class="origin-pole">
+        <div class="anchor">韓</div>
+        <div class="label">KOREAN HNW</div>
+        <h4>Capital ready, <em>demand growing</em></h4>
+        <ul class="lines">
+          <li>Multi-generational wealth</li>
+          <li>Hunger for institutional product</li>
+          <li>Direct-deal appetite, <em>no path</em></li>
+        </ul>
+      </div>
+
+      <div class="origin-walls">
+        <div class="label">REGULATORY &amp; ACCESS WALLS</div>
+        <div class="wall-grid">
+          <div class="wall">
+            <div>
+              <div class="x">×</div>
+              <div class="k">FILING</div>
+            </div>
+            <div class="v">Per-deal capital filing</div>
+          </div>
+          <div class="wall">
+            <div>
+              <div class="x">×</div>
+              <div class="k">CAP</div>
+            </div>
+            <div class="v">49-LP cap · 10% deal cap</div>
+          </div>
+          <div class="wall">
+            <div>
+              <div class="x">×</div>
+              <div class="k">AML</div>
+            </div>
+            <div class="v">AML review, every wire</div>
+          </div>
+          <div class="wall">
+            <div>
+              <div class="x">×</div>
+              <div class="k">GP ACCESS</div>
+            </div>
+            <div class="v">Closed to single tickets</div>
+          </div>
+        </div>
+        <div class="strike">— each direct deal, another wall · each wall, another year of filings —</div>
+      </div>
+
+      <div class="origin-pole">
+        <div class="anchor">美</div>
+        <div class="label">US INSTITUTIONAL</div>
+        <h4>Closed primaries, <em>curated books</em></h4>
+        <ul class="lines">
+          <li>Pre-IPO secondaries</li>
+          <li>Mid-market private credit</li>
+          <li>GP-relationship gated, <em>not brokered</em></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="origin-flow-arrows">
+      <div class="arr"><span>SOURCED</span></div>
+      <div class="arr blocked"><span>×  BLOCKED  ×</span></div>
+      <div class="arr"><span>RECEIVED</span></div>
+    </div>
+
+    <div class="origin-gap-foot">
+      <span>DEMAND  ·  HIGH</span>
+      <span class="strike">Each missed deal, a structural cost — not a market one.</span>
+      <span>RECEIPT  ·  PARTIAL</span>
+    </div>
+  </div>
+
+  <div class="origin-bridge">
+    <span class="seal"><em>Au</em></span>Aurum <em>is the fund built to hold them.</em>
+  </div>
+
+  <div class="foot">
+    <span class="conf">CONFIDENTIAL  ·  QUALIFIED INVESTORS ONLY</span>
+    <span>04</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION I · CONTENT 2 · three forces, one form (English-first redesign)
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
+    <span>I  ·  ORIGIN  ·  WHY THIS FORM</span>
+  </div>
+
+  <h2 class="page-h">Three forces. <em>One fund.</em></h2>
+
+  <p class="page-lede">
+    The decision was not what to build. The decision was where. Three answers came into alignment at one
+    place — Singapore. Each has been understood, on its own, for decades.
+    <em>The combination is what is new.</em>
+  </p>
+
+  <!-- ── three pillars · English-first, Korean as accent ──────────────────── -->
+  <div class="origin-pillars">
+
+    <div class="origin-pillar">
+      <span class="pi-num">I.</span>
+      <div class="pi-icon">
+        <svg viewBox="0 0 44 44" fill="none" stroke="#C5A572" stroke-width="1.1" xmlns="http://www.w3.org/2000/svg">
+          <line x1="6"  y1="8"  x2="22" y2="24"/>
+          <line x1="38" y1="8"  x2="22" y2="24"/>
+          <line x1="6"  y1="40" x2="22" y2="24"/>
+          <line x1="38" y1="40" x2="22" y2="24"/>
+          <circle cx="6"  cy="8"  r="2" fill="#C5A572" stroke="none"/>
+          <circle cx="38" cy="8"  r="2" fill="#C5A572" stroke="none"/>
+          <circle cx="6"  cy="40" r="2" fill="#C5A572" stroke="none"/>
+          <circle cx="38" cy="40" r="2" fill="#C5A572" stroke="none"/>
+          <circle cx="22" cy="24" r="3.2" fill="#E3C187" stroke="none"/>
+        </svg>
+      </div>
+      <div class="pi-name">Access</div>
+      
+      <div class="pi-rule"></div>
+      <div class="pi-tagline">The deals <em>that do not advertise.</em></div>
+      <p>
+        Pre-IPO secondaries and disciplined US private credit clear through GP relationships, not
+        brokered channels. The principals' relationships in US private market sourcing span multiple cycles
+        of US private market activity. <em>Members inherit the relationship — not the brokerage.</em>
+      </p>
+      <div class="pi-foot">SOURCED&nbsp;·&nbsp;GP-DIRECT&nbsp;·&nbsp;CURATED</div>
+    </div>
+
+    <div class="origin-pillar">
+      <span class="pi-num">II.</span>
+      <div class="pi-icon">
+        <svg viewBox="0 0 44 44" fill="none" stroke="#C5A572" stroke-width="1.1" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="36" height="36"/>
+          <line x1="4"  y1="22" x2="40" y2="22"/>
+          <line x1="22" y1="4"  x2="22" y2="40"/>
+          <circle cx="22" cy="22" r="5" stroke="#E3C187"/>
+          <circle cx="22" cy="22" r="1.4" fill="#E3C187" stroke="none"/>
+        </svg>
+      </div>
+      <div class="pi-name">Singapore</div>
+      
+      <div class="pi-rule"></div>
+      <div class="pi-tagline">Capital grows <em>where it sits.</em></div>
+      <p>
+        Singapore's Variable Capital Company holds offshore investments outside the Korean repatriation
+        cycle. Income and gains accumulate at the fund level — <em>the growth stays where it is,
+        compounding, not recurring.</em> expected Singapore VCC structure.
+      </p>
+      <div class="pi-foot">expected Singapore VCC</div>
+    </div>
+
+    <div class="origin-pillar">
+      <span class="pi-num">III.</span>
+      <div class="pi-icon">
+        <svg viewBox="0 0 44 44" fill="none" stroke="#C5A572" stroke-width="1.1" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 10,10 L 34,10 L 38,34 L 6,34 Z"/>
+          <line x1="12" y1="20" x2="32" y2="20" stroke-dasharray="2 2" stroke="#8a7d6b"/>
+          <text x="22" y="17" fill="#E3C187" font-family="Cormorant Garamond, serif" font-style="italic" font-size="8" text-anchor="middle">Au</text>
+          <text x="22" y="29" fill="#8a7d6b" font-family="JetBrains Mono, monospace" font-size="3.5" text-anchor="middle" letter-spacing="0.4">AU-0001</text>
+        </svg>
+      </div>
+      <div class="pi-name">Gold</div>
+      
+      <div class="pi-rule"></div>
+      <div class="pi-tagline">Not the gift. <em>The asset.</em></div>
+      <p>
+        In Korea, gold is the wedding token, the quiet inheritance — <em>bought domestically at a
+        premium few realize.</em> Across a generation, the asset has appreciated against every G10
+        currency. <em>Singapore is the world's deepest bullion market — where the bar also collateralizes credit.</em>
+      </p>
+      <div class="pi-foot">LBMA&nbsp;·&nbsp;ALLOCATED&nbsp;·&nbsp;SG&nbsp;HUB</div>
+    </div>
+
+  </div>
+
+  <!-- ── trajectory chart ─────────────────────────────────────────────────── -->
+  <div class="origin-traj">
+    <div class="origin-traj-head">
+      <span class="r">Indicative · MMI–MMXXVI · spot $4,720/oz · 25-year arc · not a forecast</span>
+      <span class="l">FORCE&nbsp;III  ·  GOLD VS THE G10  ·  25 YR</span>
+    </div>
+
+    <svg class="origin-traj-svg" viewBox="0 0 700 130" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="115" x2="700" y2="115" stroke="rgba(197,165,114,0.18)" stroke-width="0.6"/>
+      <line x1="0" y1="85"  x2="700" y2="85"  stroke="rgba(197,165,114,0.10)" stroke-width="0.4" stroke-dasharray="2 3"/>
+      <line x1="0" y1="55"  x2="700" y2="55"  stroke="rgba(197,165,114,0.10)" stroke-width="0.4" stroke-dasharray="2 3"/>
+      <line x1="0" y1="25"  x2="700" y2="25"  stroke="rgba(197,165,114,0.10)" stroke-width="0.4" stroke-dasharray="2 3"/>
+
+      <text x="6"   y="127" fill="#6b655e" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.16em">2000</text>
+      <text x="180" y="127" fill="#6b655e" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.16em">2008</text>
+      <text x="360" y="127" fill="#6b655e" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.16em">2015</text>
+      <text x="540" y="127" fill="#6b655e" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.16em">2020</text>
+      <text x="652" y="127" fill="#6b655e" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.16em">2026</text>
+
+      <path d="M 8,110 C 60,108 100,98 160,82 C 200,72 230,58 245,52 C 270,42 290,46 320,58 C 350,70 380,72 415,68 C 460,62 500,52 540,38 C 580,26 620,18 660,12 L 690,8"
+            fill="none" stroke="#E3C187" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="690" cy="8" r="3" fill="#E3C187"/>
+      <text x="640" y="32" fill="#E3C187" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11">GOLD</text>
+
+      <path d="M 8,108 C 80,108 160,107 250,106 C 340,105 440,103 540,101 L 690,99"
+            fill="none" stroke="#8a7d6b" stroke-width="1.4" stroke-dasharray="4 3"/>
+      <text x="612" y="96" fill="#8a7d6b" font-family="Cormorant Garamond, serif" font-style="italic" font-size="9.5">USD</text>
+
+      <path d="M 8,109 C 80,110 160,111 250,113 C 340,115 440,116 540,118 L 690,118"
+            fill="none" stroke="#6b655e" stroke-width="1.2" stroke-dasharray="2 3"/>
+      <text x="582" y="115" fill="#6b655e" font-family="Cormorant Garamond, serif" font-style="italic" font-size="9">KRW · JPY · EUR</text>
+
+      <text x="220" y="14" fill="#aaa39a" font-family="Cormorant Garamond, serif" font-style="italic" font-size="9.5">— gold has appreciated against every G10 currency over the period —</text>
+    </svg>
+
+    <div class="origin-traj-foot">
+      <div class="cell accent">
+        <div class="k">VS KRW</div>
+        <div class="v">~20×</div>
+        <div class="s">25-year arc</div>
+      </div>
+      <div class="cell">
+        <div class="k">VS USD</div>
+        <div class="v">~16×</div>
+        <div class="s">25-year arc</div>
+      </div>
+      <div class="cell">
+        <div class="k">VS JPY</div>
+        <div class="v">~22×</div>
+        <div class="s">25-year arc</div>
+      </div>
+      <div class="cell">
+        <div class="k">VS EUR</div>
+        <div class="v">~13×</div>
+        <div class="s">25-year arc</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="origin-converge">
+    <span>SAFETY</span>
+    <em>Where these three meet — The Kilo.</em>
+    <span>YIELD</span>
+  </div>
+
+  <div class="origin-handoff">
+    Access opens. Singapore holds. <em>Gold protects.</em>
+  </div>
+
+  <div class="foot">
+    <span class="conf">CONFIDENTIAL  ·  QUALIFIED INVESTORS ONLY</span>
+    <span>05</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION II · THE PROGRAM (was Section I) · DIVIDER · page 06
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
+    <span>II  ·  MEMBER ONE-PAGER</span>
+  </div>
+  <div class="divider">
+    <div class="divider-num">II</div>
+    <h2 class="divider-h">The program, <em>in one page.</em></h2>
+    <p class="divider-sub">What it is, what it costs, <em>what a member receives.</em></p>
+  </div>
+  <div class="foot">
+    <span class="conf">THE KILO  ·  MEMBER ONE-PAGER</span>
+    <span>06</span>
   </div>
 </section>
 
@@ -2238,38 +3253,39 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 <section class="page">
   <div class="head">
     <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
-    <span>I  ·  PATRON ONE-PAGER</span>
+    <span>II  ·  MEMBER ONE-PAGER</span>
   </div>
 
-  <h2 class="page-h">One kilogram. <em>Three doors.</em></h2>
+  <h2 class="page-h">One kilogram. <em>The Founding 100.</em></h2>
   <p class="page-lede">
     Physical gold is the qualifier. Private capital access is the product.
-    What follows is what a Founders patron will receive at launch, by tier.
+    What follows is what each <em>member</em> will receive at launch.
   </p>
 
   <div class="onepager-2col">
+    <!-- ── LEFT · the whys (preserved) ─────────────────────────────────── -->
     <div class="onepager-prose">
       <div class="block">
         <div class="h">WHAT YOU HOLD</div>
         <h3>What <em>you hold.</em></h3>
         <p>
-          A Founders patron holds LBMA-grade physical gold in allocated custody at
-          Malca-Amit Singapore Freeport. The bars are in the patron's name, by serial
-          number, insured under a Lloyd's of London syndicate.
+          A member holds LBMA-grade physical gold in allocated custody at
+          Singapore Freeport custodian. The bars are in the member's name, by serial
+          number, insured under the custodian's standard insurance programme.
         </p>
         <p>
           The gold also serves as collateral for a credit line at a Singapore institutional
-          bank. Leverage is tiered to commitment — <em>50% at Founders I, 65% at II, 75% at III.</em>
-          The metal never moves; the credit it unlocks deploys into Aurum Funds.
+          bank — <em>up to 75% LTV, per LP agreement parameters and sized to commitment level.</em> The metal never moves; the credit it unlocks deploys
+          into Aurum Funds.
         </p>
       </div>
       <div class="block">
         <div class="h">WHAT AURUM DOES WITH IT</div>
         <h3>What <em>Aurum does with it.</em></h3>
         <p>
-          Aurum Funds deploys the credit into <em>two equal sleeves:</em> pre-IPO growth
+          Aurum Funds deploys the credit into <em>two sleeves:</em> pre-IPO growth
           equity (Series D+ AI, robotics, critical infrastructure) and US mid-market
-          private credit (10–14% gross, with equity participation where structure allows).
+          mid-market private credit (mid-single to low-double-digit gross target, with equity participation where structure allows).
           <em>Reinvestment is the default path</em> — fund-level returns compound across vintages.
         </p>
       </div>
@@ -2278,93 +3294,91 @@ table.deals tbody tr:last-child td { border-bottom: none; }
         <h3>What <em>you receive.</em></h3>
         <p>
           Direct allocation in Aurum Fund deal flow. Curated pre-IPO equity and US private
-          credit that Korean structures cannot reach directly. A kilogram of physical
+          credit not commonly accessible through standard Korean retail channels. A kilogram of physical
           gold in your name, working as collateral while it appreciates. One Singapore
-          subscription replacing the FSCMA, FETA, KoFIU, and NTS paperwork that compounds
+          subscription consolidating Singapore-side per-position reporting at the Fund level
           across every direct deal.
           <em>Quarterly reporting and full portal access are standard.</em>
         </p>
       </div>
     </div>
 
-    <div class="doors-stack">
-      <div class="door">
-        <div class="door-head">
-          <span class="door-roman">I.</span>
-          <span class="door-label">FOUNDERS I</span>
-        </div>
-        <div class="door-kg"><span class="n">1</span><span class="u">kg</span></div>
-        <div class="door-name-ko">킬로</div>
-        <div class="door-name-en">The Kilo  ·  <em>the qualifier</em></div>
-        <div class="door-opens-label">OPENS</div>
-        <p class="door-opens">
-          Subscription to the Aurum Funds. The patron becomes an LP in a curated
-          private-deal portfolio. <em>Full reporting, full portal.</em>
-        </p>
-        <div class="door-ltv">
-          <span class="k">LTV</span>
-          <span class="v">50%</span>
-          <span class="g">conservative gate</span>
+    <!-- ── RIGHT · The Founding 100 hero ────────────────────────────────── -->
+    <div class="f100">
+
+      <div class="f100-eyebrow">THE FOUNDING 100</div>
+
+      <div class="f100-hero-v2">
+        <div class="hero-numeral">100</div>
+        <div class="hero-rule"></div>
+        <div class="hero-meta">SINGLE TIER  ·  BY INVITATION</div>
+        <div class="hero-sub"><em>one hundred</em> seats · sealed at full</div>
+      </div>
+
+      <div class="f100-grid-frame">
+        <span class="corner-tr"></span>
+        <span class="corner-bl"></span>
+        <div class="f100-grid">
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
+        <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
         </div>
       </div>
 
-      <div class="door apex">
-        <div class="door-head">
-          <span class="door-roman">II.</span>
-          <span class="door-label">FOUNDERS II</span>
-          <span class="door-rec">RECOMMENDED</span>
+      <div class="f100-grid-cap">ten by ten · <em>the founding cohort</em></div>
+
+      <div class="f100-math">
+        <div class="cell">
+          <div class="k">PER MEMBER</div>
+          <div class="v"><em>1</em>&nbsp;kg<em>+</em></div>
+          <div class="s">LBMA · allocated</div>
         </div>
-        <div class="door-kg"><span class="n">6</span><span class="u">kg</span></div>
-        <div class="door-name-ko">여섯</div>
-        <div class="door-name-en">The Six  ·  <em>the partnership</em></div>
-        <div class="door-opens-label">OPENS</div>
-        <p class="door-opens">
-          <em>Founders-class economics</em> in Aurum Fund I — preferred fee terms and
-          priority allocation. <em>Standing capacity</em> in subsequent vintages without
-          re-qualification.
-        </p>
-        <div class="door-reserve">pro-rata in fund reserve and follow-on capital</div>
-        <div class="door-ltv">
-          <span class="k">LTV</span>
-          <span class="v">65%</span>
-          <span class="g">partnership gate</span>
+        <div class="cell">
+          <div class="k">TOTAL PROGRAM</div>
+          <div class="v"><em>$17–20</em>M</div>
+          <div class="s">at first close</div>
         </div>
       </div>
 
-      <div class="door">
-        <div class="door-head">
-          <span class="door-roman">III.</span>
-          <span class="door-label">FOUNDERS III</span>
-        </div>
-        <div class="door-kg"><span class="n">16</span><span class="u">kg</span></div>
-        <div class="door-name-ko">열여섯</div>
-        <div class="door-name-en">The Sixteen  ·  <em>the principal</em></div>
-        <div class="door-opens-label">OPENS</div>
-        <p class="door-opens">
-          A dedicated Singapore <em>family office structure,</em> operated alongside
-          Singapore family-office service providers. Institutional infrastructure.
-        </p>
-        <div class="door-reserve">pro-rata in fund reserve and follow-on capital</div>
-        <div class="door-ltv">
-          <span class="k">LTV</span>
-          <span class="v">75%</span>
-          <span class="g">principal gate</span>
-        </div>
+      <div class="f100-cap-v2">
+        <div class="meta">·  HELD UNTIL FULL  ·</div>
+        <div class="closed">Once filled, <em>the book closes.</em></div>
       </div>
+
+      <a class="f100-cta" href="#" target="_blank" rel="noopener">
+        INDICATE INTEREST<span class="arrow">→</span>
+      </a>
+
     </div>
   </div>
 
-  <div class="qstats" style="margin-top: 16px;">
-    <div class="cell"><div class="k">BASE IRR</div><div class="v">~15%</div></div>
-    <div class="cell"><div class="k">UPSIDE IRR</div><div class="v">18–25%</div></div>
+  <div class="qstats">
+    <div class="cell"><div class="k">BASE IRR<span style="opacity:0.6"> · TARGET · NEW FUND</span></div><div class="v">~15%</div></div>
     <div class="cell"><div class="k">MIN.</div><div class="v">1 kg</div></div>
     <div class="cell"><div class="k">TERM</div><div class="v">5–7 yr</div></div>
     <div class="cell"><div class="k">FEES</div><div class="v">2 / 20</div></div>
   </div>
 
   <div class="foot">
-    <span class="conf">THE KILO  ·  PATRON ONE-PAGER</span>
-    <span>04</span>
+    <span class="conf">THE KILO  ·  MEMBER ONE-PAGER</span>
+    <span>07</span>
   </div>
 </section>
 
@@ -2374,19 +3388,19 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 <section class="page">
   <div class="head">
     <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
-    <span>II  ·  MECHANISM</span>
+    <span>III  ·  MECHANISM</span>
   </div>
   <div class="divider">
-    <div class="divider-num">II</div>
+    <div class="divider-num">III</div>
     <h2 class="divider-h">One kilogram, <em>two jobs.</em></h2>
     <p class="divider-sub">
-      How gold does two things at once. The Korean-specific gap.
+      How gold does two things at once. The structural gap.
       <em>Why this structure exists only here.</em>
     </p>
   </div>
   <div class="foot">
     <span class="conf">THE KILO  ·  MECHANISM EXPLAINER</span>
-    <span>05</span>
+    <span>08</span>
   </div>
 </section>
 
@@ -2396,38 +3410,38 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 <section class="page">
   <div class="head">
     <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
-    <span>II  ·  MECHANISM EXPLAINER</span>
+    <span>III  ·  MECHANISM EXPLAINER</span>
   </div>
 
   <h2 class="page-h">One kilogram. <em>Two jobs.</em></h2>
   <p class="page-lede">
-    A single kilogram, at rest in a Malca-Amit vault, simultaneously does <em>two jobs</em> —
-    it protects the patron, and it funds the institutional deal pipeline through a tiered
-    credit line (up to 50% / 65% / 75% LTV by tier, subject to bank discretion).
+    A single kilogram, at rest in a Singapore Freeport vault, simultaneously does <em>two jobs</em> —
+    it protects the member, and it funds the institutional deal pipeline through a tiered
+    credit line (up to 75% LTV, per LP agreement parameters and sized to commitment level).
     <em>No bank, no family office, no product in Asia combines the two.</em>
     Aurum provides that form.
   </p>
 
   <div class="two-jobs">
     <div class="job">
-      <div class="job-head">§ JOB ONE<span class="ko">보호</span></div>
+      <div class="job-head">JOB ONE</div>
       <h3 class="job-title">The bar <em>protects.</em></h3>
       <div class="job-sub">Protection · unmoved · unseized</div>
       <p>
-        Allocated and segregated at Malca-Amit SG Freeport. Serial-identified.
-        Insured under a Lloyd's syndicate. The patron's name on the certificate.
-        <em>LTV monitoring with patron alerts at 70% — 10 percentage points before the bank's
+        Allocated and segregated at Singapore Freeport. Serial-identified.
+        insured under the custodian's standard insurance programme. The member's name on the certificate.
+        <em>LTV monitoring with member alerts at 70% — 10 percentage points before the bank's
         margin threshold.</em> The metal is still, and it is safe.
       </p>
     </div>
     <div class="job">
-      <div class="job-head">§ JOB TWO<span class="ko">생산</span></div>
+      <div class="job-head">JOB TWO</div>
       <h3 class="job-title">The credit <em>earns.</em></h3>
       <div class="job-sub">Production · deployed · productive</div>
       <p>
         A credit line from a Singapore institutional bank, collateralized by the bar —
-        up to 50% / 65% / 75% LTV by tier. Proceeds deploy into pre-IPO equity and US
-        private credit. <em>~15% base IRR target,</em> net of fees.
+        up to 75% LTV, per LP agreement parameters and sized to commitment level. Proceeds deploy into pre-IPO equity and US
+        private credit. <em>~15% base IRR target · new fund vehicle,</em> net of fees · illustrative.
       </p>
     </div>
   </div>
@@ -2436,16 +3450,16 @@ table.deals tbody tr:last-child td { border-bottom: none; }
     <div class="mech-step">
       <div class="roman">I.</div>
       <div class="action">DEPOSIT</div>
-      <h4>Patron <em>gold bar</em></h4>
-      <p>LBMA 1kg · PAMP Suisse 999.9 · serial-identified</p>
-      <div class="value">1 kg<span class="sub">№ PM-8847</span></div>
+      <h4>Member <em>gold bar</em></h4>
+      <p>LBMA 1kg · 999.9 fine · serial-identified</p>
+      <div class="value">1 kg<span class="sub">№ AU-0001</span></div>
       <div class="arrow">→</div>
     </div>
     <div class="mech-step">
       <div class="roman">II.</div>
       <div class="action">CUSTODY</div>
       <h4>VCC <em>custody</em></h4>
-      <p>Malca-Amit SG Freeport · segregated · allocated</p>
+      <p>Singapore Freeport · segregated · allocated</p>
       <div class="value">Allocated<span class="sub">SEGREGATED</span></div>
       <div class="arrow">→</div>
     </div>
@@ -2454,15 +3468,15 @@ table.deals tbody tr:last-child td { border-bottom: none; }
       <div class="action">PLEDGE → CREDIT</div>
       <h4>Credit <em>line</em></h4>
       <p>Singapore institutional bank · SORA-linked</p>
-      <div class="value">up to 50 / 65 / 75%<span class="sub">LTV · INSTITUTIONAL PRICING</span></div>
+      <div class="value">up to 75%<span class="sub">LTV · INSTITUTIONAL PRICING</span></div>
       <div class="arrow">→</div>
     </div>
     <div class="mech-step">
       <div class="roman">IV.</div>
       <div class="action">DEPLOY</div>
       <h4>Two <em>equal sleeves</em></h4>
-      <p>Pre-IPO 20%+ target · Private Credit 10–14%</p>
-      <div class="value">~15%<span class="sub">BASE IRR · NET</span></div>
+      <p>Pre-IPO equity target · Private Credit mid-single to low-double-digit gross target</p>
+      <div class="value">~15%<span class="sub">BASE IRR · TARGET · NEW FUND</span></div>
     </div>
   </div>
 
@@ -2473,16 +3487,16 @@ table.deals tbody tr:last-child td { border-bottom: none; }
   </div>
 
   <div class="mech-foot">
-    <span>AURUM FUNDS · MAS-REGULATED · SFA § 305 · FSCMA FEEDER</span>
-    <span class="irr">~15% base IRR · net of fees</span>
+    <span>AURUM FUNDS · expected Singapore VCC</span>
+    <span class="irr">~15% base IRR · net of fees · targets · new fund vehicle · illustrative</span>
   </div>
   <div class="mech-foot-2">
-    <span>20% PATRON RESERVE  ·  CAPITAL CALL MECHANISM</span>
+    <span>20% FUND-LEVEL RESERVE (CREDIT FACILITY)  ·  CAPITAL CALL MECHANISM  ·  LBMA SPOT AT EXECUTION</span>
   </div>
 
   <div class="foot">
     <span class="conf">THE KILO  ·  MECHANISM  ·  I</span>
-    <span>06</span>
+    <span>09</span>
   </div>
 </section>
 
@@ -2492,25 +3506,25 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 <section class="page">
   <div class="head">
     <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
-    <span>II  ·  MECHANISM  ·  TWO ENGINES</span>
+    <span>III  ·  MECHANISM  ·  TWO ENGINES</span>
   </div>
 
   <h2 class="page-h">Two engines. <em>One NAV.</em></h2>
   <p class="page-lede">
     The kilogram becomes <em>two compounding instruments at once.</em> The metal appreciates
-    on its own arc. The credit it generates compounds on the pipeline's. The patron's NAV is the sum.
+    on its own arc. The credit it generates compounds on the pipeline's. The member's NAV is the sum.
   </p>
 
   <div class="nav-stats">
     <div class="cell">
       <div class="k">GOLD HELD</div>
       <div class="v">1 <em>kg+</em></div>
-      <div class="s">LBMA-grade · allocated · in patron's name</div>
+      <div class="s">LBMA-grade · allocated · in member's name</div>
     </div>
     <div class="cell">
-      <div class="k">CREDIT DRAWN  ·  BY TIER</div>
-      <div class="v">up to 50 / 65 / 75<em>%</em></div>
-      <div class="s">LTV at Founders I / II / III</div>
+      <div class="k">CREDIT DRAWN</div>
+      <div class="v">up to 75<em>%</em></div>
+      <div class="s">LTV by member commitment level</div>
     </div>
     <div class="cell">
       <div class="k">WORKING CAPITAL</div>
@@ -2550,12 +3564,12 @@ table.deals tbody tr:last-child td { border-bottom: none; }
       <line x1="42" y1="188" x2="450" y2="148" stroke="#8a7d6b" stroke-width="2" />
       <circle cx="450" cy="148" r="4" fill="#8a7d6b" />
       <text x="464" y="144" font-family="JetBrains Mono" font-size="9.5" fill="#8a7d6b">PRIVATE CREDIT</text>
-      <text x="464" y="160" font-family="Cormorant Garamond" font-style="italic" font-size="11" fill="#8a7d6b">10–14% gross</text>
+      <text x="464" y="160" font-family="Cormorant Garamond" font-style="italic" font-size="11" fill="#8a7d6b">gross target</text>
 
       <!-- blended NAV path overlay -->
       <path d="M 42 188 Q 240 175 360 150 T 680 80" fill="none" stroke="#E3C187" stroke-width="2.5" stroke-dasharray="5,3" opacity="0.85" />
-      <text x="40" y="22" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#E3C187">— — —  blended patron NAV path</text>
-      <text x="40" y="38" font-family="JetBrains Mono" font-size="8.5" fill="#8a7d6b">~15% net IRR · base case · net of fees</text>
+      <text x="40" y="22" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#E3C187">— — —  blended member NAV path</text>
+      <text x="40" y="38" font-family="JetBrains Mono" font-size="8.5" fill="#8a7d6b">~15% net IRR target · base case · net of fees · illustrative</text>
 
       <!-- x-axis ticks -->
       <text x="44" y="208"  font-family="JetBrains Mono" font-size="8" fill="#6b655e">YR 0</text>
@@ -2573,7 +3587,7 @@ table.deals tbody tr:last-child td { border-bottom: none; }
       <h3>Compounds at the rate of <em>money supply.</em></h3>
       <p>
         The kilogram appreciates passively against won, dollar, yen — the asymmetry that
-        makes Korean families hold it in the first place. Aurum doesn't accelerate it.
+        makes families across Asia hold it in the first place. Aurum doesn't accelerate it.
         It simply stops the metal from sitting idle.
       </p>
     </div>
@@ -2581,8 +3595,7 @@ table.deals tbody tr:last-child td { border-bottom: none; }
       <div class="k">ENGINE II  ·  THE PIPELINE</div>
       <h3>Compounds at the rate of <em>the deal book.</em></h3>
       <p>
-        The credit drawn against the bar deploys into pre-IPO equity at 18–25%
-        and private credit at 10–14% gross. The bar grows the floor; the deals grow the ceiling.
+        The credit drawn against the bar deploys into pre-IPO equity and private credit at target gross ranges. The bar grows the floor; the deals grow the ceiling.
       </p>
     </div>
   </div>
@@ -2593,7 +3606,7 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 
   <div class="foot">
     <span class="conf">THE KILO  ·  MECHANISM  ·  II</span>
-    <span>07</span>
+    <span>10</span>
   </div>
 </section>
 
@@ -2603,20 +3616,20 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 <section class="page">
   <div class="head">
     <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
-    <span>III  ·  SIMPLIFICATION</span>
+    <span>IV  ·  SIMPLIFICATION</span>
   </div>
   <div class="divider">
-    <div class="divider-num">III</div>
+    <div class="divider-num">IV</div>
     <h2 class="divider-h">The <em>Simplification.</em></h2>
-    <div class="divider-ko">단순화</div>
+    
     <p class="divider-sub">
-      One filing. One pool. One redemption. The paperwork a patron does
+      One filing. One pool. One redemption. The paperwork a member does
       <em>once</em> — not every time.
     </p>
   </div>
   <div class="foot">
     <span class="conf">THE KILO  ·  THE SIMPLIFICATION</span>
-    <span>08</span>
+    <span>11</span>
   </div>
 </section>
 
@@ -2626,42 +3639,38 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 <section class="page">
   <div class="head">
     <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
-    <span>III  ·  SIMPLIFICATION  ·  THE PROBLEM</span>
+    <span>IV  ·  SIMPLIFICATION  ·  THE PROBLEM</span>
   </div>
 
   <h2 class="page-h">Four walls. <em>One subscription.</em></h2>
   <p class="page-lede">
-    A Korean patron's capital, deployed directly, hits four regulatory walls.
-    Each wall generates filings that compound every deal, every year.
-    <em>One Singapore subscription replaces all of it.</em>
+    Direct deployment of cross-border capital into US private positions encounters multiple
+    Singapore-side and resident-side reporting layers. Each adds incremental compliance work per deal, per year.
+    <em>One Singapore subscription consolidates the entity-level cycle.</em>
   </p>
 
   <div class="gap-block">
     <div class="gap-label">DIRECT ROUTE  ·  BLOCKED</div>
     <div class="gap-flow">
-      <div class="gap-patron">
+      <div class="gap-member">
         <div class="circle">韓</div>
         <div class="lbl">KOREAN HNW</div>
       </div>
       <div class="wall">
         <div class="cap">49</div><div class="cap-k">CAP</div>
-        <div class="desc">49-investor pool cap</div>
-        <div class="src">FSCMA</div>
+        <div class="desc">pool size limit</div>
       </div>
       <div class="wall">
         <div class="cap">10%</div><div class="cap-k">CAP</div>
-        <div class="desc">single-deal 10% ceiling</div>
-        <div class="src">FSCMA</div>
+        <div class="desc">single-deal ceiling</div>
       </div>
       <div class="wall">
-        <div class="cap">FETA</div><div class="cap-k">PER DEAL</div>
+        <div class="cap">FILE</div><div class="cap-k">PER DEAL</div>
         <div class="desc">per-deal filing</div>
-        <div class="src">KoFIU</div>
       </div>
       <div class="wall">
-        <div class="cap">₩500M</div><div class="cap-k">RPT</div>
-        <div class="desc">offshore a/c threshold</div>
-        <div class="src">NTS</div>
+        <div class="cap">RPT</div><div class="cap-k">RPT</div>
+        <div class="desc">offshore reporting threshold</div>
       </div>
       <div class="gap-result"><em>deal falls through</em></div>
     </div>
@@ -2672,26 +3681,26 @@ table.deals tbody tr:last-child td { border-bottom: none; }
       <div class="lbl">DIRECT ROUTE  ·  TEN DEALS, FIVE YEARS</div>
       <div class="paper-stack">
         <div class="yr-tag">YR 5</div>
-        <div class="paper">FETA  ·  DEAL 10</div>
+        <div class="paper">FILE  ·  DEAL 10</div>
         <div class="paper">ANNUAL EX-POST  ·  DEAL 9</div>
 
         <div class="yr-tag">YR 4</div>
         <div class="paper">MATERIAL CHANGE  ·  DEAL 7</div>
-        <div class="paper">NTS OVERSEAS A/C  ·  YR 4</div>
+        <div class="paper">OFFSHORE A/C  ·  YR 4</div>
 
         <div class="yr-tag">YR 3</div>
-        <div class="paper">FETA  ·  DEAL 8</div>
+        <div class="paper">FILE  ·  DEAL 8</div>
         <div class="paper">ANNUAL EX-POST  ·  DEAL 5</div>
         <div class="paper">DESIGNATED-BANK  ·  CYCLE 6</div>
 
         <div class="yr-tag">YR 2</div>
         <div class="paper">TAX FILING  ·  PER ENTITY</div>
         <div class="paper">ANNUAL EX-POST  ·  DEAL 3</div>
-        <div class="paper">FETA  ·  DEAL 3</div>
+        <div class="paper">FILE  ·  DEAL 3</div>
 
         <div class="yr-tag">YR 1</div>
         <div class="paper">DESIGNATED-BANK  ·  CYCLE 2</div>
-        <div class="paper">FETA  ·  DEAL 1</div>
+        <div class="paper">FILE  ·  DEAL 1</div>
       </div>
       <p class="bad-foot"><em>ten deals, ten compounding filing trails, multiplying annually.</em></p>
     </div>
@@ -2699,7 +3708,7 @@ table.deals tbody tr:last-child td { border-bottom: none; }
     <div class="aurum-card">
       <div class="big-one">1</div>
       <div class="card-stamp">
-        <div class="stamp-k">FETA  ·  OVERSEAS DIRECT INVESTMENT</div>
+        <div class="stamp-k">SUBSCRIPTION  ·  ONE FILING</div>
         <div class="stamp-h">AURUM <em>FUNDS</em></div>
         <div class="stamp-s">Subscription  ·  1 kg</div>
         <div class="stamp-meta">
@@ -2740,18 +3749,17 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 
   <div class="simp-foot">1 FUND FILING  ·  KOREAN LP-LEVEL OBLIGATIONS UNCHANGED</div>
 
-  <div class="patron-obligation">
-    <em>Korean LP-level obligations remain</em> — annual NTS overseas account reporting, capital
+  <div class="member-obligation">
+    <em>Resident-level obligations stay with the Member</em> — including annual overseas-account reporting, capital
     gains on distributions, designated FX bank relationship. Aurum provides standardised
     K-1-equivalent documentation, source-of-funds support, and annual position summaries
-    to support patron's Korean tax counsel. <em>What Aurum eliminates is the per-deal filing
-    burden, not the patron's resident obligations.</em> Patrons are advised to engage qualified
-    Korean tax / FX counsel (Kim &amp; Chang, Bae Kim &amp; Lee, or equivalent) prior to subscription.
+    to support member's Korean tax counsel. <em>The Singapore-side per-position cycle is consolidated at the Fund level; resident-level obligations stay with the Member.</em> Members are advised to engage qualified
+    Korean tax / FX counsel prior to subscription.
   </div>
 
   <div class="foot">
     <span class="conf">THE KILO  ·  SIMPLIFICATION</span>
-    <span>09</span>
+    <span>12</span>
   </div>
 </section>
 
@@ -2761,16 +3769,16 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 <section class="page">
   <div class="head">
     <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
-    <span>IV  ·  THE PLATFORM</span>
+    <span>V  ·  THE PLATFORM</span>
   </div>
   <div class="divider">
-    <div class="divider-num">IV</div>
+    <div class="divider-num">V</div>
     <h2 class="divider-h">The <em>Platform.</em></h2>
     <p class="divider-sub">Where new deals <em>reach you first.</em></p>
   </div>
   <div class="foot">
     <span class="conf">THE KILO  ·  THE PLATFORM</span>
-    <span>10</span>
+    <span>13</span>
   </div>
 </section>
 
@@ -2780,13 +3788,13 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 <section class="page">
   <div class="head">
     <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
-    <span>IV  ·  THE PLATFORM</span>
+    <span>V  ·  THE PLATFORM</span>
   </div>
 
   <h2 class="page-h">The <em>pipeline,</em> gated.</h2>
   <p class="page-lede">
     In the quarters following first close, sourced positions rotate through the platform —
-    patron-gated, tier-keyed, first-come-first-served within the founding group.
+    member-gated,  sequenced within the founding group.
     <em>A private channel, not a marketplace.</em>
   </p>
 
@@ -2801,7 +3809,7 @@ table.deals tbody tr:last-child td { border-bottom: none; }
     </div>
     <div class="cell">
       <div class="k">WHAT YOU GET</div>
-      <div class="v"><em>First look</em> on Aurum-sourced fund deals. Allotment priority by tier. Optional step-up at partner discretion.</div>
+      <div class="v"><em>First look</em> on Aurum-sourced fund deals. Pro-rata allotment by Member commitment, with optional concentration above pro-rata available case by case under the Fund's side-letter framework (PPM §19).</div>
     </div>
   </div>
 
@@ -2819,19 +3827,19 @@ table.deals tbody tr:last-child td { border-bottom: none; }
     <div class="step">
       <div class="k">03 · SHARED</div>
       <h4>Platform <em>notice</em></h4>
-      <p>Founders II+ see first</p>
+      <p>Members see first</p>
     </div>
     <div class="step">
       <div class="k">04 · SUBSCRIBED</div>
       <h4>Allotment <em>closes</em></h4>
-      <p>On a clock · FCFS</p>
+      <p>Subscription window · pro-rata allocation</p>
     </div>
   </div>
 
   <div class="pipe-table-wrap">
     <div class="pipe-table-head">
-      <span class="l">LIVE PIPELINE  ·  SAMPLE VIEW</span>
-      <span class="r">As it would render for a Founders II patron</span>
+      <span class="l">PIPELINE VIEW  ·  ILLUSTRATIVE MOCK</span>
+      <span class="r">Representative member view · not a live offering</span>
     </div>
     <table class="deals">
       <thead>
@@ -2844,7 +3852,7 @@ table.deals tbody tr:last-child td { border-bottom: none; }
           <td class="d-alloc"><div class="v">$15M <em>target</em></div><div class="d-bar"><div class="fill" style="width:47%"></div></div></td>
           <td class="d-pct">47%</td>
           <td class="d-time">2 DAYS</td>
-          <td><div class="d-act"><span class="btn">SUBSCRIBE</span><span class="btn pass">PASS</span></div></td>
+          <td><div class="d-act"><span class="btn">VIEW</span><span class="btn pass">PASS</span></div></td>
         </tr>
         <tr>
           <td class="d-name"><div>Deal B · <em>Defense autonomy</em></div><div class="sub">crossover round</div></td>
@@ -2852,7 +3860,7 @@ table.deals tbody tr:last-child td { border-bottom: none; }
           <td class="d-alloc"><div class="v">$10M <em>target</em></div><div class="d-bar"><div class="fill" style="width:72%"></div></div></td>
           <td class="d-pct">72%</td>
           <td class="d-time">6 DAYS</td>
-          <td><div class="d-act"><span class="btn">SUBSCRIBE</span><span class="btn pass">PASS</span></div></td>
+          <td><div class="d-act"><span class="btn">VIEW</span><span class="btn pass">PASS</span></div></td>
         </tr>
         <tr>
           <td class="d-name"><div>Deal C · <em>Industrial revolver</em></div><div class="sub">mid-market credit</div></td>
@@ -2860,12 +3868,12 @@ table.deals tbody tr:last-child td { border-bottom: none; }
           <td class="d-alloc"><div class="v">$8M <em>target</em></div><div class="d-bar"><div class="fill" style="width:18%"></div></div></td>
           <td class="d-pct">18%</td>
           <td class="d-time new">NEW · 14D</td>
-          <td><div class="d-act"><span class="btn">SUBSCRIBE</span><span class="btn pass">PASS</span></div></td>
+          <td><div class="d-act"><span class="btn">VIEW</span><span class="btn pass">PASS</span></div></td>
         </tr>
       </tbody>
     </table>
     <div class="pipe-table-foot">
-      <span><em>last 24h</em>  ·  3 patrons subscribed to Deal A  ·  1 passed on Deal C</span>
+      <span><em>illustrative activity</em>  ·  representative member behaviour</span>
       <span>4 new looks this week</span>
     </div>
   </div>
@@ -2873,20 +3881,20 @@ table.deals tbody tr:last-child td { border-bottom: none; }
   <div class="pipe-extra">
     <div class="k">ADDITIONAL ALLOTMENT</div>
     <p>
-      Patrons who wish to concentrate beyond pro-rata may subscribe at a step-up.
-      Available at the platform's discretion, case by case — <em>a feature of the founding group,
-      not a marketing lever.</em>
+      Members who wish to concentrate above pro-rata may do so on a case-by-case basis
+      under the Fund's side-letter framework (PPM §19), subject to platform availability
+      and LP agreement terms — <em>a feature of the founding group, not a marketing lever.</em>
     </p>
   </div>
 
   <div class="pipe-status">
     <span>PLATFORM STATUS</span>
-    <em>in development · illustrative view · Q3 '26 rollout · Founders III → II</em>
+    <em>in development · illustrative view · Q3 '26 rollout</em>
   </div>
 
   <div class="foot">
     <span class="conf">THE KILO  ·  THE PLATFORM</span>
-    <span>11</span>
+    <span>14</span>
   </div>
 </section>
 
@@ -2896,12 +3904,12 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 <section class="page">
   <div class="head">
     <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
-    <span>IV  ·  PLATFORM  ·  PORTAL</span>
+    <span>V  ·  PLATFORM  ·  PORTAL</span>
   </div>
 
   <h2 class="page-h">Your position, <em>at a glance.</em></h2>
   <p class="page-lede">
-    A representative post-close view — a Founders II position at first-close quarter.
+    A representative post-close view — a representative member position at first-close quarter.
     The portal answers one question: <em>what is this position doing, right now?</em>
   </p>
 
@@ -2941,7 +3949,7 @@ table.deals tbody tr:last-child td { border-bottom: none; }
         <text x="2" y="104" font-family="JetBrains Mono" font-size="7" fill="#6b655e">$1.00M</text>
         <text x="2" y="64"  font-family="JetBrains Mono" font-size="7" fill="#6b655e">$1.10M</text>
         <text x="2" y="24"  font-family="JetBrains Mono" font-size="7" fill="#6b655e">$1.20M</text>
-        <!-- Gold spot baseline (nearly flat - the patron sees alpha) -->
+        <!-- Gold spot baseline (nearly flat - the member sees alpha) -->
         <path d="M 42 96 Q 200 95 360 90 T 690 82" fill="none" stroke="#6b655e" stroke-width="1.5" stroke-dasharray="3,3" />
         <!-- NAV outperforming -->
         <path d="M 42 96 Q 200 86 360 64 T 690 22" fill="none" stroke="#C5A572" stroke-width="2.2" />
@@ -2977,12 +3985,12 @@ table.deals tbody tr:last-child td { border-bottom: none; }
     <div class="portal-panel">
       <div class="panel-head"><span class="l">PANEL III  ·  GOLD TRACKER</span><span class="r">Avg Gold PP: $4,700/oz</span></div>
       <div class="bar-grid">
-        <div class="bar"><span class="kg">1kg</span><span class="sn">PM-8847</span></div>
-        <div class="bar"><span class="kg">1kg</span><span class="sn">PM-8848</span></div>
+        <div class="bar"><span class="kg">1kg</span><span class="sn">AU-0001</span></div>
+        <div class="bar"><span class="kg">1kg</span><span class="sn">AU-0002</span></div>
         <div class="bar"><span class="kg">1kg</span><span class="sn">VB-0122</span></div>
         <div class="bar"><span class="kg">1kg</span><span class="sn">MK-0381</span></div>
         <div class="bar"><span class="kg">1kg</span><span class="sn">AR-0917</span></div>
-        <div class="bar"><span class="kg">1kg</span><span class="sn">PM-1104</span></div>
+        <div class="bar"><span class="kg">1kg</span><span class="sn">AU-0042</span></div>
       </div>
       <div class="bar-legend">
         <span><span class="dot pledged"></span>PLEDGED</span>
@@ -3001,11 +4009,11 @@ table.deals tbody tr:last-child td { border-bottom: none; }
         <div class="ltv-labels">
           <span>0%</span>
           <span class="cur">47% · CURRENT</span>
-          <span class="ceil">65% · F-II</span>
+          <span class="ceil">65% · CEILING</span>
           <span class="margin">80% · MARGIN</span>
         </div>
       </div>
-      <p class="ltv-note">$240K drawn against a Founders II <em>65% ceiling</em>. Gold would need to fall 28% before the bank's margin line.</p>
+      <p class="ltv-note">$240K drawn against a <em>65% ceiling</em>. Gold would need to fall 28% before the bank's margin line.</p>
       <div class="ltv-stats">
         <div><span class="k">DEPLOYED</span><span class="v">$240<em>K</em></span><span class="s">across 6 positions</span></div>
         <div><span class="k">DEPLOYABLE</span><span class="v">$348<em>K</em></span><span class="s">to 65% ceiling</span></div>
@@ -3043,7 +4051,7 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 
   <div class="foot">
     <span class="conf">THE KILO  ·  YOUR VISIBILITY  ·  PORTAL</span>
-    <span>12</span>
+    <span>15</span>
   </div>
 </section>
 
@@ -3053,10 +4061,10 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 <section class="page">
   <div class="head">
     <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
-    <span>V  ·  FEATURED DEALS</span>
+    <span>VI  ·  FEATURED DEALS</span>
   </div>
   <div class="divider">
-    <div class="divider-num">V</div>
+    <div class="divider-num">VI</div>
     <h2 class="divider-h">Featured <em>deals.</em></h2>
     <p class="divider-sub">
       Two exceptional positions Aurum is sourcing to seed the fund.
@@ -3065,7 +4073,7 @@ table.deals tbody tr:last-child td { border-bottom: none; }
   </div>
   <div class="foot">
     <span class="conf">THE KILO  ·  FEATURED DEALS</span>
-    <span>13</span>
+    <span>16</span>
   </div>
 </section>
 
@@ -3075,49 +4083,48 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 <section class="page">
   <div class="head">
     <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
-    <span>V  ·  FEATURED DEALS</span>
+    <span>VI  ·  FEATURED DEALS</span>
   </div>
 
   <h2 class="page-h">Two deals. <em>One opening book.</em></h2>
   <p class="page-lede">
     Aurum has sourced two positions of the kind that rarely clear an open market —
     one in frontier AI, one in defense autonomy. The fund forms around them.
-    Participating patrons receive <em>pro-rata allocation in both</em> at first close.
+    Participating members receive <em>pro-rata allocation in both</em> at first close.
   </p>
 
   <div class="deals-stack">
   <div class="deal-card">
     <div class="band">
-      <span class="l">§ DEAL № 01  ·  FRONTIER AI</span>
+      <span class="l">DEAL № 01  ·  FRONTIER AI</span>
       <span>LATE-STAGE SECONDARY</span>
     </div>
     <div class="logo">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
         <path d="M12 2 L12 22 M2 12 L22 12 M4.9 4.9 L19.1 19.1 M19.1 4.9 L4.9 19.1" />
       </svg>
-      <span class="n">Anthropic<span class="s">ANTHROPIC PBC</span></span>
+      <span class="n"><em>Position № 01</em><span class="s">NAME DISCLOSED UNDER NDA</span></span>
     </div>
     <div class="prose">
-      <h3>Defining the <em>foundation-model</em> category.</h3>
+      <h3>Frontier <em>AI infrastructure.</em></h3>
       <p>
-        Builder of <em>Claude</em>. Enterprise revenue trajectory unmatched in software history —
-        a genuinely rare secondary opportunity at current valuation.
+        Late-stage US AI-infrastructure secondary. Genuinely scarce at current valuation; primary market is closed.
       </p>
       <p class="route">
-        Aurum routes through a direct-LP co-investor relationship. Primary market is closed;
-        secondary allocations are scarce and highly curated.
+        Aurum participates through a direct-LP secondary allocation; access is by
+        invitation through the manager's counterparty network.
       </p>
     </div>
     <div class="alloc">
       <div class="k">AURUM ALLOCATION</div>
       <div class="v">$10<em>M</em></div>
-      <div class="s">TARGET  ·  AT CLOSE</div>
+      <div class="s">TARGET  ·  SUBJECT TO DEAL CLOSING</div>
     </div>
   </div>
 
   <div class="deal-card">
     <div class="band">
-      <span class="l">§ DEAL № 02  ·  DEFENSE AUTONOMY</span>
+      <span class="l">DEAL № 02  ·  DEFENSE AUTONOMY</span>
       <span>PRE-IPO</span>
     </div>
     <div class="logo">
@@ -3125,23 +4132,23 @@ table.deals tbody tr:last-child td { border-bottom: none; }
         <path d="M12 2 L4 6 L4 12 C4 17 8 21 12 22 C16 21 20 17 20 12 L20 6 Z" />
         <path d="M12 9 L12 15 M9 12 L15 12" />
       </svg>
-      <span class="n">SHIELD<span class="s">SHIELD AI INC</span></span>
+      <span class="n"><em>Position № 02</em><span class="s">NAME DISCLOSED UNDER NDA</span></span>
     </div>
     <div class="prose">
       <h3>AI-piloted systems for <em>allied defense.</em></h3>
       <p>
-        Pre-IPO defense autonomy — US and NATO-aligned contracts in hand. Dual-use sector
-        with structural tailwinds and a clear <em>twenty-four-month path</em> to liquidity.
+        Pre-IPO defense autonomy with US government and allied counterparty exposure.
+        Dual-use sector with potential liquidity events over the medium term.
       </p>
       <p class="route">
-        Aurum routes through a late-stage crossover round. Strategic ticket available because
-        of a strategic LP's partial reallocation — closes quickly.
+        Aurum participates through a late-stage allocation made available by a counterparty's
+        portfolio adjustment.
       </p>
     </div>
     <div class="alloc">
       <div class="k">AURUM ALLOCATION</div>
       <div class="v">$10<em>M</em></div>
-      <div class="s">TARGET  ·  AT CLOSE</div>
+      <div class="s">TARGET  ·  SUBJECT TO DEAL CLOSING</div>
     </div>
   </div>
   </div>
@@ -3163,9 +4170,9 @@ table.deals tbody tr:last-child td { border-bottom: none; }
       <div class="s">subject to deal timing</div>
     </div>
     <div class="cell">
-      <div class="k">ACCESS TIER</div>
-      <div class="v">Founders <em>I</em></div>
-      <div class="s">1 kg minimum at first close</div>
+      <div class="k">MINIMUM</div>
+      <div class="v"><em>1</em> kg</div>
+      <div class="s">at first close</div>
     </div>
   </div>
 
@@ -3175,76 +4182,7 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 
   <div class="foot">
     <span class="conf">THE KILO  ·  FEATURED DEALS</span>
-    <span>14</span>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PAGE 15 · LETTER FROM PARTNERS (NEW)
-     ═══════════════════════════════════════════════════════════════════════════ -->
-<section class="page">
-  <div class="head">
-    <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
-    <span>VI  ·  A NOTE</span>
-  </div>
-
-  <h2 class="page-h">A note, <em>at first close.</em></h2>
-
-  <div class="letter">
-    <p class="opener"><em>To the founding group —</em></p>
-
-    <p>
-      You have read the package. If you are still reading, it is because you already
-      know how we move, and you have, at times, felt how far that work sits from you.
-      <em>This is the structure we built to close that distance.</em>
-    </p>
-
-    <p>
-      Years of sourcing across the US, Asia, and Europe — direct-LP relationships,
-      crossover rounds, secondaries that clear only through a returned call — taught us
-      where Korean capital actually breaks. <em>Not on opportunity. On the route to it:</em>
-      a regulatory perimeter that compounds with every deal, ninety-day pre-approvals
-      on two-week windows. Patrons missed positions they should have been in, while
-      gold held for a generation sat earning nothing.
-    </p>
-
-    <p>
-      That is when <em>the gold became the answer.</em> Not as a thesis on metal —
-      though we hold one — but as the mechanism that solves the route. Allocated in
-      your name in Singapore, insured, untouched. An institutional credit line that
-      puts the bar to work without moving it. A MAS-regulated subscription that routes
-      pro-rata into positions our network has already sourced.
-      <em>The metal you would hold anyway becomes the qualifier that opens rooms
-      Seoul cannot reach directly.</em>
-    </p>
-
-    <p>
-      Our ability to source continues to compound — Anthropic and Shield AI are what
-      that pipeline produces today, <em>a snapshot of a flow that does not slow down.</em>
-      The patrons who sit inside the founding group see it first.
-    </p>
-
-    <p>
-      We set the floor at a kilogram by design. <em>The room is the asset.</em>
-      The patrons who belong in it tend to know each other already, and the seats —
-      counted, by tier — <em>will not be reopened.</em>
-    </p>
-
-    <p class="closer-line">
-      The book opens this quarter. <em>When you are ready, we are ready.</em>
-    </p>
-  </div>
-
-  <div class="signoff">
-    <div class="sig-l">
-      <div class="sig-h">THE PARTNERS</div>
-      <div class="sig-s">Aurum Pte Ltd  ·  Singapore</div>
-    </div>
-  </div>
-
-  <div class="foot">
-    <span class="conf">THE KILO  ·  A NOTE  ·  LETTER</span>
-    <span>15</span>
+    <span>17</span>
   </div>
 </section>
 
@@ -3259,15 +4197,15 @@ table.deals tbody tr:last-child td { border-bottom: none; }
 
   <div class="closer">
     <div class="closer-seal"><em>Au</em></div>
-    <div class="closer-eyebrow">§ QUIETLY  ·  FOREVER</div>
+    <div class="closer-eyebrow">QUIETLY  ·  FOREVER</div>
     <h2>For the <em>founding group.</em></h2>
     <p class="lede">
-      The opening book closes this quarter. <em>A counted set of seats per tier.</em>
+      The opening book closes upon reaching capacity — Inaugural Close Q3 MMXXVI. <em>A counted set of seats.</em>
       Held until close.
     </p>
     <div class="lines-grid two-col">
       <div class="cell">
-        <div class="v">Seoul</div>
+        <div class="v">Asia</div>
       </div>
       <div class="cell">
         <div class="v">Singapore</div>
@@ -3277,8 +4215,8 @@ table.deals tbody tr:last-child td { border-bottom: none; }
   </div>
 
   <div class="foot">
-    <span class="conf">MMXXVI  ·  AURUM PTE LTD</span>
-    <span>16</span>
+    <span class="conf">MMXXVI  ·  TACC PTE LTD  ·  FORWARD-LOOKING  ·  PPM IS THE DEFINITIVE OFFERING DOCUMENT  ·  RECIPIENT CONFIDENTIALITY APPLIES</span>
+    <span>18</span>
   </div>
 </section>
 
