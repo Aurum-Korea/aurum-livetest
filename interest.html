@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<meta name="theme-color" content="#0a0a0a">
+<title>Indicate Interest · The Aurum Century Club</title>
+<meta name="description" content="A short form to begin a private conversation with the partners.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0a0a'/><rect x='4' y='4' width='24' height='24' fill='none' stroke='%23C5A572' stroke-width='1.2'/><text x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='15' font-style='italic' fill='%23C5A572'>Au</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+ --bg:#0a0a0a;--card:#0f0d0a;--card-2:#131210;
+ --text:#e8e3d8;--sub:#aaa39a;--muted:#6b655e;
+ --gold:#C5A572;--goldB:#E3C187;--goldD:#8a7d6b;--goldDeep:#6a5a3a;
+ --goldBorder:rgba(197,165,114,0.22);--goldBorderS:rgba(197,165,114,0.50);
+ --goldWash:rgba(197,165,114,0.04);--goldWashS:rgba(197,165,114,0.10);
+ --goldGlow:rgba(197,165,114,0.20);--border:rgba(255,255,255,0.08);--red:#c77061;
+ --serif:'Cormorant Garamond',Georgia,serif;
+ --sans:'Outfit',system-ui,sans-serif;
+ --mono:'JetBrains Mono',ui-monospace,monospace;
+ --pad-x:clamp(20px,5.5vw,88px);
+ --ease-out:cubic-bezier(0.22,1,0.36,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--serifKr);font-weight:300;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;min-width:320px;overflow-x:hidden}
+a{color:inherit;text-decoration:none}em{font-style:italic}
+::selection{background:rgba(197,165,114,0.30);color:var(--text)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:16px var(--pad-x);background:linear-gradient(180deg,rgba(10,10,10,0.85),rgba(10,10,10,0));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;justify-content:space-between;align-items:center}
+.lockup{display:flex;align-items:center;gap:14px}
+.seal{width:34px;height:34px;border:1px solid var(--gold);display:inline-flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-weight:500;color:var(--gold);font-size:16px;letter-spacing:-0.04em;flex-shrink:0;transition:box-shadow 0.3s,border-color 0.3s}
+.lockup:hover .seal{box-shadow:0 0 18px var(--goldGlow);border-color:var(--goldB)}
+.lockup-text{display:flex;flex-direction:column;line-height:1;min-width:0}
+.lockup-text .word{font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:0.34em;color:var(--text);white-space:nowrap}
+.lockup-text .program{font-family:var(--mono);font-weight:400;font-size:8.5px;letter-spacing:0.36em;color:var(--goldD);margin-top:5px;white-space:nowrap}
+.nav-back{font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:0.30em;color:var(--goldB);padding:9px 16px;border:1px solid var(--goldBorderS);background:var(--goldWash);display:inline-flex;align-items:center;gap:9px;transition:all 0.2s}
+.nav-back:hover{background:var(--goldWashS);border-color:var(--goldB);box-shadow:0 0 20px var(--goldGlow)}
+.nav-back .arrow{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--gold);transition:transform 0.2s}
+.nav-back:hover .arrow{transform:translateX(-3px)}
+@media (max-width:640px){.nav{padding:13px var(--pad-x)}.lockup-text .word{font-size:12px}.lockup-text .program{font-size:7.5px}.nav-back{font-size:9px;letter-spacing:0.24em;padding:7px 11px}}
+.page{min-height:100vh;padding:14vh var(--pad-x) 64px;position:relative;overflow:hidden}
+.page::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 1000px 700px at 50% 0%,rgba(197,165,114,0.07),transparent 65%);pointer-events:none}
+.page-inner{position:relative;z-index:2;max-width:620px;margin:0 auto}
+.head{margin-bottom:56px}
+.head-eyebrow{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:0.34em;margin-bottom:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.head-eyebrow .ko{font-family:var(--serifKr);font-weight:400;letter-spacing:0.18em;color:var(--goldD);font-size:13px}
+.head h1{font-family:var(--serifKr);font-weight:500;font-size:clamp(40px,6vw,64px);line-height:1.05;letter-spacing:-0.02em;color:var(--text);margin:0 0 22px}
+.head h1 em{font-family:var(--serif);font-style:italic;color:var(--gold);font-weight:500}
+.head p{font-family:var(--serifKr);font-weight:300;font-size:15.5px;line-height:1.78;color:var(--sub);margin:0}
+.head p em{font-family:var(--serif);font-style:italic;color:var(--goldB)}
+.form{display:flex;flex-direction:column;gap:36px}
+.field-group{display:flex;flex-direction:column;gap:8px}
+.field-label{font-family:var(--mono);font-size:9.5px;color:var(--goldD);letter-spacing:0.30em}
+.field-label .req{color:var(--gold);margin-left:4px}
+.field-label .opt{color:var(--muted);font-size:8.5px;margin-left:6px;letter-spacing:0.20em}
+.field-hint{font-family:var(--serif);font-style:italic;font-size:12.5px;color:var(--muted);margin-top:-2px}
+.field-input{width:100%;padding:14px 0;background:transparent;border:0;border-bottom:1px solid var(--border);color:var(--text);font-family:var(--serifKr);font-weight:300;font-size:16px;outline:none;transition:border-color 0.3s,box-shadow 0.3s}
+.field-input::placeholder{color:var(--muted);font-style:italic}
+.field-input:hover{border-bottom-color:var(--goldBorder)}
+.field-input:focus{border-bottom-color:var(--gold);box-shadow:0 1px 0 0 var(--gold)}
+.field-input.error{border-bottom-color:var(--red)}
+
+/* Dark dropdown — fix for white-bg <select> on iOS / Chrome.
+ Native <select> defaults to system colors; force dark surface + gold chevron. */
+select.field-input{
+ -webkit-appearance:none;appearance:none;
+ background-color:#0f0d0a;
+ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M3 5l5 5 5-5' stroke='%23C5A572' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+ background-repeat:no-repeat;
+ background-position:right 0 center;
+ background-size:12px;
+ padding-right:24px;
+ cursor:pointer;
+ color:var(--text);
+ border-radius:0;
+}
+select.field-input option{background-color:#0f0d0a;color:var(--text);font-family:var(--serifKr)}
+select.field-input::-ms-expand{display:none}
+select.field-input:invalid{color:var(--muted)}
+textarea.field-input{resize:vertical;min-height:80px;padding:14px 0}
+select.field-input{appearance:none;-webkit-appearance:none;background-color:#0a0a0a;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%238a7d6b' stroke-width='1.2' fill='none'/></svg>");background-repeat:no-repeat;background-position:right 4px center;padding-right:24px;cursor:pointer;color:var(--text)}
+select.field-input option{background-color:#0a0a0a;color:var(--text);padding:8px}
+select.field-input option:checked,select.field-input option:hover{background-color:#1a1815;color:var(--goldB)}
+select.field-input option[disabled]{color:var(--muted)}
+.phone-row{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:end}
+.tier-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.tier-option{position:relative;border:1px solid var(--border);background:var(--card-2);padding:18px 16px;cursor:pointer;transition:all 0.3s var(--ease-out);display:flex;flex-direction:column;gap:4px}
+.tier-option:hover{border-color:var(--goldBorder);background:var(--card);transform:translateY(-1px)}
+.tier-option input[type="radio"]{position:absolute;opacity:0;pointer-events:none}
+.tier-option .check{position:absolute;top:12px;right:12px;width:16px;height:16px;border:1px solid var(--goldBorder);border-radius:50%;transition:border-color 0.3s,background 0.3s}
+.tier-option .check::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--gold);transform:scale(0);transition:transform 0.3s var(--ease-out)}
+.tier-option .tier-range{font-family:var(--serif);font-style:italic;font-weight:500;font-size:19px;color:var(--text);letter-spacing:-0.01em}
+.tier-option .tier-tag{font-family:var(--mono);font-size:9px;color:var(--goldD);letter-spacing:0.24em}
+.tier-option:has(input:checked){border-color:var(--gold);background:var(--goldWash);box-shadow:0 0 18px var(--goldGlow)}
+.tier-option:has(input:checked) .check{border-color:var(--gold)}
+.tier-option:has(input:checked) .check::after{transform:scale(1)}
+.tier-option:has(input:checked) .tier-range{color:var(--goldB)}
+.interest-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.interest-option{position:relative;border:1px solid var(--border);background:var(--card-2);padding:14px 16px 14px 44px;cursor:pointer;transition:all 0.3s var(--ease-out);font-family:var(--serifKr);font-weight:400;font-size:14.5px;color:var(--text)}
+.interest-option:hover{border-color:var(--goldBorder);background:var(--card)}
+.interest-option input[type="checkbox"]{position:absolute;opacity:0;pointer-events:none}
+.interest-option .box{position:absolute;top:50%;left:16px;transform:translateY(-50%);width:16px;height:16px;border:1px solid var(--goldBorder);transition:border-color 0.3s,background 0.3s}
+.interest-option .box::after{content:'';position:absolute;top:1px;left:4px;width:5px;height:9px;border:solid var(--bg);border-width:0 1.5px 1.5px 0;transform:rotate(45deg) scale(0);transition:transform 0.3s var(--ease-out)}
+.interest-option:has(input:checked){border-color:var(--gold);background:var(--goldWash);color:var(--goldB)}
+.interest-option:has(input:checked) .box{background:var(--gold);border-color:var(--gold)}
+.interest-option:has(input:checked) .box::after{transform:rotate(45deg) scale(1)}
+.nda{display:flex;align-items:flex-start;gap:14px;padding:18px;border:1px solid var(--goldBorder);background:var(--card);cursor:pointer;transition:border-color 0.3s,background 0.3s;position:relative}
+.nda:hover{border-color:var(--goldBorderS)}
+.nda input[type="checkbox"]{position:absolute;opacity:0;pointer-events:none}
+.nda .nda-box{width:18px;height:18px;border:1px solid var(--goldBorderS);flex-shrink:0;margin-top:1px;position:relative;transition:background 0.3s,border-color 0.3s}
+.nda .nda-box::after{content:'';position:absolute;top:1px;left:5px;width:5px;height:10px;border:solid var(--bg);border-width:0 1.5px 1.5px 0;transform:rotate(45deg) scale(0);transition:transform 0.3s var(--ease-out)}
+.nda:has(input:checked) .nda-box{background:var(--gold);border-color:var(--gold)}
+.nda:has(input:checked) .nda-box::after{transform:rotate(45deg) scale(1)}
+.nda-text{font-family:var(--serifKr);font-weight:300;font-size:13px;line-height:1.7;color:var(--sub)}
+.nda-text em{font-family:var(--serif);font-style:italic;color:var(--goldB)}
+.submit-row{margin-top:16px;display:flex;flex-direction:column;gap:18px}
+.submit-btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:20px 32px;font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:0.30em;text-transform:uppercase;border:1px solid var(--gold);background:var(--gold);color:var(--bg);cursor:pointer;transition:all 0.3s;width:100%;position:relative;overflow:hidden}
+.submit-btn:hover:not(:disabled){background:var(--goldB);border-color:var(--goldB);transform:translateY(-1px);box-shadow:0 8px 28px rgba(227,193,135,0.30)}
+.submit-btn:disabled{opacity:0.5;cursor:not-allowed}
+.submit-btn .arrow{font-family:var(--serif);font-style:italic;font-size:18px;letter-spacing:0;transition:transform 0.3s var(--ease-out)}
+.submit-btn:hover:not(:disabled) .arrow{transform:translateX(5px)}
+.submit-btn.loading .label,.submit-btn.loading .arrow{opacity:0}
+.submit-btn.loading::after{content:'';position:absolute;top:50%;left:50%;width:20px;height:20px;margin:-10px 0 0 -10px;border:2px solid var(--bg);border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.submit-foot{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:0.30em;text-align:center}
+.field-err{font-family:var(--serif);font-style:italic;font-size:12.5px;color:var(--red);margin-top:4px;display:none}
+.field-err.show{display:block}
+.confirm{display:none;text-align:center;padding:4vh 0 0}
+.confirm.show{display:block}
+.confirm-seal{width:88px;height:88px;border:1px solid var(--gold);display:inline-flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-weight:500;color:var(--gold);font-size:40px;letter-spacing:-0.04em;margin-bottom:36px;position:relative;animation:sealReveal 1s var(--ease-out) forwards;box-shadow:0 0 32px var(--goldGlow)}
+@keyframes sealReveal{from{opacity:0;transform:scale(0.6)}60%{transform:scale(1.06)}to{opacity:1;transform:scale(1)}}
+.confirm-eyebrow{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:0.34em;margin-bottom:20px}
+.confirm-eyebrow .ko{font-family:var(--serifKr);letter-spacing:0.18em;color:var(--goldD);font-size:13px;margin-left:12px}
+.confirm h1{font-family:var(--serifKr);font-weight:500;font-size:clamp(34px,5vw,52px);line-height:1.08;letter-spacing:-0.02em;color:var(--text);margin:0 0 24px}
+.confirm h1 em{font-family:var(--serif);font-style:italic;color:var(--gold);font-weight:500}
+.confirm-body{font-family:var(--serifKr);font-weight:300;font-size:16px;line-height:1.8;color:var(--sub);max-width:50ch;margin:0 auto 32px}
+.confirm-body em{font-family:var(--serif);font-style:italic;color:var(--goldB)}
+.confirm-stamp{display:inline-flex;align-items:center;gap:12px;padding:11px 18px;border:1px solid var(--goldBorderS);background:var(--goldWash);font-family:var(--mono);font-size:10px;color:var(--goldB);letter-spacing:0.30em;margin-bottom:36px}
+.confirm-stamp .pulse{width:7px;height:7px;border-radius:50%;background:var(--goldB);position:relative}
+.confirm-stamp .pulse::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:var(--goldB);opacity:0.6;animation:pulse 2.4s var(--ease-out) infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:0.6}50%{transform:scale(2.2);opacity:0}}
+.confirm-stamp .sep{color:var(--goldD)}
+.confirm-back{font-family:var(--mono);font-size:10.5px;color:var(--goldD);letter-spacing:0.30em;display:inline-flex;align-items:center;gap:10px;padding:10px 18px;transition:color 0.2s}
+.confirm-back:hover{color:var(--gold)}
+.foot{padding:36px var(--pad-x);border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.30em}
+.foot-members{padding:0 var(--pad-x) 28px;display:flex;justify-content:flex-end}
+.foot-members-link{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:9px;letter-spacing:0.36em;color:var(--muted);padding:6px 0;transition:color .3s;text-decoration:none}
+.foot-members-link:hover{color:var(--goldD)}
+.foot-members-link .dot{width:4px;height:4px;border-radius:50%;background:var(--muted);transition:background .3s,box-shadow .3s}
+.foot-members-link:hover .dot{background:var(--gold);box-shadow:0 0 8px var(--goldGlow)}
+.foot-members-link .arr{font-family:var(--serif);font-style:italic;font-size:11px;letter-spacing:0;transition:transform .3s}
+.foot-members-link:hover .arr{transform:translateX(2px)}
+@media (max-width:720px){.foot-members{justify-content:center;padding-bottom:32px}}
+.foot a{color:var(--goldD)}.foot .sep{margin:0 12px}
+@media (max-width:480px){.tier-grid{grid-template-columns:1fr}.interest-grid{grid-template-columns:1fr}.phone-row{grid-template-columns:100px 1fr;gap:12px}.submit-foot{font-size:8.5px;letter-spacing:0.18em}}
+.form.submitting,.head.submitting{animation:fadeOut 0.5s var(--ease-out) forwards;pointer-events:none}
+@keyframes fadeOut{to{opacity:0;transform:translateY(-12px)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}.confirm-stamp .pulse::before{animation:none}}
+
+/* ═══ v9 OVERRIDES — form legibility ═══ */
+
+/* Lang toggle right corner */
+.nav /* Bigger field labels and inputs */
+.field-label,
+.field-label-en,
+.field-label-ko {
+ font-size: 13px !important;
+ letter-spacing: 0.18em !important;
+}
+.field-input,
+textarea.field-input,
+select.field-input {
+ font-size: 16px !important;
+ line-height: 1.5 !important;
+ padding: 14px 0 !important;
+}
+.field-input::placeholder { font-size: 15px !important; }
+
+/* Bigger checkbox labels (interests, NDA confirmation) */
+.check-label,
+.check-row label,
+.nda-confirm label {
+ font-size: 14px !important;
+ line-height: 1.55 !important;
+}
+
+/* Form intro text */
+.form-intro,
+.form-h,
+.confirm-body {
+ font-size: 17px !important;
+ line-height: 1.65 !important;
+}
+.form-h { font-size: clamp(34px, 4.4vw, 56px) !important; }
+
+/* Privacy/eligibility note */
+.eligibility,
+.privacy-note,
+.consent-text {
+ font-size: 13.5px !important;
+ line-height: 1.65 !important;
+}
+
+/* ═══ v9 MOBILE NAV FIX ═══ */
+@media (max-width: 480px) {
+ .nav { padding: 12px 14px; gap: 6px; }
+ .lockup-text .word { font-size: 11px; letter-spacing: 0.10em; }
+ .lockup-text .program { font-size: 6.5px; letter-spacing: 0.20em; }
+ .lockup .seal { width: 28px; height: 28px; }
+ .lockup .seal em { font-size: 14px; }
+ .nav .nav .nav-cta { font-size: 8px; padding: 6px 9px; letter-spacing: 0.20em; }
+ .nav-cta .arrow { font-size: 9px; margin-left: 3px; }
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+ <a href="index.html" class="lockup">
+ <span class="seal"><em>Au</em></span>
+ <div class="lockup-text">
+ <span class="word">AURUM</span>
+ <span class="program">CENTURY CLUB</span>
+ </div>
+ </a>
+ <a href="index.html" class="nav-back"><span class="arrow">&larr;</span> BACK</a>
+</nav>
+<main class="page">
+ <div class="page-inner">
+ <header class="head" id="head">
+ <div class="head-eyebrow">
+ INQUIRE
+ 
+ </div>
+ <h1>Begin the <em>inquiry.</em></h1>
+ <p>A short form to register your inquiry with the partners. On verification, you will receive an invitation to schedule next steps including review of the confidentiality agreement.</p>
+ </header>
+ <form class="form" id="form" autocomplete="on" novalidate>
+ <div class="field-group">
+ <label class="field-label" for="name">FULL NAME<span class="req">·</span></label>
+ <input type="text" id="name" name="name" class="field-input" required placeholder="As it appears on identification" autocomplete="name">
+ <div class="field-err" data-err="name">Required.</div>
+ </div>
+ <div class="field-group">
+ <label class="field-label" for="email">EMAIL<span class="req">·</span></label>
+ <input type="email" id="email" name="email" class="field-input" required placeholder="you@domain.com" autocomplete="email">
+ <div class="field-err" data-err="email">A valid email is required.</div>
+ </div>
+ <div class="field-group">
+ <label class="field-label" for="country">COUNTRY OF RESIDENCE<span class="req">·</span></label>
+ <select id="country" name="country" class="field-input" required>
+ <option value="" disabled selected>— Select —</option>
+ <option value="KR">South Korea</option>
+ <option value="SG">Singapore</option>
+ <option value="HK">Hong Kong SAR</option>
+ <option value="JP">Japan</option>
+ <option value="US">United States</option>
+ <option value="GB">United Kingdom</option>
+ <option value="AU">Australia</option>
+ <option value="CA">Canada</option>
+ <option value="CH">Switzerland</option>
+ <option value="AE">United Arab Emirates</option>
+ <option value="OTHER">Other</option>
+ </select>
+ <div class="field-err" data-err="country">Required.</div>
+ </div>
+ <div class="field-group">
+ <label class="field-label" for="hear_about">HOW DID YOU HEAR ABOUT US?<span class="req">·</span></label>
+ <select id="hear_about" name="hear_about" class="field-input" required>
+ <option value="" disabled selected>— Select —</option>
+ <option value="member">Through an existing member of the fund</option>
+ <option value="advisor">Through a financial advisor or family office</option>
+ <option value="partner">Through a partner of Aurum</option>
+ <option value="personal">Through a personal connection</option>
+ <option value="community">Through a long-standing relationship in the HNW community</option>
+ </select>
+ <div class="field-err" data-err="hear_about">Please select an option.</div>
+ </div>
+ <div class="field-group">
+ <label class="field-label" for="note">A BRIEF NOTE<span class="opt">OPTIONAL</span></label>
+ <textarea id="note" name="note" class="field-input" rows="3" placeholder="Anything you'd like the partners to know"></textarea>
+ </div>
+ <label class="nda">
+ <input type="checkbox" name="reverse_solicitation_ack" value="1" required>
+ <span class="nda-box"></span>
+ <span class="nda-text"><em>I confirm</em> I am initiating this inquiry of my own accord. Aurum has not solicited my participation. I learned of the Fund through private channels and acknowledge this inquiry is confidential.</span>
+ </label>
+ <div class="field-err" data-err="reverse_solicitation_ack" style="margin-top:-24px;">Please acknowledge to continue.</div>
+ <div class="submit-row">
+ <button type="submit" class="submit-btn" id="submit-btn">
+ <span class="label">SUBMIT INQUIRY</span>
+ <span class="arrow">&rarr;</span>
+ </button>
+ <div class="submit-foot">QUALIFIED&nbsp;&nbsp;·&nbsp;&nbsp;BY&nbsp;INVITATION&nbsp;·&nbsp;&nbsp;PARTNER&nbsp;REVIEW</div>
+ </div>
+ </form>
+ <div class="confirm" id="confirm">
+ <div class="confirm-seal"><em>Au</em></div>
+ <div class="confirm-eyebrow">RECEIVED</div>
+ <h1>Thank you<span id="confirm-name"></span>.</h1>
+ <p class="confirm-body">Your inquiry has been received. A member of the team will <em>reach out in due course</em> from a private address. On verification, next steps will be communicated, including review of the confidentiality agreement.</p>
+ <div class="confirm-stamp">
+ <span>REFERENCE</span>
+ <span class="sep">·</span>
+ <span>MMXXVI</span>
+ </div>
+ <div><a href="index.html" class="confirm-back"><span>&larr;</span> RETURN HOME</a></div>
+ </div>
+ </div>
+</main>
+<footer class="foot">
+ CONFIDENTIAL · QUALIFIED INVESTORS ONLY
+ <span class="sep">·</span>
+ TACC PTE LTD · MMXXVI
+</footer>
+
+<div class="foot-members">
+ <a href="/members" class="foot-members-link">
+ <span class="dot"></span>
+ MEMBER LOG-IN
+ 
+ <span class="arr">→</span>
+ </a>
+</div>
+<script>
+(function(){
+ var form=document.getElementById('form');
+ var head=document.getElementById('head');
+ var confirm_=document.getElementById('confirm');
+ var confirmName=document.getElementById('confirm-name');
+ var submitBtn=document.getElementById('submit-btn');
+ var ENDPOINT='/api/submit';
+ function clearErrors(){
+ form.querySelectorAll('.field-err').forEach(function(el){el.classList.remove('show');});
+ form.querySelectorAll('.field-input').forEach(function(el){el.classList.remove('error');});
+ }
+ function showError(name,scroll){
+ var err=form.querySelector('[data-err="'+name+'"]');
+ if(err)err.classList.add('show');
+ var input=form.querySelector('[name="'+name+'"]');
+ if(input)input.classList.add('error');
+ if(scroll&&input)input.scrollIntoView({behavior:'smooth',block:'center'});
+ }
+ function validate(){
+ clearErrors();
+ var firstError=null;
+ var data=new FormData(form);
+ if(!data.get('name')||!data.get('name').trim())firstError=firstError||'name';
+ var email=(data.get('email')||'').trim();
+ if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))firstError=firstError||'email';
+ if(!data.get('country'))firstError=firstError||'country';
+ if(!data.get('hear_about'))firstError=firstError||'hear_about';
+ if(!data.get('reverse_solicitation_ack'))firstError=firstError||'reverse_solicitation_ack';
+ if(firstError){showError(firstError,true);return false;}
+ return true;
+ }
+ function getPayload(){
+ var data=new FormData(form);
+ var obj={};
+ data.forEach(function(v,k){obj[k]=v;});
+ obj._meta={page:'theaurumcc.com/interest',submitted_at:new Date().toISOString(),user_agent:navigator.userAgent};
+ return obj;
+ }
+ async function submitForm(payload){
+ if(!ENDPOINT){await new Promise(function(r){setTimeout(r,900);});return true;}
+ try{
+ var res=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
+ return res.ok;
+ }catch(err){console.error(err);return false;}
+ }
+ function showConfirmation(firstName){
+ head.classList.add('submitting');
+ form.classList.add('submitting');
+ setTimeout(function(){
+ head.style.display='none';
+ form.style.display='none';
+ if(firstName){
+ confirmName.textContent=', '+firstName;
+ }
+ confirm_.classList.add('show');
+ window.scrollTo({top:0,behavior:'smooth'});
+ },500);
+ try{history.replaceState({},'','?confirmed=1');}catch(e){}
+ }
+ form.addEventListener('submit',async function(e){
+ e.preventDefault();
+ if(!validate())return;
+ submitBtn.disabled=true;
+ submitBtn.classList.add('loading');
+ var payload=getPayload();
+ var ok=await submitForm(payload);
+ submitBtn.classList.remove('loading');
+ if(ok){
+ var firstName=(payload.name||'').trim().split(/\s+/)[0]||'';
+ showConfirmation(firstName);
+ }else{
+ submitBtn.disabled=false;
+ alert('There was a problem submitting your inquiry. Please try again in a moment.');
+ }
+ });
+ form.querySelectorAll('.field-input').forEach(function(input){
+ input.addEventListener('input',function(){
+ input.classList.remove('error');
+ var err=form.querySelector('[data-err="'+input.name+'"]');
+ if(err)err.classList.remove('show');
+ });
+ });
+ form.querySelectorAll('input[type="radio"],input[type="checkbox"]').forEach(function(input){
+ input.addEventListener('change',function(){
+ var err=form.querySelector('[data-err="'+input.name+'"]');
+ if(err)err.classList.remove('show');
+ });
+ });
+ if(location.search.indexOf('confirmed=1')>-1){
+ head.style.display='none';
+ form.style.display='none';
+ confirm_.classList.add('show');
+ }
+})();
+
+// (i18n removed — public site is English-only)
+
+</script>
+</body>
+</html>
