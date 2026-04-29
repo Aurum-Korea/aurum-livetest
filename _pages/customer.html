@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="ko" class="lang-ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<meta name="theme-color" content="#0a0a0a">
+<title>고객 포털 · Customer Portal · Aurum</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0a0a'/><rect x='4' y='4' width='24' height='24' fill='none' stroke='%23C5A572' stroke-width='1.2'/><text x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='15' font-style='italic' fill='%23C5A572'>Au</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;--bg2:#0c0c0c;--card:#0f0d0a;--card2:#131210;
+  --text:#e8e3d8;--sub:#aaa39a;--muted:#6b655e;--dim:#2a2825;
+  --gold:#C5A572;--goldB:#E3C187;--goldD:#8a7d6b;
+  --goldBd:rgba(197,165,114,0.22);--goldBdS:rgba(197,165,114,0.50);
+  --goldW:rgba(197,165,114,0.04);--goldGlow:rgba(197,165,114,0.18);
+  --border:rgba(255,255,255,0.07);
+  --green:#5a9e72;--greenW:rgba(90,158,114,0.08);--greenBd:rgba(90,158,114,0.28);
+  --amber:#b8833a;--amberW:rgba(184,131,58,0.08);--amberBd:rgba(184,131,58,0.28);
+  --red:#b05e56;--redW:rgba(176,94,86,0.07);--redBd:rgba(176,94,86,0.26);
+  --blue:#5b85b8;--blueW:rgba(91,133,184,0.08);--blueBd:rgba(91,133,184,0.28);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --serifKr:'Noto Serif KR','Cormorant Garamond',Georgia,serif;
+  --sans:'Outfit',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--serifKr);-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:inherit}
+.hidden{display:none!important}
+
+/* ── Nav ── */
+.nav{height:46px;background:rgba(10,10,10,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;position:sticky;top:0;z-index:50}
+.seal{width:26px;height:26px;border:1px solid var(--goldBd);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:12px;color:var(--gold);flex-shrink:0}
+.wm{font-family:var(--mono);font-size:9px;letter-spacing:.32em;color:var(--sub);flex-shrink:0}
+.nav-tabs{display:flex;gap:0;border:1px solid var(--border);background:var(--bg2);margin-left:8px;overflow-x:auto}
+.ntab{padding:6px 13px;font-family:var(--mono);font-size:7.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);border-right:1px solid var(--border);white-space:nowrap;flex-shrink:0;background:transparent;border-top:0;border-bottom:0;border-left:0}
+.ntab:last-child{border-right:0}
+.ntab.on{color:var(--gold);background:var(--goldW)}
+.ntab:hover:not(.on){color:var(--sub)}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:7px;flex-shrink:0}
+.lang-toggle{display:flex;border:1px solid var(--border)}
+.lt-btn{font-family:var(--mono);font-size:8px;letter-spacing:.10em;color:var(--muted);padding:4px 7px;background:transparent;border:0}
+.lt-btn.on{color:var(--gold);background:var(--goldW)}
+.lt-sep{color:var(--dim);display:flex;align-items:center;font-size:10px;pointer-events:none;padding:0 1px}
+.member-chip{font-family:var(--mono);font-size:8px;letter-spacing:.14em;color:var(--goldD);padding:4px 9px;border:1px solid var(--border);background:var(--card);white-space:nowrap}
+
+/* ── KPI strip ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border)}
+.kpi{padding:11px 16px;border-right:1px solid var(--border)}
+.kpi:last-child{border-right:0}
+.kpi-lbl{font-family:var(--mono);font-size:7px;letter-spacing:.26em;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.kpi-lbl .ko{font-family:var(--serifKr);font-size:9px;color:var(--muted);letter-spacing:.04em;margin-left:5px;font-weight:300;text-transform:none}
+.kpi-val{font-family:var(--serif);font-style:italic;font-size:24px;line-height:1;color:var(--goldB);margin-bottom:3px}
+.kpi-sub{font-family:var(--mono);font-size:7.5px;color:var(--sub)}
+.kpi-sub.up{color:var(--green)}
+.kpi-sub.warn{color:var(--amber)}
+
+/* ── Tabs content ── */
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* ── Shared section header ── */
+.sh{font-family:var(--mono);font-size:7.5px;letter-spacing:.26em;color:var(--gold);text-transform:uppercase;margin-bottom:9px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.sh .ko{font-family:var(--serifKr);font-size:10px;color:var(--goldD);letter-spacing:.06em;margin-left:8px;font-weight:300;text-transform:none}
+
+/* ── Overview ── */
+.ov-body{display:grid;grid-template-columns:1fr 1fr}
+.ov-left{border-right:1px solid var(--border);padding:15px 18px}
+.ov-right{padding:15px 18px;background:var(--bg2)}
+
+/* gold card */
+.gold-card{border:1px solid var(--goldBd);background:rgba(197,165,114,0.03);padding:13px 14px;margin-bottom:11px}
+.gc-top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:5px}
+.gc-kg{font-family:var(--serif);font-style:italic;font-size:36px;color:var(--goldB);line-height:1}
+.gc-usd{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--goldB)}
+.gc-serial{font-family:var(--mono);font-size:7.5px;letter-spacing:.12em;color:var(--goldD)}
+.gc-rows{display:flex;flex-direction:column;gap:0;margin-top:7px}
+.gc-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(197,165,114,0.10)}
+.gc-row:last-child{border-bottom:0}
+.gc-lbl{font-family:var(--mono);font-size:7.5px;color:var(--muted)}
+.gc-val{font-family:var(--mono);font-size:9.5px;font-weight:500;color:var(--text)}
+.gc-val.gold{color:var(--goldB)}.gc-val.green{color:var(--green)}.gc-val.blue{color:var(--blue)}
+
+/* LTV */
+.ltv-block{border:1px solid var(--border);padding:11px 13px;margin-bottom:11px}
+.ltv-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:7px}
+.ltv-title{font-family:var(--mono);font-size:7.5px;letter-spacing:.22em;color:var(--sub);text-transform:uppercase}
+.ltv-pct{font-family:var(--serif);font-style:italic;font-size:21px;color:var(--goldB)}
+.ltv-bar-wrap{height:4px;background:var(--border);overflow:hidden;margin-bottom:4px}
+.ltv-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));transition:width .6s}
+.ltv-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:7px;color:var(--muted)}
+.ltv-labels .g{color:var(--green)}
+
+/* sparkline */
+.nav-chart{border:1px solid var(--border);padding:11px;margin-bottom:10px}
+.nc-lbl{font-family:var(--mono);font-size:6.5px;letter-spacing:.20em;color:var(--muted);text-transform:uppercase;margin-bottom:7px}
+.nc-svg{width:100%;height:70px}
+
+/* onboarding steps */
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;align-items:center;gap:11px;padding:8px 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:0}
+.step-num{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--goldD);width:18px;flex-shrink:0;text-align:center}
+.step-label{flex:1}
+.step-en{font-family:var(--mono);font-size:7.5px;letter-spacing:.20em;text-transform:uppercase;color:var(--text)}
+.step-ko{font-family:var(--serifKr);font-size:11px;color:var(--sub);margin-left:7px;font-weight:300}
+.step-status{font-family:var(--mono);font-size:6.5px;letter-spacing:.12em;text-transform:uppercase;padding:2px 7px;border:1px solid;flex-shrink:0}
+.ss-ok{color:var(--green);border-color:var(--greenBd);background:var(--greenW)}
+.ss-pend{color:var(--amber);border-color:var(--amberBd);background:var(--amberW)}
+.ss-na{color:var(--muted);border-color:var(--border)}
+
+/* ── Positions ── */
+.pos-body{padding:13px 18px}
+.pos-table{border:1px solid var(--border);overflow:hidden;margin-bottom:12px}
+.pos-row{display:grid;grid-template-columns:1fr 80px 90px 90px 90px;padding:8px 12px;border-bottom:1px solid var(--border);align-items:center}
+.pos-row:last-child{border-bottom:0}
+.pos-row.hd{background:var(--card2);padding:6px 12px}
+.pos-row.hd span{font-family:var(--mono);font-size:6.5px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.pos-name{font-family:var(--serifKr);font-size:13px;color:var(--text);font-weight:300}
+.pos-type{font-family:var(--mono);font-size:7px;letter-spacing:.10em;color:var(--muted)}
+.pos-n{font-family:var(--mono);font-size:10.5px;font-weight:500}
+.pos-n.gold{color:var(--goldB)}.pos-n.green{color:var(--green)}
+.pos-chip{font-family:var(--mono);font-size:6.5px;letter-spacing:.12em;text-transform:uppercase;padding:2px 6px;border:1px solid}
+.pos-empty{padding:28px;text-align:center;font-family:var(--serifKr);font-style:italic;font-size:14px;color:var(--muted);border:1px solid var(--border)}
+
+/* ── Pipeline ── */
+.pip-body{padding:13px 18px}
+.pip-empty{padding:32px;text-align:center;border:1px solid var(--goldBd);background:var(--goldW)}
+.pip-empty-title{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--goldD);margin-bottom:8px}
+.pip-empty-sub{font-family:var(--serifKr);font-size:13px;color:var(--muted);font-weight:300}
+
+/* ── Documents ── */
+.docs-body{padding:13px 18px}
+.doc-list{border:1px solid var(--border);overflow:hidden}
+.doc-item{display:flex;align-items:center;gap:11px;padding:10px 13px;border-bottom:1px solid var(--border)}
+.doc-item:last-child{border-bottom:0}
+.doc-icon{width:26px;height:30px;border:1px solid var(--border);background:var(--card2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--mono);font-size:6.5px;color:var(--goldD)}
+.doc-info{flex:1;min-width:0}
+.doc-name{font-family:var(--serifKr);font-size:13px;color:var(--text);font-weight:300;margin-bottom:2px}
+.doc-meta{font-family:var(--mono);font-size:7.5px;color:var(--muted)}
+.doc-btn{font-family:var(--mono);font-size:7px;letter-spacing:.14em;text-transform:uppercase;padding:5px 9px;border:1px solid var(--goldBd);color:var(--goldD);background:var(--goldW);flex-shrink:0}
+.doc-btn:hover{background:rgba(197,165,114,0.10);border-color:var(--goldBdS)}
+.doc-empty{padding:24px;text-align:center;font-family:var(--serifKr);font-style:italic;font-size:14px;color:var(--muted)}
+
+/* ── Loading / error states ── */
+.state-screen{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center}
+.state-seal{width:56px;height:56px;border:1px solid var(--goldBd);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:24px;color:var(--goldD);margin-bottom:20px}
+.state-title{font-family:var(--serif);font-style:italic;font-size:24px;color:var(--text);margin-bottom:8px}
+.state-sub{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:20px;height:20px;border:1.5px solid var(--goldBd);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:20px}
+
+/* ── Lang toggle ── */
+.lang-en [data-lang="ko"]{display:none}
+.lang-ko [data-lang="en"]{display:none}
+
+/* ── Responsive ── */
+@media(max-width:640px){
+  .kpi-strip{grid-template-columns:1fr 1fr}
+  .kpi:nth-child(2){border-right:0}
+  .ov-body{grid-template-columns:1fr}
+  .ov-left{border-right:0;border-bottom:1px solid var(--border)}
+  .pos-row{grid-template-columns:1fr 70px 80px}
+  .pos-row>:nth-child(4),.pos-row>:nth-child(5){display:none}
+  .nav-tabs{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="screen-loading" class="state-screen">
+  <div class="spinner"></div>
+  <div class="state-sub" data-lang="en">Loading portal</div>
+  <div class="state-sub" data-lang="ko">포털 로딩 중</div>
+</div>
+
+<!-- Error / redirect screens -->
+<div id="screen-error" class="state-screen hidden">
+  <div class="state-seal"><em>Au</em></div>
+  <div class="state-title" data-lang="en">Session <em>expired.</em></div>
+  <div class="state-title" data-lang="ko">세션이 <em>만료되었습니다.</em></div>
+  <div class="state-sub" style="margin-top:8px" data-lang="en">Redirecting…</div>
+  <div class="state-sub" style="margin-top:8px" data-lang="ko">리디렉션 중…</div>
+</div>
+
+<!-- Main portal -->
+<div id="portal" class="hidden">
+
+  <nav class="nav">
+    <div style="display:flex;align-items:center;gap:9px;flex-shrink:0">
+      <div class="seal"><em>Au</em></div>
+      <span class="wm">AURUM</span>
+    </div>
+    <div class="nav-tabs" id="nav-tabs">
+      <button class="ntab on" data-tab="overview">
+        <span data-lang="ko">개요</span><span data-lang="en" style="font-size:7px;opacity:.55;margin-left:3px">Overview</span>
+        <span data-lang="en">Overview</span><span data-lang="ko" style="font-size:7px;opacity:.55;margin-left:3px">개요</span>
+      </button>
+      <button class="ntab" data-tab="positions">
+        <span data-lang="ko">포지션</span><span data-lang="en" style="font-size:7px;opacity:.55;margin-left:3px">Positions</span>
+        <span data-lang="en">Positions</span><span data-lang="ko" style="font-size:7px;opacity:.55;margin-left:3px">포지션</span>
+      </button>
+      <button class="ntab" data-tab="pipeline">
+        <span data-lang="ko">파이프라인</span><span data-lang="en" style="font-size:7px;opacity:.55;margin-left:3px">Pipeline</span>
+        <span data-lang="en">Pipeline</span><span data-lang="ko" style="font-size:7px;opacity:.55;margin-left:3px">파이프라인</span>
+      </button>
+      <button class="ntab" data-tab="documents">
+        <span data-lang="ko">서류</span><span data-lang="en" style="font-size:7px;opacity:.55;margin-left:3px">Documents</span>
+        <span data-lang="en">Documents</span><span data-lang="ko" style="font-size:7px;opacity:.55;margin-left:3px">서류</span>
+      </button>
+    </div>
+    <div class="nav-r">
+      <div class="lang-toggle">
+        <button class="lt-btn on" data-lang-btn="ko">한</button>
+        <span class="lt-sep">/</span>
+        <button class="lt-btn" data-lang-btn="en">EN</button>
+      </div>
+      <div class="member-chip" id="member-chip">—</div>
+    </div>
+  </nav>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi">
+      <div class="kpi-lbl"><span data-lang="en">NAV</span><span data-lang="ko">총 순자산</span> <span class="ko" data-lang="ko">NAV</span><span class="ko" data-lang="en">NAV</span></div>
+      <div class="kpi-val" id="kpi-nav">—</div>
+      <div class="kpi-sub" id="kpi-nav-sub">—</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-lbl"><span data-lang="en">Gold held</span><span data-lang="ko">금 보유</span></div>
+      <div class="kpi-val" id="kpi-gold">—</div>
+      <div class="kpi-sub up" id="kpi-gold-sub">—</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-lbl"><span data-lang="en">Deployed</span><span data-lang="ko">운용 자본</span></div>
+      <div class="kpi-val" id="kpi-deployed">—</div>
+      <div class="kpi-sub" id="kpi-deployed-sub">—</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-lbl"><span data-lang="en">Credit available</span><span data-lang="ko">가용 신용</span></div>
+      <div class="kpi-val" id="kpi-credit">—</div>
+      <div class="kpi-sub warn" id="kpi-credit-sub">—</div>
+    </div>
+  </div>
+
+  <!-- ── OVERVIEW TAB ── -->
+  <div id="tab-overview" class="tab-content active">
+    <div class="ov-body">
+      <div class="ov-left">
+        <div class="sh"><span data-lang="en">Gold Position</span><span data-lang="ko">금 포지션</span></div>
+        <div class="gold-card" id="gold-card">
+          <div class="gc-top">
+            <div><span class="gc-kg" id="gc-kg">— <span style="font-size:15px;color:var(--sub)">kg</span></span></div>
+            <div style="text-align:right">
+              <div class="gc-usd" id="gc-usd">—</div>
+              <div class="gc-serial" id="gc-serial">—</div>
+            </div>
+          </div>
+          <div class="gc-rows">
+            <div class="gc-row"><span class="gc-lbl" data-lang="en">Cost basis</span><span class="gc-lbl" data-lang="ko">매입가 / Cost basis</span><span class="gc-val gold" id="gc-cost">—</span></div>
+            <div class="gc-row"><span class="gc-lbl" data-lang="en">Spot (live)</span><span class="gc-lbl" data-lang="ko">현재 시세 / Spot</span><span class="gc-val gold" id="gc-spot">—</span></div>
+            <div class="gc-row"><span class="gc-lbl" data-lang="en">Unrealised P&amp;L</span><span class="gc-lbl" data-lang="ko">평가손익 / Unrealised</span><span class="gc-val green" id="gc-pnl">—</span></div>
+            <div class="gc-row"><span class="gc-lbl" data-lang="en">Custody</span><span class="gc-lbl" data-lang="ko">보관처 / Custody</span><span class="gc-val" id="gc-custody">—</span></div>
+            <div class="gc-row"><span class="gc-lbl" data-lang="en">Status</span><span class="gc-lbl" data-lang="ko">상태 / Status</span><span class="gc-val blue" id="gc-status">—</span></div>
+          </div>
+        </div>
+
+        <div class="sh"><span data-lang="en">Credit Facility</span><span data-lang="ko">신용 한도</span></div>
+        <div class="ltv-block">
+          <div class="ltv-head">
+            <span class="ltv-title" id="ltv-ceiling-label">LTV Ceiling · 65%</span>
+            <span class="ltv-pct" id="ltv-ceiling-val">—</span>
+          </div>
+          <div class="ltv-bar-wrap"><div class="ltv-bar-fill" id="ltv-bar" style="width:0%"></div></div>
+          <div class="ltv-labels">
+            <span>₩0</span>
+            <span id="ltv-drawn-label">—</span>
+            <span class="g" id="ltv-avail-label">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ov-right">
+        <div class="sh"><span data-lang="en">NAV over time</span><span data-lang="ko">NAV 추이</span></div>
+        <div class="nav-chart">
+          <div class="nc-lbl">Gold floor vs NAV · 12-month</div>
+          <svg class="nc-svg" viewBox="0 0 300 70">
+            <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C5A572" stop-opacity=".12"/><stop offset="100%" stop-color="#C5A572" stop-opacity="0"/></linearGradient></defs>
+            <polygon points="0,65 0,58 50,52 100,46 150,39 200,32 250,25 300,16 300,65" fill="url(#g1)"/>
+            <polyline points="0,58 50,52 100,46 150,39 200,32 250,25 300,16" fill="none" stroke="#C5A572" stroke-width="1.5" opacity=".8"/>
+            <polyline points="0,62 50,56 100,52 150,46 200,42 250,38 300,30" fill="none" stroke="#E3C187" stroke-width="1" opacity=".45" stroke-dasharray="4,3"/>
+          </svg>
+          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:7px;color:var(--muted);margin-top:4px">
+            <span>May '25</span><span>Aug '25</span><span>Nov '25</span><span>Feb '26</span><span>Apr '26</span>
+          </div>
+        </div>
+
+        <div class="sh"><span data-lang="en">My status</span><span data-lang="ko">온보딩 현황</span></div>
+        <div class="steps" id="steps-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── POSITIONS TAB ── -->
+  <div id="tab-positions" class="tab-content">
+    <div class="pos-body">
+      <div class="sh"><span data-lang="en">Active Positions</span><span data-lang="ko">포지션 현황</span></div>
+      <div id="positions-container">
+        <div class="pos-empty" data-lang="en">No positions yet.</div>
+        <div class="pos-empty" data-lang="ko">포지션이 없습니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PIPELINE TAB ── -->
+  <div id="tab-pipeline" class="tab-content">
+    <div class="pip-body">
+      <div class="sh"><span data-lang="en">Open to members</span><span data-lang="ko">투자 파이프라인</span></div>
+      <div class="pip-empty">
+        <div class="pip-empty-title" data-lang="en">No active <em>opportunities.</em></div>
+        <div class="pip-empty-title" data-lang="ko">현재 열린 <em>기회가 없습니다.</em></div>
+        <div class="pip-empty-sub" data-lang="en">New deals will appear here when open for IOI. You will be notified.</div>
+        <div class="pip-empty-sub" data-lang="ko">새 딜이 IOI를 위해 열리면 여기에 표시됩니다. 알림을 드립니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DOCUMENTS TAB ── -->
+  <div id="tab-documents" class="tab-content">
+    <div class="docs-body">
+      <div class="sh"><span data-lang="en">Issued Documents</span><span data-lang="ko">서류</span></div>
+      <div id="docs-container" class="doc-list">
+        <div class="doc-empty" data-lang="en">No documents yet.</div>
+        <div class="doc-empty" data-lang="ko">서류가 없습니다.</div>
+      </div>
+
+      <!-- Always-available materials -->
+      <div class="sh" style="margin-top:16px"><span data-lang="en">Fund Materials</span><span data-lang="ko">펀드 자료</span></div>
+      <div class="doc-list">
+        <a class="doc-item" href="/api/doc?id=package" target="_blank" rel="noopener">
+          <div class="doc-icon">PDF</div>
+          <div class="doc-info">
+            <div class="doc-name" data-lang="en">Onboarding Package</div>
+            <div class="doc-name" data-lang="ko">온보딩 패키지</div>
+            <div class="doc-meta">TACC Onboarding · May 2026</div>
+          </div>
+          <button class="doc-btn" data-lang="en">Open ↗</button>
+          <button class="doc-btn" data-lang="ko">열기 ↗</button>
+        </a>
+        <a class="doc-item" href="/api/doc?id=structural" target="_blank" rel="noopener">
+          <div class="doc-icon">PDF</div>
+          <div class="doc-info">
+            <div class="doc-name" data-lang="en">Structural Memo</div>
+            <div class="doc-name" data-lang="ko">구조 메모</div>
+            <div class="doc-meta">TACC Structural Memo · The Kilo</div>
+          </div>
+          <button class="doc-btn" data-lang="en">Open ↗</button>
+          <button class="doc-btn" data-lang="ko">열기 ↗</button>
+        </a>
+        <a class="doc-item" href="/api/doc?id=faq" target="_blank" rel="noopener">
+          <div class="doc-icon">PDF</div>
+          <div class="doc-info">
+            <div class="doc-name" data-lang="en">Member FAQ</div>
+            <div class="doc-name" data-lang="ko">회원 FAQ</div>
+            <div class="doc-meta">TACC Member FAQ · Folio 003</div>
+          </div>
+          <button class="doc-btn" data-lang="en">Open ↗</button>
+          <button class="doc-btn" data-lang="ko">열기 ↗</button>
+        </a>
+        <a class="doc-item" href="/api/doc?id=nda-mine" target="_blank" rel="noopener">
+          <div class="doc-icon">PDF</div>
+          <div class="doc-info">
+            <div class="doc-name" data-lang="en">My NDA</div>
+            <div class="doc-name" data-lang="ko">비밀유지 계약서</div>
+            <div class="doc-meta" data-lang="en">Your signed NDA on file</div>
+            <div class="doc-meta" data-lang="ko">서명된 NDA 사본</div>
+          </div>
+          <button class="doc-btn" data-lang="en">Download ↓</button>
+          <button class="doc-btn" data-lang="ko">다운로드 ↓</button>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /portal -->
+
+<script>
+// ── Helpers ──────────────────────────────────────────────────────────────────
+const OZ_PER_KG = 32.1507466;
+
+function fmtUsd(n) {
+  if (!n && n !== 0) return '—';
+  if (Math.abs(n) >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+  if (Math.abs(n) >= 1e3) return '$' + Math.round(n / 1000) + 'K';
+  return '$' + Math.round(n).toLocaleString();
+}
+function fmtKrw(n) {
+  if (!n && n !== 0) return '—';
+  if (Math.abs(n) >= 1e8) return '₩' + (n / 1e8).toFixed(2) + '억';
+  if (Math.abs(n) >= 1e4) return '₩' + Math.round(n / 1e4) + '만';
+  return '₩' + Math.round(n).toLocaleString();
+}
+function fmtKg(n) {
+  if (!n && n !== 0) return '—';
+  return n.toFixed(2);
+}
+function fmtDate(ms) {
+  if (!ms) return '—';
+  return new Date(ms).toLocaleDateString('en-GB', { year:'numeric', month:'short', day:'numeric' });
+}
+function el(id) { return document.getElementById(id); }
+function show(id) { el(id).classList.remove('hidden'); }
+function hide(id) { el(id).classList.add('hidden'); }
+
+// ── Language toggle ───────────────────────────────────────────────────────────
+(function() {
+  const LANG_KEY = 'aurum-lang';
+  function applyLang(lang) {
+    const html = document.documentElement;
+    html.classList.toggle('lang-ko', lang === 'ko');
+    html.classList.toggle('lang-en', lang === 'en');
+    html.lang = lang;
+    document.querySelectorAll('.lang-toggle button').forEach(b =>
+      b.classList.toggle('on', b.dataset.langBtn === lang));
+    try { localStorage.setItem(LANG_KEY, lang); } catch {}
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-lang-btn]');
+    if (b) applyLang(b.dataset.langBtn);
+  });
+  let init = 'ko';
+  try { init = localStorage.getItem(LANG_KEY) || 'ko'; } catch {}
+  applyLang(init);
+})();
+
+// ── Tab switching ─────────────────────────────────────────────────────────────
+document.getElementById('nav-tabs').addEventListener('click', e => {
+  const btn = e.target.closest('[data-tab]');
+  if (!btn) return;
+  const tab = btn.dataset.tab;
+  document.querySelectorAll('.ntab').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === 'tab-' + tab));
+});
+
+// ── Data load ─────────────────────────────────────────────────────────────────
+async function loadPortfolio() {
+  let data;
+  try {
+    const r = await fetch('/api/ioi?op=portfolio', { credentials: 'same-origin', cache: 'no-store' });
+    data = await r.json();
+  } catch {
+    hide('screen-loading');
+    show('screen-error');
+    setTimeout(() => location.replace('/code'), 3000);
+    return;
+  }
+
+  if (!data.ok) {
+    hide('screen-loading');
+    if (data.reason === 'no-session' || data.reason === 'no-lead') {
+      location.replace('/code');
+    } else if (data.reason === 'nda-not-approved') {
+      location.replace('/nda');
+    } else if (data.reason === 'no-ioi') {
+      location.replace('/memo');
+    } else {
+      show('screen-error');
+      setTimeout(() => location.replace('/code'), 3000);
+    }
+    return;
+  }
+
+  renderPortal(data);
+  hide('screen-loading');
+  show('portal');
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+function renderPortal(d) {
+  const { member, ioi, wire, bars, ltv, docs, positions, spot } = d;
+
+  // Member chip
+  const nameShort = member.name_ko || member.name || member.email || '—';
+  el('member-chip').textContent = nameShort;
+
+  // Gold calculations
+  const totalKg = bars && bars.length
+    ? bars.reduce((s, b) => s + (b.kg || 0), 0)
+    : (ioi && ioi.kg ? ioi.kg : 0);
+
+  const spotUsdPerKg = spot ? (spot.usd_per_oz * OZ_PER_KG) : 0;
+  const spotKrwPerKg = spot ? (spot.krw_per_kg_spot || spot.krw_per_kg || 0) : 0;
+
+  const goldUsd = totalKg * spotUsdPerKg;
+  const goldKrw = totalKg * spotKrwPerKg;
+
+  // Cost basis: use KRW at submit / kg → convert to USD
+  const costBasisKrw = ioi && ioi.krw_at_submit && ioi.kg
+    ? ioi.krw_at_submit / ioi.kg : 0;
+  const costBasisUsd = costBasisKrw && spot && spot.usd_krw
+    ? costBasisKrw / spot.usd_krw : 0;
+
+  // Positions
+  const totalDeployedKrw = (positions || []).reduce((s, p) => s + (p.share_krw || 0), 0);
+  const totalDeployedUsd = totalDeployedKrw && spot && spot.usd_krw
+    ? totalDeployedKrw / spot.usd_krw : 0;
+
+  // LTV
+  const ceilingPct = (ltv && ltv.ceiling_pct) || (ioi && ioi.ltv_pct_requested) || 65;
+  const drawnKrw = (ltv && ltv.drawn_krw) || 0;
+  const ceilingKrw = goldKrw * (ceilingPct / 100);
+  const availKrw = Math.max(0, ceilingKrw - drawnKrw);
+  const drawnPct = ceilingKrw > 0 ? Math.round((drawnKrw / ceilingKrw) * 100) : 0;
+
+  // NAV
+  const navUsd = goldUsd + totalDeployedUsd;
+  const availUsd = availKrw && spot && spot.usd_krw ? availKrw / spot.usd_krw : 0;
+
+  // ── KPI strip ──
+  el('kpi-nav').innerHTML = navUsd >= 1e6
+    ? '$' + (navUsd / 1e6).toFixed(2) + '<span style="font-size:14px">M</span>'
+    : fmtUsd(navUsd);
+  el('kpi-nav-sub').textContent = 'Gold + deployed';
+
+  el('kpi-gold').innerHTML = fmtKg(totalKg) + '<span style="font-size:14px;color:var(--goldD)">kg</span>';
+  const pnlPct = costBasisUsd && spotUsdPerKg
+    ? ((spotUsdPerKg - costBasisUsd) / costBasisUsd * 100).toFixed(1) : null;
+  el('kpi-gold-sub').textContent = fmtUsd(goldUsd) + (pnlPct ? ' · +' + pnlPct + '% vs cost' : '');
+
+  el('kpi-deployed').innerHTML = totalDeployedUsd >= 1000
+    ? '$' + Math.round(totalDeployedUsd / 1000) + '<span style="font-size:14px">K</span>'
+    : fmtUsd(totalDeployedUsd);
+  el('kpi-deployed-sub').textContent = (positions || []).length + ' active position' + ((positions || []).length !== 1 ? 's' : '');
+
+  el('kpi-credit').innerHTML = availUsd >= 1000
+    ? '$' + Math.round(availUsd / 1000) + '<span style="font-size:14px">K</span>'
+    : fmtUsd(availUsd);
+  el('kpi-credit-sub').textContent = 'to ' + ceilingPct + '% LTV ceiling';
+
+  // ── Gold card ──
+  const primaryBar = bars && bars.length ? bars[0] : null;
+  el('gc-kg').innerHTML = fmtKg(totalKg) + ' <span style="font-size:15px;color:var(--sub)">kg</span>';
+  el('gc-usd').textContent = fmtUsd(goldUsd);
+  el('gc-serial').textContent = primaryBar ? primaryBar.serial : (ioi ? 'IOI: ' + fmtKg(ioi.kg) + ' kg' : '—');
+  el('gc-cost').textContent = costBasisUsd ? fmtUsd(costBasisUsd) + ' / kg' : '—';
+  el('gc-spot').textContent = spotUsdPerKg ? fmtUsd(spotUsdPerKg) + ' / kg' : '—';
+  if (costBasisUsd && spotUsdPerKg && totalKg) {
+    const pnlUsd = (spotUsdPerKg - costBasisUsd) * totalKg;
+    const pnlP = ((spotUsdPerKg - costBasisUsd) / costBasisUsd * 100).toFixed(1);
+    el('gc-pnl').textContent = (pnlUsd >= 0 ? '+' : '') + fmtUsd(pnlUsd) + ' (' + (pnlUsd >= 0 ? '+' : '') + pnlP + '%)';
+    el('gc-pnl').className = 'gc-val ' + (pnlUsd >= 0 ? 'green' : 'red');
+  } else {
+    el('gc-pnl').textContent = '—';
+  }
+  el('gc-custody').textContent = primaryBar ? primaryBar.custodian : '—';
+  const statusLabel = { pledged: '담보 설정 · Pledged', allocated: '할당됨 · Allocated' };
+  el('gc-status').textContent = primaryBar ? (statusLabel[primaryBar.status] || primaryBar.status) : '—';
+
+  // ── LTV ──
+  el('ltv-ceiling-label').textContent = 'LTV Ceiling · ' + ceilingPct + '%';
+  el('ltv-ceiling-val').textContent = fmtKrw(ceilingKrw);
+  el('ltv-bar').style.width = drawnPct + '%';
+  el('ltv-drawn-label').textContent = fmtKrw(drawnKrw) + ' drawn (' + drawnPct + '%)';
+  el('ltv-avail-label').textContent = fmtKrw(availKrw) + ' avail';
+
+  // ── Onboarding steps ──
+  const isWireCleared = !!(wire && wire.cleared_at);
+  const isIoiDone = !!(ioi && ioi.submitted_at);
+  const isVerified = !!(ioi && ioi.verified_at);
+  const stepsHtml = [
+    { num: 'I',   en: 'INVITATION',        ko: '초대',           done: true },
+    { num: 'II',  en: 'NDA',               ko: '비밀유지 계약',   done: true },
+    { num: 'III', en: 'KYC',               ko: '신원 확인',       done: isWireCleared },
+    { num: 'IV',  en: 'INVESTOR PROFILE',  ko: '투자자 프로필',   done: isIoiDone },
+    { num: 'V',   en: 'IOI',               ko: '의향 표명',       done: isVerified },
+    { num: 'VI',  en: 'WIRE',              ko: '송금',            done: isWireCleared },
+  ].map(s => {
+    const cls = s.done ? 'ss-ok' : 'ss-pend';
+    const labelEn = s.done ? 'Done' : 'Pending';
+    const labelKo = s.done ? '완료' : '대기 중';
+    return `<div class="step">
+      <span class="step-num"><em>${s.num}</em></span>
+      <div class="step-label">
+        <span class="step-en">${s.en}</span>
+        <span class="step-ko">${s.ko}</span>
+      </div>
+      <span class="step-status ${cls}">
+        <span data-lang="en">${labelEn}</span>
+        <span data-lang="ko">${labelKo}</span>
+      </span>
+    </div>`;
+  }).join('');
+  el('steps-list').innerHTML = stepsHtml;
+
+  // ── Positions tab ──
+  if (positions && positions.length) {
+    const usdKrw = spot && spot.usd_krw ? spot.usd_krw : 1350;
+    let html = `<div class="pos-table">
+      <div class="pos-row hd">
+        <span data-lang="en">Deal</span><span data-lang="ko">딜</span>
+        <span>Type</span>
+        <span data-lang="en">Committed</span><span data-lang="ko">투자금</span>
+        <span data-lang="en">IRR target</span><span data-lang="ko">목표 IRR</span>
+        <span>Status</span>
+      </div>`;
+    positions.forEach(p => {
+      const usd = p.share_krw ? Math.round(p.share_krw / usdKrw) : 0;
+      const typeLabel = p.funding_source === 'ltv' ? 'LTV' : p.funding_source || '—';
+      html += `<div class="pos-row">
+        <div><div class="pos-name">${p.deal_name || '—'}</div><div class="pos-type">${typeLabel}</div></div>
+        <span class="pos-n" style="font-family:var(--mono);font-size:7.5px;color:var(--goldD)">${typeLabel}</span>
+        <span class="pos-n gold">${fmtUsd(usd)}</span>
+        <span class="pos-n" style="color:var(--green)">${p.target_irr ? p.target_irr + '%' : '—'}</span>
+        <span class="pos-chip" style="color:var(--goldB);border-color:var(--goldBdS);background:var(--goldW)">Active</span>
+      </div>`;
+    });
+    const totalUsd = Math.round(totalDeployedKrw / usdKrw);
+    html += `</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="border:1px solid var(--border);padding:10px 12px;background:var(--card)">
+        <div style="font-family:var(--mono);font-size:7px;letter-spacing:.20em;color:var(--muted);text-transform:uppercase;margin-bottom:4px" data-lang="en">Total deployed</div>
+        <div style="font-family:var(--mono);font-size:7px;letter-spacing:.20em;color:var(--muted);text-transform:uppercase;margin-bottom:4px" data-lang="ko">총 운용</div>
+        <div style="font-family:var(--serif);font-style:italic;font-size:22px;color:var(--goldB)">${fmtUsd(totalUsd)}</div>
+      </div>
+      <div style="border:1px solid var(--border);padding:10px 12px;background:var(--card)">
+        <div style="font-family:var(--mono);font-size:7px;letter-spacing:.20em;color:var(--muted);text-transform:uppercase;margin-bottom:4px" data-lang="en">Positions</div>
+        <div style="font-family:var(--mono);font-size:7px;letter-spacing:.20em;color:var(--muted);text-transform:uppercase;margin-bottom:4px" data-lang="ko">포지션 수</div>
+        <div style="font-family:var(--serif);font-style:italic;font-size:22px;color:var(--goldB)">${positions.length}</div>
+      </div>
+    </div>`;
+    el('positions-container').innerHTML = html;
+  }
+
+  // ── Documents tab ──
+  if (docs && docs.length) {
+    const docHtml = docs.map(doc => `
+      <a class="doc-item" href="/api/doc?id=member-doc&doc_id=${encodeURIComponent(doc.id)}" target="_blank" rel="noopener">
+        <div class="doc-icon">${doc.kind === 'pdf' ? 'PDF' : 'DOC'}</div>
+        <div class="doc-info">
+          <div class="doc-name">${doc.label || '—'}</div>
+          <div class="doc-meta">${doc.version ? doc.version + ' · ' : ''}${doc.added_at ? fmtDate(doc.added_at) : ''}</div>
+        </div>
+        <button class="doc-btn" data-lang="en">Download ↓</button>
+        <button class="doc-btn" data-lang="ko">다운로드 ↓</button>
+      </a>`).join('');
+    el('docs-container').innerHTML = docHtml;
+  }
+}
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+loadPortfolio();
+</script>
+</body>
+</html>
