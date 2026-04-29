@@ -1,0 +1,898 @@
+<!doctype html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+<meta name="theme-color" content="#0a0a0a"><meta name="robots" content="noindex,nofollow">
+<title>포트폴리오 · Portfolio · Aurum Century Club</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0a0a'/><rect x='4' y='4' width='24' height='24' fill='none' stroke='%23C5A572' stroke-width='1.2'/><text x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='15' font-style='italic' fill='%23C5A572'>Au</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+KR:wght@300;400;500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;--bg2:#0c0c0c;--card:#0f0d0a;--card2:#131210;
+  --text:#e8e3d8;--sub:#aaa39a;--muted:#6b655e;--dim:#2a2825;
+  --gold:#C5A572;--goldB:#E3C187;--goldD:#8a7d6b;--goldDeep:#6a5a3a;
+  --goldBd:rgba(197,165,114,.20);--goldBdS:rgba(197,165,114,.48);
+  --goldW:rgba(197,165,114,.04);--goldWS:rgba(197,165,114,.09);
+  --goldG:rgba(197,165,114,.18);
+  --border:rgba(255,255,255,.07);--b2:rgba(255,255,255,.12);
+  --green:#5a9e72;--greenW:rgba(90,158,114,.07);--greenBd:rgba(90,158,114,.26);
+  --amber:#b8833a;--amberW:rgba(184,131,58,.08);--amberBd:rgba(184,131,58,.28);
+  --red:#b05e56;--redW:rgba(176,94,86,.07);--redBd:rgba(176,94,86,.26);
+  --blue:#5b85b8;--blueW:rgba(91,133,184,.08);--blueBd:rgba(91,133,184,.26);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --serifKr:'Noto Serif KR','Cormorant Garamond',Georgia,serif;
+  --sans:'Outfit',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --pad:clamp(16px,4vw,48px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:var(--serifKr);-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit;text-decoration:none}button{cursor:pointer;font-family:inherit}
+[data-lang]{display:none}
+.lang-en [data-lang="en"]{display:inline}
+.lang-ko [data-lang="ko"]{display:inline}
+.lang-en [data-lang="en"].block{display:block}
+.lang-ko [data-lang="ko"].block{display:block}
+
+/* ── Loading state ── */
+.loader{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;transition:opacity .5s .3s}
+.loader.done{opacity:0;pointer-events:none}
+.loader-seal{width:40px;height:40px;border:1px solid var(--goldBd);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--goldD);animation:sealpulse 1.6s ease-in-out infinite}
+@keyframes sealpulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* ── NAV ── */
+.nav{height:52px;background:rgba(10,10,10,.96);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 var(--pad);gap:16px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.nav-seal{width:28px;height:28px;border:1px solid var(--goldBd);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:13px;color:var(--gold);flex-shrink:0}
+.nav-club{font-family:var(--mono);font-size:7.5px;letter-spacing:.28em;color:var(--sub);text-transform:uppercase}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+.nav-name{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--text)}
+.nav-code{font-family:var(--mono);font-size:7.5px;letter-spacing:.18em;color:var(--goldD)}
+.lang-btn{font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;padding:4px 10px;border:1px solid var(--border);color:var(--muted);background:transparent;cursor:pointer;transition:all .15s}
+.lang-btn:hover,.lang-btn.on{color:var(--goldB);border-color:var(--goldBd);background:var(--goldW)}
+.nav-logout{font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;padding:4px 10px;border:1px solid var(--border);color:var(--muted);background:transparent}
+
+/* ── SCREENS ── */
+.screen{display:none;min-height:calc(100vh - 52px)}
+.screen.show{display:block}
+
+/* ── SCREEN: LIMBO (pre-admission) ── */
+.limbo-wrap{max-width:640px;margin:0 auto;padding:48px var(--pad)}
+.limbo-eye{font-family:var(--mono);font-size:7px;letter-spacing:.38em;color:var(--goldD);text-transform:uppercase;margin-bottom:12px}
+.limbo-title{font-family:var(--serif);font-style:italic;font-size:42px;color:var(--text);line-height:1.05;margin-bottom:6px}
+.limbo-sub{font-family:var(--serifKr);font-size:15px;color:var(--sub);font-weight:300;margin-bottom:32px;line-height:1.6}
+/* Progress steps */
+.steps{display:flex;flex-direction:column;gap:0;margin-bottom:32px}
+.step{display:flex;gap:16px;align-items:stretch}
+.step-spine{width:24px;flex-shrink:0;display:flex;flex-direction:column;align-items:center}
+.step-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:1.5px solid var(--muted);background:var(--bg);margin-top:3px}
+.step-dot.done{background:var(--goldD);border-color:var(--gold)}
+.step-dot.curr{background:var(--goldB);border-color:var(--goldB);box-shadow:0 0 8px var(--goldG)}
+.step-line{flex:1;width:1px;background:var(--border);margin:3px 0}
+.step-body{padding-bottom:22px;flex:1}
+.step:last-child .step-line{display:none}
+.step:last-child .step-body{padding-bottom:0}
+.step-label{font-family:var(--mono);font-size:8px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:4px}
+.step-label.done{color:var(--goldD)}.step-label.curr{color:var(--goldB)}.step-label.todo{color:var(--muted)}
+.step-desc{font-family:var(--serifKr);font-size:14px;color:var(--sub);font-weight:300;line-height:1.55}
+.step-desc.curr{color:var(--text)}
+/* Wire card */
+.wire-card{border:1px solid var(--goldBd);background:var(--goldW);padding:20px 22px;margin-bottom:24px}
+.wc-eye{font-family:var(--mono);font-size:7px;letter-spacing:.34em;color:var(--goldD);text-transform:uppercase;margin-bottom:10px}
+.wc-status{font-family:var(--mono);font-size:9px;letter-spacing:.20em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--goldBdS);display:inline-block;margin-bottom:14px;color:var(--goldB)}
+.wc-ref-label{font-family:var(--mono);font-size:7px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.wc-ref{font-family:var(--mono);font-size:20px;font-weight:500;color:var(--goldB);letter-spacing:.14em;word-break:break-all;margin-bottom:8px}
+.wc-note{font-family:var(--serifKr);font-size:13px;color:var(--sub);font-weight:300;line-height:1.55}
+.wc-timeline{display:flex;flex-direction:column;gap:6px;margin-top:14px;padding-top:14px;border-top:1px solid var(--goldBd)}
+.wct-row{display:flex;align-items:baseline;gap:10px;font-family:var(--mono);font-size:8.5px}
+.wct-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;align-self:center}
+.wct-dot.done{background:var(--goldD)}.wct-dot.curr{background:var(--goldB)}.wct-dot.todo{background:var(--muted);opacity:.3}
+.wct-lbl{color:var(--sub)}.wct-lbl.curr{color:var(--goldB)}.wct-lbl.done{color:var(--goldD)}
+.wct-ts{color:var(--muted);margin-left:auto}
+/* Commitment card */
+.commitment-card{border:1px solid var(--border);background:var(--card);padding:18px 20px;margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.cc-cell .cc-lbl{font-family:var(--mono);font-size:7px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.cc-cell .cc-val{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--goldB)}
+.cc-cell .cc-sub{font-family:var(--mono);font-size:8px;color:var(--sub);margin-top:2px}
+
+/* ── SCREEN: VAULT (admitted) ── */
+/* Tabs */
+.vtabs{display:flex;border-bottom:1px solid var(--border);background:var(--bg2);padding:0 var(--pad)}
+.vtab{font-family:var(--mono);font-size:7.5px;letter-spacing:.20em;text-transform:uppercase;padding:13px 16px;color:var(--muted);border-bottom:2px solid transparent;cursor:pointer;transition:all .15s;margin-bottom:-1px}
+.vtab:hover{color:var(--goldD)}.vtab.on{color:var(--gold);border-bottom-color:var(--gold)}
+.vview{display:none}.vview.on{display:block}
+/* Gold hero */
+.gold-hero{padding:var(--pad);background:linear-gradient(180deg,rgba(197,165,114,.06),transparent);border-bottom:1px solid var(--goldBd)}
+.gh-eye{font-family:var(--mono);font-size:7px;letter-spacing:.36em;color:var(--goldD);text-transform:uppercase;margin-bottom:10px}
+.gh-kg{font-family:var(--serif);font-style:italic;font-size:clamp(52px,8vw,88px);color:var(--text);line-height:1;letter-spacing:-.02em;margin-bottom:4px}
+.gh-kg span{font-size:.38em;color:var(--goldD);letter-spacing:.08em}
+.gh-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--goldBd);overflow:hidden;margin-top:18px}
+.gh-cell{padding:11px 14px;border-right:1px solid var(--border)}
+.gh-cell:last-child{border-right:0}
+.gh-lbl{font-family:var(--mono);font-size:7px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.gh-val{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--text)}
+.gh-val.gold{color:var(--goldB)}.gh-val.green{color:var(--green)}.gh-val.red{color:var(--red)}
+.vault-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7px;letter-spacing:.22em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--greenBd);color:var(--green);background:var(--greenW);margin-top:12px}
+.vdot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:vpulse 2.4s ease-in-out infinite}
+@keyframes vpulse{0%,100%{box-shadow:0 0 0 0 rgba(90,158,114,.5)}60%{box-shadow:0 0 0 5px rgba(90,158,114,0)}}
+/* Sparkline */
+.gh-spark{width:100%;height:44px;margin-top:16px}
+.gh-spark-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:7px;color:var(--muted);margin-top:3px}
+
+/* NAV / LTV section */
+.nav-section{padding:var(--pad);border-bottom:1px solid var(--border)}
+.ns-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.ns-card{border:1px solid var(--border);padding:14px 16px;background:var(--card)}
+.ns-card.hero{border-color:var(--goldBd);background:rgba(197,165,114,.03)}
+.ns-lbl{font-family:var(--mono);font-size:7px;letter-spacing:.22em;color:var(--goldD);text-transform:uppercase;margin-bottom:5px}
+.ns-val{font-family:var(--serif);font-style:italic;font-size:26px;color:var(--text);line-height:1}
+.ns-val.gold{color:var(--goldB)}.ns-val.green{color:var(--green)}.ns-val.red{color:var(--red)}
+.ns-sub{font-family:var(--mono);font-size:8px;color:var(--sub);margin-top:3px}
+/* LTV bar */
+.ltv-section{border:1px solid var(--border);padding:16px 18px;background:var(--card)}
+.ltv-row{display:flex;justify-content:space-between;margin-bottom:8px}
+.ltv-lbl{font-family:var(--mono);font-size:7.5px;letter-spacing:.20em;color:var(--goldD);text-transform:uppercase}
+.ltv-pct{font-family:var(--mono);font-size:10px;color:var(--goldB)}
+.ltv-track{height:6px;background:var(--bg);overflow:hidden;margin-bottom:6px;border:1px solid var(--border)}
+.ltv-fill{height:100%;transition:width 1.2s cubic-bezier(.25,.1,.25,1)}
+.ltv-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
+.ltv-col{padding:0 12px;border-right:1px solid var(--border)}
+.ltv-col:first-child{padding-left:0}.ltv-col:last-child{border-right:0}
+.ltvc-lbl{font-family:var(--mono);font-size:7px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.ltvc-val{font-family:var(--mono);font-size:13px;font-weight:500}
+
+/* Capital call banners */
+.cc-banners{padding:0 var(--pad)}
+.cc-banner{border:1px solid var(--amberBd);background:var(--amberW);padding:14px 18px;margin-top:12px;display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.cc-banner.urgent{border-color:var(--red);background:var(--redW)}
+.cc-info{flex:1;min-width:200px}
+.cc-eye{font-family:var(--mono);font-size:7px;letter-spacing:.22em;color:var(--amber);text-transform:uppercase;margin-bottom:4px}
+.cc-banner.urgent .cc-eye{color:var(--red)}
+.cc-amt{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--text);margin-bottom:4px}
+.cc-meta{font-family:var(--mono);font-size:8px;color:var(--muted)}
+.cc-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.btn-cc{font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;padding:6px 14px;border:1px solid var(--goldBdS);color:var(--goldB);background:var(--goldW);cursor:pointer}
+
+/* Positions view */
+.positions-wrap{padding:var(--pad)}
+.pos-empty{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--muted);padding:24px 0}
+.pos-card{border:1px solid var(--border);background:var(--card);padding:18px 20px;margin-bottom:10px;transition:border-color .15s}
+.pos-card:hover{border-color:var(--goldBd)}
+.pos-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px}
+.pos-name{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--text)}
+.pos-status{font-family:var(--mono);font-size:7px;letter-spacing:.18em;text-transform:uppercase;padding:2px 8px;border:1px solid}
+.pos-status.active{color:var(--green);border-color:var(--greenBd);background:var(--greenW)}
+.pos-status.pending{color:var(--amber);border-color:var(--amberBd);background:var(--amberW)}
+.pos-meta{font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:12px}
+.pos-kpis{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);overflow:hidden}
+.pk-cell{padding:9px 12px;border-right:1px solid var(--border)}
+.pk-cell:last-child{border-right:0}
+.pk-lbl{font-family:var(--mono);font-size:7px;letter-spacing:.20em;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.pk-val{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--text)}
+.pk-val.gold{color:var(--goldB)}.pk-val.green{color:var(--green)}.pk-val.amber{color:var(--amber)}
+
+/* Documents view */
+.docs-wrap{padding:var(--pad)}
+.doc-item{display:flex;align-items:center;gap:16px;padding:14px 16px;border-bottom:1px solid var(--border);transition:background .12s}
+.doc-item:hover{background:rgba(255,255,255,.012)}.doc-item:last-child{border-bottom:0}
+.doc-icon{width:32px;height:32px;border:1px solid var(--goldBd);background:var(--goldW);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:10px;color:var(--goldD);flex-shrink:0}
+.doc-info{flex:1}
+.doc-label{font-family:var(--serifKr);font-size:15px;color:var(--text);font-weight:300;margin-bottom:2px}
+.doc-meta{font-family:var(--mono);font-size:7.5px;color:var(--muted)}
+.doc-link{font-family:var(--mono);font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--goldBd);color:var(--goldB);background:var(--goldW);flex-shrink:0;transition:all .15s;display:block}
+.doc-link:hover{background:var(--goldWS);border-color:var(--goldBdS)}
+
+/* Activity */
+.activity-wrap{padding:0 var(--pad) var(--pad)}
+.act-eye{font-family:var(--mono);font-size:7px;letter-spacing:.34em;color:var(--goldD);text-transform:uppercase;margin-bottom:12px}
+.act-row{display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.act-row:last-child{border-bottom:0}
+.act-ts{font-family:var(--mono);font-size:8px;color:var(--muted);width:80px;flex-shrink:0}
+.act-text{font-family:var(--serifKr);font-size:13px;color:var(--sub);font-weight:300}
+
+/* Shared misc */
+.section-pad{padding:var(--pad)}
+.shead{font-family:var(--mono);font-size:7.5px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+
+/* ── RESPONSIVE ── */
+@media (max-width:900px){
+  .vh-grid{grid-template-columns:1fr 1fr}
+  .deals-wrap{grid-template-columns:1fr}
+  .pip-wrap{grid-template-columns:1fr}
+  .pip-side{border-top:1px solid var(--border)}
+}
+@media (max-width:640px){
+  :root{--pad:16px}
+  .nav{padding:0 14px;gap:10px}
+  .nav-club{display:none}
+  .nav-code{display:none}
+  .nav-r{gap:6px}
+  .vtabs{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .vtab{padding:10px 12px;white-space:nowrap}
+  .gh-kg{font-size:clamp(42px,10vw,72px)}
+  .gh-grid{grid-template-columns:1fr 1fr}
+  .gh-cell:nth-child(n+3){border-top:1px solid var(--border)}
+  .gh-spark{height:36px}
+  .ns-grid{grid-template-columns:1fr}
+  .ns-card+.ns-card{border-top:1px solid var(--border)}
+  .ltv-section{padding:12px 14px}
+  .ltv-cols{grid-template-columns:1fr 1fr}
+  .ltv-col:nth-child(3){border-right:0;border-top:1px solid var(--border);grid-column:1/-1}
+  .pos-kpis{grid-template-columns:1fr 1fr}
+  .pk-cell:nth-child(n+3){border-top:1px solid var(--border)}
+  .commitment-card{grid-template-columns:1fr}
+  .cc-cell+.cc-cell{border-top:1px solid var(--border);padding-top:10px}
+  .steps{padding:0}
+  .doc-item{flex-wrap:wrap}
+  .doc-link{width:100%;text-align:center}
+  .cc-banner{flex-direction:column}
+  .cc-actions{justify-content:flex-start}
+  .limbo-title{font-size:32px}
+  .limbo-wrap{padding:28px 16px}
+  .wc-ref{font-size:15px;letter-spacing:.08em}
+  .activity-wrap{padding:0 var(--pad) 16px}
+}
+</style>
+</head>
+<body class="lang-ko">
+
+<div class="loader" id="loader"><div class="loader-seal"><em>Au</em></div></div>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <div class="nav-seal"><em>Au</em></div>
+  <span class="nav-club">Aurum Century Club</span>
+  <div class="nav-r">
+    <span class="nav-name" id="nav-name"></span>
+    <span class="nav-code" id="nav-code"></span>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn on" id="btn-ko" onclick="setLang('ko')">한국어</button>
+    <button class="nav-logout" onclick="doLogout()"><span data-lang="en">Log out</span><span data-lang="ko">로그아웃</span></button>
+  </div>
+</nav>
+
+<!-- ═══ SCREEN: LIMBO (IOI submitted, wire pending / in-flight) ═══ -->
+<div id="screen-limbo" class="screen">
+  <div class="limbo-wrap">
+    <div class="limbo-eye"><span data-lang="en">Onboarding in Progress</span><span data-lang="ko">가입 진행 중</span></div>
+    <div class="limbo-title" id="limbo-title"><em>Welcome,</em><br><span id="limbo-name">—</span></div>
+    <div class="limbo-sub" id="limbo-sub">
+      <span data-lang="en">Your indication has been received. Your status is below.</span>
+      <span data-lang="ko">투자의향서가 접수되었습니다. 현재 진행 상태를 확인하세요.</span>
+    </div>
+
+    <!-- Commitment summary -->
+    <div class="commitment-card" id="commitment-card">
+      <div class="cc-cell"><div class="cc-lbl"><span data-lang="en">Gold (est.)</span><span data-lang="ko">금 (예상)</span></div><div class="cc-val" id="cc-kg">—</div><div class="cc-sub">kg</div></div>
+      <div class="cc-cell"><div class="cc-lbl"><span data-lang="en">Commitment</span><span data-lang="ko">투자 의향</span></div><div class="cc-val" id="cc-krw">—</div></div>
+      <div class="cc-cell"><div class="cc-lbl"><span data-lang="en">Submitted</span><span data-lang="ko">제출일</span></div><div class="cc-val" id="cc-date" style="font-size:16px;padding-top:4px">—</div></div>
+    </div>
+
+    <!-- Wire card — shown after IOI verified -->
+    <div class="wire-card" id="wire-card" style="display:none">
+      <div class="wc-eye"><span data-lang="en">Wire Instructions</span><span data-lang="ko">송금 안내</span></div>
+      <div class="wc-status" id="wire-status-pill">—</div>
+      <div class="wc-ref-label" id="wire-ref-label" style="display:none"><span data-lang="en">Wire Reference — include on memo line</span><span data-lang="ko">송금 참조번호 — 송금 메모에 반드시 기재</span></div>
+      <div class="wc-ref" id="wire-ref" style="display:none"></div>
+      <div class="wc-note" id="wire-note"></div>
+      <div class="wc-timeline" id="wire-timeline"></div>
+    </div>
+
+    <!-- Progress steps -->
+    <div class="steps" id="limbo-steps"></div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: VAULT (admitted member) ═══ -->
+<div id="screen-vault" class="screen">
+
+  <!-- Tab bar -->
+  <div class="vtabs">
+    <div class="vtab on" onclick="setVaultTab('overview',this)">
+      <span data-lang="en">Overview</span><span data-lang="ko">개요</span>
+    </div>
+    <div class="vtab" onclick="setVaultTab('positions',this)">
+      <span data-lang="en">Positions</span><span data-lang="ko">포지션</span>
+    </div>
+    <div class="vtab" onclick="setVaultTab('documents',this)">
+      <span data-lang="en">Documents</span><span data-lang="ko">문서</span>
+    </div>
+  </div>
+
+  <!-- Tab: Overview -->
+  <div id="vview-overview" class="vview on">
+
+    <!-- Gold hero -->
+    <div class="gold-hero">
+      <div class="gh-eye">
+        <span data-lang="en">Gold Position · Malca-Amit Singapore</span>
+        <span data-lang="ko">금 포지션 · 말카아미트 싱가포르</span>
+      </div>
+      <div class="gh-kg"><span id="gh-kg">—</span> <span>kg</span></div>
+      <div class="gh-grid">
+        <div class="gh-cell"><div class="gh-lbl"><span data-lang="en">Live value</span><span data-lang="ko">현재 가치</span></div><div class="gh-val gold" id="gh-value">—</div></div>
+        <div class="gh-cell"><div class="gh-lbl"><span data-lang="en">Cost basis</span><span data-lang="ko">취득원가</span></div><div class="gh-val" id="gh-cost">—</div></div>
+        <div class="gh-cell"><div class="gh-lbl"><span data-lang="en">Unrealised</span><span data-lang="ko">미실현 손익</span></div><div class="gh-val green" id="gh-gain">—</div></div>
+        <div class="gh-cell"><div class="gh-lbl"><span data-lang="en">Spot</span><span data-lang="ko">현물가</span></div><div class="gh-val" id="gh-spot">—</div></div>
+      </div>
+      <svg class="gh-spark" viewBox="0 0 500 44" preserveAspectRatio="none">
+        <defs><linearGradient id="gfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C5A572" stop-opacity=".14"/><stop offset="100%" stop-color="#C5A572" stop-opacity="0"/></linearGradient></defs>
+        <polygon id="spark-fill" fill="url(#gfill)"/>
+        <polyline id="spark-line" fill="none" stroke="#C5A572" stroke-width="1.5" opacity=".85"/>
+      </svg>
+      <div class="gh-spark-labels"><span id="sl0">—</span><span id="sl1">—</span><span id="sl2">—</span><span id="sl3">—</span><span data-lang="en">Today</span><span data-lang="ko">오늘</span></div>
+      <div class="vault-badge"><div class="vdot"></div><span id="vault-confirm-txt">— kg CONFIRMED · MALCA-AMIT SG FREEPORT</span></div>
+    </div>
+
+    <!-- Capital call banners (if any) -->
+    <div class="cc-banners" id="cc-banners"></div>
+
+    <!-- NAV / Position summary -->
+    <div class="nav-section">
+      <div class="shead"><span data-lang="en">Position Summary</span><span data-lang="ko">포지션 요약</span></div>
+      <div class="ns-grid">
+        <div class="ns-card hero">
+          <div class="ns-lbl"><span data-lang="en">Equity value</span><span data-lang="ko">자기자본 가치</span></div>
+          <div class="ns-val gold" id="ns-equity">—</div>
+          <div class="ns-sub"><span data-lang="en">Gold + portfolio − drawn LTV</span><span data-lang="ko">금 + 포트폴리오 − 인출 LTV</span></div>
+        </div>
+        <div class="ns-card">
+          <div class="ns-lbl"><span data-lang="en">Invested</span><span data-lang="ko">투자금</span></div>
+          <div class="ns-val" id="ns-invested">—</div>
+          <div class="ns-sub" id="ns-invested-sub">—</div>
+        </div>
+        <div class="ns-card">
+          <div class="ns-lbl"><span data-lang="en">LTV available</span><span data-lang="ko">LTV 사용 가능</span></div>
+          <div class="ns-val green" id="ns-ltv-avail">—</div>
+          <div class="ns-sub"><span data-lang="en">Ready to deploy</span><span data-lang="ko">즉시 배포 가능</span></div>
+        </div>
+      </div>
+
+      <!-- LTV bar -->
+      <div class="ltv-section">
+        <div class="ltv-row">
+          <span class="ltv-lbl"><span data-lang="en">Credit Facility</span><span data-lang="ko">신용 한도</span></span>
+          <span class="ltv-pct" id="ltv-ceiling-pct">—% approved</span>
+        </div>
+        <div class="ltv-track"><div class="ltv-fill" id="ltv-fill" style="width:0%"></div></div>
+        <div class="ltv-cols">
+          <div class="ltv-col">
+            <div class="ltvc-lbl"><span data-lang="en">Ceiling</span><span data-lang="ko">한도</span></div>
+            <div class="ltvc-val" id="ltv-ceiling-val" style="color:var(--goldB)">—</div>
+          </div>
+          <div class="ltv-col">
+            <div class="ltvc-lbl"><span data-lang="en">Drawn</span><span data-lang="ko">인출</span></div>
+            <div class="ltvc-val" id="ltv-drawn-val" style="color:var(--amber)">—</div>
+          </div>
+          <div class="ltv-col">
+            <div class="ltvc-lbl"><span data-lang="en">Available</span><span data-lang="ko">가용</span></div>
+            <div class="ltvc-val" id="ltv-avail-val" style="color:var(--green)">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity -->
+    <div class="activity-wrap" id="activity-section" style="display:none">
+      <div class="act-eye"><span data-lang="en">Account activity</span><span data-lang="ko">계정 활동</span></div>
+      <div id="activity-list"></div>
+    </div>
+  </div>
+
+  <!-- Tab: Positions -->
+  <div id="vview-positions" class="vview">
+    <div class="positions-wrap">
+      <div class="shead"><span data-lang="en">Deal Positions</span><span data-lang="ko">딜 포지션</span></div>
+      <div id="positions-list"></div>
+    </div>
+  </div>
+
+  <!-- Tab: Documents -->
+  <div id="vview-documents" class="vview">
+    <div class="docs-wrap">
+      <div class="shead"><span data-lang="en">Documents</span><span data-lang="ko">문서</span></div>
+      <div id="docs-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// MEMBER PORTAL — _pages/portfolio.html
+//
+// Auth: aurum_access cookie (set by /api/verify-code)
+// Data: GET /api/member/me  (falls back to /api/ioi?op=portfolio)
+// ══════════════════════════════════════════════════════
+
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $ = id => document.getElementById(id);
+
+// ── Language ──
+let _lang = localStorage.getItem('au_lang') || 'ko';
+function setLang(l) {
+  _lang = l;
+  localStorage.setItem('au_lang', l);
+  document.body.className = 'lang-' + l;
+  $('btn-en').classList.toggle('on', l==='en');
+  $('btn-ko').classList.toggle('on', l==='ko');
+}
+setLang(_lang);
+
+// ── Vault tabs ──
+function setVaultTab(id, btn) {
+  document.querySelectorAll('.vview').forEach(v => v.classList.remove('on'));
+  document.querySelectorAll('.vtab').forEach(t => t.classList.remove('on'));
+  $('vview-' + id).classList.add('on');
+  if (btn) btn.classList.add('on');
+}
+
+// ── Formatters ──
+function fmKrw(n) {
+  if (!n) return '—';
+  if (n >= 1e8) return '₩' + (n/1e8).toFixed(1) + '억';
+  if (n >= 1e4) return '₩' + Math.round(n/1e4) + '만';
+  return '₩' + Math.round(n).toLocaleString();
+}
+function fmDate(ts) {
+  if (!ts) return '—';
+  return new Date(ts).toLocaleDateString(_lang === 'ko' ? 'ko-KR' : 'en-US', {year:'numeric',month:'short',day:'numeric'});
+}
+function fmDateShort(ts) {
+  if (!ts) return '—';
+  return new Date(ts).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+
+// ── Logout ──
+async function doLogout() {
+  try { await fetch('/api/logout', {method:'POST',credentials:'same-origin'}); } catch {}
+  window.location.replace('/login');
+}
+
+// ── Show a screen ──
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('show'));
+  $(id).classList.add('show');
+  $('loader').classList.add('done');
+}
+
+// ── Main fetch ──
+(async function init() {
+  try {
+    // ── Admin preview via ?lead=ID (iframe from Customer Portal tab) ──
+    const qLead = new URLSearchParams(window.location.search).get('lead');
+    if (qLead) {
+      const pr = await fetch('/api/ioi?op=portfolio&lead=' + encodeURIComponent(qLead), {credentials:'same-origin',cache:'no-store'});
+      const pj = await pr.json().catch(() => null);
+      if (pj?.ok) {
+        $('loader').classList.add('done');
+        $('nav-name').textContent = pj.member?.name || '—';
+        $('nav-code').textContent = 'Preview';
+        $('nav-code').style.color = 'var(--amber, #b8833a)';
+        if (pj.wire?.cleared_at) renderVault(pj); else renderLimbo(pj);
+        return;
+      }
+      if (pj && !pj.ok && pj.reason) {
+        $('loader').classList.add('done');
+        document.body.innerHTML = `<div style="padding:48px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#6b655e;background:#0a0a0a;min-height:100vh;line-height:2">Preview unavailable<br>Reason: ${pj.reason||'unknown'}<br>${pj.message||''}<br><br><a href="/admin" style="color:#C5A572">← Back to admin</a></div>`;
+        return;
+      }
+    }
+
+    // ── Normal member auth flow ──
+    let j = null;
+    try {
+      const r = await fetch('/api/member/me', {credentials:'same-origin',cache:'no-store'});
+      j = await r.json();
+    } catch {}
+    if (!j || !j.ok) {
+      // Fallback to existing portfolio endpoint
+      const r2 = await fetch('/api/ioi?op=portfolio', {credentials:'same-origin',cache:'no-store'});
+      j = await r2.json();
+    }
+
+    if (!j || !j.ok) {
+      const reason = j?.reason;
+
+      // Check for admin session — partners can preview from /admin
+      if (reason === 'no-session' || reason === 'no-lead' || reason === 'revoked') {
+        const adminJ = await fetch('/api/me', {credentials:'same-origin',cache:'no-store'})
+          .then(r => r.json()).catch(() => null);
+        if (adminJ?.ok) {
+          // Admin is here — show a selector to pick a member
+          showAdminPreview(adminJ);
+          return;
+        }
+        window.location.replace('/login?err=no-session');
+        return;
+      }
+      if (reason === 'nda-not-approved') { window.location.replace('/main'); return; }
+      if (reason === 'no-ioi')           { window.location.replace('/memo'); return; }
+      window.location.replace('/login?err=error');
+      return;
+    }
+
+    // Populate nav
+    $('nav-name').textContent = j.member?.name || '';
+    $('nav-code').textContent = j.member?.code || '';
+
+    // Route based on admission state
+    if (j.wire?.cleared_at) {
+      renderVault(j);
+    } else {
+      renderLimbo(j);
+    }
+
+  } catch (err) {
+    console.error('[portfolio] init failed', err);
+    window.location.replace('/login?err=error');
+  }
+})();
+
+
+// ══════════════════════════════════════════════════════
+// ADMIN PREVIEW — partner viewing /portfolio while logged in as admin
+// ══════════════════════════════════════════════════════
+function showAdminPreview(adminJ) {
+  $('loader').classList.add('done');
+  $('nav-name').textContent = (adminJ.id || 'PARTNER').toUpperCase();
+  $('nav-code').textContent = 'Admin View';
+  $('nav-code').style.color = 'var(--amber, #b8833a)';
+
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'max-width:520px;margin:64px auto;padding:0 24px';
+  wrap.innerHTML = `
+    <div style="font-family:var(--mono);font-size:7px;letter-spacing:.36em;color:var(--goldD);text-transform:uppercase;margin-bottom:12px">Admin Preview · Member Portal</div>
+    <div style="font-family:var(--serif);font-style:italic;font-size:32px;color:var(--text);margin-bottom:8px">Member portal.</div>
+    <div style="font-family:var(--serifKr);font-size:14px;color:var(--sub);font-weight:300;line-height:1.6;margin-bottom:28px">
+      To preview a member's portfolio, go to the admin console, select a member from the Members tab, and use the portfolio preview link. Or select a member below.
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
+      <a href="/admin" style="font-family:var(--mono);font-size:8px;letter-spacing:.18em;text-transform:uppercase;padding:10px 20px;border:1px solid var(--goldBd);color:var(--goldB);background:var(--goldW);text-decoration:none">← Admin Console</a>
+    </div>
+    <div id="lead-selector-wrap" style="border:1px solid var(--border);padding:16px"></div>`;
+  document.body.appendChild(wrap);
+  showLeadSelector();
+}
+
+async function showLeadSelector() {
+  const wrap = document.getElementById('lead-selector-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = '<div style="font-family:var(--mono);font-size:9px;color:var(--muted)">Loading members…</div>';
+  try {
+    const j = await fetch('/api/admin/list', {credentials:'same-origin',cache:'no-store'}).then(r=>r.json());
+    const admitted = (j.leads||[]).filter(l => l.wire?.cleared_at);
+    if (!admitted.length) {
+      wrap.innerHTML = '<div style="font-family:var(--serif);font-style:italic;color:var(--muted)">No admitted members yet.</div>';
+      return;
+    }
+    wrap.innerHTML = '<div style="font-family:var(--mono);font-size:7.5px;letter-spacing:.22em;color:var(--goldD);text-transform:uppercase;margin-bottom:12px">Select Member to Preview</div>'
+      + admitted.map(l => `
+        <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-family:var(--serif);font-style:italic;font-size:16px;color:var(--text)">${(l.name||'').replace(/[<>&]/g,'')}</div>
+            <div style="font-family:var(--mono);font-size:7.5px;color:var(--muted)">${(l.email||'—').replace(/[<>&]/g,'')}</div>
+          </div>
+          <a href="/api/ioi?op=portfolio&lead=${encodeURIComponent(l.id)}" target="_blank"
+             style="font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;padding:5px 12px;border:1px solid var(--goldBd);color:var(--goldB);background:var(--goldW);text-decoration:none">Preview ↗</a>
+        </div>`).join('');
+  } catch (e) {
+    wrap.innerHTML = '<div style="font-family:var(--mono);font-size:9px;color:var(--red)">Error: ' + (e.message||'load failed') + '</div>';
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// LIMBO — onboarding progress (IOI submitted, wire pending)
+// ══════════════════════════════════════════════════════
+function renderLimbo(d) {
+  // Name
+  const nameDisplay = _lang === 'ko' && d.member?.name_ko ? d.member.name_ko : (d.member?.name || '');
+  $('limbo-name').textContent = nameDisplay;
+
+  // Commitment card
+  $('cc-kg').textContent   = d.ioi?.kg ? d.ioi.kg.toFixed(2) : '—';
+  $('cc-krw').textContent  = d.ioi?.krw_at_submit ? fmKrw(d.ioi.krw_at_submit) : (d.ioi?.amount_krw ? fmKrw(d.ioi.amount_krw) : '—');
+  $('cc-date').textContent = fmDateShort(d.ioi?.submitted_at);
+
+  // Determine sub-state
+  const verified = !!d.ioi?.verified_at;
+  const wired    = !!(d.wire?.wired_at);
+  const instrSent = !!(d.wire?.instructions_sent_at);
+  let subState = 'reviewing'; // IOI submitted, under review
+  if (verified && !instrSent) subState = 'verified';
+  else if (instrSent && !wired) subState = 'wire_sent';
+  else if (wired) subState = 'wire_received';
+
+  // Wire card
+  if (instrSent || wired) {
+    $('wire-card').style.display = '';
+    const pillMap = {
+      verified:      {en:'UNDER REVIEW',     ko:'검토 중'},
+      wire_sent:     {en:'AWAITING WIRE',     ko:'송금 대기'},
+      wire_received: {en:'AWAITING CLEARANCE',ko:'정산 대기'},
+    };
+    const pill = pillMap[subState] || pillMap.wire_sent;
+    $('wire-status-pill').innerHTML = `<span data-lang="en">${pill.en}</span><span data-lang="ko">${pill.ko}</span>`;
+
+    if (d.wire?.ref) {
+      $('wire-ref-label').style.display = '';
+      $('wire-ref').style.display = '';
+      $('wire-ref').textContent = d.wire.ref;
+    }
+
+    const noteMap = {
+      wire_sent: {
+        en: 'Wire instructions have been sent to your email. Please include the reference number in the wire memo field to ensure same-day matching.',
+        ko: '송금 안내가 이메일로 발송되었습니다. 신속한 대조를 위해 송금 메모란에 반드시 참조번호를 기재해 주십시오.',
+      },
+      wire_received: {
+        en: 'Your wire has been received. Clearance typically takes 1–2 business days. Gold bar assignment follows.',
+        ko: '송금이 수령되었습니다. 정산은 보통 1~2 영업일 소요됩니다. 이후 금괴 배정이 진행됩니다.',
+      },
+    };
+    const note = noteMap[subState] || noteMap.wire_sent;
+    $('wire-note').innerHTML = `<span data-lang="en">${note.en}</span><span data-lang="ko">${note.ko}</span>`;
+
+    // Mini timeline
+    const tlRows = [
+      {label:{en:'IOI submitted',ko:'IOI 제출'}, ts:d.ioi?.submitted_at, state:'done'},
+      {label:{en:'Partner review',ko:'파트너 검토'}, ts:d.ioi?.verified_at, state:verified?'done':'curr'},
+      {label:{en:'Wire instructions sent',ko:'송금 안내 발송'}, ts:d.wire?.instructions_sent_at, state:instrSent?'done':verified?'curr':'todo'},
+      {label:{en:'Wire received',ko:'송금 수령'}, ts:d.wire?.wired_at, state:wired?'done':instrSent?'curr':'todo'},
+      {label:{en:'Gold purchased · Member admitted',ko:'금 매입 · 회원 가입 확정'}, ts:null, state:'todo'},
+    ];
+    $('wire-timeline').innerHTML = tlRows.map(r => `
+      <div class="wct-row">
+        <div class="wct-dot ${r.state}"></div>
+        <span class="wct-lbl ${r.state}"><span data-lang="en">${r.label.en}</span><span data-lang="ko">${r.label.ko}</span></span>
+        ${r.ts ? `<span class="wct-ts">${fmDateShort(r.ts)}</span>` : ''}
+      </div>`).join('');
+  }
+
+  // Progress steps
+  const steps = [
+    {
+      key:'ioi', state:'done',
+      en:'Indication of Interest', ko:'투자의향서',
+      descEn:'Indication submitted on ' + fmDateShort(d.ioi?.submitted_at) + '. Your commitment is on record.',
+      descKo: fmDateShort(d.ioi?.submitted_at) + '에 투자의향서가 제출되었습니다.',
+    },
+    {
+      key:'verify', state: verified ? 'done' : 'curr',
+      en:'Partner Verification', ko:'파트너 확인',
+      descEn: verified
+        ? 'LTV approved. Wire instructions issued ' + fmDateShort(d.wire?.instructions_sent_at) + '.'
+        : 'A partner is reviewing your indication. Wire instructions will follow by email.',
+      descKo: verified
+        ? 'LTV 승인 완료. 송금 안내 발송 ' + fmDateShort(d.wire?.instructions_sent_at) + '.'
+        : '파트너가 투자의향서를 검토 중입니다. 확인 후 이메일로 송금 안내가 발송됩니다.',
+    },
+    {
+      key:'wire', state: wired ? 'done' : instrSent ? 'curr' : 'todo',
+      en:'Wire Transfer', ko:'송금',
+      descEn: wired ? 'Wire received. Clearing in progress.' : instrSent
+        ? 'Wire instructions sent. Please complete within 5 business days.'
+        : 'Wire instructions will be sent after IOI verification.',
+      descKo: wired ? '송금 수령. 정산 진행 중.' : instrSent
+        ? '송금 안내 발송 완료. 5 영업일 이내 송금해 주십시오.'
+        : 'IOI 확인 후 송금 안내가 발송됩니다.',
+    },
+    {
+      key:'gold', state: 'todo',
+      en:'Gold Purchase & Vault Assignment', ko:'금 매입 및 보관 배정',
+      descEn: 'Upon wire clearance, gold is purchased via Malca-Amit and bars are assigned to your vault account.',
+      descKo: '정산 완료 후 말카아미트를 통해 금이 매입되고 보관 계정에 배정됩니다.',
+    },
+    {
+      key:'admit', state: 'todo',
+      en:'Member Admission', ko:'회원 가입 확정',
+      descEn: 'LTV facility activated. Full portfolio access enabled. Welcome to the Century Club.',
+      descKo: 'LTV 한도 활성화. 포트폴리오 전체 접근 가능. 센추리 클럽에 오신 것을 환영합니다.',
+    },
+  ];
+
+  $('limbo-steps').innerHTML = steps.map(s => {
+    const dotCls = s.state;
+    const lblCls = s.state;
+    return `<div class="step">
+      <div class="step-spine">
+        <div class="step-dot ${dotCls}"></div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-body">
+        <div class="step-label ${lblCls}">
+          <span data-lang="en">${esc(s.en)}</span><span data-lang="ko">${esc(s.ko)}</span>
+        </div>
+        <div class="step-desc ${s.state==='curr'?'curr':''}">
+          <span data-lang="en">${esc(s.descEn)}</span><span data-lang="ko">${esc(s.descKo)}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  showScreen('screen-limbo');
+}
+
+// ══════════════════════════════════════════════════════
+// VAULT — full portfolio for admitted members
+// ══════════════════════════════════════════════════════
+function renderVault(d) {
+  const spot = d.spot?.krw_per_kg || 155_200_000;
+  const bars  = d.bars  || [];
+  const pos   = d.positions || [];
+  const ltv   = d.ltv   || { drawn_krw:0, ceiling_pct:65, margin_pct:80 };
+  const docs  = d.docs  || [];
+  const calls = d.capital_calls || [];
+
+  const kg         = bars.reduce((s,b)=>s+(b.kg||0), 0) || d.ioi?.kg || 0;
+  const settle     = d.ioi?.krw_per_kg_at_settle || d.ioi?.krw_per_kg_at_submit || spot;
+  const goldNow    = kg * spot;
+  const goldCost   = kg * settle;
+  const goldGain   = goldNow - goldCost;
+  const gainPct    = goldCost > 0 ? (goldGain/goldCost*100) : 0;
+  const drawn      = ltv.drawn_krw || 0;
+  const wire       = goldCost > 0 ? Math.round(goldCost / 0.8) : (d.wire?.amount_krw || 0);
+  const reserve    = wire - goldCost;
+  const ltvPct     = ltv.ceiling_pct || d.ioi?.ltv_pct_requested || 65;
+  const ceiling    = goldCost * (ltvPct / 100);
+  const invested   = pos.reduce((s,p)=>s+(p.invested_at_krw||p.committed_krw||0), 0);
+  const marked     = pos.reduce((s,p)=>s+(p.marked_krw||p.invested_at_krw||p.committed_krw||0), 0);
+  const avail      = Math.max(0, ceiling - invested);
+  const equity     = goldNow + reserve + (marked - invested);
+  const drawnPct   = ceiling > 0 ? Math.round(invested/ceiling*100) : 0;
+
+  // ── Gold hero ──
+  $('gh-kg').textContent   = kg.toFixed(2);
+  $('gh-value').textContent= fmKrw(goldNow);
+  $('gh-cost').textContent = fmKrw(goldCost);
+  $('gh-gain').textContent = (goldGain>=0?'+':'') + fmKrw(goldGain);
+  $('gh-gain').className   = 'gh-val ' + (goldGain>=0?'green':'red');
+  $('gh-spot').textContent = fmKrw(spot) + '/kg';
+  $('vault-confirm-txt').textContent = kg.toFixed(2) + ' kg · MALCA-AMIT SG FREEPORT · ' + bars.length + ' BAR' + (bars.length!==1?'S':'');
+
+  // Synthetic sparkline (replace with /api/gold/history)
+  const pts = [3282,3295,3310,3298,3315,3325,3318,3330,3342];
+  const W=500,H=44;
+  const mn=Math.min(...pts)-8,mx=Math.max(...pts)+8;
+  const px=i=>(i/(pts.length-1))*W;
+  const py=v=>H-(v-mn)/(mx-mn)*H*0.85-2;
+  const poly=pts.map((v,i)=>`${px(i).toFixed(1)},${py(v).toFixed(1)}`).join(' ');
+  $('spark-fill').setAttribute('points',`0,${H} ${poly} ${W},${H}`);
+  $('spark-line').setAttribute('points',poly);
+  const now2=new Date();
+  const dl=d=>new Date(now2-d*864e5).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  $('sl0').textContent=dl(7);$('sl1').textContent=dl(5);$('sl2').textContent=dl(3);$('sl3').textContent=dl(1);
+
+  // ── Capital calls ──
+  if (calls.length) {
+    const vis = calls.filter(c=>c.status!=='paid').sort((a,b)=>(b.created_at||0)-(a.created_at||0));
+    $('cc-banners').innerHTML = vis.map(cc => {
+      const urgent = cc.status==='pending' && cc.response_by && new Date(cc.response_by)<new Date(Date.now()+2*864e5);
+      return `<div class="cc-banner${urgent?' urgent':''}">
+        <div class="cc-info">
+          <div class="cc-eye"><span data-lang="en">CAPITAL CALL #${cc.number||'?'}</span><span data-lang="ko">자본 청구 #${cc.number||'?'}</span></div>
+          <div class="cc-amt">${fmKrw(cc.amount_krw)}</div>
+          <div class="cc-meta">${cc.response_by?`<span data-lang="en">Due ${fmDate(cc.response_by)}</span><span data-lang="ko">기한 ${fmDate(cc.response_by)}</span>`:''}</div>
+        </div>
+        <div class="cc-actions">
+          ${cc.status==='pending'?`<button class="btn-cc" onclick="ackCall('${esc(cc.id)}',this)"><span data-lang="en">ACKNOWLEDGE</span><span data-lang="ko">확인</span></button>`:'<span style="font-family:var(--mono);font-size:7.5px;color:var(--green)">✓ ACKNOWLEDGED</span>'}
+          ${cc.pdf_url?`<a class="btn-cc" href="${esc(cc.pdf_url)}" target="_blank"><span data-lang="en">NOTICE ↗</span><span data-lang="ko">공지 ↗</span></a>`:''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Position summary ──
+  $('ns-equity').textContent   = fmKrw(equity);
+  $('ns-invested').textContent = invested > 0 ? fmKrw(marked) : '—';
+  $('ns-invested-sub').innerHTML = pos.length
+    ? `${pos.length} <span data-lang="en">position${pos.length!==1?'s':''}</span><span data-lang="ko">개 포지션</span>`
+    : '<span data-lang="en">No positions yet</span><span data-lang="ko">포지션 없음</span>';
+  $('ns-ltv-avail').textContent = fmKrw(avail);
+
+  // LTV bar
+  $('ltv-ceiling-pct').textContent = ltvPct + '%';
+  $('ltv-ceiling-val').textContent = fmKrw(ceiling);
+  $('ltv-drawn-val').textContent   = drawn > 0 ? fmKrw(drawn) : '—';
+  $('ltv-avail-val').textContent   = fmKrw(avail);
+  setTimeout(() => { $('ltv-fill').style.width = drawnPct + '%'; $('ltv-fill').style.background = drawnPct>70?'var(--red)':drawnPct>50?'var(--amber)':'var(--gold)'; }, 200);
+
+  // ── Activity ──
+  const activity = d.activity || [];
+  if (activity.length) {
+    $('activity-section').style.display = '';
+    $('activity-list').innerHTML = activity.map(a => `
+      <div class="act-row">
+        <span class="act-ts">${fmDateShort(a.at)}</span>
+        <span class="act-text"><span data-lang="en">${esc(a.en)}</span><span data-lang="ko">${esc(a.ko)}</span></span>
+      </div>`).join('');
+  }
+
+  // ── Positions tab ──
+  if (!pos.length) {
+    $('positions-list').innerHTML = `<div class="pos-empty"><span data-lang="en"><em>No deal positions yet. LTV facility is active and ready to deploy.</em></span><span data-lang="ko"><em>아직 딜 포지션이 없습니다. LTV 한도가 활성화되어 배포 준비가 완료되었습니다.</em></span></div>`;
+  } else {
+    $('positions-list').innerHTML = pos.map(p => {
+      const depKrw  = p.invested_at_krw || p.committed_krw || 0;
+      const markKrw = p.marked_krw || depKrw;
+      const irr     = p.target_irr || 0;
+      const pnlPct  = depKrw > 0 ? ((markKrw-depKrw)/depKrw*100) : 0;
+      const status  = p.status || 'active';
+      return `<div class="pos-card">
+        <div class="pos-head">
+          <div class="pos-name">${esc(p.deal_name||p.name||'—')}</div>
+          <span class="pos-status ${status}">${status.toUpperCase()}</span>
+        </div>
+        <div class="pos-meta">${esc(p.deal_type||'Deal')} · ${esc(p.advisor_firm||'')}${irr?' · Target '+irr+'% IRR':''}</div>
+        <div class="pos-kpis">
+          <div class="pk-cell"><div class="pk-lbl"><span data-lang="en">Committed</span><span data-lang="ko">투자금</span></div><div class="pk-val gold">${fmKrw(depKrw)}</div></div>
+          <div class="pk-cell"><div class="pk-lbl"><span data-lang="en">Marked</span><span data-lang="ko">평가금액</span></div><div class="pk-val ${pnlPct>=0?'green':'red'}">${fmKrw(markKrw)}</div></div>
+          <div class="pk-cell"><div class="pk-lbl"><span data-lang="en">Unrealised</span><span data-lang="ko">미실현</span></div><div class="pk-val ${pnlPct>=0?'green':'red'}">${pnlPct>=0?'+':''}${pnlPct.toFixed(1)}%</div></div>
+          <div class="pk-cell"><div class="pk-lbl"><span data-lang="en">IRR target</span><span data-lang="ko">목표 IRR</span></div><div class="pk-val amber">${irr?irr+'%':'—'}</div></div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Documents tab ──
+  const allDocs = [...docs];
+  // Always show fund docs
+  const fundDocs = [
+    {id:'portfolio-page', label:'Member Portal Guide', label_ko:'회원 포털 안내', kind:'guide', source:'page'},
+    {id:'memo-page',      label:'Structural Memo',     label_ko:'구조 메모',     kind:'memo',  source:'page'},
+  ];
+  const kindLabels = {onboarding:'Onboarding',quarterly:'Quarterly Statement',k_schedule:'K Schedule',memo:'Structural Memo',faq:'FAQ',nda:'NDA',guide:'Guide',lp_letter:'LP Letter',capital_call:'Capital Call',other:'Document'};
+  const docList = [...allDocs, ...fundDocs];
+  if (!docList.length) {
+    $('docs-list').innerHTML = `<div class="pos-empty"><span data-lang="en"><em>No documents on file yet.</em></span><span data-lang="ko"><em>아직 문서가 없습니다.</em></span></div>`;
+  } else {
+    $('docs-list').innerHTML = `<div style="border:1px solid var(--border);overflow:hidden">` + docList.map(doc => {
+      const href = doc.source==='blob'
+        ? `/api/doc?id=member-doc&doc_id=${encodeURIComponent(doc.id)}`
+        : doc.url || `/api/doc?id=${encodeURIComponent(doc.id)}`;
+      const kindLbl = kindLabels[doc.kind] || 'Document';
+      const lbl = doc.label_ko && _lang==='ko' ? doc.label_ko : (doc.label || kindLbl);
+      return `<div class="doc-item">
+        <div class="doc-icon">${kindLbl.slice(0,2).toUpperCase()}</div>
+        <div class="doc-info">
+          <div class="doc-label">${esc(lbl)}</div>
+          <div class="doc-meta">${esc(kindLbl)}${doc.issued_at?' · '+fmDateShort(doc.issued_at):''}${doc.version?' · v'+esc(doc.version):''}</div>
+        </div>
+        <a class="doc-link" href="${esc(href)}" target="_blank" rel="noopener"><span data-lang="en">OPEN →</span><span data-lang="ko">열기 →</span></a>
+      </div>`;
+    }).join('') + '</div>';
+  }
+
+  showScreen('screen-vault');
+}
+
+// ── Capital call acknowledge ──
+async function ackCall(ccId, btn) {
+  if (btn) { btn.disabled = true; btn.textContent = '…'; }
+  try {
+    await fetch('/api/ioi?op=ack-cc', {
+      method:'POST', credentials:'same-origin',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({cc_id: ccId}),
+    });
+    // Re-fetch and re-render
+    const r = await fetch('/api/member/me', {credentials:'same-origin',cache:'no-store'});
+    const j = await r.json();
+    if (j.ok && j.wire?.cleared_at) renderVault(j);
+  } catch (e) {
+    if (btn) { btn.disabled=false; btn.textContent='ACKNOWLEDGE'; }
+  }
+}
+
+// ── Auto-reload live spot every 2 minutes for admitted members ──
+setInterval(async () => {
+  if (!document.getElementById('screen-vault').classList.contains('show')) return;
+  try {
+    const r = await fetch('/api/member/me', {credentials:'same-origin',cache:'no-store'});
+    const j = await r.json();
+    if (j.ok && j.wire?.cleared_at && j.spot?.krw_per_kg) {
+      document.getElementById('gh-spot').textContent = fmKrw(j.spot.krw_per_kg) + '/kg';
+      // Update gold value with fresh spot
+      const kg = (j.bars||[]).reduce((s,b)=>s+(b.kg||0),0) || j.ioi?.kg || 0;
+      document.getElementById('gh-value').textContent = fmKrw(kg * j.spot.krw_per_kg);
+    }
+  } catch {}
+}, 120_000);
+</script>
+</body></html>
