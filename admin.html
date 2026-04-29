@@ -97,6 +97,63 @@ input,textarea,select{font-family:inherit;color:inherit}
 .sec-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--border);background:var(--bg2)}
 .sec-title{font-family:var(--mono);font-size:7.5px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase}
 .sec-ct{font-family:var(--mono);font-size:8px;color:var(--muted)}
+/* ── CAPITAL ENGINE FLOW ─────────────────────────────────── */
+.engine{padding:14px 24px;background:var(--bg2);border-bottom:1px solid var(--border)}
+.eng-lbl{font-family:var(--mono);font-size:7.5px;letter-spacing:.34em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.eng-lbl::after{content:'';flex:1;height:1px;background:var(--goldBd)}
+.eng-flow{display:flex;align-items:center;overflow-x:auto;gap:0}
+.ef-node{flex-shrink:0;min-width:130px}
+.ef-box{border:1px solid var(--border);padding:10px 13px;background:var(--card);text-align:center}
+.ef-box.gold{border-color:var(--goldBd);background:rgba(197,165,114,0.04)}
+.ef-box.ltv{border-color:var(--blueBd);background:var(--blueW)}
+.ef-lbl{font-family:var(--mono);font-size:6.5px;letter-spacing:.26em;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.ef-val{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--text);line-height:1}
+.ef-val.gold{color:var(--goldB)}.ef-val.blue{color:var(--blue)}.ef-val.green{color:var(--green)}
+.ef-sub{font-family:var(--mono);font-size:7px;color:var(--sub);margin-top:3px}
+.ef-arrow{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:0 8px}
+.ef-line{width:24px;height:1px;background:var(--border)}
+.ef-head{width:0;height:0;border-top:3px solid transparent;border-bottom:3px solid transparent;border-left:5px solid var(--muted)}
+.ef-meta{font-family:var(--mono);font-size:6.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-top:3px;text-align:center}
+.ef-mult{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:0 6px}
+.mult-circle{border:1px solid var(--goldBd);border-radius:50%;width:44px;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(197,165,114,0.06)}
+.mult-v{font-family:var(--mono);font-size:9.5px;font-weight:500;color:var(--goldB)}
+.mult-l{font-family:var(--mono);font-size:6px;letter-spacing:.14em;color:var(--goldD);text-transform:uppercase;margin-top:1px}
+.mult-note{font-family:var(--mono);font-size:6px;letter-spacing:.12em;color:var(--goldD);text-transform:uppercase;margin-top:4px;text-align:center}
+.ef-split{flex-shrink:0;min-width:180px;display:grid;grid-template-rows:1fr 1fr;gap:4px}
+.ef-half{border:1px solid var(--border);padding:8px 11px;background:var(--card)}
+.ef-half.dep{border-color:var(--goldBd);background:rgba(197,165,114,0.03)}
+.ef-half.avail{border-color:var(--greenBd);background:var(--greenW)}
+.eh-l{font-family:var(--mono);font-size:6.5px;letter-spacing:.20em;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.eh-v{font-family:var(--mono);font-size:12px;font-weight:500}
+.eh-v.gold{color:var(--goldB)}.eh-v.green{color:var(--green)}
+/* ── RUNWAY KPIs ──────────────────────────────────────── */
+.runway{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border);background:var(--bg2)}
+.rw{padding:11px 16px;border-right:1px solid var(--border)}
+.rw:last-child{border-right:0}
+.rw-lbl{font-family:var(--mono);font-size:6.5px;letter-spacing:.26em;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.rw-val{font-family:var(--serif);font-style:italic;font-size:21px;color:var(--text);line-height:1;margin-bottom:2px}
+.rw-val.gold{color:var(--goldB)}.rw-val.green{color:var(--green)}.rw-val.blue{color:var(--blue)}
+.rw-sub{font-family:var(--mono);font-size:7px;color:var(--sub)}
+/* ── DEAL HEAT MATRIX ─────────────────────────────────── */
+.matrix{border-bottom:1px solid var(--border);overflow:hidden}
+.mx-head{display:grid;grid-template-columns:160px repeat(6,1fr);border-bottom:1px solid var(--border);background:var(--card2)}
+.mx-head span{font-family:var(--mono);font-size:6.5px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;padding:7px 10px;border-right:1px solid var(--border);text-align:center}
+.mx-head span:first-child{text-align:left}.mx-head span:last-child{border-right:0}
+.mx-row{display:grid;grid-template-columns:160px repeat(6,1fr);border-bottom:1px solid var(--border)}
+.mx-row:last-child{border-bottom:0}
+.mx-name{padding:10px 12px;border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:center}
+.mx-dn{font-family:var(--serif);font-size:14px;color:var(--text);line-height:1}
+.mx-df{font-family:var(--mono);font-size:7px;letter-spacing:.08em;color:var(--muted);margin-top:3px}
+.mx-cell{border-right:1px solid var(--border);display:flex;align-items:center;justify-content:center;min-height:42px}
+.mx-cell:last-child{border-right:0}
+.mx-cell.curr{background:rgba(197,165,114,0.08);outline:1px solid var(--goldBd);outline-offset:-1px}
+.mx-cell.h1{background:rgba(90,158,114,0.07)}
+.mx-cell.h2{background:rgba(90,158,114,0.14)}
+.mx-cell.h3{background:rgba(90,158,114,0.22)}
+.mx-ioi{font-family:var(--mono);font-size:12px;font-weight:500}
+.mx-ioi.gold{color:var(--goldB)}.mx-ioi.green{color:var(--green)}
+.mx-dot{width:7px;height:7px;border-radius:50%;background:var(--goldD)}
+.mx-chk{font-family:var(--mono);font-size:11px;color:var(--green)}
 .row-label{font-family:var(--mono);font-size:7px;letter-spacing:.30em;color:var(--goldD);text-transform:uppercase;padding:8px 24px;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:space-between}
 .row-label-r{color:var(--muted);letter-spacing:.14em}
 
@@ -165,21 +222,9 @@ input,textarea,select{font-family:inherit;color:inherit}
 .cft-fill{height:100%;transition:width 1s cubic-bezier(.25,.1,.25,1) .2s}
 .cft-val{font-family:var(--mono);font-size:11px;font-weight:500;width:80px;text-align:right;flex-shrink:0}
 .cft-pct{font-family:var(--mono);font-size:8.5px;letter-spacing:.10em;width:38px;text-align:right;flex-shrink:0}
-.ltv-map{display:flex;flex-direction:column;gap:0}
 .ltv-member{padding:13px 16px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:130px 1fr 220px;gap:12px;align-items:center;transition:background .12s}
 .ltv-member:hover{background:rgba(255,255,255,.011)}.ltv-member:last-child{border-bottom:0}
-.ltvm-name{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--text)}
-.ltvm-sub{font-family:var(--mono);font-size:7.5px;color:var(--muted);margin-top:2px}
-.ltvm-track{height:6px;background:var(--bg4);position:relative;overflow:hidden}
-.ltvm-drawn{height:100%;transition:width .8s cubic-bezier(.25,.1,.25,1) .1s}
-.ltvm-ceil-line{position:absolute;top:0;height:100%;width:2px;background:rgba(255,255,255,.2)}
-.ltvm-bank-line{position:absolute;top:0;height:100%;width:2px;background:rgba(176,94,86,.6)}
-.ltvm-lblrow{display:flex;justify-content:space-between;font-family:var(--mono);font-size:7.5px;margin-top:4px}
-.ltvm-stats{display:flex;flex-direction:column;gap:4px;align-items:flex-end}
-.ltvm-stat{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em}
-.ltv-map-legend{display:flex;gap:16px;padding:8px 16px;border-bottom:1px solid var(--border);background:var(--bg2);font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;color:var(--muted)}
-.leg-item{display:flex;align-items:center;gap:5px}.leg-line{width:14px;height:2px;flex-shrink:0}
-.pipeline-funnel{display:grid;grid-template-columns:repeat(6,1fr);border-bottom:1px solid var(--border)}
+.leg-item{display:flex;align-items:center;gap:5px}.pipeline-funnel{display:grid;grid-template-columns:repeat(6,1fr);border-bottom:1px solid var(--border)}
 .pf-stage{padding:12px 14px;border-right:1px solid var(--border);cursor:pointer;transition:background .12s;position:relative}
 .pf-stage:last-child{border-right:0}.pf-stage:hover{background:rgba(255,255,255,.011)}
 .pf-stage.active{background:var(--goldW);border-bottom:2px solid var(--gold);margin-bottom:-1px}
@@ -274,9 +319,9 @@ input,textarea,select{font-family:inherit;color:inherit}
 .pk-lbl{font-family:var(--mono);font-size:6.5px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;margin-bottom:4px;display:flex;align-items:center;gap:5px}
 .pk-val{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--goldB);line-height:1;margin-bottom:2px}
 .pk-val.hero{font-size:28px}.pk-sub{font-family:var(--mono);font-size:7px;color:var(--sub)}
-.ops-body{display:grid;grid-template-columns:1fr 340px;min-height:calc(100vh - 200px)}
-.ops-main{border-right:1px solid var(--border);display:flex;flex-direction:column}
-.ops-side{background:var(--bg2);display:flex;flex-direction:column}
+.ops-body{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 96px)}
+.ops-main{border-right:0;display:flex;flex-direction:column;background:var(--bg2)}
+.ops-side{background:var(--bg);display:flex;flex-direction:column;border-left:1px solid var(--border)}
 .aq-item{display:flex;align-items:flex-start;gap:12px;padding:12px 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
 .aq-item:hover{background:rgba(255,255,255,.015)}
 .aq-item.urgent{border-left:2px solid var(--amber);padding-left:18px;background:var(--amberW)}
@@ -290,8 +335,8 @@ input,textarea,select{font-family:inherit;color:inherit}
 .aq-text{font-family:var(--serifKr);font-size:13px;color:var(--text);font-weight:300;margin-bottom:6px}
 .aq-actions{display:flex;gap:6px;flex-wrap:wrap}
 .aq-ts{font-family:var(--mono);font-size:7.5px;color:var(--muted);flex-shrink:0;margin-top:2px}
-.lead-item{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px 20px;border-bottom:1px solid var(--border);align-items:start}
-.lead-name{font-family:var(--serif);font-size:16px;color:var(--text);margin-bottom:2px}
+.lead-item{display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 16px;border-bottom:1px solid var(--border);align-items:start;cursor:pointer;transition:background .12s}
+.lead-name{font-family:var(--serif);font-size:15px;color:var(--text);margin-bottom:2px}.lead-item:hover{background:rgba(255,255,255,.013)}.lead-item.sel{background:var(--goldW);border-left:2px solid var(--gold)}
 .lead-meta{font-family:var(--mono);font-size:7.5px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .lead-meta span{color:var(--sub)}
 .stage-track{display:flex;align-items:center;gap:0}
@@ -509,9 +554,19 @@ input,textarea,select{font-family:inherit;color:inherit}
   .adv-kpi+.adv-kpi{border-top:1px solid var(--border)}
 }
 /* ── DEAL MANAGEMENT (Deal Book tab) ── */
-.deal-mgmt-wrap{display:grid;grid-template-columns:1fr 420px;min-height:calc(100vh - 120px)}
-.deal-mgmt-list{border-right:1px solid var(--border);overflow-y:auto}
-.deal-mgmt-panel{background:var(--bg2);overflow-y:auto;max-height:calc(100vh - 120px)}
+.deal-mgmt-wrap{display:grid;grid-template-columns:320px 1fr;min-height:calc(100vh - 132px)}
+.deal-mgmt-list{border-right:1px solid var(--border);overflow-y:auto;background:var(--bg2)}
+.deal-mgmt-panel{background:var(--bg);overflow-y:auto;max-height:calc(100vh - 132px)}
+/* Stage filter tabs */
+.dsf-tab{padding:8px 14px;font-family:var(--mono);font-size:7px;letter-spacing:.20em;text-transform:uppercase;color:var(--muted);border:0;border-right:1px solid var(--border);background:transparent;cursor:pointer;white-space:nowrap;transition:color .12s,background .12s}
+.dsf-tab:hover:not(.on){color:var(--sub);background:rgba(255,255,255,.01)}
+.dsf-tab.on{color:var(--gold);background:var(--goldW);border-bottom:2px solid var(--gold)}
+/* Deal list items */
+.dm-row{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
+.dm-row:hover:not(.sel){background:rgba(255,255,255,.012)}.dm-row.sel{background:var(--goldW);border-left:2px solid var(--gold);padding-left:14px}
+.dm-row-name{font-family:var(--serif);font-size:15px;color:var(--text);margin-bottom:2px}
+.dm-row-info{font-family:var(--mono);font-size:7px;color:var(--muted)}
+.dm-row-right{margin-left:auto;text-align:right;flex-shrink:0}
 .dm-row{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
 .dm-row:hover:not(.sel){background:rgba(255,255,255,.012)}.dm-row.sel{background:var(--goldW);border-left:2px solid var(--gold);padding-left:18px}
 .dm-row-name{font-family:var(--serif);font-size:16px;color:var(--text);margin-bottom:2px}
@@ -571,8 +626,9 @@ input,textarea,select{font-family:inherit;color:inherit}
 @media (max-width:900px){
   .fd-row.cols2{grid-template-columns:1fr}
   .fd-row.cols2 .fd-panel:last-child{border-top:1px solid var(--border);border-right:0}
-  .ops-body{grid-template-columns:1fr}
-  .ops-side{border-top:1px solid var(--border)}
+  .ops-body{grid-template-columns:1fr;min-height:auto}
+  .ops-main{max-height:55vh;overflow-y:auto}
+  .ops-side{border-top:1px solid var(--border);border-left:0;min-height:45vh}
   .members-wrap{grid-template-columns:1fr}
   .member-detail{max-height:none}
   .member-list{max-height:260px}
@@ -685,6 +741,23 @@ input,textarea,select{font-family:inherit;color:inherit}
     <div class="kpi-cell grp"><div class="kpi-lbl">Net yield</div><div class="kpi-val green" id="f-net-yield">—</div><div class="kpi-sub">/yr after SORA</div></div>
     <div class="kpi-cell"><div class="kpi-lbl">Cohort</div><div class="kpi-val" id="f-cohort" style="font-family:var(--mono);font-style:normal;font-size:20px;color:var(--goldB)">—/100</div><div class="kpi-sub">seats · Q3 2026</div></div>
   </div>
+
+  <!-- ── CAPITAL ENGINE FLOW ── -->
+  <div class="engine">
+    <div class="eng-lbl">Capital Engine · Full Fund Flow</div>
+    <div class="eng-flow" id="f-eng-flow">
+      <!-- Populated by renderCapitalEngine() -->
+      <div style="padding:12px;font-family:var(--serif);font-style:italic;color:var(--muted)">Loading…</div>
+    </div>
+  </div>
+  <!-- ── RUNWAY KPIs ── -->
+  <div class="runway" id="f-runway">
+    <div class="rw"><div class="rw-lbl">Deals in Pipeline</div><div class="rw-val blue" id="rw-deals">—</div><div class="rw-sub" id="rw-deals-sub">—</div></div>
+    <div class="rw"><div class="rw-lbl">Avg Deal Ticket</div><div class="rw-val gold" id="rw-ticket">—</div><div class="rw-sub">LTV utilisation per deal</div></div>
+    <div class="rw"><div class="rw-lbl">Runway · Dry Powder</div><div class="rw-val green" id="rw-runway">—</div><div class="rw-sub">Deals fundable at current pace</div></div>
+    <div class="rw"><div class="rw-lbl">Next LTV Review</div><div class="rw-val" style="font-size:16px;font-family:var(--mono);color:var(--sub)" id="rw-review">—</div><div class="rw-sub">Malca Amit · quarterly reset</div></div>
+  </div>
+
   <div class="row-label"><span>Gold Position &amp; Capital Engine</span><span class="row-label-r">XAU · Malca-Amit Singapore Freeport</span></div>
   <div class="fd-row cols-34">
     <div class="fd-panel">
@@ -733,12 +806,14 @@ input,textarea,select{font-family:inherit;color:inherit}
       </div>
     </div>
   </div>
-  <div class="row-label"><span>LTV Position Map · Per Member</span><span class="row-label-r">Drawn vs. ceiling vs. bank margin (80%)</span></div>
-  <div style="border-bottom:1px solid var(--border)">
-    <div class="ltv-map-legend"><div class="leg-item"><div class="leg-line" style="background:var(--gold)"></div><span>Drawn LTV</span></div><div class="leg-item"><div class="leg-line" style="background:rgba(255,255,255,.2)"></div><span>Approved ceiling</span></div><div class="leg-item"><div class="leg-line" style="background:rgba(176,94,86,.6)"></div><span>Bank margin 80%</span></div></div>
-    <div class="ltv-map" id="f-ltv-map"></div>
-  </div>
+
   <div class="row-label"><span>Deal Pipeline</span><span class="row-label-r" id="f-pipeline-summary">—</span></div>
+  <!-- Deal Heat Matrix — horizontal stage × deal grid -->
+  <div class="matrix" id="f-deal-matrix">
+    <div class="mx-head"><span>Deal</span><span>Review</span><span>Live</span><span>IOI</span><span>D.D.</span><span>Terms</span><span>Close</span></div>
+    <div id="f-matrix-rows" style="font-family:var(--serif);font-style:italic;color:var(--muted);padding:16px;text-align:center">Loading…</div>
+  </div>
+  <!-- Funnel + Advisor Activity still below matrix -->
   <div class="pipeline-funnel" id="f-pipeline-funnel"></div>
   <div style="display:grid;grid-template-columns:1fr 240px;border-bottom:1px solid var(--border)">
     <div class="pipeline-body" id="f-pipeline-body" style="border-right:1px solid var(--border)"></div>
@@ -770,18 +845,6 @@ input,textarea,select{font-family:inherit;color:inherit}
 
 <!-- ═══ VIEW: OPERATIONS ═══ -->
 <div id="view-ops" class="view">
-  <div class="pulse">
-    <div class="pulse-eye">Fund Pulse · Today</div>
-    <div class="pulse-status" id="pulse-status"><em>Loading…</em></div>
-    <div class="pulse-detail" id="pulse-detail">—</div>
-    <div class="pk-grid">
-      <div class="pk"><div class="pk-lbl">Kilo <span class="pill pill-ok" id="pk-kilo-pill">—</span></div><div class="pk-val" id="pk-kilo">—</div><div class="pk-sub" id="pk-kilo-sub">—</div></div>
-      <div class="pk"><div class="pk-lbl">Fund NAV</div><div class="pk-val hero" id="pk-nav">—</div><div class="pk-sub">net of facility</div></div>
-      <div class="pk"><div class="pk-lbl">Inbound <span class="pill pill-warn" id="pk-inbound-pill">—</span></div><div class="pk-val" id="pk-inbound">—</div><div class="pk-sub" id="pk-inbound-sub">—</div></div>
-      <div class="pk"><div class="pk-lbl">Facility <span class="pill pill-blue" id="pk-fac-pill">—</span></div><div class="pk-val" id="pk-fac">—</div><div class="pk-sub" id="pk-fac-sub">—</div></div>
-      <div class="pk"><div class="pk-lbl">Cohort</div><div class="pk-val" id="pk-cohort" style="font-family:var(--mono);font-style:normal;font-size:20px;color:var(--goldB)">—/100</div><div class="pk-sub">seats</div></div>
-    </div>
-  </div>
   <div class="ops-body">
     <div class="ops-main">
       <div class="sec-hd"><span class="sec-title">Action Queue</span><span class="sec-ct" id="aq-ct">—</span></div>
@@ -801,9 +864,9 @@ input,textarea,select{font-family:inherit;color:inherit}
       </div>
       <!-- Lead detail panel: shown when a funnel lead is selected -->
       <div id="ops-side-detail" style="display:none;overflow-y:auto;height:100%">
-        <div style="padding:8px 14px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10">
-          <span style="font-family:var(--mono);font-size:7px;letter-spacing:.24em;color:var(--goldD);text-transform:uppercase">Lead Detail</span>
-          <button onclick="clearOpsLead()" style="font-family:var(--mono);font-size:7.5px;letter-spacing:.12em;color:var(--muted);background:none;border:1px solid var(--border);padding:3px 9px;cursor:pointer">← Back</button>
+        <div style="padding:10px 18px;background:var(--bg2);border-bottom:1px solid var(--goldBd);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10">
+          <span style="font-family:var(--mono);font-size:7.5px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase">Lead Detail</span>
+          <button onclick="clearOpsLead()" style="font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;color:var(--goldD);background:none;border:1px solid var(--goldBd);padding:4px 11px;cursor:pointer;transition:all .15s">← Back</button>
         </div>
         <div id="ops-detail-pane"></div>
       </div>
@@ -823,13 +886,35 @@ input,textarea,select{font-family:inherit;color:inherit}
 <div id="view-deals" class="view">
   <div class="deal-meta-bar" id="deals-meta-bar">
     — &nbsp;<span>·</span>&nbsp; Loading deal book…
-    <button class="btn-action primary sm" style="float:right;margin-top:-2px;margin-left:8px" onclick="openModal('deploy-overlay')">+ Deploy</button>
-    <button class="btn-action sm" style="float:right;margin-top:-2px" onclick="openModal('advisor-create-modal')">+ Advisor</button>
+    <span style="float:right;display:flex;gap:6px;align-items:center">
+      <button class="btn-action primary sm" onclick="openModal('deal-create-modal')">+ New Deal</button>
+      <button class="btn-action sm" onclick="openModal('deploy-overlay')">Deploy Capital →</button>
+      <button class="btn-action sm" id="seed-deals-btn" onclick="seedDemoDeals()" title="Load 4 demo deals into the pipeline">↓ Load Demo</button>
+    </span>
+  </div>
+  <!-- Stage filter pills -->
+  <div id="deal-stage-filter" style="display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto;background:var(--bg2)">
+    <button class="dsf-tab on" data-stage="all" onclick="setDealStageFilter('all',this)">All</button>
+    <button class="dsf-tab" data-stage="review" onclick="setDealStageFilter('review',this)">Review</button>
+    <button class="dsf-tab" data-stage="live" onclick="setDealStageFilter('live',this)">Live IOI</button>
+    <button class="dsf-tab" data-stage="ioi" onclick="setDealStageFilter('ioi',this)">IOI</button>
+    <button class="dsf-tab" data-stage="dd" onclick="setDealStageFilter('dd',this)">Due Dil.</button>
+    <button class="dsf-tab" data-stage="terms" onclick="setDealStageFilter('terms',this)">Terms</button>
+    <button class="dsf-tab" data-stage="close" onclick="setDealStageFilter('close',this)">Closing</button>
+    <button class="dsf-tab" data-stage="realized" onclick="setDealStageFilter('realized',this)">Realized</button>
+    <button class="dsf-tab" data-stage="killed" onclick="setDealStageFilter('killed',this)">Killed</button>
   </div>
   <div class="deal-mgmt-wrap">
     <div class="deal-mgmt-list" id="deal-list"></div>
     <div class="deal-mgmt-panel" id="deal-edit-panel">
-      <div style="padding:28px;font-family:var(--serif);font-style:italic;color:var(--muted)">Select a deal to manage.</div>
+      <div style="padding:48px 32px;text-align:center">
+        <div style="font-family:var(--serif);font-style:italic;font-size:22px;color:var(--muted);margin-bottom:16px">Select a deal to manage.</div>
+        <div id="deal-empty-actions" style="display:none">
+          <div style="font-family:var(--mono);font-size:8px;letter-spacing:.20em;color:var(--muted);margin-bottom:16px">NO DEALS IN PIPELINE</div>
+          <button class="btn-action primary" onclick="openModal('deal-create-modal')" style="margin-right:8px">+ Create First Deal</button>
+          <button class="btn-action" onclick="seedDemoDeals()">↓ Load Demo Deals</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -871,6 +956,49 @@ input,textarea,select{font-family:inherit;color:inherit}
 
 </div><!-- /app -->
 <!-- ═══ ADVISOR CREATE MODAL ═══ -->
+<!-- ═══ NEW DEAL MODAL ═══ -->
+<div class="overlay" id="deal-create-modal" onclick="if(event.target===this)closeModal('deal-create-modal')">
+  <div class="modal">
+    <div class="modal-eye">Deal Book · New Deal</div>
+    <div class="modal-title">Add a <em>deal.</em></div>
+    <div class="modal-sub">Creates a deal in Review stage. Assign to an advisor or manage as a house deal.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="grid-column:1/-1"><label class="modal-label">Deal Code Name *</label><input type="text" class="modal-input" id="dc-name" placeholder="e.g. Project Atlas"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+      <div>
+        <label class="modal-label">Asset Class</label>
+        <select class="modal-input" id="dc-type" style="appearance:none">
+          <option value="pe">Private Equity</option>
+          <option value="credit">Credit</option>
+          <option value="re">Real Estate</option>
+          <option value="infra">Infrastructure</option>
+          <option value="equity">Public Equity</option>
+        </select>
+      </div>
+      <div><label class="modal-label">Advisor Firm</label><input type="text" class="modal-input" id="dc-firm" placeholder="e.g. Apex Credit Mgt."></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px">
+      <div><label class="modal-label">Target IRR %</label><input type="number" class="modal-input" id="dc-irr" placeholder="e.g. 18" step="0.5" min="0"></div>
+      <div><label class="modal-label">Term (months)</label><input type="number" class="modal-input" id="dc-term" placeholder="e.g. 36" min="1"></div>
+      <div><label class="modal-label">TACC Alloc. (USD)</label><input type="number" class="modal-input" id="dc-alloc" placeholder="e.g. 1000000" min="0"></div>
+    </div>
+    <div style="margin-top:10px">
+      <label class="modal-label">Funding Source</label>
+      <select class="modal-input" id="dc-source" style="appearance:none">
+        <option value="ltv">LTV Facility</option>
+        <option value="reserve">Cash Reserve</option>
+      </select>
+    </div>
+    <div style="margin-top:10px"><label class="modal-label">Notes</label><textarea class="modal-input" id="dc-notes" rows="2" placeholder="Brief deal summary…" style="resize:vertical"></textarea></div>
+    <div id="dc-result" style="margin-top:10px;font-family:var(--mono);font-size:8.5px;display:none"></div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeModal('deal-create-modal')">Cancel</button>
+      <button class="btn-confirm" id="dc-confirm" onclick="confirmDealCreate()">Create Deal →</button>
+    </div>
+  </div>
+</div>
+
 <div class="overlay" id="advisor-create-modal" onclick="if(event.target===this)closeModal('advisor-create-modal')">
   <div class="modal">
     <div class="modal-eye">Advisor · Create Account</div>
@@ -882,8 +1010,7 @@ input,textarea,select{font-family:inherit;color:inherit}
     </div>
     <label class="modal-label">Email</label>
     <input type="email" class="modal-input" id="ac-email" placeholder="advisor@theirfirm.com">
-    <label class="modal-label">Temporary Password</label>
-    <input type="text" class="modal-input" id="ac-password" placeholder="min 8 characters">
+    <div style="font-family:var(--mono);font-size:8px;color:var(--muted);padding:8px 10px;border:1px solid var(--border);background:var(--goldW);color:var(--goldD)">A setup link will be emailed. Advisor sets their own password on first login.</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <div><label class="modal-label">Intro Fee %</label><input type="number" class="modal-input" id="ac-fee" placeholder="1.0" step="0.1" min="0" max="5"></div>
       <div><label class="modal-label">Carry %</label><input type="number" class="modal-input" id="ac-carry" placeholder="0" step="0.1" min="0"></div>
@@ -1227,6 +1354,116 @@ function renderHeartbeat() {
 // ══════════════════════════════════════════════════
 // FUND TAB — all sections
 // ══════════════════════════════════════════════════
+
+// ── Capital Engine Flow ──────────────────────────────────────────
+function renderCapitalEngine() {
+  const f = state._fundTotals || fundStats();
+  const usdKrw = (state.liveSpot && state.liveSpot.usd_krw) || 1440;
+  const liveSpot = (state.liveSpot && state.liveSpot.krw_per_kg) || 225_000_000;
+  const USD = usdKrw;
+
+  const memberCap = f.cost > 0 ? f.cost / USD : 0;
+  const goldNav   = f.now  > 0 ? f.now  / USD : 0;
+  const ltvCeil   = f.ceil > 0 ? f.ceil / USD : 0;
+  const deployed  = f.dep  > 0 ? f.dep  / USD : 0;
+  const available = f.av   > 0 ? f.av   / USD : 0;
+  const ltvPct    = ltvCeil > 0 && goldNav > 0 ? Math.round(ltvCeil / goldNav * 100) : 63;
+  const depPct    = ltvCeil > 0 && deployed >= 0 ? Math.round(deployed / ltvCeil * 100) : 0;
+  const avPct     = 100 - depPct;
+
+  function fmEng(usd) {
+    if (usd >= 1e6) return '$' + (usd/1e6).toFixed(2) + '<span style="font-size:12px;color:var(--goldD)">M</span>';
+    if (usd >= 1e3) return '$' + Math.round(usd/1e3) + '<span style="font-size:12px;color:var(--goldD)">K</span>';
+    return '$' + Math.round(usd);
+  }
+
+  const el = $('f-eng-flow');
+  if (!el) return;
+  el.innerHTML = `
+    <div class="ef-node"><div class="ef-box">
+      <div class="ef-lbl">Member Capital</div>
+      <div class="ef-val">${fmEng(memberCap)}</div>
+      <div class="ef-sub">${f.members || 0} member${(f.members||0)!==1?'s':''} admitted</div>
+    </div></div>
+    <div class="ef-arrow"><div style="display:flex;align-items:center"><div class="ef-line"></div><div class="ef-head"></div></div><div class="ef-meta">WIRED</div></div>
+    <div class="ef-node"><div class="ef-box gold">
+      <div class="ef-lbl">Gold · Malca Amit</div>
+      <div class="ef-val gold">${f.kg.toFixed(2)}<span style="font-size:12px;color:var(--goldD)">kg</span></div>
+      <div class="ef-sub">${fmEng(goldNav)} NAV · ${fmEng(f.res/USD)} reserve</div>
+    </div></div>
+    <div class="ef-mult">
+      <div style="display:flex;align-items:center"><div style="width:16px;height:1px;background:var(--goldBd)"></div><div class="mult-circle"><div class="mult-v">×${ltvPct}%</div><div class="mult-l">LTV</div></div><div style="width:16px;height:1px;background:var(--goldBd)"></div></div>
+      <div class="mult-note">Gold price<br>sets ceiling</div>
+    </div>
+    <div class="ef-node"><div class="ef-box ltv">
+      <div class="ef-lbl">LTV Ceiling</div>
+      <div class="ef-val blue">${fmEng(ltvCeil)}</div>
+      <div class="ef-sub">avg ${ltvPct}% of gold</div>
+    </div></div>
+    <div class="ef-arrow"><div style="display:flex;align-items:center"><div class="ef-line"></div><div class="ef-head"></div></div><div class="ef-meta">UTILISE</div></div>
+    <div class="ef-split">
+      <div class="ef-half dep"><div class="eh-l">Deployed in Deals</div><div class="eh-v gold">${fmEng(deployed)} <span style="font-size:8.5px;color:var(--goldD)">${depPct}%</span></div></div>
+      <div class="ef-half avail"><div class="eh-l">Available · Dry Powder</div><div class="eh-v green">${fmEng(available)} <span style="font-size:8.5px;color:var(--green)">${avPct}%</span></div></div>
+    </div>`;
+
+  // Runway KPIs
+  const activeDeals = state.deals.filter(d => ['live','ioi','dd','terms'].includes(d.stage));
+  const avgTicket = activeDeals.length > 0
+    ? activeDeals.reduce((s,d) => s + (d.deployed_usd||d.target_alloc_usd||0), 0) / activeDeals.length
+    : 0;
+  const runway = avgTicket > 0 ? (available * USD / avgTicket).toFixed(1) : '—';
+  const rwDeals = $('rw-deals'); if(rwDeals) rwDeals.innerHTML = `<span>${state.deals.filter(d=>d.stage!=='killed').length}</span>`;
+  const rwSub = $('rw-deals-sub'); if(rwSub) rwSub.textContent = `${activeDeals.length} active · ${state.deals.filter(d=>d.stage==='review').length} under review`;
+  const rwT = $('rw-ticket'); if(rwT) rwT.innerHTML = avgTicket > 0 ? fmEng(avgTicket/USD) : '—';
+  const rwR = $('rw-runway'); if(rwR) rwR.textContent = typeof runway === 'string' ? runway + '×' : '—';
+  const rwRev = $('rw-review'); if(rwRev) rwRev.textContent = 'May 14';
+}
+
+// ── Deal Heat Matrix ─────────────────────────────────────────────
+function renderDealMatrix() {
+  const rows = $('f-matrix-rows');
+  if (!rows) return;
+  const STAGES = ['review','live','ioi','dd','terms','close'];
+
+  if (!state.deals.length) {
+    rows.innerHTML = '<div style="padding:16px;font-family:var(--serif);font-style:italic;color:var(--muted);text-align:center">No deals yet — add deals in Deal Book tab.</div>';
+    return;
+  }
+
+  const activeDeals = state.deals.filter(d => d.stage !== 'killed' && d.stage !== 'realized');
+  rows.innerHTML = activeDeals.map(d => {
+    const currIdx = STAGES.indexOf(d.stage);
+    const cells = STAGES.map((s, i) => {
+      const isCurr = s === d.stage;
+      let cls = isCurr ? ' curr' : '';
+      let inner = '';
+      if (isCurr) {
+        if (d.ioi_count > 0) {
+          const heat = d.ioi_count >= 10 ? ' h3' : d.ioi_count >= 5 ? ' h2' : ' h1';
+          cls += heat;
+          const col = d.ioi_count >= 10 ? 'green' : 'gold';
+          inner = `<span class="mx-ioi ${col}">${d.ioi_count}</span>`;
+        } else {
+          inner = `<span class="mx-chk">✓</span>`;
+        }
+      } else if (i < currIdx) {
+        // Past stage — show faint check
+        inner = `<span style="font-family:var(--mono);font-size:9px;color:var(--dim)">✓</span>`;
+      }
+      return `<div class="mx-cell${cls}">${inner}</div>`;
+    }).join('');
+
+    const typeShort = {pe:'PE',credit:'PC',re:'RE',infra:'IN',equity:'EQ'}[d.type]||d.type||'—';
+    return `<div class="mx-row">
+      <div class="mx-name">
+        <div class="mx-dn">${esc(d.name)}</div>
+        <div class="mx-df">${esc(d.advisor_firm||'House')} · ${typeShort}</div>
+      </div>
+      ${cells}
+    </div>`;
+  }).join('');
+}
+
 function renderFundTab() {
   const f = state._fundTotals || fundStats();
   const spot = state.liveSpot;
@@ -1342,43 +1579,9 @@ function renderFundTab() {
   const triggerDrop = f.now > 0 ? Math.max(0,((f.now - f.dep/0.72)/f.now)*100).toFixed(1) : '28.4';
   $('f-cc-dist').textContent = triggerDrop + '%';
 
-  // LTV member map
-  let mapHtml='';
-  admitted.forEach(lead=>{
-    const c=calc(lead);
-    const drawnPct=c.ceil>0?Math.round(c.drawn/c.ceil*100):0;
-    const ceilLft=(c.ceil>0&&c.now>0)?(c.ceil/c.now*100).toFixed(1):65;
-    const drawnCol=drawnPct<50?'var(--green)':drawnPct<70?'var(--amber)':'var(--red)';
-    const hdroom=Math.round((c.ceil-c.drawn)/Math.max(1,c.now)*100);
-    mapHtml+=`<div class="ltv-member">
-      <div><div class="ltvm-name">${esc(lead.name)}</div><div class="ltvm-sub">${c.kg.toFixed(2)} kg · ${fmUsd(c.now)}</div></div>
-      <div>
-        <div class="ltvm-track">
-          <div class="ltvm-drawn" style="width:${drawnPct}%;background:${drawnCol}"></div>
-          <div class="ltvm-ceil-line" style="left:${Math.min(ceilLft,96)}%"></div>
-          <div class="ltvm-bank-line" style="left:80%"></div>
-        </div>
-        <div class="ltvm-lblrow">
-          <span style="color:${drawnCol};font-family:var(--mono);font-size:8px">${drawnPct}% drawn</span>
-          <span style="color:var(--muted);font-family:var(--mono);font-size:8px">${Math.round(c.ltvP*100)}% ceil</span>
-          <span style="color:var(--muted);font-family:var(--mono);font-size:8px">${hdroom}% headroom</span>
-        </div>
-      </div>
-      <div class="ltvm-stats">
-        <div class="ltvm-stat" style="color:var(--goldB)">${fmUsd(c.ceil)} ceiling</div>
-        <div class="ltvm-stat" style="color:${drawnCol}">${fmUsd(c.drawn)} drawn</div>
-        <div class="ltvm-stat" style="color:var(--green)">${fmUsd(c.av)} available</div>
-      </div></div>`;
-  });
-  $('f-ltv-map').innerHTML=mapHtml||'<div style="padding:16px;font-family:var(--serif);font-style:italic;color:var(--muted)">No admitted members yet.</div>';
-  requestAnimationFrame(()=>{
-    document.querySelectorAll('.ltvm-drawn').forEach((el,i)=>{
-      const w=el.style.width;el.style.width='0%';
-      setTimeout(()=>el.style.width=w,80+i*60);
-    });
-  });
-
   // Deal pipeline
+  renderCapitalEngine();
+  renderDealMatrix();
   renderFundPipeline();
 
   // P&L
@@ -1590,8 +1793,11 @@ function renderOpsView() {
   if(f.admittedCount>0){
     statusH=f.av>500_000_000?`<em>Capital ready.</em> ${fmUsd(f.av)} available to deploy.`:`<em>${pctOf(f.dep,f.dep+f.av)}% deployed.</em> ${state.deals.filter(d=>d.deployed_usd>0).length} deals live.`;
   }
-  $('pulse-status').innerHTML=statusH;
-  $('pulse-detail').textContent=`MAY 2026 · FOUNDING COHORT · ${f.admittedCount} OF 100 SEATS ADMITTED · SOFT CLOSE EST. Q3 2026`;
+  if($('pulse-status'))$('pulse-status').innerHTML=statusH;
+  if($('f-cmd-status'))$('f-cmd-status').innerHTML=statusH;
+  const _pulseDetail=`MAY 2026 · FOUNDING COHORT · ${f.admittedCount} OF 100 SEATS ADMITTED · SOFT CLOSE EST. Q3 2026`;
+  if($('pulse-detail'))$('pulse-detail').textContent=_pulseDetail;
+  if($('f-cmd-ts'))$('f-cmd-ts').textContent=_pulseDetail;
   $('pk-kilo').textContent=f.kg.toFixed(2);$('pk-kilo-sub').textContent='kg · '+f.admittedCount+' member'+(f.admittedCount===1?'':'s');
   $('pk-nav').textContent=fmUsd(f.nav);
   const funnelActions=funnel.filter(l=>funnelStage(l).key==='nda_review'||funnelStage(l).key==='ioi').length;
@@ -1694,14 +1900,14 @@ function renderOpsView() {
 // ══════════════════════════════════════════════════
 function renderFundBand() {
   const f=state._fundTotals||fundStats();
-  $('fb-kilo').textContent=f.kg.toFixed(2);$('fb-kilo-sub').textContent='kg · '+f.admittedCount+' member'+(f.admittedCount===1?'':'s');
-  $('fb-nav').textContent=fmUsd(f.nav);
+  if($('fb-kilo')){$('fb-kilo').textContent=f.kg.toFixed(2);$('fb-kilo-sub').textContent='kg · '+f.admittedCount+' member'+(f.admittedCount===1?'':'s');}
+  if($('fb-nav'))$('fb-nav').textContent=fmUsd(f.nav);
   $('fb-aum').textContent=fmUsd(f.now+f.res); // gross (gold + reserve, before loans)
   $('fb-gold').textContent=fmUsd(f.now);
   $('fb-invested').textContent=fmUsd(f.dep);
   $('fb-invested-sub').textContent=state.leads.reduce((s,l)=>s+(l.positions||[]).length,0)+' positions';
   $('fb-cash').textContent=fmUsd(f.av);
-  $('fb-ltv-approved').textContent=(f.ceil>0&&f.cost>0?(f.ceil/f.cost*100).toFixed(0):0)+'%';
+  if($('fb-ltv-approved'))$('fb-ltv-approved').textContent=(f.ceil>0&&f.cost>0?(f.ceil/f.cost*100).toFixed(0):0)+'%';
   $('fb-ltv-drawn').textContent=(f.ceil>0?pctOf(f.dep,f.ceil):0)+'%';
 }
 
@@ -1953,37 +2159,60 @@ const TYPE_LBLS   = {pe:'PE',credit:'Credit',re:'RE',infra:'Infra',equity:'Equit
 const HEALTH_CLS  = {green:'var(--green)',amber:'var(--amber)',red:'var(--red)'};
 
 let _selectedDeal = null;
+let _dealStageFilter = 'all';
 
 function renderDealBook() {
   const active  = state.deals.filter(d=>['live','ioi','dd','terms'].includes(d.stage)).length;
   const totalDep= state.deals.reduce((s,d)=>s+(d.deployed_usd||0),0);
   const f       = state._fundTotals||fundStats();
   $('deals-meta-bar').innerHTML=`${state.deals.length} deal${state.deals.length!==1?'s':''} &nbsp;<span>·</span>&nbsp; ${active} active &nbsp;<span>·</span>&nbsp; ${fmUsdDirect(totalDep)} deployed &nbsp;<span>·</span>&nbsp; ${fmUsd(f.av)} available
-    <button class="btn-action primary sm" style="float:right;margin-top:-2px;margin-left:8px" onclick="openModal('deploy-overlay')">+ Deploy</button>
-    <button class="btn-action sm" style="float:right;margin-top:-2px" onclick="openModal('advisor-create-modal')">+ Advisor</button>`;
+    <span style="float:right;display:flex;gap:6px;align-items:center">
+      <button class="btn-action primary sm" onclick="openModal('deal-create-modal')">+ New Deal</button>
+      <button class="btn-action sm" onclick="openModal('deploy-overlay')">Deploy Capital →</button>
+      <button class="btn-action sm" onclick="seedDemoDeals()" title="Load demo deals">↓ Load Demo</button>
+    </span>`;
+
+  // Stage filter
+  const activeFilter = _dealStageFilter || 'all';
+  const visibleDeals = activeFilter === 'all' ? state.deals : state.deals.filter(d => d.stage === activeFilter);
 
   if(!state.deals.length){
-    $('deal-list').innerHTML='<div style="padding:28px;font-family:var(--serif);font-style:italic;color:var(--muted);text-align:center">No deals yet. Seed via POST /api/deals/seed or submit via the advisor portal.</div>';
+    $('deal-list').innerHTML=`<div style="padding:20px 16px">
+      <div style="font-family:var(--serif);font-style:italic;font-size:16px;color:var(--muted);margin-bottom:16px;text-align:center">No deals yet.</div>
+      <button class="btn-action primary" style="width:100%;justify-content:center;margin-bottom:8px" onclick="openModal('deal-create-modal')">+ Create Deal</button>
+      <button class="btn-action" style="width:100%;justify-content:center" onclick="seedDemoDeals()">↓ Load Demo Deals</button>
+    </div>`;
+    const epanel = $('deal-empty-actions');
+    if(epanel) epanel.style.display='block';
     return;
   }
 
-  $('deal-list').innerHTML = state.deals.map(d => {
-    const sel = _selectedDeal===d.id ? ' sel' : '';
-    const hCol = HEALTH_CLS[d.health||'green'];
-    const stageIdx = STAGES.indexOf(d.stage);
-    const isLate   = stageIdx >= 3 && stageIdx <= 5;
-    return `<div class="dm-row${sel}" onclick="pickDealForEdit('${esc(d.id)}')">
-      <div style="width:5px;height:5px;border-radius:50%;background:${hCol};flex-shrink:0;margin-top:4px"></div>
-      <div style="flex:1;min-width:0">
-        <div class="dm-row-name">${esc(d.name)}</div>
-        <div class="dm-row-info">${TYPE_LBLS[d.type]||d.type||'—'} · ${esc(d.advisor_firm||'—')}${d.target_irr?' · '+d.target_irr+'% IRR':''}</div>
-      </div>
-      <div class="dm-row-right">
-        <div style="font-family:var(--mono);font-size:7px;letter-spacing:.16em;text-transform:uppercase;padding:2px 6px;border:1px solid;color:${isLate?'var(--goldB)':'var(--muted)'};border-color:${isLate?'var(--goldBd)':'var(--border)'};background:${isLate?'var(--goldW)':'transparent'}">${STAGE_LBLS[d.stage]||d.stage}</div>
-        ${d.target_alloc_usd?`<div style="font-family:var(--mono);font-size:9px;color:var(--goldD);text-align:right;margin-top:2px">${fmUsdDirect(d.target_alloc_usd)}</div>`:''}
-      </div>
-    </div>`;
-  }).join('');
+  const epanel = $('deal-empty-actions');
+  if(epanel) epanel.style.display='none';
+
+  if(!visibleDeals.length){
+    $('deal-list').innerHTML=`<div style="padding:20px 16px;font-family:var(--serif);font-style:italic;color:var(--muted);text-align:center">No deals at this stage.</div>`;
+  } else {
+    $('deal-list').innerHTML = visibleDeals.map(d => {
+      const sel = _selectedDeal===d.id ? ' sel' : '';
+      const hCol = HEALTH_CLS[d.health||'green'];
+      const stageIdx = STAGES.indexOf(d.stage);
+      const isLate   = stageIdx >= 3 && stageIdx <= 5;
+      const isActive = ['live','ioi','dd','terms'].includes(d.stage);
+      return `<div class="dm-row${sel}" onclick="pickDealForEdit('${esc(d.id)}')">
+        <div style="width:7px;height:7px;border-radius:50%;background:${hCol};flex-shrink:0;margin-top:3px;box-shadow:0 0 5px ${hCol}44"></div>
+        <div style="flex:1;min-width:0">
+          <div class="dm-row-name">${esc(d.name)}</div>
+          <div class="dm-row-info">${TYPE_LBLS[d.type]||d.type||'—'} · ${esc(d.advisor_firm||'—')}${d.target_irr?' · <strong style="color:var(--goldD)">'+d.target_irr+'% IRR</strong>':''}</div>
+          ${d.next_action?`<div style="font-family:var(--mono);font-size:7px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">→ ${esc(d.next_action)}</div>`:''}
+        </div>
+        <div class="dm-row-right">
+          <div style="font-family:var(--mono);font-size:6.5px;letter-spacing:.14em;text-transform:uppercase;padding:2px 6px;border:1px solid;margin-bottom:3px;color:${isActive?'var(--goldB)':isLate?'var(--green)':'var(--muted)'};border-color:${isActive?'var(--goldBd)':isLate?'var(--greenBd)':'var(--border)'};background:${isActive?'var(--goldW)':isLate?'var(--greenW)':'transparent'}">${STAGE_LBLS[d.stage]||d.stage}</div>
+          ${d.target_alloc_usd?`<div style="font-family:var(--mono);font-size:8.5px;color:var(--goldD);text-align:right">${fmUsdDirect(d.target_alloc_usd)}</div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+  }
 
   // Re-render edit panel if a deal is selected
   if(_selectedDeal){
@@ -2030,9 +2259,19 @@ function renderDealEditPanel(deal) {
     </div>`).join('') || '<div style="padding:10px 12px;font-family:var(--serif);font-style:italic;color:var(--muted);font-size:13px">No messages yet.</div>';
 
   pane.innerHTML = `<div class="dp-wrap">
-    <div class="dp-head">
-      <div class="dp-name">${esc(deal.name)}</div>
-      <div class="dp-meta"><span>${esc(deal.id)}</span><span>${TYPE_LBLS[deal.type]||deal.type||'—'}</span><span>${esc(deal.advisor_firm||'—')}</span>${deal.days_in_stage?`<span>${deal.days_in_stage}d in stage</span>`:''}</div>
+    <div class="dp-head" style="border-bottom:1px solid var(--border);margin-bottom:0;padding-bottom:16px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div>
+          <div class="dp-name">${esc(deal.name)}</div>
+          <div class="dp-meta"><span>${TYPE_LBLS[deal.type]||deal.type||'—'}</span><span>${esc(deal.advisor_firm||'House deal')}</span><span>${esc(deal.id)}</span>${deal.days_in_stage?`<span style="color:${deal.days_in_stage>30?'var(--amber)':'var(--muted)'}">${deal.days_in_stage}d in stage</span>`:''}</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0">
+          ${deal.target_irr?`<div style="text-align:right"><div style="font-family:var(--mono);font-size:6.5px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase">Target IRR</div><div style="font-family:var(--serif);font-style:italic;font-size:22px;color:var(--goldB);line-height:1">${deal.target_irr}%</div></div>`:''}
+          ${deal.target_alloc_usd?`<div style="text-align:right"><div style="font-family:var(--mono);font-size:6.5px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase">Allocation</div><div style="font-family:var(--serif);font-style:italic;font-size:22px;color:var(--text);line-height:1">${fmUsdDirect(deal.target_alloc_usd)}</div></div>`:''}
+          ${deal.deployed_usd?`<div style="text-align:right"><div style="font-family:var(--mono);font-size:6.5px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase">Deployed</div><div style="font-family:var(--serif);font-style:italic;font-size:22px;color:var(--green);line-height:1">${fmUsdDirect(deal.deployed_usd)}</div></div>`:''}
+        </div>
+      </div>
+      ${deal.notes?`<div style="margin-top:12px;font-family:var(--serifKr);font-size:13px;font-weight:300;color:var(--sub);line-height:1.6;padding:10px 12px;background:rgba(197,165,114,0.03);border-left:2px solid var(--goldBd)">${esc(deal.notes)}</div>`:''}
     </div>
 
     <!-- Stage advance -->
@@ -2147,12 +2386,83 @@ async function sendDealQa(dealId) {
   } catch { if(input) input.disabled=false; }
 }
 
+// ── Set deal stage filter ──────────────────────────────────────
+function setDealStageFilter(stage, btn) {
+  _dealStageFilter = stage;
+  document.querySelectorAll('.dsf-tab').forEach(function(t){ t.classList.remove('on'); });
+  if (btn) btn.classList.add('on');
+  renderDealBook();
+}
+
+// ── Create new deal from modal ─────────────────────────────────
+async function confirmDealCreate() {
+  const name = ($('dc-name').value || '').trim();
+  const result = $('dc-result');
+  const btn = $('dc-confirm');
+  if (!name) { result.textContent = 'Deal name is required.'; result.style.display='block'; result.style.color='var(--red)'; return; }
+  btn.disabled = true; btn.textContent = 'Creating…';
+  result.style.display = 'none';
+  try {
+    const j = await api('POST', '/api/deals/create', {
+      action: 'create',
+      name,
+      type: $('dc-type').value,
+      advisor_firm: ($('dc-firm').value || '').trim(),
+      target_irr: parseFloat($('dc-irr').value) || null,
+      term_months: parseInt($('dc-term').value) || null,
+      target_alloc_usd: parseFloat($('dc-alloc').value) || 0,
+      funding_source: $('dc-source').value,
+      notes: ($('dc-notes').value || '').trim(),
+    });
+    if (!j.ok) throw new Error(j.error || 'create failed');
+    // Add to state
+    state.deals.unshift(j.deal);
+    state._fundTotals = fundStats();
+    renderDealBook();
+    if (state._mode === 'fund') renderFundTab();
+    // Auto-select the new deal
+    pickDealForEdit(j.deal.id);
+    // Reset form
+    ['dc-name','dc-firm','dc-irr','dc-term','dc-alloc','dc-notes'].forEach(function(id){ var el=$( id); if(el) el.value=''; });
+    $('dc-type').value = 'pe'; $('dc-source').value = 'ltv';
+    closeModal('deal-create-modal');
+    toast('Deal created: ' + j.deal.name, 'ok');
+  } catch(e) {
+    result.textContent = e.message;
+    result.style.display = 'block';
+    result.style.color = 'var(--red)';
+    btn.disabled = false;
+    btn.textContent = 'Create Deal →';
+  }
+}
+
+// ── Seed demo deals ────────────────────────────────────────────
+async function seedDemoDeals() {
+  const btn = $('seed-deals-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Seeding…'; }
+  try {
+    const j = await api('POST', '/api/deals/seed', { action: 'seed' });
+    if (!j.ok) throw new Error(j.error || 'seed failed');
+    // Reload deals from API
+    const r = await api('GET', '/api/deals/list');
+    state.deals = (r.deals || []);
+    state._fundTotals = fundStats();
+    renderDealBook();
+    if (state._mode === 'fund') renderFundTab();
+    toast(j.seeded + ' demo deals loaded', 'ok');
+  } catch(e) {
+    toast('Seed failed: ' + e.message, 'err');
+  }
+  if (btn) { btn.disabled = false; btn.textContent = '↓ Load Demo'; }
+}
+
+
 // ── Advisor create ──
 async function confirmAdvisorCreate() {
   const name  = $('ac-name')?.value?.trim();
   const firm  = $('ac-firm')?.value?.trim();
   const email = $('ac-email')?.value?.trim();
-  const pw    = $('ac-password')?.value?.trim();
+  const pw    = $('ac-password')?.value?.trim() || null; // setup link flow: no pw needed
   const fee   = Number($('ac-fee')?.value)||1.0;
   const carry = Number($('ac-carry')?.value)||0;
   if(!name||!firm||!email||!pw) { toast('All fields required','err'); return; }
@@ -2165,7 +2475,7 @@ async function confirmAdvisorCreate() {
     res.style.display='';
     res.style.color='var(--green)';
     res.innerHTML=`✓ Created. Share these credentials securely:<br><br>Email: <strong>${esc(email)}</strong><br>Password: <strong>${esc(pw)}</strong><br>Portal: <strong>/advisor</strong>`;
-    $('ac-name').value='';$('ac-firm').value='';$('ac-email').value='';$('ac-password').value='';
+    if($('ac-name'))$('ac-name').value=''; if($('ac-firm'))$('ac-firm').value=''; if($('ac-email'))$('ac-email').value=''; if($('ac-password'))$('ac-password').value='';
     toast('Advisor account created','ok');
   } catch(e) {
     const res=$('ac-result'); res.style.display=''; res.style.color='var(--red)'; res.textContent='Error: '+e.message;
