@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aurum Century Club — Partner Login</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0a0a'/><rect x='4' y='4' width='24' height='24' fill='none' stroke='%23C5A572' stroke-width='1.2'/><text x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='15' font-style='italic' fill='%23C5A572'>Au</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0a; --surface: #111;
+    --gold: #C5A572; --goldB: #d4b483; --goldWash: rgba(197,165,114,.07);
+    --sub: #888; --muted: #555; --border: #222;
+    --mono: 'JetBrains Mono', monospace;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+  }
+  html, body { height: 100%; }
+  body { background: var(--bg); color: #e8e0d4; font-family: var(--serif); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+
+  .shell { width: 100%; max-width: 380px; }
+
+  .seal {
+    width: 60px; height: 60px; border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-style: italic; font-size: 26px;
+    color: var(--gold); margin: 0 auto 28px; letter-spacing: .02em;
+  }
+
+  h1 { font-family: var(--serif); font-weight: 400; font-size: 28px; letter-spacing: .04em; text-align: center; margin-bottom: 8px; }
+  .sub { font-family: var(--mono); font-size: 9px; letter-spacing: .2em; color: var(--sub); text-align: center; margin-bottom: 32px; text-transform: uppercase; }
+
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-family: var(--mono); font-size: 9px; letter-spacing: .18em; color: var(--sub); margin-bottom: 6px; text-transform: uppercase; }
+  .field input {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    color: #e8e0d4; font-family: var(--mono); font-size: 14px;
+    padding: 12px 14px; outline: none; transition: border-color .15s;
+  }
+  .field input:focus { border-color: var(--gold); }
+  .field input.error { border-color: #c45; }
+
+  .btn {
+    width: 100%; background: transparent; border: 1px solid var(--gold);
+    color: var(--gold); font-family: var(--mono); font-size: 10px;
+    letter-spacing: .22em; text-transform: uppercase;
+    padding: 14px 20px; cursor: pointer; margin-top: 8px;
+    transition: background .15s, color .15s;
+  }
+  .btn:hover:not(:disabled) { background: var(--goldWash); }
+  .btn:disabled { opacity: .5; cursor: default; }
+
+  .err { font-family: var(--mono); font-size: 10px; color: #c45; margin-top: 12px; min-height: 16px; }
+
+  .foot { margin-top: 40px; text-align: center; }
+  .foot a { font-family: var(--mono); font-size: 9px; letter-spacing: .16em; color: var(--muted); text-decoration: none; text-transform: uppercase; }
+  .foot a:hover { color: var(--sub); }
+
+  .spin { display: inline-block; width: 12px; height: 12px; border: 1px solid var(--gold); border-top-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; vertical-align: middle; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 480px) {
+    .seal { width: 52px; height: 52px; font-size: 22px; margin-bottom: 20px; }
+    h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <a href="/main" style="text-decoration:none"><div class="seal"><em>Au</em></div></a>
+  <h1>Partner Access</h1>
+  <p class="sub">Aurum Century Club · Partners</p>
+
+  <div class="field">
+    <label for="email">Email</label>
+    <input id="email" type="email" placeholder="you@theaurumcc.com" autocomplete="username" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" autofocus>
+  </div>
+  <div class="field">
+    <label for="pw">Password</label>
+    <input id="pw" type="password" placeholder="••••••••" autocomplete="current-password">
+  </div>
+  <button class="btn" id="btn">SIGN IN →</button>
+  <div class="err" id="err"></div>
+</div>
+
+<div class="foot"><a href="/">← Return to Aurum</a></div>
+
+<script>
+(function(){
+  var emailEl = document.getElementById('email');
+  var pwEl    = document.getElementById('pw');
+  var btn     = document.getElementById('btn');
+  var err     = document.getElementById('err');
+
+  // If already signed in, skip straight to admin
+  fetch('/api/me', { credentials: 'same-origin', cache: 'no-store' })
+    .then(function(r){ if (r.ok) window.location.replace('/admin'); })
+    .catch(function(){});
+
+  function clearErr() {
+    err.textContent = '';
+    emailEl.classList.remove('error');
+    pwEl.classList.remove('error');
+  }
+  emailEl.addEventListener('input', clearErr);
+  pwEl.addEventListener('input', clearErr);
+
+  pwEl.addEventListener('keydown', function(e){ if (e.key === 'Enter') submit(); });
+
+  btn.addEventListener('click', submit);
+
+  async function submit() {
+    clearErr();
+    var email    = emailEl.value.trim();
+    var password = pwEl.value;
+    if (!email || !password) {
+      err.textContent = 'Please enter your email and password.';
+      return;
+    }
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spin"></span>';
+    try {
+      var r = await fetch('/api/login', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, password: password })
+      });
+      var j = null;
+      try { j = await r.json(); } catch(_){}
+      if (!r.ok) {
+        emailEl.classList.add('error');
+        pwEl.classList.add('error');
+        err.textContent = (j && j.error) ? j.error : 'Incorrect email or password.';
+        btn.disabled = false;
+        btn.innerHTML = 'SIGN IN →';
+        return;
+      }
+      pwEl.value = '';
+      var next = new URLSearchParams(location.search).get('next');
+      window.location.replace(next && /^\/[^/]/.test(next) ? next : '/admin');
+    } catch(e) {
+      err.textContent = 'Connection problem. Try again.';
+      btn.disabled = false;
+      btn.innerHTML = 'SIGN IN →';
+    }
+  }
+})();
+</script>
+
+</body>
+</html>
