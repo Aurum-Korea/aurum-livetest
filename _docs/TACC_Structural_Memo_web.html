@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TACC Structural & Regulatory Memo · vF</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --text: #ECE7DA;
+  --textDim: #aaa39a;
+  --gold: #C5A572;
+  --goldD: #8a7d6b;
+  --goldDeep: #6a5a3a;
+  --border: rgba(197,165,114,0.10);
+  --borderS: rgba(197,165,114,0.06);
+  --borderM: rgba(197,165,114,0.16);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Outfit', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+@page { size: Letter; margin: 0; background: #0a0a0a; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--sans); font-size: 11.5px; line-height: 1.55;
+  font-weight: 400;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.page {
+  width: 8.5in; height: 11in; background: var(--bg);
+  padding: 0.7in 0.85in 0.6in;
+  display: flex; flex-direction: column;
+  position: relative; page-break-after: always;
+  page-break-inside: avoid; overflow: hidden;
+}
+.page:last-child { page-break-after: auto; }
+
+/* ─── HEADER ─── */
+.head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 14px; border-bottom: 1px solid var(--borderS);
+  margin-bottom: 24px;
+  font-family: var(--mono); font-size: 8.5px;
+  letter-spacing: 0.26em; color: var(--goldD);
+  text-transform: uppercase;
+}
+.head .lockup { display: flex; align-items: center; gap: 10px; }
+.head .au {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px;
+  border: 1px solid var(--gold);
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  color: var(--gold); font-size: 12px; letter-spacing: -0.04em;
+}
+.head .word {
+  font-family: var(--sans); font-weight: 600; font-size: 10px;
+  color: var(--text); letter-spacing: 0.34em;
+}
+
+/* ─── FOOTER ─── */
+.foot {
+  margin-top: auto; padding-top: 14px;
+  border-top: 1px solid var(--borderS);
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--mono); font-size: 7.5px;
+  color: var(--goldDeep); letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+/* ─── COVER (sober memo title page) ─── */
+.cover {
+  flex: 1;
+  display: flex; flex-direction: column;
+}
+.cover-mark {
+  margin-top: 0.5in;
+  display: flex; align-items: center; gap: 14px;
+}
+.cover-mark .au {
+  width: 42px; height: 42px;
+  border: 1px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  color: var(--gold); font-size: 20px;
+  letter-spacing: -0.04em;
+  flex-shrink: 0;
+}
+.cover-mark .wm {
+  font-family: var(--sans); font-weight: 600;
+  font-size: 18px; color: var(--text); letter-spacing: 0.34em;
+  line-height: 1;
+  display: flex; flex-direction: column;
+}
+.cover-mark .wm .sub {
+  display: block; margin-top: 6px;
+  font-family: var(--mono); font-weight: 400;
+  font-size: 11px;
+  color: var(--goldD); letter-spacing: 0.36em;
+}
+
+.cover-divide {
+  margin-top: 1.4in;
+  border-top: 1px solid var(--borderM);
+  padding-top: 22px;
+}
+.cover-eyebrow {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--goldD); letter-spacing: 0.30em;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+.cover-title {
+  font-family: var(--sans); font-weight: 500;
+  font-size: 28px; color: var(--text);
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.cover-sub {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 13px; color: var(--textDim);
+  line-height: 1.5;
+  max-width: 5.5in;
+}
+
+.cover-block {
+  margin-top: 0.6in;
+  border-top: 1px solid var(--borderS);
+  padding-top: 18px;
+  font-family: var(--sans); font-size: 11px;
+  color: var(--textDim); line-height: 1.55;
+  max-width: 5.8in;
+}
+.cover-block .lbl {
+  font-family: var(--mono); font-size: 8px;
+  color: var(--goldD); letter-spacing: 0.26em;
+  text-transform: uppercase; margin-bottom: 6px;
+}
+
+.cover-meta {
+  margin-top: auto;
+  border-top: 1px solid var(--borderS);
+  padding-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  font-family: var(--mono); font-size: 8.5px;
+  color: var(--goldD); letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.cover-meta .label {
+  color: var(--goldDeep); margin-bottom: 4px;
+  font-size: 7.5px;
+}
+.cover-meta .v { color: var(--text); font-weight: 500; }
+
+/* ─── SECTION HEADINGS — sans serif, numbered ─── */
+h1.sec {
+  font-family: var(--sans); font-weight: 500;
+  font-size: 16px; color: var(--text);
+  letter-spacing: 0.04em;
+  margin-top: 0; margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--borderM);
+}
+h1.sec .num {
+  display: inline-block;
+  font-family: var(--mono); font-size: 11px;
+  color: var(--gold); letter-spacing: 0.10em;
+  margin-right: 12px;
+  min-width: 22px;
+}
+h1.sec + p {
+  margin-top: 0;
+}
+
+h2.sub {
+  font-family: var(--mono); font-weight: 500;
+  font-size: 9.5px; letter-spacing: 0.26em;
+  color: var(--gold); text-transform: uppercase;
+  margin-top: 22px; margin-bottom: 10px;
+}
+h2.sub:first-of-type { margin-top: 14px; }
+
+p {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 11px; line-height: 1.6;
+  color: var(--text); margin-bottom: 10px;
+}
+p.lede {
+  color: var(--textDim);
+  margin-bottom: 18px;
+}
+
+/* italic ONLY for legal terms of art */
+em {
+  font-family: var(--serif); font-style: italic;
+  font-weight: 400; color: var(--gold);
+}
+
+/* ─── TABLES ─── */
+.tbl {
+  width: 100%; border-collapse: collapse;
+  margin: 8px 0 14px; font-size: 10.5px;
+}
+.tbl th {
+  text-align: left;
+  font-family: var(--mono); font-weight: 500;
+  font-size: 8px; letter-spacing: 0.22em;
+  color: var(--goldD); text-transform: uppercase;
+  padding: 7px 10px;
+  border-top: 1px solid var(--borderM);
+  border-bottom: 1px solid var(--borderM);
+  vertical-align: top;
+}
+.tbl td {
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--borderS);
+  vertical-align: top; line-height: 1.45;
+  font-family: var(--sans); font-size: 10.5px;
+}
+.tbl td.k {
+  color: var(--text); width: 30%;
+  font-weight: 500;
+}
+.tbl td.v { color: var(--textDim); }
+
+/* sub-cell for nested labels */
+.tbl td .small {
+  font-size: 8.5px;
+  color: var(--goldDeep);
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  letter-spacing: 0.16em;
+}
+
+/* ─── NUMBERED LIST ─── */
+ol.numlist {
+  list-style: none;
+  counter-reset: it;
+  padding-left: 0;
+  margin: 8px 0 14px;
+}
+ol.numlist li {
+  counter-increment: it;
+  position: relative;
+  padding-left: 32px;
+  margin-bottom: 8px;
+  font-family: var(--sans); font-size: 11px;
+  line-height: 1.55;
+  color: var(--text);
+}
+ol.numlist li::before {
+  content: counter(it, lower-roman) ".";
+  position: absolute; left: 0; top: 0;
+  font-family: var(--mono); font-size: 9.5px;
+  color: var(--gold); font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  min-width: 26px;
+}
+
+/* ─── TWO-COLUMN PRESERVED-PROVIDED ─── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 12px;
+}
+.two-col .col {
+  border-top: 1px solid var(--borderM);
+  padding-top: 12px;
+}
+.two-col .col-lbl {
+  font-family: var(--mono); font-size: 8.5px;
+  color: var(--gold); letter-spacing: 0.24em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.two-col ul {
+  list-style: none; padding: 0;
+}
+.two-col li {
+  font-family: var(--sans); font-size: 10.5px;
+  line-height: 1.55; color: var(--text);
+  padding: 4px 0 4px 12px;
+  position: relative;
+}
+.two-col li::before {
+  content: '·';
+  position: absolute; left: 0; top: 0;
+  color: var(--gold);
+}
+
+/* ─── DIAGRAM (kept but neutralized) ─── */
+.compound-diagram {
+  margin: 10px 0 14px;
+  padding: 16px;
+  border: 1px solid var(--borderS);
+  background: rgba(0,0,0,0.20);
+}
+.compound-head {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 8px;
+  letter-spacing: 0.22em; color: var(--goldD);
+  text-transform: uppercase; margin-bottom: 12px;
+}
+.compound-rows {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.cmp-row {
+  display: grid; grid-template-columns: 50px 1fr 200px;
+  gap: 12px; align-items: center;
+  font-family: var(--mono); font-size: 9px;
+}
+.cmp-row .yr {
+  color: var(--goldD); letter-spacing: 0.2em;
+}
+.cmp-bar {
+  display: flex; gap: 4px; flex-wrap: wrap;
+}
+.cmp-bar span {
+  display: inline-block; padding: 2px 6px;
+  background: rgba(199,112,97,0.12);
+  border: 1px solid rgba(199,112,97,0.25);
+  color: #c77061;
+  font-size: 7.5px; letter-spacing: 0.1em;
+}
+.cmp-vs span {
+  padding: 2px 8px;
+  background: rgba(197,165,114,0.06);
+  border: 1px solid var(--borderM);
+  color: var(--goldD);
+  font-size: 7.5px; letter-spacing: 0.1em;
+}
+.compound-result {
+  margin-top: 12px; padding-top: 10px;
+  border-top: 1px solid var(--borderS);
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 8.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.compound-result .l { color: #c77061; }
+.compound-result .r { color: var(--goldD); }
+
+/* ─── DISCLOSURE FOOTER ─── */
+.end-marker {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--borderM);
+  text-align: center;
+  font-family: var(--mono); font-size: 8.5px;
+  letter-spacing: 0.32em;
+  color: var(--goldD);
+  text-transform: uppercase;
+}
+
+/* ─── Magazine masthead (cover) ─────────────────────────────────────── */
+.masthead {
+  margin-top: 0.7in;
+  text-align: left;
+  padding-bottom: 0;
+}
+.masthead .pub {
+  font-family: var(--sans); font-weight: 600;
+  font-size: 20px;
+  color: var(--text);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.masthead .presents {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: 16px;
+  color: var(--goldD);
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+.masthead .rule {
+  width: 56px; height: 1px;
+  margin: 12px 0 0;
+  background: var(--gold);
+  opacity: 0.55;
+}
+
+/* Colophon footer */
+.colophon {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--borderS);
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--mono); font-size: 8px;
+  color: var(--goldDeep); letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+.colophon .imprint {
+  display: inline-flex; align-items: center; gap: 12px;
+}
+.colophon .imprint .au-mini {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px;
+  border: 1px solid var(--gold);
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  color: var(--gold); font-size: 9px; letter-spacing: -0.04em;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ─── PAGE 1 · TITLE PAGE (sober) ─── -->
+<section class="page">
+  <!-- ── Top logo lockup ──────────────────────────────────────────────── -->
+  <div class="cover-mark">
+    <div class="au"><em>Au</em></div>
+    <div class="wm">
+      AURUM
+      <span class="sub">CENTURY CLUB</span>
+    </div>
+  </div>
+
+  <!-- ── Document header: utilitarian ─────────────────────────────────── -->
+  <div style="margin-top:0.85in;">
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.30em;color:var(--goldD);text-transform:uppercase;margin-bottom:10px;">
+      Structural &amp; Regulatory Memorandum  ·  MMXXVI  ·  Folio 002
+    </div>
+
+    <h1 style="font-family:var(--serifKr);font-weight:400;font-size:48px;line-height:1.05;letter-spacing:-0.02em;color:var(--text);margin-bottom:16px;">
+      AURUM Funds — Structural Overview
+    </h1>
+
+    <div style="width:48px;height:1px;background:var(--gold);opacity:0.45;margin-bottom:20px;"></div>
+
+    <p style="font-family:var(--serif);font-size:14px;line-height:1.6;color:var(--text);max-width:5.6in;margin-bottom:8px;">
+      Singapore VCC structure converting Korean private capital, collateralised by allocated physical gold, into curated US private market exposure.
+    </p>
+    <p style="font-family:var(--serif);font-style:italic;font-size:13px;line-height:1.55;color:var(--textDim);max-width:5.6in;">
+      Prepared for tax, legal, and compliance advisors of qualified prospective investors. Read in conjunction with the Private Placement Memorandum.
+    </p>
+  </div>
+
+  <!-- ── Notice block: standard fund deal-doc framing ─────────────────── -->
+  <div style="margin-top:38px;padding:14px 18px;border-left:1px solid var(--borderM);font-family:var(--serif);font-size:11.5px;line-height:1.55;color:var(--textDim);max-width:5.8in;">
+    <div style="font-family:var(--mono);font-weight:500;font-size:8px;letter-spacing:0.26em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;">
+      Notice
+    </div>
+    This document is provided for informational purposes only and does not constitute legal, tax, accounting, or investment advice. It is structural background and does not replace the Private Placement Memorandum (PPM), the Limited Partnership Agreement, or the subscription documents, which together constitute the definitive terms of an investment in the Fund. Investment decisions should be made solely on the basis of those definitive documents, after consultation with the recipient's own qualified tax, legal, and regulatory advisors. Distribution of this memorandum to Korean residents is contemplated solely on a reverse-solicitation basis or through a Korean-licensed distributor; this memorandum is not a public offer in any jurisdiction.
+  </div>
+
+  <!-- ── Distribution / classification line (lawyers like seeing this) ── -->
+  <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--borderS);display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;letter-spacing:0.24em;color:var(--goldDeep);text-transform:uppercase;max-width:5.8in;">
+    <span>Distribution restricted</span>
+    <span>NDA-gated</span>
+    <span>Recipient: counsel of record</span>
+  </div>
+
+  <div class="foot"><span>CONFIDENTIAL  ·  QUALIFIED INVESTORS ONLY  ·  FOR DISCUSSION ONLY  ·  NOT AN OFFER OR SOLICITATION</span><span>01</span></div>
+</section>
+
+<!-- ─── PAGE 2 · §§ 1-2 ─── -->
+<section class="page">
+  <div class="head">
+    <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
+    <span>SECTIONS 1 — 2</span>
+  </div>
+
+  <h1 class="sec"><span class="num">1.</span>Executive summary</h1>
+  <p>Aurum Funds (the "<em>Fund</em>") is a <em>newly launched structured fund vehicle</em> combining a gold-collateralised credit facility with curated US private market exposure. The structure is purpose-built; targets and mechanics described in this memorandum are derived from the Manager's structuring of the vehicle.</p>
+  <p>TACC Pte Ltd (the "Manager") intends to register an umbrella Variable Capital Company (VCC) prior to first close, with Aurum Funds (the "Fund") established as a sub-fund of that umbrella VCC. References to the Fund in this memorandum are to the proposed fund vehicle. The Fund accepts allocated physical gold as the qualifying Member contribution; a Singapore institutional bank credit facility deploys against it into a portfolio of US private market positions.</p>
+  <p>The Fund is structured to consolidate Singapore-side fund administration into a single subscription. The Member's resident-level obligations as a Korean resident are unaffected by the Fund structure.</p>
+
+  <h2 class="sub">1.1 Scope of consolidation</h2>
+  <p>What is consolidated at the fund level: the per-deal FETA capital transaction filings, the per-remittance KoFIU AML reviews, and the FSCMA pool-level constraints that would arise on direct positions.</p>
+
+  <h2 class="sub">1.2 Member-level resident obligations</h2>
+  <p>What is not consolidated, and remains the Member's obligation as a Korean resident: annual NTS overseas account reporting under LCITA (KRW 500 million threshold), Korean capital gains tax on fund distributions, and the designated Korean foreign exchange bank relationship.</p>
+  <p>The fund structure also involves a <em>contingent additional capital commitment</em> beyond initial subscription, exercisable by the fund under defined conditions of the LP agreement (see §6.2). The capital-call cap, notice period, and frequency are specified in the LP agreement and should be reviewed with counsel.</p>
+
+  <h1 class="sec" style="margin-top:30px;"><span class="num">2.</span>Structure</h1>
+
+  <h2 class="sub">2.1 Singapore vehicle</h2>
+  <table class="tbl">
+    <tr><td class="k">Manager</td><td class="v">TACC Pte Ltd (Singapore)</td></tr>
+    <tr><td class="k">Fund vehicle</td><td class="v">Aurum Funds, sub-fund of an umbrella Singapore VCC (intended structure, registration prior to first close)</td></tr>
+    <tr><td class="k">Regulatory framework</td><td class="v">Singapore VCC framework (intended), accredited-investor route under standard Singapore fund regulation</td></tr>
+    <tr><td class="k">Fund administrator</td><td class="v">Independent Singapore administrator, engaged at first close</td></tr>
+    <tr><td class="k">Auditor</td><td class="v">Independent Singapore auditor, engaged at first close</td></tr>
+    <tr><td class="k">Gold custodian</td><td class="v">Singapore Freeport bullion custodian</td></tr>
+    <tr><td class="k">Insurance</td><td class="v">insured under the custodian's standard insurance programme</td></tr>
+    <tr><td class="k">Credit facility</td><td class="v">Singapore institutional bank, SORA-linked floating</td></tr>
+  </table>
+
+  <h2 class="sub">2.2 Member commitment</h2>
+  <p>Single-tier subscription. Minimum 1 kg of LBMA-grade physical gold at first close. Loan-to-value up to 75% per LP agreement parameters and sized to Member commitment level. The bank's margin call line sits at 80% LTV.</p>
+
+  <div class="foot"><span>CONFIDENTIAL  ·  QUALIFIED INVESTORS ONLY</span><span>02</span></div>
+</section>
+
+<!-- ─── PAGE 3 · §3 KOREAN LP REGULATORY FRAMEWORK ─── -->
+<section class="page">
+  <div class="head">
+    <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
+    <span>SECTION 3</span>
+  </div>
+
+  <h1 class="sec"><span class="num">3.</span>Korean LP regulatory framework</h1>
+  <p>The table below sets out, by Korean regulatory regime, the treatment of the obligation under the Fund structure. <em>This regulatory mapping is provided as structural background only; specifics for any Korean resident depend on individual circumstances and require qualified Korean tax / FX counsel review.</em></p>
+
+  <table class="tbl">
+    <tr><th style="width:30%">Korean obligation</th><th>Treatment under fund structure</th></tr>
+    <tr><td class="k">FETA · Initial remittance</td><td class="v">Member designates a Korean foreign exchange bank at subscription. The remittance is reported through that bank under the standard capital transaction process. Aurum supplies standardised remittance documentation supporting purpose-of-transfer disclosure.</td></tr>
+    <tr><td class="k">FETA · Per-deal filing</td><td class="v">Addressed at the Fund level under the Singapore regulatory framework. After subscription, individual deal entries are made by the Singapore VCC under its own filing regime; the member does not submit per-deal FETA filings against the LP interest itself.</td></tr>
+    <tr><td class="k">FSCMA · Distribution route<span class="small">Articles 9, 11, 119</span></td><td class="v">Distribution to ROK residents is contemplated solely on a <em>reverse-solicitation basis</em> (where each prospect has initiated contact prior to receiving substantive offering materials), or through a <em>Korean-licensed distributor</em> in compliance with applicable FSCMA requirements. The Manager has not undertaken, and does not undertake, any general solicitation, advertising, or public marketing in the ROK in connection with the Fund. The reverse-solicitation acknowledgement is captured at the inquiry stage and reaffirmed at the IOI stage.</td></tr>
+    <tr><td class="k">FSCMA · 49-investor pool cap</td><td class="v">Not applicable at the fund level. The Fund is a Singapore-domiciled vehicle. The member's exposure is a single LP subscription in a Singapore structure, not a Korean private fund interest.</td></tr>
+    <tr><td class="k">FSCMA · 10% single-deal cap</td><td class="v">Not applicable at member level. Position-level concentration is held at the fund level. The member holds a pro-rata interest in the fund, not direct deal exposure.</td></tr>
+    <tr><td class="k">KoFIU · AML / STR review</td><td class="v">Initial remittance triggers standard CTR/STR review at the member's Korean bank. Aurum supplies source-of-funds documentation support during onboarding to assist the bank and the member's counsel with the review.</td></tr>
+    <tr><td class="k">NTS · Overseas account annual reporting<span class="small">LCITA · KRW 500 million threshold</span></td><td class="v">Member's annual reporting obligation <em>remains.</em> Aurum supplies standardised annual documentation — K-1 equivalent and position summary — to support the member's Korean tax counsel in preparing the filing. Filings continue to be made by the member's Korean counsel.</td></tr>
+    <tr><td class="k">NTS · Capital gains on distributions</td><td class="v">Member's Korean capital gains tax obligation on fund distributions <em>remains.</em> Aurum supplies annual documentation supporting cost basis and distribution reporting.</td></tr>
+    <tr><td class="k">NTS · Tax characterization on disposition</td><td class="v">The Korean tax characterization of gain or loss on disposition of the LP interest — including any embedded gold price appreciation reflected in Fund value — depends on the Member's circumstances and Korean tax law applicable at the time of disposition. Members should obtain advice from qualified Korean tax counsel on expected treatment prior to subscription.</td></tr>
+  </table>
+
+  <h2 class="sub">3.1 Treatment summary</h2>
+  <p>The structure addresses the fund-level entity reporting under Singapore law. Resident-level obligations of the Korean member — annual NTS overseas account reporting, capital gains tax on distributions, and the designated FX bank relationship — are unaffected by the structure and continue to require the engagement of the member's Korean tax / FX counsel.</p>
+
+  <div class="foot"><span>CONFIDENTIAL  ·  QUALIFIED INVESTORS ONLY</span><span>03</span></div>
+</section>
+
+<!-- ─── PAGE 4 · §4 DIRECT VS FUND ROUTE ─── -->
+<section class="page">
+  <div class="head">
+    <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
+    <span>SECTION 4</span>
+  </div>
+
+  <h1 class="sec"><span class="num">4.</span>Subscription and deal-level mechanics</h1>
+  <p>The member's investment is a single LP subscription into the Singapore VCC. Underlying portfolio positions are acquired and held by the VCC at the entity level. The VCC, acting as the Singapore-domiciled investor, undertakes the Singapore-side reporting and counterparty obligations associated with each position, including any documentation required by the relevant counterparty, deal sponsor, or sub-fund administrator.</p>
+
+  <h2 class="sub">4.1 Capital deployment cycle</h2>
+  <p>Following first close, capital is deployed by the VCC across the curated deal book on the schedule contemplated by the PPM, subject to deal availability and the fund's investment policy. Member capital remains committed to the fund vehicle; the member is not party to any underlying deal documentation, and does not enter into separate counterparty arrangements with deal sponsors.</p>
+
+  <h2 class="sub">4.2 Reporting cycle</h2>
+  <p>The fund administrator produces unitised NAV reporting on the cycle set out in the PPM. The member receives quarterly position statements through the Aurum portal and an annual K-1-equivalent statement supporting Korean tax-counsel preparation of the member's resident-level filings. Annual audited financials are produced at the fund level following first close.</p>
+
+  <h2 class="sub">4.3 Subscription procurement and pricing</h2>
+  <p>The member's subscription is funded by wire denominated in USD. Upon clearance of the wire by the fund administrator, the fund executes the gold procurement at the prevailing <em>LBMA-grade spot price at the time of trade execution</em> with the fund's bullion counterparties. The member's allocated bar amount, expressed in kilograms, is determined at the trade execution price.</p>
+  <p>The Fund targets execution <em>promptly following wire clearance,</em> subject to market conditions, dealer availability, and bar inventory at the relevant LBMA refiners. Gold spot movement between Indication of Interest submission and trade execution is borne by the member, with the corresponding effect on allocated kilogram amount; the fund does not commit to a fixed kilogram allocation at the IOI stage.</p>
+  <p>Vault confirmation, comprising bar serial allocation into segregated allocated custody at the Singapore Freeport custodian and insurance attachment under the custodian's standard programme, follows trade execution and is typically completed within one further business day. <em>The member's LP interest in the fund is established upon vault confirmation;</em> until that point the member's funds are held in the fund's settlement account at the fund administrator and are not yet subscribed to the fund vehicle.</p>
+  <p>The Fund may retain <em>up to 3%</em> of the Member's wire as a procurement buffer to cover spot movement during the execution window, dealer spread, bar storage setup, insurance attachment, and bullion execution costs. Actual buffer applied is reconciled against actual procurement costs and reflected in the Member's annual position statement, reviewed by the independent fund auditor. Any unused portion is credited to the Member's pro-rata share of the Fund's 20% cash reserve.</p>
+  <p>Operationally, the Procurement Buffer is held at Fund level in a reconciliation account at the Administrator. <em>It is not netted from the Member's wire prior to gold purchase</em>; the full wired amount is applied to gold procurement at the LBMA spot at execution. The Buffer functions as a Fund-level provision against execution-cost overruns; any unused portion is reconciled annually and credited to the Member's pro-rata share of the Cash Reserve. See PPM §8.4 for the full operational mechanic and the worked example.</p>
+  <p>Members are advised to coordinate wire timing with the member's designated Korean foreign exchange bank, which may require advance notice for outbound capital transactions.</p>
+
+  <h2 class="sub">4.4 Distributions</h2>
+  <p>Distributions are made in accordance with the LP agreement and the fund's distribution policy. Distributions paid to the member give rise to Korean tax obligations at the member level; cost-basis and distribution detail is supplied by the fund to support the member's counsel in preparing the corresponding Korean filings.</p>
+
+  <div class="foot"><span>CONFIDENTIAL  ·  QUALIFIED INVESTORS ONLY</span><span>04</span></div>
+</section>
+
+<!-- ─── PAGE 5 · §5 RISK FACTORS ─── -->
+<section class="page">
+  <div class="head">
+    <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
+    <span>SECTION 5</span>
+  </div>
+
+  <h1 class="sec"><span class="num">5.</span>Risk factors</h1>
+  <p>The fund is a leveraged, illiquid private markets vehicle with a gold-collateralised credit structure. The principal risk categories are summarised below. The PPM contains the full risk factor disclosure and is the definitive document.</p>
+
+  <table class="tbl">
+    <tr><th style="width:24%">Risk</th><th style="width:36%">Mechanism</th><th>Mitigant</th></tr>
+    <tr><td class="k">Gold price decline reducing LTV headroom</td><td class="v">Gold pledged as collateral. Bank margin line at 80% LTV. <em>Severe drawdowns may trigger capital calls to existing members for reserve replenishment.</em></td><td class="v">20% fund-level cash reserve. LTV monitoring with member alerts at 70%, 10 percentage points before the bank's margin threshold. Pro-rata capital-call mechanism per §6.2 of this memorandum and the LP agreement.</td></tr>
+    <tr><td class="k">Private credit default</td><td class="v">Credit sleeve allocated to US mid-market private credit, gross target sized to deal selection and rate environment.</td><td class="v">Diversification across multiple positions; concentration limits set in fund operating policy; independent fund administrator; default reserves at fund level.</td></tr>
+    <tr><td class="k">Pre-IPO equity delay</td><td class="v">Illiquid equity positions with 18–36 month liquidity horizon.</td><td class="v">Secondary market exit considered where available. Fund term extensions require LP consent. No unilateral extension.</td></tr>
+    <tr><td class="k">SORA rate increase compressing net spread</td><td class="v">Credit facility is SORA-linked floating rate.</td><td class="v">Deal selection considers prevailing rate environment. Spread sensitivity reviewed quarterly. Reinvestment policy adjusts deployment mix as rate conditions evolve.</td></tr>
+    <tr><td class="k">Operational risk</td><td class="v">Single-manager risk in early fund life.</td><td class="v">Gold custody is independent of the manager. Administrator and auditor are independent third parties. Key-man provisions in PPM. Material management changes trigger LP notification and may carry redemption rights, subject to PPM terms.</td></tr>
+  </table>
+
+  <h2 class="sub">5.1 Structural protections</h2>
+  <table class="tbl">
+    <tr><td class="k">Custody independence</td><td class="v">Gold custody is segregated under VCC Act §29 and held by a third-party Singapore Freeport bullion custodian. The assets of the Fund are statutorily segregated from those of any other sub-fund of the Umbrella VCC and from the Manager's own assets. In an insolvency proceeding, Members retain a claim on allocated bars subject to the terms of the custody agreement and applicable Singapore insolvency law. Members and counsel should review the custody agreement (Schedule B of the PPM) for full terms.</td></tr>
+    <tr><td class="k">Administration independence</td><td class="v">Fund administrator is an independent third-party Singapore entity. NAV calculations and LP reporting are not self-administered.</td></tr>
+    <tr><td class="k">Term extensions</td><td class="v">Beyond the 5-year base term, extensions require LP consent. The manager cannot unilaterally extend.</td></tr>
+    <tr><td class="k">Key-man provisions</td><td class="v">Material changes to the management team trigger LP notification and may carry redemption rights, subject to the terms of the LP agreement and PPM.</td></tr>
+  </table>
+
+  <div class="foot"><span>CONFIDENTIAL  ·  QUALIFIED INVESTORS ONLY  ·  TARGETS ILLUSTRATIVE</span><span>05</span></div>
+</section>
+
+<!-- ─── PAGE 6 · §6 DRAWDOWN MECHANISM + §7 COUNSEL'S CONTINUING SCOPE ─── -->
+<section class="page">
+  <div class="head">
+    <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
+    <span>SECTIONS 6 — 7</span>
+  </div>
+
+  <h1 class="sec"><span class="num">6.</span>Drawdown protection mechanism</h1>
+  <p>The fund operates a fund-level cash reserve sized at 20% of member capital. The reserve is dedicated to managing gold-market drawdowns that approach the bank margin threshold.</p>
+
+  <h2 class="sub">6.1 Reserve deployment</h2>
+  <p>Under normal conditions, the reserve sits in cash and short-duration instruments. When gold price declines reduce LTV headroom, the reserve is applied first to loan-principal paydown, restoring effective LTV. Where gold price declines exceed 25% from subscription baselines, up to 80% of the fund-level reserve may be deployed to acquire additional gold for fund account at distressed prices.</p>
+
+  <h2 class="sub">6.2 Capital-call mechanism</h2>
+  <p>After reserve deployment, the reserve is replenished through a <em>pro-rata capital-call mechanism</em> applied to existing Members. <strong>The aggregate Capital Calls to which a Member may be subject under the Fund Agreement during the Term shall not exceed one hundred percent (100%) of such Member's original Commitment;</strong> Capital Calls in excess of this cap may not be made by the Manager without the express consent of the affected Member, on terms set out in the Fund Agreement. Notice period, maximum frequency, cure period, and pro-rata allocation across Members are governed by the Fund Agreement and are set out in the PPM (§7.4). Members participate pro-rata in any trough-acquired gold position acquired with replenished capital, such that the call functions as a further investment into the Member's pro-rata Fund position rather than as a recovery of Fund losses.</p>
+
+  <h2 class="sub">6.3 Member contingent capital exposure</h2>
+  <p>Subscription to the fund involves a contingent additional capital commitment beyond the initial subscription, capped in aggregate at one hundred percent (100%) of original Commitment, exercisable by the fund under the conditions of the Fund Agreement. Members should review the capital-call provisions of the Fund Agreement carefully and size their initial commitment with sufficient capital reserved to meet potential pro-rata calls during material gold-market drawdowns. Notice period, frequency limits, and cure periods are set out in the PPM (§7.4) and the Fund Agreement; Members should confirm these with counsel prior to subscription.</p>
+
+  <h1 class="sec" style="margin-top:26px;"><span class="num">7.</span>Member-level Korean obligations</h1>
+  <p>Resident-level Korean obligations of the member are unaffected by the fund structure. The member's Korean counsel is responsible for the annual NTS overseas account filing under LCITA (KRW 500 million threshold) in respect of the LP interest, Korean income tax reporting on fund distributions, and the ongoing designated FX bank relationship under FETA. KoFIU AML / STR review applies to the initial remittance under standard CTR/STR procedure at the member's Korean bank.</p>
+
+  <h2 class="sub">7.1 Documentation supplied by the fund</h2>
+  <p>To support the member's Korean counsel in preparing the resident-level filings, the fund administrator supplies, on the schedule set out in the LP agreement: an annual K-1-equivalent statement for the LP interest; an annual position summary with cost-basis support for distribution and capital-gains reporting; bar certificates and custody confirmations; LP letters and PPM updates as issued; and audited fund financials following first close. Source-of-funds documentation is supplied at onboarding to assist the member's bank and Korean counsel with the KoFIU review.</p>
+
+  <h2 class="sub">7.2 Filings</h2>
+  <p>Filings to Korean regulatory authorities are prepared and submitted by the member's Korean counsel. The fund does not represent itself as Korean tax counsel and does not submit Korean filings on the member's behalf. Definitive scope of fund-supplied documentation and the member's resident obligations are governed by the LP agreement and the subscription documents.</p>
+
+  <div class="foot"><span>CONFIDENTIAL  ·  QUALIFIED INVESTORS ONLY</span><span>06</span></div>
+</section>
+
+<!-- ─── PAGE 7 · §8 IMPORTANT NOTICES ─── -->
+<section class="page">
+  <div class="head">
+    <div class="lockup"><span class="au"><em>Au</em></span><span class="word">AURUM</span></div>
+    <span>SECTION 8</span>
+  </div>
+
+  <h1 class="sec"><span class="num">8.</span>Important notices</h1>
+
+  <h2 class="sub">8.1 Confidentiality and audience</h2>
+  <p>This memorandum is confidential and is directed only at qualified investors as defined under applicable Singapore and Korean law and at their tax, legal, and compliance advisors. It does not constitute an offer or solicitation in any jurisdiction in which such offer or solicitation would be unlawful.</p>
+
+  <h2 class="sub">8.2 No legal, tax, or investment advice</h2>
+  <p>This memorandum is structural background. It does not constitute legal, tax, accounting, or investment advice and may not be relied upon as such. Korean residents are advised to obtain independent legal advice from qualified Korean tax / FX counsel prior to subscription.</p>
+
+  <h2 class="sub">8.3 Forward-looking statements; illustrative figures</h2>
+  <p>Statements in this memorandum that are not statements of historical fact are forward-looking. Return targets, IRR ranges, and structural economics referenced herein or in the Century Club Package are illustrative and are not guaranteed. Past performance of comparable structures is not indicative of future results. No representation is made as to the accuracy of any forward-looking statement.</p>
+
+  <h2 class="sub">8.4 Investment risk</h2>
+  <p>Investment in Aurum Funds involves significant risk, including the loss of principal. The fund is leveraged, illiquid, and gold-collateralised. Investors should commit only capital they can afford to hold for the full fund term. Risk factors are summarised in Section 5 of this memorandum and are presented in full in the PPM.</p>
+
+  <h2 class="sub">8.5 Definitive terms</h2>
+  <p>The complete Private Placement Memorandum, including full risk factor disclosure and detailed terms, is the definitive offering document. The PPM is made available to qualified prospects through the Aurum members portal following execution of a non-disclosure agreement and partner verification. Each PPM access is per-Member watermarked and audit-logged. The PPM must be reviewed prior to subscription. This memorandum is structural background and does not replace the PPM.</p>
+
+  <h2 class="sub">8.6 Distribution restrictions</h2>
+  <p>Recipient confidentiality applies. This memorandum may not be reproduced or distributed in whole or in part without the prior written consent of TACC Pte Ltd. The information herein is provided in the context of an existing or contemplated non-disclosure agreement with the recipient.</p>
+
+  <div class="end-marker">END OF MEMORANDUM</div>
+
+  <div class="foot"><span>FORWARD-LOOKING  ·  NO REPRESENTATION AS TO ACCURACY  ·  RECIPIENT CONFIDENTIALITY APPLIES</span><span>07</span></div>
+</section>
+
+</body>
+</html>
