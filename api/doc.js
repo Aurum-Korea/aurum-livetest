@@ -37,6 +37,7 @@ export default async function handler(req, res) {
     'memo-page':       { file: 'memo.html',      require: 'nda-approved' },
     'ioi-page':        { file: 'ioi.html',       require: 'nda-approved' },
     'portfolio-page':  { file: 'portfolio.html', require: 'nda-approved' },
+    'customer-page':   { file: 'customer.html',   require: 'wire-cleared' },
   };
 
   if (PAGE_IDS[id]) {
@@ -58,6 +59,9 @@ export default async function handler(req, res) {
       }
       // State checks per page
       if (cfg.require === 'nda-approved' && pageLead.nda_state !== 'approved') {
+        return redirectToInquiry(res);
+      }
+      if (cfg.require === 'wire-cleared' && !(pageLead.wire && pageLead.wire.cleared_at)) {
         return redirectToInquiry(res);
       }
     }

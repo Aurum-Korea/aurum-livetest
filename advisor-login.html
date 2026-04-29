@@ -1,0 +1,57 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0a0a"><title>Advisor Login · Aurum</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0a;--card:#0f0d0a;--text:#e8e3d8;--sub:#aaa39a;--muted:#6b655e;--gold:#C5A572;--goldB:#E3C187;--goldD:#8a7d6b;--goldBd:rgba(197,165,114,0.22);--goldW:rgba(197,165,114,0.04);--border:rgba(255,255,255,0.07);--red:#b05e56;--redBd:rgba(176,94,86,0.26);--redW:rgba(176,94,86,0.07);--serif:'Cormorant Garamond',Georgia,serif;--mono:'JetBrains Mono',monospace}
+body{background:var(--bg);color:var(--text);font-family:var(--mono);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.box{width:360px;border:1px solid var(--goldBd);background:var(--card);padding:32px 28px}
+.seal{width:32px;height:32px;border:1px solid var(--goldBd);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:14px;color:var(--gold);margin:0 auto 16px}
+.title{font-family:var(--serif);font-style:italic;font-size:24px;color:var(--text);text-align:center;line-height:1;margin-bottom:4px}
+.sub{font-size:7.5px;letter-spacing:.24em;color:var(--muted);text-transform:uppercase;text-align:center;margin-bottom:24px}
+label{display:block;font-size:7px;letter-spacing:.24em;color:var(--muted);text-transform:uppercase;margin-bottom:5px}
+input{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:13px;padding:9px 11px;outline:none;margin-bottom:14px}
+input:focus{border-color:var(--goldBd)}
+button{width:100%;background:var(--gold);border:0;color:var(--bg);font-family:var(--mono);font-size:9px;letter-spacing:.26em;text-transform:uppercase;padding:11px;cursor:pointer;margin-top:4px}
+button:hover{background:var(--goldB)}
+.err{font-size:8.5px;letter-spacing:.14em;color:var(--red);background:var(--redW);border:1px solid var(--redBd);padding:8px 10px;margin-bottom:14px;display:none}
+.note{font-size:7px;letter-spacing:.14em;color:var(--muted);text-align:center;margin-top:16px}
+</style></head><body>
+<div class="box">
+  <div class="seal"><em>Au</em></div>
+  <div class="title">GP Advisor Portal</div>
+  <div class="sub">External Advisors Only</div>
+  <div class="err" id="err"></div>
+  <label>Email</label>
+  <input type="email" id="email" placeholder="you@firm.com" autocomplete="email">
+  <label>Password</label>
+  <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+  <button id="btn" onclick="doLogin()">Sign In →</button>
+  <div class="note">Access restricted to registered GP advisors.<br>Contact TACC to request credentials.</div>
+</div>
+<script>
+async function doLogin(){
+  const email=document.getElementById('email').value.trim();
+  const password=document.getElementById('password').value;
+  const btn=document.getElementById('btn');
+  const err=document.getElementById('err');
+  if(!email||!password){showErr('Enter email and password');return}
+  btn.textContent='Signing in…';btn.disabled=true;
+  try{
+    const r=await fetch('/api/advisor?op=login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password}),credentials:'same-origin'});
+    const d=await r.json();
+    if(d.ok){
+      const next=new URLSearchParams(location.search).get('next')||'/advisor';
+      location.replace(next);
+    } else {
+      showErr('Invalid credentials');btn.textContent='Sign In →';btn.disabled=false;
+    }
+  }catch(e){showErr('Connection error');btn.textContent='Sign In →';btn.disabled=false;}
+}
+function showErr(msg){const e=document.getElementById('err');e.textContent=msg;e.style.display='block'}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+</script>
+</body></html>

@@ -1,7 +1,7 @@
 // /api/verify-code — three modes:
 //   POST { code }                  — manual code entry, returns JSON
 //   GET  ?c=XXX                    — code magic link from email, returns JSON
-//   GET  ?ml=<signed_token>        — passwordless magic link (Path B), redirects to /portfolio
+//   GET  ?ml=<signed_token>        — passwordless magic link (Path B), redirects to /customer
 
 import { json, ok, bad, unauthorized, getQuery, readBody, setCookie, getCookie } from './_lib/http.js';
 import { signToken, verifyToken } from './_lib/auth.js';
@@ -42,11 +42,11 @@ export default async function handler(req, res) {
   setAccessCookie(res, lead.id, code);
 
   // Route to the right surface based on lead state:
-  //   wire cleared → /portfolio (admitted member, post-launch view)
+  //   wire cleared → /customer (admitted member, post-launch view)
   //   NDA approved → /memo (materials hub for review pre-IOI)
   //   else → /main (read marketing pitch, then continue to NDA)
   let nextPath = '/main';
-  if (lead.wire && lead.wire.cleared_at) nextPath = '/portfolio';
+  if (lead.wire && lead.wire.cleared_at) nextPath = '/customer';
   else if (lead.nda_state === 'approved') nextPath = '/memo';
 
   const safe = { name: lead.name, name_ko: lead.name_ko, email: lead.email, issued_at: lead.code_issued_at };
@@ -81,11 +81,11 @@ async function handleMagicLink(req, res) {
   setAccessCookie(res, lead.id, lead.code);
 
   // State-aware redirect: same logic as code-entry path.
-  //   wire cleared → /portfolio
+  //   wire cleared → /customer
   //   NDA approved → /memo
   //   else → /main (read marketing, then continue to NDA)
   let target = '/main';
-  if (lead.wire && lead.wire.cleared_at) target = '/portfolio';
+  if (lead.wire && lead.wire.cleared_at) target = '/customer';
   else if (lead.nda_state === 'approved') target = '/memo';
 
   res.statusCode = 302;

@@ -184,7 +184,7 @@ a{color:inherit;text-decoration:none}em{font-style:italic}
   }
 
   // ---------- if already signed in, jump straight in ----------
-  fetch('/api/me', { credentials:'same-origin', cache:'no-store' })
+  fetch('/api/session?op=me', { credentials:'same-origin', cache:'no-store' })
     .then(function(r){ if (r.ok) window.location.replace(getNext()); })
     .catch(function(){});
 

@@ -424,7 +424,7 @@ export function buildIoiReceivedEmail({ lead, ioi }) {
     `then send wire instructions separately.`,
     ``,
     `You can track your status anytime at:`,
-    `https://theaurumcc.com/portfolio`,
+    `https://theaurumcc.com/customer`,
     ``,
     `— The Partners`,
     `Aurum · TACC Pte Ltd · Singapore`,
@@ -440,7 +440,7 @@ export function buildIoiReceivedEmail({ lead, ioi }) {
     `별도로 송금 안내를 발송해 드립니다.`,
     ``,
     `진행 상황은 포트폴리오에서 확인하실 수 있습니다:`,
-    `https://theaurumcc.com/portfolio`,
+    `https://theaurumcc.com/customer`,
     ``,
     `— 파트너 일동`,
     `Aurum · TACC Pte Ltd · 싱가포르`,
@@ -467,7 +467,7 @@ export function buildIoiReceivedEmail({ lead, ioi }) {
     </td></tr>
 
     <tr><td bgcolor="#0a0a0a" style="background:#0a0a0a;padding:0 32px 32px" align="left">
-      <a href="https://theaurumcc.com/portfolio" style="display:inline-block;padding:14px 26px;background:transparent;border:1px solid #C5A572;color:#C5A572;text-decoration:none;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.30em;text-transform:uppercase">TRACK STATUS  →</a>
+      <a href="https://theaurumcc.com/customer" style="display:inline-block;padding:14px 26px;background:transparent;border:1px solid #C5A572;color:#C5A572;text-decoration:none;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.30em;text-transform:uppercase">TRACK STATUS  →</a>
     </td></tr>
 
     <tr><td bgcolor="#0a0a0a" style="background:#0a0a0a;padding:0 32px 24px">
@@ -854,13 +854,13 @@ export function buildWireInstructionsEmail({ lead, ioi, wire }) {
 }
 
 // 5) Admission email — sent when partner clicks MARK CLEARED on the wire panel.
-//    Welcome to the 100, with a direct OPEN PORTFOLIO link (uses access code,
+//    Welcome to the 100, with a direct OPEN PORTAL link (uses access code,
 //    bookmark-able, 30-day cookie persistence per verify-code.js).
 // 5) Admission email — sent when partner clicks MARK CLEARED on the wire panel.
-//    Welcome to the 100, with a direct OPEN PORTFOLIO link.  We try to mint a
+//    Welcome to the 100, with a direct OPEN PORTAL link.  We try to mint a
 //    magic-link token so the click auto-authenticates without password — but
-//    fall back to plain /portfolio if that fails (their existing 30-day cookie
-//    should be live, or /portfolio will bounce to /login if needed).
+//    fall back to plain /customer if that fails (their existing 30-day cookie
+//    should be live, or /customer will bounce to /login if needed).
 export function buildAdmissionEmail({ lead, magicLinkToken }) {
   const subject = `Welcome to the 100  ·  Set up your password  ·  비밀번호 설정`;
   const siteUrl = process.env.SITE_URL || 'https://www.theaurumcc.com';
@@ -964,7 +964,7 @@ export function buildQuarterlyStatementEmail({ lead, period, statement_url }) {
   const text = [
     `Your ${period} statement is now available in your portfolio.`,
     ``,
-    `Open: https://theaurumcc.com/portfolio`,
+    `Open: https://theaurumcc.com/customer`,
     ``,
     `Direct link to PDF: ${statement_url || 'in your portfolio'}`,
     ``,
@@ -978,7 +978,7 @@ export function buildQuarterlyStatementEmail({ lead, period, statement_url }) {
     ``,
     `${period} 보고서가 포트폴리오에 발행되었습니다.`,
     ``,
-    `포트폴리오 열기: https://theaurumcc.com/portfolio`,
+    `포트폴리오 열기: https://theaurumcc.com/customer`,
     ``,
     `표시된 모든 수치는 미감사이며,`,
     `펀드 행정사의 확인을 거쳐 확정됩니다.`,
@@ -1001,7 +1001,7 @@ export function buildQuarterlyStatementEmail({ lead, period, statement_url }) {
     </td></tr>
 
     <tr><td bgcolor="#0a0a0a" style="background:#0a0a0a;padding:0 32px 32px" align="left">
-      <a href="https://theaurumcc.com/portfolio" style="display:inline-block;padding:14px 26px;background:transparent;border:1px solid #C5A572;color:#C5A572;text-decoration:none;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.30em;text-transform:uppercase">OPEN PORTFOLIO  →</a>
+      <a href="https://theaurumcc.com/customer" style="display:inline-block;padding:14px 26px;background:transparent;border:1px solid #C5A572;color:#C5A572;text-decoration:none;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.30em;text-transform:uppercase">OPEN PORTAL  →</a>
     </td></tr>
 
     <tr><td bgcolor="#0a0a0a" style="background:#0a0a0a;padding:0 32px 24px">
@@ -1037,7 +1037,7 @@ export function buildCapitalCallEmail({ lead, cc }) {
     cc.pdf_url ? `Notice PDF: ${cc.pdf_url}` : ``,
     ``,
     `Open your portfolio to acknowledge:`,
-    `https://theaurumcc.com/portfolio`,
+    `https://theaurumcc.com/customer`,
     ``,
     `— The Partners`,
     `Aurum · TACC Pte Ltd · Singapore`,
@@ -1050,7 +1050,7 @@ export function buildCapitalCallEmail({ lead, cc }) {
     `회신 기한: ${dueText}`,
     ``,
     `포트폴리오에서 확인하실 수 있습니다:`,
-    `https://theaurumcc.com/portfolio`,
+    `https://theaurumcc.com/customer`,
     ``,
     `— 파트너 일동`,
     `Aurum · TACC Pte Ltd · 싱가포르`,
@@ -1070,7 +1070,7 @@ export function buildCapitalCallEmail({ lead, cc }) {
     </td></tr>
 
     <tr><td bgcolor="#0a0a0a" style="background:#0a0a0a;padding:0 32px 32px" align="left">
-      <a href="https://theaurumcc.com/portfolio" style="display:inline-block;padding:14px 26px;background:transparent;border:1px solid #C5A572;color:#C5A572;text-decoration:none;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.30em;text-transform:uppercase">OPEN PORTFOLIO  →</a>
+      <a href="https://theaurumcc.com/customer" style="display:inline-block;padding:14px 26px;background:transparent;border:1px solid #C5A572;color:#C5A572;text-decoration:none;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.30em;text-transform:uppercase">OPEN PORTAL  →</a>
     </td></tr>
 
     <tr><td bgcolor="#0a0a0a" style="background:#0a0a0a;padding:0 32px 24px">
@@ -1105,7 +1105,7 @@ export function buildWireReminderEmail({ lead, ioi, wire }) {
     `the wire, please disregard — clearance can take 1–2 business days.`,
     ``,
     `Open your portfolio:`,
-    `https://theaurumcc.com/portfolio`,
+    `https://theaurumcc.com/customer`,
     ``,
     `— The Partners`,
     `Aurum · TACC Pte Ltd · Singapore`,
@@ -1121,7 +1121,7 @@ export function buildWireReminderEmail({ lead, ioi, wire }) {
     `참고만 부탁드립니다 — 정산까지 1–2 영업일 소요됩니다.`,
     ``,
     `포트폴리오 열기:`,
-    `https://theaurumcc.com/portfolio`,
+    `https://theaurumcc.com/customer`,
     ``,
     `— 파트너 일동`,
     `Aurum · TACC Pte Ltd · 싱가포르`,
@@ -1145,7 +1145,7 @@ export function buildWireReminderEmail({ lead, ioi, wire }) {
     </td></tr>
 
     <tr><td bgcolor="#0a0a0a" style="background:#0a0a0a;padding:0 32px 32px" align="left">
-      <a href="https://theaurumcc.com/portfolio" style="display:inline-block;padding:14px 26px;background:transparent;border:1px solid #C5A572;color:#C5A572;text-decoration:none;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.30em;text-transform:uppercase">OPEN PORTFOLIO  →</a>
+      <a href="https://theaurumcc.com/customer" style="display:inline-block;padding:14px 26px;background:transparent;border:1px solid #C5A572;color:#C5A572;text-decoration:none;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.30em;text-transform:uppercase">OPEN PORTAL  →</a>
     </td></tr>
 
     <tr><td bgcolor="#0a0a0a" style="background:#0a0a0a;padding:0 32px 24px">
