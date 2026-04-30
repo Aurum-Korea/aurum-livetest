@@ -1,0 +1,1383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deal Marketplace · Aurum Century Club</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:    #070706;
+  --bg2:   #0a0908;
+  --bg3:   #0d0c0a;
+  --bg4:   #0f0e0b;
+  --card:  #111009;
+  --card2: #141310;
+  --lift:  rgba(255,255,255,.018);
+  --text:  #ece6da;
+  --sub:   #a89f94;
+  --muted: #655f58;
+  --dim:   #2a2725;
+  --border: rgba(255,255,255,.065);
+  --b2:    rgba(255,255,255,.11);
+  --gold:  #C5A572;
+  --goldB: #DEB97A;
+  --goldD: #8a7c68;
+  --goldBd: rgba(197,165,114,.22);
+  --goldBdS: rgba(197,165,114,.50);
+  --goldW:  rgba(197,165,114,.04);
+  --goldWS: rgba(197,165,114,.09);
+  --goldGlow: rgba(197,165,114,.20);
+  --green:  #5a9e72;
+  --greenW: rgba(90,158,114,.07);
+  --greenBd: rgba(90,158,114,.28);
+  --amber:  #b8833a;
+  --amberW: rgba(184,131,58,.07);
+  --amberBd: rgba(184,131,58,.28);
+  --red:    #b05e56;
+  --redW:   rgba(176,94,86,.07);
+  --redBd:  rgba(176,94,86,.26);
+  --blue:   #5a98ec;
+  --blueW:  rgba(90,152,236,.06);
+  --blueBd: rgba(90,152,236,.28);
+  --purple: #8b7ec8;
+  --purpleW: rgba(139,126,200,.06);
+  --purpleBd: rgba(139,126,200,.28);
+  --serif: 'Cormorant Garamond',Georgia,serif;
+  --mono:  'JetBrains Mono',monospace;
+  --sans:  'Outfit',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;-webkit-font-smoothing:antialiased}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
+input,select,textarea{font-family:var(--mono);background:var(--bg);color:var(--text);border:1px solid var(--border);outline:none;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--goldBdS)}
+select option{background:#1a1706}
+a{color:inherit;text-decoration:none}
+
+/* ── LOADER ── */
+#loader{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;transition:opacity .4s .2s}
+#loader.done{opacity:0;pointer-events:none}
+.loader-seal{width:34px;height:34px;border:1px solid var(--goldBd);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--goldD);animation:lp 1.6s ease-in-out infinite}
+@keyframes lp{0%,100%{opacity:.15}50%{opacity:1}}
+
+/* ── LOGIN ── */
+#mk-login{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 900px 600px at 50% 40%,rgba(197,165,114,.06),transparent 65%),var(--bg);z-index:10;padding:20px}
+.mk-login-box{width:100%;max-width:420px;background:var(--card);border:1px solid var(--goldBd);padding:36px;box-shadow:0 8px 40px rgba(0,0,0,.45)}
+.mk-login-seal{width:44px;height:44px;border:1px solid var(--goldBd);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:19px;color:var(--gold);margin:0 auto 18px}
+.mk-login-title{font-family:var(--serif);font-style:italic;font-size:28px;color:var(--text);text-align:center;margin-bottom:3px}
+.mk-login-sub{font-family:var(--mono);font-size:7.5px;letter-spacing:.12em;color:var(--muted);text-align:center;margin-bottom:22px;text-transform:uppercase}
+.mk-ltabs{display:flex;border:1px solid var(--border);overflow:hidden;margin-bottom:22px}
+.mk-lt{flex:1;padding:9px;font-family:var(--mono);font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-right:1px solid var(--border);text-align:center;cursor:pointer;transition:all .14s;background:transparent}
+.mk-lt:last-child{border-right:0}
+.mk-lt.on{color:var(--gold);background:var(--goldW)}
+.mk-lt:hover:not(.on){color:var(--sub)}
+.mk-lbl{font-family:var(--mono);font-size:7px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:5px;margin-top:14px}
+.mk-lbl:first-of-type{margin-top:0}
+.mk-inp{width:100%;padding:10px 12px;font-size:13px;font-family:var(--mono);background:var(--bg);color:var(--text);border:1px solid var(--border)}
+.mk-inp:focus{border-color:var(--goldBdS)}
+.mk-btn{width:100%;margin-top:18px;padding:12px;font-family:var(--mono);font-size:8px;letter-spacing:.20em;text-transform:uppercase;color:var(--bg);background:var(--gold);border:none;cursor:pointer;transition:background .14s}
+.mk-btn:hover{background:var(--goldB)}
+.mk-lnote{font-family:var(--mono);font-size:7px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.8}
+.mk-lerr{font-family:var(--mono);font-size:7.5px;color:var(--red);text-align:center;margin-top:8px;min-height:14px}
+/* Institution panel */
+.inst-notice{border:1px solid var(--purpleBd);background:var(--purpleW);padding:12px 14px;margin-top:14px}
+.inst-notice-t{font-family:var(--mono);font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);margin-bottom:5px}
+.inst-notice-b{font-family:var(--mono);font-size:7.5px;color:var(--muted);line-height:1.65;margin-bottom:10px}
+.inst-req-btn{font-family:var(--mono);font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--purple);padding:7px 14px;border:1px solid var(--purpleBd);background:transparent;cursor:pointer;display:block;width:100%;text-align:center;transition:background .14s}
+.inst-req-btn:hover{background:var(--purpleW)}
+.inst-divider{font-family:var(--mono);font-size:7px;color:var(--muted);text-align:center;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--border)}
+.inst-signin-link{color:var(--goldD);text-decoration:underline;cursor:pointer;margin-left:4px}
+
+/* ── INSTITUTION REGISTRATION OVERLAY ── */
+#inst-reg-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:200;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:32px 16px;backdrop-filter:blur(5px)}
+#inst-reg-overlay.show{display:flex}
+.inst-reg-box{background:var(--card);border:1px solid var(--goldBd);width:100%;max-width:520px;flex-shrink:0}
+.irb-hd{display:flex;align-items:flex-start;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border)}
+.irb-eye{font-family:var(--mono);font-size:6.5px;letter-spacing:.36em;color:var(--purple);text-transform:uppercase;margin-bottom:4px}
+.irb-title{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--text)}
+.irb-close{font-family:var(--mono);font-size:9px;color:var(--muted);padding:5px 9px;border:1px solid var(--border);cursor:pointer}
+.irb-body{padding:20px 22px}
+.irb-sec{font-family:var(--mono);font-size:7px;letter-spacing:.26em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);display:block}
+.irb-fg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}
+.irb-fb{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.irb-fl{font-family:var(--mono);font-size:6.5px;letter-spacing:.22em;color:var(--goldD);text-transform:uppercase}
+.irb-req{color:var(--amber);font-size:9px}
+.irb-fi{width:100%;padding:8px 10px;font-size:12px}
+.irb-fsl{width:100%;padding:8px 10px;font-size:11px;appearance:none}
+.irb-hint{font-family:var(--mono);font-size:7px;color:var(--muted);line-height:1.55;margin-top:3px}
+.irb-foot{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-top:1px solid var(--border);background:var(--bg2)}
+.irb-note{font-family:var(--mono);font-size:7px;color:var(--muted)}
+.irb-sub-btn{font-family:var(--mono);font-size:7.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--bg);padding:10px 22px;background:var(--gold);border:none;cursor:pointer}
+.irb-err{font-family:var(--mono);font-size:7.5px;color:var(--red);padding:6px 10px;border:1px solid var(--redBd);background:var(--redW);margin-bottom:10px;display:none}
+.irb-err.show{display:block}
+/* Success state */
+.irb-success{padding:32px 22px;text-align:center}
+.irb-success-icon{font-family:var(--serif);font-style:italic;font-size:48px;color:var(--goldD);margin-bottom:12px;opacity:.6}
+.irb-success-t{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--text);margin-bottom:8px}
+.irb-success-b{font-family:var(--mono);font-size:7.5px;color:var(--muted);line-height:1.8;max-width:320px;margin:0 auto 18px}
+
+/* ── APP SHELL ── */
+#mk-app{display:none;flex-direction:column;height:100%}
+#mk-app.on{display:flex}
+
+/* ── NAV ── */
+.mk-nav{height:48px;background:rgba(7,7,6,.97);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:0;flex-shrink:0;backdrop-filter:blur(12px)}
+.mk-nav-seal{width:26px;height:26px;border:1px solid var(--goldBd);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:12px;color:var(--gold);flex-shrink:0;margin-right:10px}
+.mk-nav-brand{display:flex;flex-direction:column;line-height:1;margin-right:14px;flex-shrink:0}
+.mk-nav-name{font-family:var(--mono);font-size:8px;letter-spacing:.26em;color:var(--sub);text-transform:uppercase}
+.mk-nav-tag{font-family:var(--mono);font-size:6px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;margin-top:2px}
+.mk-ntabs{display:flex;border-left:1px solid var(--border)}
+.mk-ntab{padding:0 18px;height:48px;font-family:var(--mono);font-size:7.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);border-right:1px solid var(--border);cursor:pointer;transition:color .14s,background .14s;background:transparent;white-space:nowrap}
+.mk-ntab.on{color:var(--gold);background:var(--goldW);border-bottom:2px solid var(--gold);margin-bottom:-1px}
+.mk-ntab:hover:not(.on){color:var(--sub)}
+.mk-role-chip{font-family:var(--mono);font-size:7px;letter-spacing:.10em;text-transform:uppercase;padding:3px 8px;border:1px solid;margin-left:auto;margin-right:8px;flex-shrink:0}
+.role-member{color:var(--green);border-color:var(--greenBd);background:var(--greenW)}
+.role-inst{color:var(--blue);border-color:var(--blueBd);background:var(--blueW)}
+.mk-user-chip{font-family:var(--mono);font-size:7px;letter-spacing:.12em;color:var(--goldD);padding:4px 10px;border:1px solid var(--goldBd);background:var(--goldW);flex-shrink:0}
+.mk-ghost-btn{font-family:var(--mono);font-size:7px;letter-spacing:.14em;color:var(--muted);padding:5px 9px;border:1px solid var(--border);background:transparent;cursor:pointer;transition:all .14s;margin-left:6px}
+.mk-ghost-btn:hover{color:var(--gold);border-color:var(--goldBd)}
+
+/* ── FILTER BAR ── */
+.mk-fbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:9px 20px;display:flex;align-items:center;gap:8px;flex-wrap:nowrap;flex-shrink:0;overflow-x:auto;scrollbar-width:none}
+.mk-fbar::-webkit-scrollbar{display:none}
+.mk-fb-lbl{font-family:var(--mono);font-size:6.5px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;flex-shrink:0}
+.mk-fpill{font-family:var(--mono);font-size:6px;letter-spacing:.10em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--border);cursor:pointer;color:var(--muted);background:transparent;border-radius:20px;white-space:nowrap;flex-shrink:0;transition:all .12s}
+.mk-fpill.on{color:var(--gold);border-color:var(--goldBd);background:var(--goldW)}
+.mk-fpill:hover:not(.on){color:var(--sub)}
+.mk-fb-sep{width:1px;height:18px;background:var(--border);margin:0 2px;flex-shrink:0}
+.mk-srch{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);padding:5px 10px;margin-left:auto;flex-shrink:0}
+.mk-srch-inp{border:none;background:transparent;font-family:var(--mono);font-size:11px;color:var(--text);width:140px;outline:none}
+.mk-srch-inp::placeholder{color:var(--muted)}
+
+/* ── VIEWS ── */
+.mk-view{display:none;flex:1;overflow:hidden}
+.mk-view.on{display:flex}
+.mk-scroll{overflow-y:auto}
+
+/* ── BROWSE LAYOUT ── */
+.mk-browse-wrap{display:flex;height:100%;overflow:hidden;flex:1}
+.mk-left-rail{width:188px;flex-shrink:0;border-right:1px solid var(--border);padding:14px 12px;background:var(--bg2);overflow-y:auto}
+.mk-lr-hd{font-family:var(--mono);font-size:7px;letter-spacing:.26em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+.mk-lr-sec{margin-bottom:14px}
+.mk-lr-sec-t{font-family:var(--mono);font-size:6.5px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:7px}
+.mk-chk-row{display:flex;align-items:center;gap:8px;padding:4px 0;cursor:pointer}
+.mk-chk{width:12px;height:12px;border:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--bg);transition:all .14s}
+.mk-chk.on{background:var(--goldW);border-color:var(--goldBd)}
+.mk-chk.on::after{content:'✓';font-size:7px;color:var(--goldB)}
+.mk-chk-lbl{font-family:var(--mono);font-size:7.5px;color:var(--sub)}
+.mk-range-row{display:flex;align-items:center;gap:5px;margin-bottom:5px}
+.mk-range-inp{width:52px;padding:5px 7px;font-family:var(--mono);font-size:10px;text-align:right;border:1px solid var(--border);background:var(--bg);color:var(--text)}
+.mk-clear-btn{font-family:var(--mono);font-size:7px;color:var(--muted);text-decoration:underline;border:none;background:none;cursor:pointer;padding:4px 0;margin-top:4px}
+/* Grid */
+.mk-grid-area{flex:1;padding:18px 20px;overflow-y:auto}
+.mk-grid-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.mk-grid-title{font-family:var(--serif);font-size:22px;color:var(--text)}
+.mk-grid-ct{font-family:var(--mono);font-size:7.5px;color:var(--muted);margin-left:7px}
+.mk-sort-sel{border:1px solid var(--border);padding:5px 9px;font-family:var(--mono);font-size:10px;background:var(--card);color:var(--text)}
+.mk-deals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+
+/* ── DEAL CARD ── */
+.mk-dc{background:var(--card);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:all .18s;position:relative}
+.mk-dc:hover{border-color:var(--goldBd);transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.mk-dc-badges{display:flex;gap:4px;flex-wrap:wrap;padding:12px 12px 0}
+.mk-badge{font-family:var(--mono);font-size:5.5px;letter-spacing:.12em;text-transform:uppercase;padding:2px 6px;border:1px solid}
+.mk-b-credit{color:var(--blue);border-color:var(--blueBd);background:var(--blueW)}
+.mk-b-pe{color:var(--goldB);border-color:var(--goldBd);background:var(--goldW)}
+.mk-b-re{color:var(--green);border-color:var(--greenBd);background:var(--greenW)}
+.mk-b-infra{color:var(--sub);border-color:var(--border)}
+.mk-b-equity{color:var(--purple);border-color:var(--purpleBd);background:var(--purpleW)}
+.mk-b-geo{color:var(--muted);border-color:var(--border);font-size:5px}
+.mk-b-new{background:var(--gold);border-color:var(--gold);color:#fff}
+.mk-b-hot{color:var(--amber);border-color:var(--amberBd);background:var(--amberW)}
+.mk-b-closing{color:var(--amber);border-color:var(--amberBd);background:var(--amberW);animation:pulse 1.5s ease-in-out infinite}
+.mk-b-inst{color:var(--blue);border-color:var(--blueBd);background:var(--blueW);font-size:5px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.mk-dc-body{padding:10px 12px 8px;flex:1}
+.mk-dc-name{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--text);margin-bottom:3px;line-height:1.15}
+.mk-dc-orig{font-family:var(--mono);font-size:6.5px;color:var(--muted);margin-bottom:7px}
+.mk-dc-summary{font-family:var(--serif);font-size:12px;color:var(--sub);font-weight:300;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.mk-dc-metrics{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2)}
+.mk-dcm{padding:7px 10px;border-right:1px solid var(--border)}
+.mk-dcm:last-child{border-right:0}
+.mk-dcm-lbl{font-family:var(--mono);font-size:5.5px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.mk-dcm-val{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--text);line-height:1}
+.mk-dcm-val.gold{color:var(--goldB)}
+.mk-dcm-val.green{color:var(--green)}
+.mk-dcm-sub{font-family:var(--mono);font-size:5.5px;color:var(--muted);margin-top:1px}
+.mk-dc-min{font-family:var(--mono);font-size:7px;color:var(--muted);padding:5px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.mk-dc-min strong{color:var(--goldD)}
+.mk-dc-alloc{padding:8px 12px;border-bottom:1px solid var(--border)}
+.mk-alloc-hdr{display:flex;justify-content:space-between;font-family:var(--mono);font-size:6.5px;color:var(--muted);margin-bottom:4px}
+.mk-alloc-bar{height:4px;background:var(--dim);overflow:hidden;border-radius:2px}
+.mk-alloc-fill{height:100%;background:linear-gradient(90deg,var(--goldD),var(--goldB));border-radius:2px;transition:width .5s}
+.mk-dc-ioi-row{font-family:var(--mono);font-size:7px;color:var(--muted);padding:4px 12px 0}
+.mk-dc-foot{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2)}
+.mk-dc-cta{font-family:var(--mono);font-size:6.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);padding:5px 11px;border:1px solid var(--goldBd);background:var(--goldW);cursor:pointer;transition:all .14s}
+.mk-dc-cta:hover{background:var(--goldWS)}
+.mk-dc-cta.done{color:var(--green);border-color:var(--greenBd);background:var(--greenW)}
+.mk-dc-cta.pending{color:var(--amber);border-color:var(--amberBd);background:var(--amberW)}
+
+/* ── DEAL DRAWER ── */
+.mk-drawer-backdrop{position:absolute;inset:0;z-index:60;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);display:none}
+.mk-drawer-backdrop.show{display:block}
+.mk-drawer{position:absolute;top:0;right:0;bottom:0;width:620px;background:var(--bg);border-left:1px solid var(--goldBd);overflow-y:auto;transform:translateX(100%);transition:transform .3s cubic-bezier(.22,1,.36,1);z-index:70}
+.mk-drawer.open{transform:translateX(0)}
+.mk-drawer-back{display:flex;align-items:center;gap:6px;padding:9px 20px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color .14s;background:var(--bg2);flex-shrink:0;position:sticky;top:0;z-index:10}
+.mk-drawer-back:hover{color:var(--gold)}
+/* Deal hero */
+.mk-deal-hero{padding:20px 22px;border-bottom:1px solid var(--border);background:var(--bg3)}
+.mk-dh-crumb{font-family:var(--mono);font-size:7px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
+.mk-dh-badges{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap}
+.mk-dh-title{font-family:var(--serif);font-style:italic;font-size:26px;color:var(--text);line-height:1.1;margin-bottom:4px}
+.mk-dh-sub{font-family:var(--mono);font-size:7.5px;color:var(--muted);margin-bottom:14px}
+.mk-dh-metrics{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--border);overflow:hidden}
+.mk-dhm{padding:10px 12px;border-right:1px solid var(--border);background:var(--card)}
+.mk-dhm:last-child{border-right:0}
+.mk-dhm-lbl{font-family:var(--mono);font-size:6px;letter-spacing:.20em;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.mk-dhm-val{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--goldB);line-height:1}
+.mk-dhm-val.green{color:var(--green)}
+.mk-dhm-val.amber{color:var(--amber)}
+.mk-dhm-sub{font-family:var(--mono);font-size:6.5px;color:var(--muted);margin-top:2px}
+/* Body */
+.mk-deal-body{display:grid;grid-template-columns:1fr 208px}
+.mk-deal-main{padding:18px 20px;border-right:1px solid var(--border);overflow:hidden}
+.mk-deal-side{padding:14px 12px;background:var(--bg2);display:flex;flex-direction:column;gap:11px}
+/* Section labels */
+.mk-sec{font-family:var(--mono);font-size:7px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;margin-top:18px}
+.mk-sec:first-child{margin-top:0}
+.mk-sec-note{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:.06em;text-transform:none}
+.mk-deal-summary{font-family:var(--serif);font-size:13.5px;color:var(--sub);font-weight:300;line-height:1.75;margin-bottom:4px}
+/* Highlights */
+.mk-hls{display:grid;gap:5px;margin-bottom:4px}
+.mk-hl{display:flex;gap:9px;padding:8px 11px;border:1px solid var(--border);background:var(--card)}
+.mk-hl-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px}
+.mk-hl-text{font-family:var(--sans);font-size:12px;color:var(--sub);line-height:1.5}
+.mk-hl-text strong{color:var(--text);font-weight:500}
+/* Timeline */
+.mk-tl{padding-left:18px;position:relative}
+.mk-tl::before{content:'';position:absolute;left:6px;top:4px;bottom:4px;width:1px;background:var(--border)}
+.mk-tl-item{position:relative;padding:0 0 14px 20px}
+.mk-tl-item:last-child{padding-bottom:0}
+.mk-tl-dot{position:absolute;left:-14px;top:2px;width:10px;height:10px;border-radius:50%}
+.mk-tl-dot.done{background:var(--goldD);border:1px solid var(--gold)}
+.mk-tl-dot.curr{background:var(--goldB);box-shadow:0 0 8px var(--goldGlow)}
+.mk-tl-dot.future{background:var(--card2);border:1px solid var(--muted)}
+.mk-tl-lbl{font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.10em;text-transform:uppercase;margin-bottom:1px}
+.mk-tl-lbl.done{color:var(--goldD)}.mk-tl-lbl.curr{color:var(--goldB)}.mk-tl-lbl.future{color:var(--muted)}
+.mk-tl-date{font-family:var(--mono);font-size:7px;color:var(--muted);margin-bottom:2px}
+.mk-tl-desc{font-family:var(--serif);font-size:12px;color:var(--sub);font-weight:300;line-height:1.5}
+.mk-tl-done{display:inline-block;font-family:var(--mono);font-size:6px;letter-spacing:.10em;text-transform:uppercase;padding:2px 6px;border:1px solid var(--greenBd);color:var(--green);background:var(--greenW);margin-top:3px}
+/* Returns table */
+.mk-rt{border:1px solid var(--border);overflow:hidden}
+.mk-rt-row{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;padding:7px 11px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:8px}
+.mk-rt-row:last-child{border-bottom:0}
+.mk-rt-row.hd{background:var(--card2);font-size:6px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase}
+.mk-rt-row.hl{background:var(--goldW);border-color:var(--goldBd)}
+.mk-rtn{text-align:right}
+.mk-rtn.gold{color:var(--goldB)}.mk-rtn.green{color:var(--green)}.mk-rtn.muted{color:var(--muted)}
+/* Document hub */
+.mk-doc-hub{border:1px solid var(--border);overflow:hidden}
+.mk-dh-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--card2);border-bottom:1px solid var(--border)}
+.mk-dh-title{font-family:var(--mono);font-size:7px;letter-spacing:.20em;color:var(--gold);text-transform:uppercase}
+.mk-dh-prog{font-family:var(--mono);font-size:7.5px;color:var(--sub);display:flex;align-items:center;gap:5px}
+.mk-dh-bar{width:40px;height:2px;background:var(--dim)}.mk-dh-fill{height:100%;background:var(--gold)}
+.mk-doc-sec-hd{padding:5px 12px;font-family:var(--mono);font-size:6px;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid var(--border)}
+.mk-doc-sec-hd.public{color:var(--green);background:var(--greenW)}
+.mk-doc-sec-hd.gated{color:var(--amber);background:var(--amberW)}
+.mk-doc-sec-hd.open{color:var(--goldB);background:var(--goldW)}
+.mk-doc-row{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--border)}
+.mk-doc-row:last-child{border-bottom:0}
+.mk-doc-icon{width:26px;height:30px;border:1px solid var(--border);background:var(--card2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:6.5px;color:var(--muted);flex-shrink:0}
+.mk-doc-icon.pdf{border-color:var(--redBd);color:var(--red);background:var(--redW)}
+.mk-doc-icon.xlsx{border-color:var(--greenBd);color:var(--green);background:var(--greenW)}
+.mk-doc-icon.pptx{border-color:var(--amberBd);color:var(--amber);background:var(--amberW)}
+.mk-doc-name{flex:1;font-family:var(--mono);font-size:8px;color:var(--text)}
+.mk-doc-meta{font-family:var(--mono);font-size:6.5px;color:var(--muted);margin-top:1px}
+.mk-doc-action{font-family:var(--mono);font-size:6.5px;letter-spacing:.10em;text-transform:uppercase;padding:4px 9px;border:1px solid;flex-shrink:0;cursor:pointer}
+.mk-da-dl{color:var(--gold);border-color:var(--goldBd);background:var(--goldW)}
+.mk-da-dl:hover{background:var(--goldWS)}
+.mk-da-locked{color:var(--muted);border-color:var(--border);cursor:not-allowed}
+/* Gate overlay */
+.mk-gate{background:var(--card2);border:1px solid var(--goldBd);padding:18px;text-align:center;margin:12px 0}
+.mk-gate-icon{font-family:var(--serif);font-style:italic;font-size:28px;color:var(--gold);margin-bottom:8px}
+.mk-gate-title{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--text);margin-bottom:4px}
+.mk-gate-sub{font-family:var(--mono);font-size:7.5px;color:var(--muted);line-height:1.7;margin-bottom:12px}
+.mk-gate-steps{display:flex;border:1px solid var(--border);overflow:hidden;margin-bottom:12px}
+.mk-gs{flex:1;padding:7px 9px;text-align:center;border-right:1px solid var(--border)}
+.mk-gs:last-child{border-right:0}
+.mk-gs-n{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--gold);line-height:1;margin-bottom:3px}
+.mk-gs-t{font-family:var(--mono);font-size:6px;letter-spacing:.10em;text-transform:uppercase;color:var(--muted)}
+/* Sidebar components */
+.mk-raise-card{border:1px solid var(--goldBd);background:var(--goldW);padding:12px}
+.mk-rc-title{font-family:var(--mono);font-size:7px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--goldBd);display:flex;justify-content:space-between;align-items:center}
+.mk-rc-right{font-family:var(--mono);font-size:7px;color:var(--amber);letter-spacing:.06em;text-transform:none}
+.mk-rc-big{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--goldB);line-height:1;margin-bottom:2px}
+.mk-rc-sub{font-family:var(--mono);font-size:7px;color:var(--muted);margin-bottom:8px}
+.mk-rc-bar{height:8px;background:var(--dim);overflow:hidden;border-radius:4px;margin-bottom:5px;position:relative}
+.mk-rc-ioi{position:absolute;top:0;left:0;height:100%;background:var(--goldD);border-radius:4px;opacity:.5}
+.mk-rc-conf{position:absolute;top:0;left:0;height:100%;background:var(--goldB);border-radius:4px}
+.mk-rc-lbls{display:flex;justify-content:space-between;font-family:var(--mono);font-size:6px;color:var(--muted);margin-bottom:8px}
+.mk-rc-stats{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.mk-rc-stat{background:var(--card2);padding:5px 7px;border:1px solid var(--border)}
+.mk-rc-sl{font-family:var(--mono);font-size:5.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.mk-rc-sv{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--goldB);line-height:1}
+.mk-rc-sv.green{color:var(--green)}.mk-rc-sv.amber{color:var(--amber)}
+/* Countdown */
+.mk-cd{border:1px solid var(--amberBd);background:var(--amberW);padding:10px 12px;text-align:center}
+.mk-cd-title{font-family:var(--mono);font-size:6px;letter-spacing:.20em;text-transform:uppercase;color:var(--amber);margin-bottom:7px}
+.mk-cd-timer{display:flex;justify-content:center;gap:8px;align-items:baseline}
+.mk-cd-num{font-family:var(--serif);font-style:italic;font-size:24px;color:var(--amber);line-height:1}
+.mk-cd-lbl{font-family:var(--mono);font-size:5.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);opacity:.6}
+.mk-cd-sep{font-family:var(--serif);font-size:20px;color:var(--amber);opacity:.3}
+/* Activity */
+.mk-ioi-act{border:1px solid var(--border);overflow:hidden}
+.mk-ia-hd{padding:6px 11px;font-family:var(--mono);font-size:7px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;border-bottom:1px solid var(--border);background:var(--card2);display:flex;align-items:center;justify-content:space-between}
+.mk-ia-live{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.mk-ia-row{display:flex;align-items:center;gap:8px;padding:6px 11px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:7px}
+.mk-ia-row:last-child{border-bottom:0}
+.mk-ia-av{width:18px;height:18px;border-radius:50%;border:1px solid var(--goldBd);background:var(--goldW);display:flex;align-items:center;justify-content:center;font-size:6px;color:var(--gold);flex-shrink:0}
+.mk-ia-who{color:var(--muted);flex:1}
+.mk-ia-ts{color:var(--muted);font-size:6.5px}
+/* CTA + IOI form */
+.mk-deal-cta{width:100%;padding:12px;font-family:var(--mono);font-size:8px;letter-spacing:.20em;text-transform:uppercase;color:var(--bg);background:var(--goldD);border:none;cursor:pointer;transition:background .14s}
+.mk-deal-cta:hover{background:var(--gold)}
+.mk-deal-cta.submitted{color:var(--green);background:var(--greenW);border:1px solid var(--greenBd);cursor:default}
+.mk-deal-cta.pending{color:var(--amber);background:var(--amberW);border:1px solid var(--amberBd);cursor:default}
+.mk-cta-note{font-family:var(--mono);font-size:6.5px;color:var(--muted);text-align:center;line-height:1.6;margin-top:4px}
+/* IOI form */
+.mk-ioi-form{border:1px solid var(--goldBd);background:var(--goldW);padding:14px}
+.mk-if-title{font-family:var(--mono);font-size:7px;letter-spacing:.20em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--goldBd)}
+.mk-if-lbl{font-family:var(--mono);font-size:7px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:4px;margin-top:8px}
+.mk-if-lbl:first-of-type{margin-top:0}
+.mk-if-inp{width:100%;padding:7px 9px;font-size:12px;font-family:var(--mono);background:var(--bg);color:var(--text);border:1px solid var(--border)}
+.mk-if-inp:focus{border-color:var(--goldBdS)}
+.mk-if-ta{width:100%;padding:7px 9px;font-size:12px;font-family:var(--serif);background:var(--bg);color:var(--text);border:1px solid var(--border);resize:none;min-height:48px}
+.mk-ack{display:flex;gap:7px;padding:5px 0;align-items:flex-start}
+.mk-ack-chk{width:13px;height:13px;border:1px solid var(--goldBd);background:var(--goldW);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;cursor:pointer}
+.mk-ack-chk.on::after{content:'✓';font-size:7.5px;color:var(--goldB)}
+.mk-ack-lbl{font-family:var(--mono);font-size:7px;color:var(--muted);line-height:1.55}
+.mk-if-submit{width:100%;margin-top:10px;padding:10px;font-family:var(--mono);font-size:7.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--bg);background:var(--goldD);border:none;cursor:pointer;transition:background .14s}
+.mk-if-submit:hover{background:var(--gold)}
+.mk-if-submit:disabled{opacity:.35;cursor:not-allowed}
+.mk-if-hint{font-family:var(--mono);font-size:6.5px;color:var(--muted);text-align:center;margin-top:5px;line-height:1.55}
+.mk-if-err{font-family:var(--mono);font-size:7.5px;color:var(--red);padding:5px 8px;border:1px solid var(--redBd);background:var(--redW);margin-bottom:7px;display:none}
+.mk-if-err.show{display:block}
+/* Pending IOI state */
+.mk-pending-banner{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1px solid var(--amberBd);background:var(--amberW)}
+.mk-pb-icon{font-size:14px;color:var(--amber);flex-shrink:0}
+.mk-pb-title{font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:2px}
+.mk-pb-text{font-family:var(--mono);font-size:7px;color:var(--muted)}
+/* Approved state */
+.mk-approved-banner{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1px solid var(--greenBd);background:var(--greenW);margin-bottom:12px}
+.mk-ab-icon{font-size:16px;color:var(--green);flex-shrink:0}
+.mk-ab-title{font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:2px}
+.mk-ab-text{font-family:var(--mono);font-size:7px;color:var(--muted)}
+.mk-wm-notice{display:flex;align-items:center;gap:7px;padding:7px 11px;border:1px solid var(--border);background:var(--card2);font-family:var(--mono);font-size:7px;color:var(--muted);margin-bottom:10px}
+.mk-wm-dot{width:5px;height:5px;border-radius:50%;background:var(--goldD);flex-shrink:0}
+/* Audit log */
+.mk-audit{border:1px solid var(--border);overflow:hidden;margin-top:10px}
+.mk-audit-hd{padding:6px 11px;font-family:var(--mono);font-size:7px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;background:var(--card2);border-bottom:1px solid var(--border)}
+.mk-at-row{display:flex;align-items:center;gap:9px;padding:6px 11px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:7.5px}
+.mk-at-row:last-child{border-bottom:0}
+.mk-at-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.mk-at-dot.ioi{background:var(--green)}.mk-at-dot.view{background:var(--gold)}.mk-at-dot.dl{background:var(--goldD)}
+.mk-at-who{color:var(--gold);font-weight:600;flex-shrink:0;width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mk-at-what{color:var(--muted);flex:1}
+.mk-at-ts{color:var(--muted);font-size:6.5px;flex-shrink:0}
+
+/* ── PORTFOLIO ── */
+.mk-portfolio-wrap{padding:22px 24px;max-width:760px}
+.mk-port-title{font-family:var(--serif);font-style:italic;font-size:26px;color:var(--text);margin-bottom:4px}
+.mk-port-sub{font-family:var(--mono);font-size:7.5px;color:var(--muted);letter-spacing:.12em;margin-bottom:22px;text-transform:uppercase}
+.mk-pos-card{background:var(--card);border:1px solid var(--border);margin-bottom:10px;cursor:pointer;transition:border-color .15s}
+.mk-pos-card:hover{border-color:var(--goldBd)}
+.mk-pos-hd{padding:11px 16px;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:space-between}
+.mk-pos-name{font-family:var(--serif);font-style:italic;font-size:17px}
+.mk-pos-status{font-family:var(--mono);font-size:7px;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border:1px solid}
+.mk-pos-status.pending{color:var(--amber);border-color:var(--amberBd);background:var(--amberW)}
+.mk-pos-status.approved{color:var(--green);border-color:var(--greenBd);background:var(--greenW)}
+.mk-pos-status.allocated{color:var(--goldB);border-color:var(--goldBd);background:var(--goldW)}
+.mk-pos-body{padding:11px 16px;display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:8.5px;color:var(--muted)}
+.mk-pos-body span span{color:var(--goldD)}
+/* Empty state */
+.mk-empty-state{padding:44px;text-align:center;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--muted)}
+
+/* ── TOAST ── */
+.mk-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(8px);font-family:var(--mono);font-size:8px;letter-spacing:.20em;text-transform:uppercase;padding:8px 18px;border:1px solid var(--border);background:var(--card2);color:var(--sub);opacity:0;transition:all .25s;pointer-events:none;z-index:9999;white-space:nowrap}
+.mk-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.mk-toast.ok{color:var(--green);border-color:var(--greenBd);background:var(--greenW)}
+.mk-toast.err{color:var(--red);border-color:var(--redBd);background:var(--redW)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .mk-drawer{width:100%}
+  .mk-deal-body{grid-template-columns:1fr}
+  .mk-deal-side{border-right:0;border-top:1px solid var(--border)}
+  .mk-dh-metrics{grid-template-columns:repeat(3,1fr)}
+  .mk-dhm:nth-child(n+4){border-top:1px solid var(--border)}
+}
+@media(max-width:680px){
+  .mk-left-rail{display:none}
+  .mk-deals-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader"><div class="loader-seal"><em>Au</em></div></div>
+
+<!-- LOGIN -->
+<div id="mk-login">
+  <div class="mk-login-box">
+    <div class="mk-login-seal"><em>Au</em></div>
+    <div class="mk-login-title">Deal Marketplace</div>
+    <div class="mk-login-sub">Aurum Century Club · Private Deal Access</div>
+    <div class="mk-ltabs">
+      <div class="mk-lt on" onclick="mkSwitchLT('member',this)">Member Access</div>
+      <div class="mk-lt" onclick="mkSwitchLT('inst',this)">Institutional</div>
+    </div>
+
+    <!-- MEMBER TAB -->
+    <div id="mk-lf-member">
+      <label class="mk-lbl">Invite Code</label>
+      <input class="mk-inp" id="mk-li-code" type="text" placeholder="TACC-XXXXXX" autocomplete="off">
+      <button class="mk-btn" onclick="mkDoMemberLogin()">View Deals →</button>
+      <div class="mk-lerr" id="mk-merr"></div>
+      <div class="mk-lnote">TACC members only · NDA required · Code from your TACC partner</div>
+    </div>
+
+    <!-- INSTITUTION TAB -->
+    <div id="mk-lf-inst" style="display:none">
+      <div class="inst-notice">
+        <div class="inst-notice-t">Institutional Access</div>
+        <div class="inst-notice-b">Qualified institutional investors — family offices, fund of funds, PE secondaries, endowments — may apply for marketplace access. Minimum commitment $250,000 USD. Deal flow is TACC-vetted.</div>
+        <button class="inst-req-btn" onclick="openInstReg()">Request Institutional Access →</button>
+      </div>
+      <div class="inst-divider">Existing credentials?<span class="inst-signin-link" onclick="toggleInstSignin()">Sign in →</span></div>
+      <div id="inst-signin-form" style="display:none">
+        <label class="mk-lbl">Institution Email</label>
+        <input class="mk-inp" id="mk-li-inst-email" type="email" placeholder="investor@institution.com">
+        <label class="mk-lbl">Access Code</label>
+        <input class="mk-inp" id="mk-li-inst-code" type="text" placeholder="INST-XXXXXXXX">
+        <button class="mk-btn" onclick="mkDoInstLogin()" style="margin-top:14px">Access Marketplace →</button>
+        <div class="mk-lerr" id="mk-ierr"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- INSTITUTION REGISTRATION OVERLAY -->
+<div id="inst-reg-overlay">
+  <div class="inst-reg-box">
+    <div class="irb-hd">
+      <div>
+        <div class="irb-eye">Request Access</div>
+        <div class="irb-title">Institutional <em style="font-style:italic">Application.</em></div>
+      </div>
+      <button class="irb-close" onclick="closeInstReg()">✕ Close</button>
+    </div>
+    <div id="irb-form-body">
+      <div class="irb-body">
+        <div class="irb-err" id="irb-err"></div>
+        <span class="irb-sec">Contact Details</span>
+        <div class="irb-fg">
+          <div class="irb-fb"><label class="irb-fl">First Name <span class="irb-req">*</span></label><input class="irb-fi" id="irb-fname" type="text" placeholder="Jin-ho"></div>
+          <div class="irb-fb"><label class="irb-fl">Last Name <span class="irb-req">*</span></label><input class="irb-fi" id="irb-lname" type="text" placeholder="Park"></div>
+        </div>
+        <div class="irb-fg">
+          <div class="irb-fb"><label class="irb-fl">Institution / Firm <span class="irb-req">*</span></label><input class="irb-fi" id="irb-firm" type="text" placeholder="Apex Family Office"></div>
+          <div class="irb-fb"><label class="irb-fl">Your Title</label><input class="irb-fi" id="irb-title" type="text" placeholder="CIO / Managing Director"></div>
+        </div>
+        <div class="irb-fb"><label class="irb-fl">Email Address <span class="irb-req">*</span></label><input class="irb-fi" id="irb-email" type="email" placeholder="you@institution.com"></div>
+        <span class="irb-sec" style="margin-top:14px">Investor Profile</span>
+        <div class="irb-fg">
+          <div class="irb-fb">
+            <label class="irb-fl">Investor Type <span class="irb-req">*</span></label>
+            <select class="irb-fsl" id="irb-itype">
+              <option value="">Select type…</option>
+              <option value="family_office">Family Office</option>
+              <option value="fund_of_funds">Fund of Funds</option>
+              <option value="pe_secondaries">PE Secondaries</option>
+              <option value="endowment">Endowment / Foundation</option>
+              <option value="corporate">Corporate Treasury</option>
+              <option value="hni">HNI / UHNW Individual</option>
+              <option value="other">Other Institutional</option>
+            </select>
+          </div>
+          <div class="irb-fb">
+            <label class="irb-fl">Jurisdiction <span class="irb-req">*</span></label>
+            <select class="irb-fsl" id="irb-jur">
+              <option value="">Select…</option>
+              <option value="sg">Singapore</option>
+              <option value="us">United States</option>
+              <option value="uk">United Kingdom</option>
+              <option value="hk">Hong Kong</option>
+              <option value="korea">South Korea</option>
+              <option value="japan">Japan</option>
+              <option value="europe">Europe (other)</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="irb-fb">
+          <label class="irb-fl">How did you hear about TACC?</label>
+          <select class="irb-fsl" id="irb-source">
+            <option value="">Select…</option>
+            <option value="referral">Partner / Advisor referral</option>
+            <option value="member">Existing TACC member</option>
+            <option value="conference">Conference / Event</option>
+            <option value="search">Online search</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="irb-hint" style="margin-top:10px">All applications are reviewed by TACC partners. Approved institutions receive an access code by email within 2 business days. Access is granted under NDA — by applying you acknowledge the confidential nature of all deal information.</div>
+      </div>
+      <div class="irb-foot">
+        <span class="irb-note">TACC Pte Ltd · NDA-gated · $250K minimum</span>
+        <button class="irb-sub-btn" onclick="submitInstReg()">Submit Application →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="mk-app">
+
+  <!-- NAV -->
+  <nav class="mk-nav">
+    <div class="mk-nav-seal"><em>Au</em></div>
+    <div class="mk-nav-brand">
+      <span class="mk-nav-name">Deal Marketplace</span>
+      <span class="mk-nav-tag">Aurum Century Club</span>
+    </div>
+    <div class="mk-ntabs">
+      <button class="mk-ntab on" onclick="mkShowView('browse',this)">Browse Deals</button>
+      <button class="mk-ntab" onclick="mkShowView('portfolio',this)">My Portfolio</button>
+    </div>
+    <span class="mk-role-chip role-member" id="mk-role-chip">MEMBER</span>
+    <span class="mk-user-chip" id="mk-user-chip">—</span>
+    <button class="mk-ghost-btn" onclick="mkReload()">↻</button>
+    <button class="mk-ghost-btn" onclick="mkLogout()">Sign out</button>
+  </nav>
+
+  <!-- FILTER BAR -->
+  <div class="mk-fbar" id="mk-fbar">
+    <span class="mk-fb-lbl">Class</span>
+    <div style="display:flex;gap:4px;flex-wrap:nowrap">
+      <button class="mk-fpill on" data-c="all" onclick="mkSetCF('all',this)">All</button>
+      <button class="mk-fpill" data-c="credit" onclick="mkSetCF('credit',this)">Credit</button>
+      <button class="mk-fpill" data-c="pe" onclick="mkSetCF('pe',this)">Pre-IPO</button>
+      <button class="mk-fpill" data-c="re" onclick="mkSetCF('re',this)">Real Estate</button>
+      <button class="mk-fpill" data-c="infra" onclick="mkSetCF('infra',this)">Infra</button>
+      <button class="mk-fpill" data-c="equity" onclick="mkSetCF('equity',this)">Growth Equity</button>
+    </div>
+    <div class="mk-fb-sep"></div>
+    <span class="mk-fb-lbl">Geo</span>
+    <div style="display:flex;gap:4px;flex-wrap:nowrap">
+      <button class="mk-fpill on" data-g="all" onclick="mkSetGF('all',this)">All</button>
+      <button class="mk-fpill" data-g="us" onclick="mkSetGF('us',this)">United States</button>
+      <button class="mk-fpill" data-g="europe" onclick="mkSetGF('europe',this)">Europe</button>
+      <button class="mk-fpill" data-g="east_asia" onclick="mkSetGF('east_asia',this)">East Asia</button>
+      <button class="mk-fpill" data-g="sea" onclick="mkSetGF('sea',this)">SE Asia</button>
+    </div>
+    <div class="mk-srch">
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="4" stroke="#655f58" stroke-width="1.2"/><path d="M8.5 8.5l2 2" stroke="#655f58" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <input type="search" class="mk-srch-inp" id="mk-search" placeholder="Search deals…" oninput="mkRenderGrid()">
+    </div>
+  </div>
+
+  <!-- BROWSE VIEW -->
+  <div id="mkv-browse" class="mk-view on" style="position:relative">
+    <div class="mk-browse-wrap">
+      <div class="mk-left-rail">
+        <div class="mk-lr-hd">Refine</div>
+        <div class="mk-lr-sec">
+          <div class="mk-lr-sec-t">Target IRR (%)</div>
+          <div class="mk-range-row">
+            <input class="mk-range-inp" id="mk-irr-min" type="number" min="0" placeholder="0" oninput="mkRenderGrid()">
+            <span style="font-family:var(--mono);font-size:8px;color:var(--muted)">–</span>
+            <input class="mk-range-inp" id="mk-irr-max" type="number" placeholder="30" oninput="mkRenderGrid()">
+          </div>
+        </div>
+        <div class="mk-lr-sec">
+          <div class="mk-lr-sec-t">Term</div>
+          <div class="mk-chk-row" onclick="mkTogLR('lt-short')"><div class="mk-chk" id="lt-short"></div><span class="mk-chk-lbl">≤ 12 months</span></div>
+          <div class="mk-chk-row" onclick="mkTogLR('lt-mid')"><div class="mk-chk" id="lt-mid"></div><span class="mk-chk-lbl">13–36 months</span></div>
+          <div class="mk-chk-row" onclick="mkTogLR('lt-long')"><div class="mk-chk" id="lt-long"></div><span class="mk-chk-lbl">36 months +</span></div>
+        </div>
+        <div class="mk-lr-sec">
+          <div class="mk-lr-sec-t">Return Type</div>
+          <div class="mk-chk-row" onclick="mkTogLR('rt-fixed')"><div class="mk-chk" id="rt-fixed"></div><span class="mk-chk-lbl">Fixed coupon</span></div>
+          <div class="mk-chk-row" onclick="mkTogLR('rt-equity')"><div class="mk-chk" id="rt-equity"></div><span class="mk-chk-lbl">Equity upside</span></div>
+          <div class="mk-chk-row" onclick="mkTogLR('rt-hybrid')"><div class="mk-chk" id="rt-hybrid"></div><span class="mk-chk-lbl">Hybrid</span></div>
+        </div>
+        <div class="mk-lr-sec">
+          <div class="mk-lr-sec-t">Min Ticket Max ($K)</div>
+          <div class="mk-range-row">
+            <span style="font-family:var(--mono);font-size:8px;color:var(--muted)">≤ $</span>
+            <input class="mk-range-inp" id="mk-ticket-max" type="number" placeholder="any" oninput="mkRenderGrid()" style="width:72px">
+          </div>
+        </div>
+        <button class="mk-clear-btn" onclick="mkClearLR()">Clear all</button>
+      </div>
+      <div class="mk-grid-area">
+        <div class="mk-grid-hdr">
+          <div style="display:flex;align-items:baseline;gap:7px">
+            <span class="mk-grid-title">Current Deals</span>
+            <span class="mk-grid-ct" id="mk-grid-ct">—</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:7px;color:var(--muted)">
+            Sort:
+            <select class="mk-sort-sel" id="mk-sort" onchange="mkRenderGrid()">
+              <option value="newest">Newest</option>
+              <option value="irr">IRR ↓</option>
+              <option value="alloc">Allocation ↓</option>
+              <option value="term">Term ↑</option>
+              <option value="closing">Closing Soon</option>
+            </select>
+          </div>
+        </div>
+        <div class="mk-deals-grid" id="mk-grid"></div>
+      </div>
+    </div>
+    <!-- Drawer backdrop (absolute within browse view) -->
+    <div class="mk-drawer-backdrop" id="mk-backdrop" onclick="if(event.target===this)mkCloseDrawer()">
+      <div class="mk-drawer" id="mk-drawer">
+        <div class="mk-drawer-back" onclick="mkCloseDrawer()">← Back to all deals</div>
+        <div id="mk-drawer-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO VIEW -->
+  <div id="mkv-portfolio" class="mk-view" style="display:none;flex-direction:column">
+    <div class="mk-portfolio-wrap mk-scroll" style="width:100%">
+      <div class="mk-port-title">My Portfolio</div>
+      <div class="mk-port-sub">IOI submissions · deal activity · allocation status</div>
+      <div id="mk-portfolio-content"></div>
+    </div>
+  </div>
+
+</div><!-- /mk-app -->
+
+<div class="mk-toast" id="mk-toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  TACC DEAL MARKETPLACE
+//  mktplace.html · Aurum Century Club
+//  Wired to: /api/deals/marketplace, /api/verify-code, /api/v2 (inst + marketplace ops), /api/me
+// ═══════════════════════════════════════════════════
+
+const MK = {
+  role: null,           // 'member' | 'inst'
+  user: null,           // {name, code/email}
+  classF: 'all',
+  geoF: 'all',
+  lrFilters: {},
+  ackState: {},
+  myIois: {},           // {[dealId]: {amount, status, submitted_at, data_room_access}}
+  deals: [],
+  cdInterval: null,
+};
+
+const MK_TYPE   = {credit:'Private Credit',pe:'Pre-IPO Equity',re:'Real Estate',infra:'Infrastructure',equity:'Growth Equity'};
+const MK_GEO    = {us:'United States',europe:'Europe',east_asia:'East Asia',sea:'SE Asia',sg:'Singapore',china:'Greater China',india:'India',global:'Global'};
+const MK_STRUCT = {senior_secured:'Senior Secured',mezzanine:'Mezzanine',bridge:'Bridge',equity_secondary:'Equity Secondary',primary_equity:'Primary Equity',co_invest:'Co-Invest',spv:'SPV'};
+const MK_RTYPE  = {fixed_coupon:'Fixed Coupon',equity_upside:'Equity Upside',hybrid:'Hybrid',variable_pik:'Variable/PIK'};
+
+const mkG    = id => document.getElementById(id);
+const mkEsc  = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const mkFmU  = n => !n&&n!==0?'—':n>=1e6?'$'+(n/1e6).toFixed(2)+'M':n>=1e3?'$'+Math.round(n/1e3)+'K':'$'+n.toLocaleString();
+const mkFmD  = ts => !ts?'—':new Date(ts).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+
+function mkToast(msg,k=''){
+  const t=mkG('mk-toast');
+  t.textContent=msg;t.className='mk-toast show '+k;
+  clearTimeout(t._t);t._t=setTimeout(()=>t.className='mk-toast',2800);
+}
+
+// ── AUTH ────────────────────────────────────────────
+
+function mkSwitchLT(mode,btn){
+  document.querySelectorAll('.mk-lt').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  ['member','inst'].forEach(m=>{
+    const el=mkG('mk-lf-'+m);
+    if(el)el.style.display=m===mode?'':'none';
+  });
+}
+
+async function mkDoMemberLogin(){
+  const code=(mkG('mk-li-code')?.value||'').trim().toUpperCase();
+  const err=mkG('mk-merr');
+  if(err)err.textContent='';
+  if(!code){if(err)err.textContent='Enter your invite code.';return;}
+
+  const btn=document.querySelector('#mk-lf-member .mk-btn');
+  if(btn){btn.disabled=true;btn.textContent='Verifying…';}
+
+  try {
+    const r=await fetch('/api/verify-code',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code})});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok||!j.ok) throw new Error(j.error||'Invalid code');
+    MK.role='member';
+    MK.user={name:j.lead?.name||('Member ···'+code.slice(-3)),code};
+    await mkShowApp();
+  } catch(e){
+    if(err)err.textContent=e.message;
+  } finally {
+    if(btn){btn.disabled=false;btn.textContent='View Deals →';}
+  }
+}
+
+async function mkDoInstLogin(){
+  const email=(mkG('mk-li-inst-email')?.value||'').trim();
+  const code=(mkG('mk-li-inst-code')?.value||'').trim().toUpperCase();
+  const err=mkG('mk-ierr');
+  if(err)err.textContent='';
+  if(!email||!code){if(err)err.textContent='Enter email and access code.';return;}
+
+  const btn=document.querySelector('#inst-signin-form .mk-btn');
+  if(btn){btn.disabled=true;btn.textContent='Verifying…';}
+
+  try {
+    const r=await fetch('/api/v2?resource=inst&op=login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,code})});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok||!j.ok) throw new Error(j.error||'Invalid credentials');
+    MK.role='inst';
+    MK.user={name:j.name||email.split('@')[0],email,firm:j.firm||'Institution'};
+    await mkShowApp();
+  } catch(e){
+    if(err)err.textContent=e.message;
+  } finally {
+    if(btn){btn.disabled=false;btn.textContent='Access Marketplace →';}
+  }
+}
+
+function toggleInstSignin(){
+  const f=mkG('inst-signin-form');
+  if(f)f.style.display=f.style.display==='none'?'':'none';
+}
+
+// Institution registration
+function openInstReg(){
+  const o=mkG('inst-reg-overlay');
+  if(o)o.classList.add('show');
+}
+function closeInstReg(){
+  const o=mkG('inst-reg-overlay');
+  if(o)o.classList.remove('show');
+}
+async function submitInstReg(){
+  const fname=(mkG('irb-fname')?.value||'').trim();
+  const lname=(mkG('irb-lname')?.value||'').trim();
+  const firm=(mkG('irb-firm')?.value||'').trim();
+  const email=(mkG('irb-email')?.value||'').trim();
+  const itype=mkG('irb-itype')?.value||'';
+  const jur=mkG('irb-jur')?.value||'';
+  const err=mkG('irb-err');
+  if(err){err.textContent='';err.classList.remove('show');}
+  if(!fname||!lname||!firm||!email||!itype||!jur){
+    if(err){err.textContent='Please complete all required fields.';err.classList.add('show');}
+    return;
+  }
+  const btn=document.querySelector('.irb-sub-btn');
+  if(btn){btn.disabled=true;btn.textContent='Submitting…';}
+  try {
+    await fetch('/api/v2?resource=inst&op=register',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({first_name:fname,last_name:lname,firm,email,investor_type:itype,jurisdiction:jur,source:mkG('irb-source')?.value||'',title:mkG('irb-title')?.value||''})
+    });
+    // Show success regardless (graceful — backend may not exist yet)
+    const body=mkG('irb-form-body');
+    if(body)body.innerHTML=`
+      <div class="irb-success">
+        <div class="irb-success-icon">Au</div>
+        <div class="irb-success-t">Application Submitted</div>
+        <div class="irb-success-b">TACC partners will review your application and send your institutional access code to <strong style="color:var(--goldD)">${mkEsc(email)}</strong> within 2 business days. All access is governed by NDA.</div>
+        <button class="mk-btn" style="max-width:200px;margin:0 auto" onclick="closeInstReg()">Close</button>
+      </div>`;
+  } catch(e){
+    if(err){err.textContent='Submission error — please email TACC partners directly.';err.classList.add('show');}
+    if(btn){btn.disabled=false;btn.textContent='Submit Application →';}
+  }
+}
+
+// ── APP INIT ────────────────────────────────────────
+
+async function mkShowApp(){
+  mkG('mk-login').style.display='none';
+  mkG('mk-app').classList.add('on');
+
+  const roleChip=mkG('mk-role-chip');
+  if(roleChip){
+    roleChip.textContent=MK.role==='inst'?'INSTITUTION':'MEMBER';
+    roleChip.className='mk-role-chip '+(MK.role==='inst'?'role-inst':'role-member');
+  }
+  const uc=mkG('mk-user-chip');
+  if(uc)uc.textContent=MK.user?.name||'—';
+
+  await mkLoadDeals();
+  await mkLoadMyIois();
+  mkRenderGrid();
+}
+
+async function mkLoadDeals(){
+  try {
+    const r=await fetch('/api/deals/marketplace');
+    const j=await r.json().catch(()=>({}));
+    if(j.deals&&Array.isArray(j.deals)){
+      MK.deals=j.deals.map(normalizeDeal);
+    }
+  } catch(e){
+    // Backend not yet wired — MK.deals stays empty
+  }
+}
+
+async function mkLoadMyIois(){
+  try {
+    const r=await fetch('/api/v2?resource=marketplace&op=my-iois');
+    const j=await r.json().catch(()=>({}));
+    if(j.iois&&Array.isArray(j.iois)){
+      j.iois.forEach(ioi=>{
+        MK.myIois[ioi.deal_id]={
+          amount:ioi.amount,
+          status:ioi.status||'pending',
+          submitted_at:ioi.submitted_at,
+          data_room_access:ioi.data_room_access||false,
+          notes:ioi.notes||''
+        };
+      });
+    }
+  } catch(e){}
+}
+
+// Normalize deal from API (map mk_* fields or direct fields)
+function normalizeDeal(d){
+  return {
+    id: d.id,
+    name: d.name,
+    type: d.type,
+    geo: d.geography||d.geo,
+    irr: d.mk_irr||d.target_irr||0,
+    term: d.mk_term||d.term_months||12,
+    alloc: d.mk_alloc||d.target_alloc_usd||0,
+    minTicket: d.mk_min_ticket||d.min_ticket_usd||250000,
+    maxTicket: d.mk_max_ticket||d.max_ticket_usd||0,
+    structure: d.deal_structure||d.structure||'senior_secured',
+    originator: d.originator||d.advisor_firm||'—',
+    returnType: d.mk_return_type||d.return_type||'fixed_coupon',
+    hurdle: d.mk_hurdle||d.hurdle_rate||8,
+    iois: d.mk_iois||d.ioi_count||0,
+    ioiAgg: d.mk_ioi_agg||0,
+    deployed: d.mk_deployed||d.deployed_usd||0,
+    closing: d.mk_closing||d.closing_date||null,
+    badge: d.mk_badge||'',
+    notes: d.mk_notes||d.notes||'',
+    highlights: d.mk_highlights||[],
+    timeline: d.mk_timeline||[],
+    docs: d.mk_docs||[],
+    activity: d.mk_activity||[],
+  };
+}
+
+async function mkReload(){
+  await mkLoadDeals();
+  await mkLoadMyIois();
+  mkRenderGrid();
+  mkToast('Refreshed','ok');
+}
+
+async function mkLogout(){
+  try{await fetch('/api/logout',{method:'POST'});}catch(e){}
+  try{await fetch('/api/advisor/logout',{method:'POST'});}catch(e){}
+  MK.role=null;MK.user=null;MK.myIois={};MK.deals=[];
+  mkG('mk-app').classList.remove('on');
+  mkG('mk-login').style.display='flex';
+  document.querySelectorAll('.mk-lt').forEach((b,i)=>b.classList.toggle('on',i===0));
+  ['member','inst'].forEach((m,i)=>{const el=mkG('mk-lf-'+m);if(el)el.style.display=i===0?'':'none';});
+  const sf=mkG('inst-signin-form');if(sf)sf.style.display='none';
+}
+
+// ── VIEWS ────────────────────────────────────────────
+
+function mkShowView(id,btn){
+  ['browse','portfolio'].forEach(v=>{
+    const el=mkG('mkv-'+v);
+    if(el){el.style.display=v===id?'flex':'none';el.classList.toggle('on',v===id);}
+  });
+  document.querySelectorAll('.mk-ntab').forEach(t=>t.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  const fb=mkG('mk-fbar');if(fb)fb.style.display=id==='browse'?'':'none';
+  if(id==='portfolio')mkRenderPortfolio();
+}
+
+// ── FILTERS ─────────────────────────────────────────
+
+function mkSetCF(c,btn){MK.classF=c;document.querySelectorAll('[data-c]').forEach(b=>b.classList.remove('on'));btn.classList.add('on');mkRenderGrid();}
+function mkSetGF(g,btn){MK.geoF=g;document.querySelectorAll('[data-g]').forEach(b=>b.classList.remove('on'));btn.classList.add('on');mkRenderGrid();}
+function mkTogLR(id){MK.lrFilters[id]=!MK.lrFilters[id];const el=mkG(id);if(el)el.classList.toggle('on',MK.lrFilters[id]);mkRenderGrid();}
+function mkClearLR(){
+  MK.lrFilters={};
+  document.querySelectorAll('.mk-chk').forEach(c=>c.classList.remove('on'));
+  ['mk-irr-min','mk-irr-max','mk-ticket-max'].forEach(id=>{const e=mkG(id);if(e)e.value='';});
+  mkRenderGrid();
+}
+
+// ── GRID ─────────────────────────────────────────────
+
+function mkRenderGrid(){
+  let deals=[...MK.deals];
+  if(MK.classF!=='all')deals=deals.filter(d=>d.type===MK.classF);
+  if(MK.geoF!=='all')deals=deals.filter(d=>d.geo===MK.geoF);
+  const iMin=parseFloat(mkG('mk-irr-min')?.value||0)||0;
+  const iMax=parseFloat(mkG('mk-irr-max')?.value||0)||99;
+  if(iMin>0)deals=deals.filter(d=>d.irr>=iMin);
+  if(iMax<99&&iMax>0)deals=deals.filter(d=>d.irr<=iMax);
+  if(MK.lrFilters['lt-short'])deals=deals.filter(d=>d.term<=12);
+  if(MK.lrFilters['lt-mid'])deals=deals.filter(d=>d.term>12&&d.term<=36);
+  if(MK.lrFilters['lt-long'])deals=deals.filter(d=>d.term>36);
+  if(MK.lrFilters['rt-fixed'])deals=deals.filter(d=>d.returnType==='fixed_coupon');
+  if(MK.lrFilters['rt-equity'])deals=deals.filter(d=>d.returnType==='equity_upside');
+  if(MK.lrFilters['rt-hybrid'])deals=deals.filter(d=>d.returnType==='hybrid');
+  const tMax=parseFloat(mkG('mk-ticket-max')?.value||0)||0;
+  if(tMax>0)deals=deals.filter(d=>!d.minTicket||d.minTicket<=tMax*1000);
+  const q=(mkG('mk-search')?.value||'').toLowerCase();
+  if(q)deals=deals.filter(d=>(d.name||'').toLowerCase().includes(q)||(d.notes||'').toLowerCase().includes(q)||(d.originator||'').toLowerCase().includes(q));
+  const sort=mkG('mk-sort')?.value||'newest';
+  if(sort==='irr')deals.sort((a,b)=>b.irr-a.irr);
+  else if(sort==='alloc')deals.sort((a,b)=>b.alloc-a.alloc);
+  else if(sort==='term')deals.sort((a,b)=>a.term-b.term);
+  else if(sort==='closing')deals.sort((a,b)=>new Date(a.closing||0)-new Date(b.closing||0));
+  const ct=mkG('mk-grid-ct');
+  if(ct)ct.textContent=deals.length+' deal'+(deals.length!==1?'s':'');
+  const g=mkG('mk-grid');if(!g)return;
+  if(!deals.length){
+    g.innerHTML=`<div style="grid-column:1/-1;padding:44px;text-align:center">
+      <div style="font-family:var(--serif);font-style:italic;font-size:22px;color:var(--muted);margin-bottom:8px">${MK.deals.length===0?'No deals published yet.':'No deals match your filters.'}</div>
+      <div style="font-family:var(--mono);font-size:7.5px;color:var(--muted)">${MK.deals.length===0?'TACC partners publish deals from the advisor portal. Check back soon.':'Try clearing your filters.'}</div>
+    </div>`;
+    return;
+  }
+  g.innerHTML=deals.map(d=>mkCard(d)).join('');
+}
+
+function mkCard(d){
+  const confPct=d.alloc>0?Math.min(100,Math.round(d.deployed/d.alloc*100)):0;
+  const ioiPct=d.alloc>0?Math.round(d.ioiAgg/d.alloc*100):0;
+  const myIoi=MK.myIois[d.id];
+  const diff=d.closing?new Date(d.closing)-Date.now():Infinity;
+  const daysLeft=Math.ceil(diff/86400000);
+  const closingBadge=daysLeft>0&&daysLeft<=14?`<span class="mk-badge mk-b-closing">Closes in ${daysLeft}d</span>`:'';
+  const newBadge=d.badge==='new'?`<span class="mk-badge mk-b-new">New</span>`:'';
+  const instBadge=d.badge==='inst'?`<span class="mk-badge mk-b-inst">Institutional</span>`:'';
+  const hotBadge=ioiPct>150?`<span class="mk-badge mk-b-hot">↑ ${ioiPct}% Indicated</span>`:'';
+  let ctaCls='',ctaTxt='Express Interest →';
+  if(myIoi){
+    if(myIoi.status==='approved'){ctaCls='done';ctaTxt='✓ Data Room Open';}
+    else{ctaCls='pending';ctaTxt='⏳ IOI Pending';}
+  }
+  return `<div class="mk-dc" onclick="mkOpenDeal('${d.id}')">
+    <div class="mk-dc-badges">
+      <span class="mk-badge mk-b-${d.type}">${MK_TYPE[d.type]||d.type}</span>
+      <span class="mk-badge mk-b-geo">${MK_GEO[d.geo]||d.geo}</span>
+      ${newBadge}${closingBadge}${hotBadge}${instBadge}
+    </div>
+    <div class="mk-dc-body">
+      <div class="mk-dc-name">${mkEsc(d.name)}</div>
+      <div class="mk-dc-orig">${mkEsc(d.originator)}</div>
+      <div class="mk-dc-summary">${mkEsc(d.notes)}</div>
+    </div>
+    <div class="mk-dc-metrics">
+      <div class="mk-dcm"><div class="mk-dcm-lbl">Target IRR</div><div class="mk-dcm-val gold">${d.irr}%</div><div class="mk-dcm-sub">${MK_RTYPE[d.returnType]||'—'}</div></div>
+      <div class="mk-dcm"><div class="mk-dcm-lbl">Term</div><div class="mk-dcm-val">${d.term}</div><div class="mk-dcm-sub">months</div></div>
+      <div class="mk-dcm"><div class="mk-dcm-lbl">Round Size</div><div class="mk-dcm-val green">${mkFmU(d.alloc)}</div><div class="mk-dcm-sub">USD · cash</div></div>
+    </div>
+    <div class="mk-dc-min"><span>Min. ticket</span><strong>${mkFmU(d.minTicket)} USD</strong></div>
+    <div class="mk-dc-alloc">
+      <div class="mk-alloc-hdr"><span>Confirmed ${confPct}%</span><span>${mkFmU(d.deployed)} / ${mkFmU(d.alloc)}</span></div>
+      <div class="mk-alloc-bar"><div class="mk-alloc-fill" style="width:${confPct}%"></div></div>
+    </div>
+    ${ioiPct>0?`<div class="mk-dc-ioi-row">↑ ${ioiPct}% indicated · ${d.iois} IOI${d.iois!==1?'s':''}</div>`:''}
+    <div class="mk-dc-foot">
+      <span style="font-family:var(--mono);font-size:7px;color:var(--muted)">${d.iois} indication${d.iois!==1?'s':''}</span>
+      <button class="mk-dc-cta ${ctaCls}" onclick="event.stopPropagation();mkOpenDeal('${d.id}')">${ctaTxt}</button>
+    </div>
+  </div>`;
+}
+
+// ── DEAL DRAWER ──────────────────────────────────────
+
+function mkOpenDeal(id){
+  const d=MK.deals.find(x=>x.id===id);if(!d)return;
+  const back=mkG('mk-backdrop'),drawer=mkG('mk-drawer');if(!back||!drawer)return;
+  back.classList.add('show');
+  mkG('mk-drawer-content').innerHTML=mkDrawer(d);
+  requestAnimationFrame(()=>drawer.classList.add('open'));
+  if(MK.cdInterval)clearInterval(MK.cdInterval);
+  if(d.closing){MK.cdInterval=setInterval(()=>mkTickCD(d.closing),1000);mkTickCD(d.closing);}
+}
+
+function mkCloseDrawer(){
+  const back=mkG('mk-backdrop'),drawer=mkG('mk-drawer');if(!back||!drawer)return;
+  drawer.classList.remove('open');
+  setTimeout(()=>back.classList.remove('show'),320);
+  if(MK.cdInterval){clearInterval(MK.cdInterval);MK.cdInterval=null;}
+}
+
+function mkTickCD(closing){
+  const diff=new Date(closing)-Date.now();
+  const set=(id,v)=>{const el=mkG(id);if(el)el.textContent=String(v).padStart(2,'0');};
+  if(diff<=0){set('mk-cd-days','0');set('mk-cd-hrs','00');set('mk-cd-mins','00');set('mk-cd-secs','00');return;}
+  set('mk-cd-days',Math.floor(diff/86400000));
+  set('mk-cd-hrs',Math.floor((diff%86400000)/3600000));
+  set('mk-cd-mins',Math.floor((diff%3600000)/60000));
+  set('mk-cd-secs',Math.floor((diff%60000)/1000));
+}
+
+function mkDrawer(d){
+  const myIoi=MK.myIois[d.id];
+  const isApproved=myIoi?.status==='approved';
+  const isPending=myIoi&&!isApproved;
+  const confPct=d.alloc>0?Math.min(100,Math.round(d.deployed/d.alloc*100)):0;
+  const ioiPct=d.alloc>0?Math.round(d.ioiAgg/d.alloc*100):0;
+
+  // Timeline
+  const tl=(d.timeline||[]).map(t=>`
+    <div class="mk-tl-item">
+      <div class="mk-tl-dot ${t.s}"></div>
+      <div class="mk-tl-lbl ${t.s}">${mkEsc(t.l)}</div>
+      <div class="mk-tl-date">${mkEsc(t.d||'')}</div>
+      <div class="mk-tl-desc">${mkEsc(t.desc||'')}</div>
+      ${t.s==='done'?'<div class="mk-tl-done">Completed</div>':''}
+    </div>`).join('')||'<div style="font-family:var(--serif);font-style:italic;font-size:12px;color:var(--muted);padding:8px 0">Timeline details to be published by TACC partners.</div>';
+
+  // Highlights
+  const hls=(d.highlights||[]).map(h=>`
+    <div class="mk-hl">
+      <div class="mk-hl-dot"></div>
+      <div class="mk-hl-text"><strong>${mkEsc(h.s||h)}</strong>${h.b?` — ${mkEsc(h.b)}`:''}
+    </div></div>`).join('')||'';
+
+  // Return scenarios ($100K hypothetical, cash only)
+  const yrs=d.term/12;
+  const retRows=[
+    {l:'Base · contracted',r:d.irr,hl:false,dim:false},
+    {l:'Target · GP projected',r:d.irr,hl:true,dim:false},
+    {l:'Upside · early exit',r:parseFloat((d.irr*1.05).toFixed(1)),hl:false,dim:false},
+    {l:'Conservative · delay',r:parseFloat((d.irr*0.85).toFixed(1)),hl:false,dim:true},
+  ].map(s=>{
+    const end=Math.round(100000*Math.pow(1+s.r/100,yrs));
+    const ann=Math.round(100000*s.r/100);
+    const nc=s.hl?'gold':s.dim?'muted':'gold';
+    return `<div class="mk-rt-row${s.hl?' hl':''}" ${s.dim?'style="opacity:.65"':''}>
+      <span>${s.l}</span>
+      <span class="mk-rtn ${nc}">${s.r.toFixed(1)}%</span>
+      <span class="mk-rtn ${nc}">${mkFmU(ann)}/yr</span>
+      <span class="mk-rtn ${nc}">${mkFmU(end)}</span>
+    </div>`;
+  }).join('');
+
+  // Documents
+  const pub=(d.docs||[]).filter(x=>x.access==='public');
+  const gated=(d.docs||[]).filter(x=>x.access==='ioi');
+  let docs=`<div class="mk-doc-hub">
+    <div class="mk-dh-hdr">
+      <span class="mk-dh-title">Document Hub</span>
+      <span class="mk-dh-prog">${isApproved?'Full access':'Public only'}
+        <div class="mk-dh-bar"><div class="mk-dh-fill" style="width:${isApproved?100:pub.length&&d.docs.length?Math.round(pub.length/d.docs.length*100):0}%"></div></div>
+      </span>
+    </div>`;
+  if(pub.length){docs+=`<div class="mk-doc-sec-hd public">Public · Available Now</div>`;pub.forEach(doc=>{docs+=mkDocRow(doc,true);});}
+  if(gated.length){
+    if(isApproved){
+      docs+=`<div class="mk-doc-sec-hd open">✓ Data Room · Access Approved — watermarked on download</div>`;
+    } else if(isPending){
+      docs+=`<div class="mk-doc-sec-hd gated" style="color:var(--amber)">⏳ Data Room · IOI Submitted — Awaiting TACC Approval</div>`;
+    } else {
+      docs+=`<div class="mk-doc-sec-hd gated">🔒 Data Room · Submit IOI to Unlock</div>`;
+    }
+    gated.forEach(doc=>{docs+=mkDocRow(doc,isApproved);});
+  }
+  docs+='</div>';
+
+  // Activity feed
+  const acts=(d.activity||[]).map(a=>`
+    <div class="mk-ia-row">
+      <div class="mk-ia-av">${mkEsc(a.init||'?')}</div>
+      <div class="mk-ia-who">${mkEsc(a.who||'Investor')}</div>
+      <div class="mk-ia-ts">${mkEsc(a.ts||'')}</div>
+    </div>`).join('')||'<div style="padding:8px 11px;font-family:var(--mono);font-size:7px;color:var(--muted)">No recent activity.</div>';
+
+  // Sidebar CTA
+  let sideCta='';
+  if(isApproved){
+    sideCta=`
+      <button class="mk-deal-cta submitted" disabled>✓ IOI Submitted${myIoi?` — ${mkFmU(myIoi.amount)} USD`:''}</button>
+      <div class="mk-cta-note">Data room approved · Documents accessible above</div>`;
+  } else if(isPending){
+    sideCta=`
+      <div class="mk-pending-banner">
+        <span class="mk-pb-icon">⏳</span>
+        <div>
+          <div class="mk-pb-title">IOI Submitted</div>
+          <div class="mk-pb-text">Awaiting TACC partner review. You'll be notified when data room access is granted.</div>
+        </div>
+      </div>`;
+  } else {
+    sideCta=mkIoiForm(d);
+  }
+
+  return `
+    <div class="mk-deal-hero">
+      <div class="mk-dh-crumb">Marketplace › ${MK_TYPE[d.type]||d.type} › ${MK_GEO[d.geo]||d.geo}</div>
+      <div class="mk-dh-badges">
+        <span class="mk-badge mk-b-${d.type}">${MK_TYPE[d.type]||d.type}</span>
+        <span class="mk-badge" style="color:var(--muted);border-color:var(--border)">${MK_STRUCT[d.structure]||d.structure}</span>
+        <span class="mk-badge" style="color:var(--muted);border-color:var(--border)">${MK_GEO[d.geo]||d.geo}</span>
+        <span class="mk-badge" style="color:var(--green);border-color:var(--greenBd);background:var(--greenW);animation:pulse 2s infinite">● IOI Open</span>
+      </div>
+      <div class="mk-dh-title">${mkEsc(d.name)}</div>
+      <div class="mk-dh-sub">${mkEsc(d.originator)} · ${mkEsc(d.id)} · All USD · Cash only</div>
+      <div class="mk-dh-metrics">
+        <div class="mk-dhm"><div class="mk-dhm-lbl">Target IRR</div><div class="mk-dhm-val">${d.irr}%</div><div class="mk-dhm-sub">${MK_RTYPE[d.returnType]||'—'}</div></div>
+        <div class="mk-dhm"><div class="mk-dhm-lbl">Term</div><div class="mk-dhm-val">${d.term}<span style="font-family:var(--mono);font-size:11px"> mo</span></div><div class="mk-dhm-sub">from first draw</div></div>
+        <div class="mk-dhm"><div class="mk-dhm-lbl">Min Ticket</div><div class="mk-dhm-val amber">${mkFmU(d.minTicket)}</div><div class="mk-dhm-sub">${d.maxTicket?'max '+mkFmU(d.maxTicket):''}</div></div>
+        <div class="mk-dhm"><div class="mk-dhm-lbl">Round Size</div><div class="mk-dhm-val green">${mkFmU(d.alloc)}</div><div class="mk-dhm-sub">USD · cash only</div></div>
+        <div class="mk-dhm"><div class="mk-dhm-lbl">Hurdle Rate</div><div class="mk-dhm-val">${d.hurdle}%</div><div class="mk-dhm-sub">20% carry above</div></div>
+      </div>
+    </div>
+    <div class="mk-deal-body">
+      <div class="mk-deal-main">
+        ${isApproved?`
+          <div class="mk-approved-banner">
+            <span class="mk-ab-icon">✓</span>
+            <div><div class="mk-ab-title">Data Room Approved · Full Access</div><div class="mk-ab-text">All documents accessible · Watermarked with your identity on every download</div></div>
+          </div>
+          <div class="mk-wm-notice"><div class="mk-wm-dot"></div>Documents are watermarked with your identity and timestamp. Do not forward or distribute.</div>
+        `:''}
+
+        <div class="mk-sec" style="margin-top:0">Deal Summary</div>
+        <div class="mk-deal-summary">${mkEsc(d.notes)}</div>
+
+        ${hls?`<div class="mk-sec">Key Highlights</div><div class="mk-hls">${hls}</div>`:''}
+
+        ${d.timeline?.length?`
+          <div class="mk-sec">Deal Timeline <span class="mk-sec-note">Key milestones</span></div>
+          <div class="mk-tl">${tl}</div>
+        `:''}
+
+        <div class="mk-sec">Return Scenarios <span class="mk-sec-note">$100K hypothetical · Cash</span></div>
+        <div class="mk-rt">
+          <div class="mk-rt-row hd"><span>Scenario</span><span class="mk-rtn">Gross IRR</span><span class="mk-rtn">Annual Income</span><span class="mk-rtn">Total Return</span></div>
+          ${retRows}
+        </div>
+        <div style="font-family:var(--mono);font-size:6.5px;color:var(--muted);padding:5px 9px;border:1px solid var(--border);border-top:0">Illustrative only · USD cash · No LTV or gold mechanics · Past performance not indicative of future results</div>
+
+        ${d.docs?.length?`
+          <div class="mk-sec">Documents <span class="mk-sec-note">${isApproved?d.docs.length+' docs accessible':isPending?'Pending approval':'Submit IOI to unlock data room'}</span></div>
+          ${docs}
+        `:''}
+
+        ${isApproved?`
+          <div class="mk-sec">Your Activity Log</div>
+          <div class="mk-audit">
+            <div class="mk-audit-hd">Access & Action History</div>
+            <div class="mk-at-row"><div class="mk-at-dot ioi"></div><div class="mk-at-who">${mkEsc(MK.user?.name||'You')}</div><div class="mk-at-what">IOI submitted — ${mkFmU(myIoi?.amount||0)} USD</div><div class="mk-at-ts">${mkFmD(myIoi?.submitted_at)}</div></div>
+            <div class="mk-at-row"><div class="mk-at-dot view"></div><div class="mk-at-who">${mkEsc(MK.user?.name||'You')}</div><div class="mk-at-what">Data room access approved by TACC partner</div><div class="mk-at-ts">—</div></div>
+          </div>
+        `:`
+          <div class="mk-gate">
+            <div class="mk-gate-icon">§</div>
+            <div class="mk-gate-title">${isPending?'Awaiting TACC Review':'Submit IOI to Unlock Data Room'}</div>
+            <div class="mk-gate-sub">${isPending?'Your IOI has been received. TACC partners will review and grant data room access within 2 business days.':'Submit a non-binding IOI to unlock the full document set. TACC partners review and grant access — typically within 2 business days.'}</div>
+            ${!isPending?`<div class="mk-gate-steps">
+              <div class="mk-gs"><div class="mk-gs-n">1</div><div class="mk-gs-t">Submit IOI</div></div>
+              <div class="mk-gs"><div class="mk-gs-n">2</div><div class="mk-gs-t">TACC Review</div></div>
+              <div class="mk-gs"><div class="mk-gs-n">3</div><div class="mk-gs-t">Access Granted</div></div>
+            </div>`:''}
+          </div>
+        `}
+      </div>
+      <div class="mk-deal-side">
+        <div class="mk-raise-card">
+          <div class="mk-rc-title">Capital Raise <span class="mk-rc-right">Closes ${d.closing?mkFmD(d.closing):'TBC'}</span></div>
+          <div class="mk-rc-big">${mkFmU(d.alloc)} USD</div>
+          <div class="mk-rc-sub">TACC allocation · cash only · no gold</div>
+          <div class="mk-rc-lbls"><span>Confirmed: ${confPct}%</span><span>Indicated: ${ioiPct}%</span></div>
+          <div class="mk-rc-bar">
+            <div class="mk-rc-ioi" style="width:${Math.min(100,ioiPct)}%"></div>
+            <div class="mk-rc-conf" style="width:${confPct}%"></div>
+          </div>
+          <div class="mk-rc-stats">
+            <div class="mk-rc-stat"><div class="mk-rc-sl">Confirmed</div><div class="mk-rc-sv">${mkFmU(d.deployed)}</div></div>
+            <div class="mk-rc-stat"><div class="mk-rc-sl">Remaining</div><div class="mk-rc-sv amber">${mkFmU(Math.max(0,d.alloc-d.deployed))}</div></div>
+            <div class="mk-rc-stat"><div class="mk-rc-sl">IOIs</div><div class="mk-rc-sv">${d.iois}</div></div>
+            <div class="mk-rc-stat"><div class="mk-rc-sl">Indicated</div><div class="mk-rc-sv green">${mkFmU(d.ioiAgg)}</div></div>
+          </div>
+        </div>
+
+        ${d.closing?`
+        <div class="mk-cd">
+          <div class="mk-cd-title">IOI Window Closes In</div>
+          <div class="mk-cd-timer">
+            <div><div class="mk-cd-num" id="mk-cd-days">—</div><div class="mk-cd-lbl">Days</div></div>
+            <div class="mk-cd-sep">:</div>
+            <div><div class="mk-cd-num" id="mk-cd-hrs">—</div><div class="mk-cd-lbl">Hrs</div></div>
+            <div class="mk-cd-sep">:</div>
+            <div><div class="mk-cd-num" id="mk-cd-mins">—</div><div class="mk-cd-lbl">Min</div></div>
+            <div class="mk-cd-sep">:</div>
+            <div><div class="mk-cd-num" id="mk-cd-secs">—</div><div class="mk-cd-lbl">Sec</div></div>
+          </div>
+        </div>`:''}
+
+        <div class="mk-ioi-act">
+          <div class="mk-ia-hd">Recent Activity <div class="mk-ia-live"></div></div>
+          ${acts}
+          <div style="font-family:var(--mono);font-size:6.5px;color:var(--muted);padding:6px 11px;text-align:center">${d.iois} expressions of interest · IOI count only · amounts private</div>
+        </div>
+
+        ${sideCta}
+      </div>
+    </div>`;
+}
+
+function mkDocRow(doc,unlocked){
+  const ext=(doc.type||'pdf').toLowerCase();
+  const action=unlocked
+    ?`<span class="mk-doc-action mk-da-dl" onclick="event.stopPropagation();mkToast('Download: GET /api/deal/doc?id=${mkEsc(doc.id||'')}','ok')">↓ Download</span>`
+    :`<span class="mk-doc-action mk-da-locked">🔒 Locked</span>`;
+  return `<div class="mk-doc-row">
+    <div class="mk-doc-icon ${ext}">${ext.toUpperCase()}</div>
+    <div style="flex:1"><div class="mk-doc-name">${mkEsc(doc.name||'Document')}</div><div class="mk-doc-meta">${doc.date||''}${doc.size?' · '+doc.size:''}</div></div>
+    ${action}
+  </div>`;
+}
+
+function mkIoiForm(d){
+  return `<div class="mk-ioi-form">
+    <div class="mk-if-title">Indicate Interest · Non-Binding</div>
+    <div class="mk-if-err" id="mk-err-${d.id}"></div>
+    <label class="mk-if-lbl">Indicative Amount (USD) *</label>
+    <input class="mk-if-inp" id="mk-amt-${d.id}" type="number" min="${d.minTicket||250000}" placeholder="${mkFmU(d.minTicket||250000)} minimum">
+    <div style="font-family:var(--mono);font-size:6.5px;color:var(--muted);margin-top:3px">Min: ${mkFmU(d.minTicket||250000)} · ${d.maxTicket?'Max: '+mkFmU(d.maxTicket)+' · ':''}Hard capital · USD cash only</div>
+    <label class="mk-if-lbl">Notes to TACC (optional)</label>
+    <textarea class="mk-if-ta" id="mk-notes-${d.id}" rows="2" placeholder="Questions, conditions, or context…"></textarea>
+    <div style="margin-top:10px">
+      <div class="mk-ack" onclick="mkAck('a1_${d.id}')"><div class="mk-ack-chk" id="a1_${d.id}"></div><span class="mk-ack-lbl">This IOI is non-binding. Final allocation at TACC's discretion, subject to LP documentation and deal close.</span></div>
+      <div class="mk-ack" onclick="mkAck('a2_${d.id}')"><div class="mk-ack-chk" id="a2_${d.id}"></div><span class="mk-ack-lbl">Submitting this IOI requests data room access. Documents will be watermarked with my identity on every download upon TACC approval.</span></div>
+      <div class="mk-ack" onclick="mkAck('a3_${d.id}')"><div class="mk-ack-chk" id="a3_${d.id}"></div><span class="mk-ack-lbl">I am a qualified or accredited investor under applicable securities laws in my jurisdiction. Minimum commitment $250,000 USD.</span></div>
+    </div>
+    <button class="mk-if-submit" id="mk-sub-${d.id}" onclick="mkSubmit('${d.id}')">Submit IOI →</button>
+    <div class="mk-if-hint">Non-binding · TACC partners review · Data room access granted upon approval</div>
+  </div>`;
+}
+
+function mkAck(id){
+  MK.ackState[id]=!MK.ackState[id];
+  const el=mkG(id);if(el)el.classList.toggle('on',MK.ackState[id]);
+}
+
+async function mkSubmit(dealId){
+  const d=MK.deals.find(x=>x.id===dealId);if(!d)return;
+  const amt=parseFloat(mkG('mk-amt-'+dealId)?.value||0);
+  const notes=(mkG('mk-notes-'+dealId)?.value||'').trim();
+  const err=mkG('mk-err-'+dealId);if(err)err.classList.remove('show');
+  const minT=d.minTicket||250000;
+  if(!amt||amt<1000){
+    if(err){err.textContent='Please enter a valid amount.';err.classList.add('show');}return;
+  }
+  if(amt<minT){
+    if(err){err.textContent=`Minimum ticket is ${mkFmU(minT)} USD.`;err.classList.add('show');}return;
+  }
+  if(!MK.ackState['a1_'+dealId]||!MK.ackState['a2_'+dealId]||!MK.ackState['a3_'+dealId]){
+    if(err){err.textContent='Please confirm all three acknowledgments.';err.classList.add('show');}return;
+  }
+  const btn=mkG('mk-sub-'+dealId);
+  if(btn){btn.disabled=true;btn.textContent='Submitting…';}
+  try {
+    const r=await fetch('/api/v2?resource=marketplace&op=ioi',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({deal_id:dealId,amount:amt,notes,source:'marketplace',funding:'hard_capital'})
+    });
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok&&r.status!==201)throw new Error(j.error||'Submission failed');
+    MK.myIois[dealId]={amount:amt,status:'pending',submitted_at:new Date().toISOString(),data_room_access:false,notes};
+    const di=MK.deals.findIndex(x=>x.id===dealId);
+    if(di>=0){MK.deals[di].iois++;MK.deals[di].ioiAgg+=amt;}
+    const dc=mkG('mk-drawer-content');if(dc)dc.innerHTML=mkDrawer(d);
+    if(MK.cdInterval){clearInterval(MK.cdInterval);}
+    if(d.closing){MK.cdInterval=setInterval(()=>mkTickCD(d.closing),1000);mkTickCD(d.closing);}
+    mkRenderGrid();
+    mkToast('IOI submitted · TACC partners will review within 2 business days','ok');
+  } catch(e){
+    if(err){err.textContent=e.message;err.classList.add('show');}
+    if(btn){btn.disabled=false;btn.textContent='Submit IOI →';}
+  }
+}
+
+// ── PORTFOLIO ────────────────────────────────────────
+
+function mkRenderPortfolio(){
+  const el=mkG('mk-portfolio-content');if(!el)return;
+  const ids=Object.keys(MK.myIois);
+  if(!ids.length){
+    el.innerHTML='<div class="mk-empty-state">No IOIs submitted yet.<br><span style="font-family:var(--mono);font-size:8px;font-style:normal;display:block;margin-top:8px;color:var(--muted)">Browse deals to express interest.</span></div>';
+    return;
+  }
+  el.innerHTML=ids.map(id=>{
+    const d=MK.deals.find(x=>x.id===id);if(!d)return '';
+    const ioi=MK.myIois[id];
+    const {label:statusLabel,cls:statusCls}={
+      pending:{label:'IOI Submitted · Pending',cls:'pending'},
+      approved:{label:'Data Room Approved',cls:'approved'},
+      allocated:{label:'Allocation Confirmed',cls:'allocated'},
+    }[ioi.status]||{label:'IOI Submitted',cls:'pending'};
+    return `<div class="mk-pos-card" onclick="mkShowView('browse',document.querySelector('.mk-ntab'));mkOpenDeal('${mkEsc(id)}')">
+      <div class="mk-pos-hd">
+        <span class="mk-pos-name">${mkEsc(d.name)}</span>
+        <span class="mk-pos-status ${statusCls}">${statusLabel}</span>
+      </div>
+      <div class="mk-pos-body">
+        <span>Indicated: <span>${mkFmU(ioi.amount)} USD</span></span>
+        <span>IRR target: <span>${d.irr}%</span></span>
+        <span>Term: <span>${d.term} mo</span></span>
+        <span>Originator: <span>${mkEsc(d.originator)}</span></span>
+        <span>Data room: <span>${ioi.data_room_access?'✓ Open':'Pending approval'}</span></span>
+        <span>Submitted: <span>${mkFmD(ioi.submitted_at)||'Today'}</span></span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── INIT ────────────────────────────────────────────
+
+(async function(){
+  // Check for existing session
+  try {
+    const r=await fetch('/api/me');
+    const j=await r.json().catch(()=>({}));
+    if(r.ok&&j.ok&&(j.role==='member'||j.role==='inst'||j.role==='admin')){
+      MK.role = j.role==='admin' ? 'partner' : j.role;
+      MK.user={name:j.name||j.email||'Partner',email:j.email,code:j.code};
+      await mkShowApp();
+    }
+  } catch(e){}
+
+  // Remove loader
+  const l=mkG('loader');
+  if(l){l.classList.add('done');setTimeout(()=>l.remove(),700);}
+})();
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&mkG('mk-backdrop')?.classList.contains('show'))mkCloseDrawer();
+  if(e.key==='Escape'&&mkG('inst-reg-overlay')?.classList.contains('show'))closeInstReg();
+});
+</script>
+</body>
+</html>
