@@ -1,0 +1,925 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aurum · GP Advisor Portal v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0f1a;--bg2:#121320;--bg3:#171829;--bg4:#1c1e32;--card:#131422;
+  --bdr:rgba(255,255,255,0.08);--b2:rgba(255,255,255,0.14);
+  --gold:#C8AA76;--goldB:#E4C98E;--goldD:#8a7454;--goldW:rgba(200,170,118,0.07);--goldBd:rgba(200,170,118,0.22);
+  --text:#e0dbd2;--sub:#9a9389;--muted:#545060;--dim:#2e2c38;
+  --green:#5fa87a;--greenB:rgba(95,168,122,0.28);--greenW:rgba(95,168,122,0.08);
+  --red:#b05e56;--redB:rgba(176,94,86,0.28);--redW:rgba(176,94,86,0.07);
+  --blue:#5f8fc7;--blueW:rgba(95,143,199,0.09);--blueBd:rgba(95,143,199,0.25);
+  --teal:#3dafaa;--tealW:rgba(61,175,170,0.09);--tealBd:rgba(61,175,170,0.26);
+  --amber:#c07830;--amberW:rgba(192,120,48,0.09);--amberBd:rgba(192,120,48,0.28);
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;--r:3px;
+}
+[data-theme="light"]{
+  --bg:#f5f3ef;--bg2:#efede9;--bg3:#e8e6e1;--bg4:#e0deda;--card:#faf9f7;
+  --bdr:rgba(0,0,0,0.09);--b2:rgba(0,0,0,0.16);
+  --gold:#9a7d45;--goldB:#7a6235;--goldD:#b8965a;--goldW:rgba(154,125,69,0.08);--goldBd:rgba(154,125,69,0.28);
+  --text:#1a1812;--sub:#5a5650;--muted:#9a9890;--dim:#d8d6d0;
+  --green:#2d7a50;--greenB:rgba(45,122,80,0.25);--greenW:rgba(45,122,80,0.07);
+  --red:#8a3530;--redB:rgba(138,53,48,0.25);--redW:rgba(138,53,48,0.06);
+  --blue:#2d5f9a;--blueW:rgba(45,95,154,0.08);--blueBd:rgba(45,95,154,0.25);
+  --teal:#0e6b67;--tealW:rgba(14,107,103,0.08);--tealBd:rgba(14,107,103,0.25);
+  --amber:#8a5020;--amberW:rgba(138,80,32,0.08);--amberBd:rgba(138,80,32,0.25);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;-webkit-font-smoothing:antialiased;min-height:100vh}
+[data-theme="dark"] body{background-image:radial-gradient(ellipse 900px 400px at 50% -40px,rgba(200,170,118,0.05),transparent 60%)}
+button{font-family:inherit;cursor:pointer;border:0;background:transparent;color:inherit}
+input,textarea,select{font-family:inherit}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 26px;height:50px;background:var(--bg);border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:200;backdrop-filter:blur(20px)}
+.nav-brand{display:flex;align-items:center;gap:11px;flex-shrink:0}
+.seal{width:26px;height:26px;border:1px solid var(--goldBd);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:12px;color:var(--gold);flex-shrink:0}
+.wordmark{font-family:var(--mono);font-size:10.5px;letter-spacing:.36em;color:var(--sub)}
+.nav-tabs{display:flex;border:1px solid var(--bdr);border-radius:var(--r);background:var(--bg2)}
+.ntab{position:relative;padding:7px 18px;font-family:var(--mono);font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);background:transparent;border-right:1px solid var(--bdr);transition:all .15s;cursor:pointer}
+.ntab:last-child{border-right:0}.ntab:hover{color:var(--sub);background:var(--bg3)}.ntab.active{color:var(--gold);background:var(--goldW)}
+.ntab .pip{position:absolute;top:7px;right:7px;width:5px;height:5px;border-radius:50%;background:var(--amber);display:none}.ntab .pip.on{display:block}
+.nav-r{display:flex;align-items:center;gap:8px}
+.adv-chip{font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--goldD);padding:5px 10px;border:1px solid var(--bdr);border-radius:var(--r);background:var(--bg2)}
+.icon-btn{width:28px;height:28px;border:1px solid var(--bdr);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);background:var(--bg2);transition:all .15s}
+.icon-btn:hover{border-color:var(--goldBd);color:var(--gold)}
+.view{display:none;animation:fi .2s ease}.view.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.sh{font-family:var(--mono);font-size:8px;letter-spacing:.34em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.sh::after{content:'';flex:1;height:1px;background:var(--goldBd)}
+.two-pane{display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 50px)}
+.lp{border-right:1px solid var(--bdr);display:flex;flex-direction:column;background:var(--bg2)}
+.lp-head{padding:12px 16px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between}
+.lp-title{font-family:var(--mono);font-size:9px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase}
+.lp-ct{font-family:var(--mono);font-size:9px;color:var(--sub)}
+.lp-list{flex:1;overflow-y:auto}
+.rp{overflow-y:auto;background:var(--bg)}
+.dl-item{padding:11px 14px;border-bottom:1px solid var(--bdr);cursor:pointer;transition:background .15s}
+.dl-item:hover{background:var(--bg3)}.dl-item.sel{background:var(--goldW);border-left:2px solid var(--gold);padding-left:12px}
+.dl-name{font-family:var(--serif);font-size:15px;color:var(--text)}
+.dl-firm{font-family:var(--mono);font-size:8px;color:var(--muted);margin-top:2px}
+.dl-bot{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.dl-code{font-family:var(--mono);font-size:8px;color:var(--goldD)}
+.s-badge{font-family:var(--mono);font-size:7px;letter-spacing:.16em;text-transform:uppercase;padding:2px 7px;border-radius:var(--r);border:1px solid}
+.dl-ac{font-family:var(--mono);font-size:7px;letter-spacing:.14em;text-transform:uppercase;padding:2px 6px;border-radius:var(--r)}
+.ac-pe{color:var(--goldB);border:1px solid var(--goldBd);background:var(--goldW)}
+.ac-cr{color:var(--blue);border:1px solid var(--blueBd);background:var(--blueW)}
+.ac-re{color:var(--teal);border:1px solid var(--tealBd);background:var(--tealW)}
+.ac-in{color:var(--amber);border:1px solid var(--amberBd);background:var(--amberW)}
+/* DETAIL PANE */
+.dp-inner{padding:0}
+.dp-hdr{padding:18px 24px;border-bottom:1px solid var(--bdr);background:var(--bg2)}
+.dp-title{font-family:var(--serif);font-style:italic;font-size:32px;font-weight:300;color:var(--text);line-height:1;margin-bottom:5px}
+.dp-meta{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:var(--muted);display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.dp-sep{color:var(--dim)}
+.dp-badge{font-family:var(--mono);font-size:8px;letter-spacing:.18em;text-transform:uppercase;padding:5px 10px;border-radius:var(--r);border:1px solid}
+.stage-track{display:flex;align-items:center;padding:10px 0;gap:0;overflow-x:auto}
+.sp-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;border:1px solid var(--bdr);background:var(--bg4)}
+.sp-dot.done{background:var(--goldD);border-color:var(--goldBd)}.sp-dot.curr{background:var(--gold);border-color:var(--goldB);box-shadow:0 0 8px rgba(200,170,118,.4)}
+.sp-line{flex:1;height:1px;background:var(--bdr);min-width:16px}.sp-line.done{background:var(--goldBd)}
+.sp-lbl{font-family:var(--mono);font-size:7px;letter-spacing:.14em;color:var(--muted);text-align:center;margin-top:4px;text-transform:uppercase}
+.stage-labels{display:flex;align-items:center;padding:0;gap:0}
+.sl-item{display:flex;flex-direction:column;align-items:center;flex:1;min-width:60px}
+.sl-spacer{flex:1;min-width:16px}
+/* GATE CARD */
+.gate-card{border:1px solid var(--goldBd);border-radius:var(--r);background:rgba(200,170,118,.04);padding:14px 16px;margin-bottom:14px}
+.gc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.gc-title{font-family:var(--mono);font-size:8px;letter-spacing:.24em;color:var(--goldD);text-transform:uppercase}
+.gc-gate{font-family:var(--mono);font-size:9px;font-weight:500;color:var(--gold)}
+.gate-steps{display:flex;flex-direction:column;gap:6px}
+.gs-row{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:var(--r);border:1px solid var(--bdr);background:var(--bg3)}
+.gs-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.gs-dot.done{background:var(--green)}.gs-dot.todo{background:var(--muted);opacity:.4}
+.gs-label{flex:1;font-family:var(--sans);font-size:12.5px;color:var(--text)}
+.gs-owner{font-family:var(--mono);font-size:8px;color:var(--muted);flex-shrink:0}
+/* SUB TABS */
+.sub-tabs{display:flex;border-bottom:1px solid var(--bdr);overflow-x:auto}
+.stab{padding:9px 16px;font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);border-right:1px solid var(--bdr);transition:all .15s;flex-shrink:0;cursor:pointer}
+.stab:hover{color:var(--sub);background:var(--bg3)}.stab.on{color:var(--gold);background:var(--goldW)}
+.tab-body{display:none;padding:20px 24px}.tab-body.on{display:block}
+/* TERMS GRID */
+.tg{display:flex;flex-direction:column;gap:4px}
+.tg-row{display:flex;gap:4px}
+.tg-cell{flex:1;background:var(--bg3);padding:8px 11px;border-radius:var(--r);border:1px solid var(--bdr)}
+.tgl{font-family:var(--mono);font-size:7px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.tgv{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--text)}.tgv.gold{color:var(--goldB)}.tgv.green{color:var(--green)}.tgv.blue{color:var(--blue)}
+/* DATA ROOM */
+.dr-section{margin-bottom:14px}
+.dr-section-hd{font-family:var(--mono);font-size:7.5px;letter-spacing:.22em;color:var(--sub);text-transform:uppercase;padding:6px 10px;border:1px solid var(--bdr);border-bottom:0;border-radius:3px 3px 0 0;background:var(--bg3)}
+.dr-table{border:1px solid var(--bdr);border-radius:0 0 3px 3px;overflow:hidden}
+.dr-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--bdr)}
+.dr-row:last-child{border-bottom:0}
+.dr-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dr-dot.ok{background:var(--green)}.dr-dot.miss{background:var(--muted);opacity:.4}.dr-dot.rev{background:var(--amber)}
+.dr-name{flex:1;font-family:var(--sans);font-size:12.5px;color:var(--text)}
+.dr-badge{font-family:var(--mono);font-size:7px;letter-spacing:.14em;text-transform:uppercase;padding:2px 6px;border-radius:var(--r);border:1px solid;flex-shrink:0}
+.dr-badge.ok{color:var(--green);border-color:var(--greenB);background:var(--greenW)}
+.dr-badge.miss{color:var(--muted);border-color:var(--bdr)}
+.dr-badge.rev{color:var(--amber);border-color:var(--amberBd);background:var(--amberW)}
+.dr-btn{font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;border:1px solid var(--bdr);border-radius:var(--r);color:var(--sub);transition:all .15s;cursor:pointer}
+.dr-btn:hover{border-color:var(--b2);color:var(--text)}
+.dr-completion{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:14px}
+.dr-pct{font-family:var(--serif);font-style:italic;font-size:30px;color:var(--goldB);line-height:1;flex-shrink:0}
+.dr-track{flex:1;height:6px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.dr-track-fill{height:100%;background:var(--gold);border-radius:3px;transition:width .6s ease}
+.dr-msg{font-family:var(--mono);font-size:8px;letter-spacing:.12em;color:var(--muted);margin-top:3px}
+/* IOI TRACKER */
+.ioi-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.ioi-card{border:1px solid var(--bdr);border-radius:var(--r);padding:12px 15px;background:var(--card)}
+.ioi-lbl{font-family:var(--mono);font-size:7.5px;letter-spacing:.28em;color:var(--muted);text-transform:uppercase;margin-bottom:5px}
+.ioi-val{font-family:var(--serif);font-style:italic;font-size:26px;line-height:1;color:var(--goldB);margin-bottom:3px}
+.ioi-sub{font-family:var(--mono);font-size:8px;color:var(--sub)}
+.ioi-bar-wrap{margin-bottom:20px}
+.ioi-bar-hdr{display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
+.ioi-bar{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;margin-bottom:4px}
+.ioi-bar-fill{height:100%;background:var(--gold);border-radius:4px;transition:width .7s ease}
+.ioi-bar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:7.5px;color:var(--muted)}
+.countdown{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--amberBd);border-radius:var(--r);background:var(--amberW);margin-bottom:16px}
+.cd-dot{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:vp 2.4s ease-in-out infinite;flex-shrink:0}
+@keyframes vp{0%,100%{box-shadow:0 0 0 0 rgba(192,120,48,.5)}60%{box-shadow:0 0 0 5px rgba(192,120,48,0)}}
+.cd-text{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--amber)}
+.anon-notice{font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--muted);padding:10px 12px;background:var(--bg3);border-radius:var(--r);border:1px solid var(--bdr);margin-bottom:14px;line-height:1.5}
+.tier-table{border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
+.tt-hd{display:grid;grid-template-columns:100px 1fr 100px 100px;padding:6px 12px;border-bottom:1px solid var(--bdr);background:var(--bg3)}
+.tt-hd span{font-family:var(--mono);font-size:7px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.tt-row{display:grid;grid-template-columns:100px 1fr 100px 100px;padding:8px 12px;border-bottom:1px solid var(--bdr);align-items:center;transition:background .15s}
+.tt-row:last-child{border-bottom:0}.tt-row:hover{background:var(--bg3)}
+.tt-tier{font-family:var(--mono);font-size:9px;font-weight:500;color:var(--goldD)}
+.tt-count{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--text)}
+.tt-vol{font-family:var(--mono);font-size:11px;color:var(--goldB)}
+.tt-pct{font-family:var(--mono);font-size:10px;color:var(--green)}
+/* FEES & CARRY */
+.fees-body{padding:22px 28px}
+.fees-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
+.fee-panel{border:1px solid var(--bdr);border-radius:var(--r);background:var(--card);overflow:hidden}
+.fp-head{padding:12px 16px;border-bottom:1px solid var(--bdr);background:var(--bg2)}
+.fp-title{font-family:var(--mono);font-size:8px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase}
+.fp-body{padding:14px 16px}
+.fee-line{display:flex;align-items:baseline;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bdr)}
+.fee-line:last-child{border-bottom:0}
+.fee-lbl{font-family:var(--sans);font-size:13px;color:var(--sub)}
+.fee-val{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--text)}
+.fee-val.gold{color:var(--goldB)}.fee-val.green{color:var(--green)}.fee-val.muted{color:var(--muted)}
+.fee-status{font-family:var(--mono);font-size:7px;letter-spacing:.16em;text-transform:uppercase;padding:2px 7px;border-radius:var(--r);border:1px solid}
+.fee-status.ok{color:var(--green);border-color:var(--greenB);background:var(--greenW)}
+.fee-status.pend{color:var(--goldD);border-color:var(--goldBd);background:var(--goldW)}
+.fee-status.na{color:var(--muted);border-color:var(--bdr)}
+/* CARRY WATERFALL */
+.waterfall{border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:20px}
+.wf-head{display:grid;grid-template-columns:1fr 100px 110px 110px 110px;padding:7px 14px;border-bottom:1px solid var(--bdr);background:var(--bg3)}
+.wf-head span{font-family:var(--mono);font-size:7px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.wf-row{display:grid;grid-template-columns:1fr 100px 110px 110px 110px;padding:9px 14px;border-bottom:1px solid var(--bdr);align-items:center;transition:background .15s}
+.wf-row:last-child{border-bottom:0}.wf-row:hover{background:var(--bg3)}.wf-row.total{background:var(--goldW);border-top:1px solid var(--goldBd)}
+.wf-scenario{font-family:var(--mono);font-size:9px;font-weight:500;color:var(--text)}
+.wf-gross{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.wf-gp-carry{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--goldB)}
+.wf-your-carry{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--green)}
+.wf-net{font-family:var(--mono);font-size:10px;color:var(--sub)}
+.carry-note{font-family:var(--sans);font-size:12px;color:var(--muted);line-height:1.6;padding:12px 14px;background:var(--bg3);border-radius:var(--r);border:1px solid var(--bdr)}
+/* Q&A */
+.qa-thread{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.qa-item{border:1px solid var(--bdr);border-radius:var(--r);padding:13px 15px;background:var(--card)}
+.qa-q{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px}
+.qa-from{font-family:var(--mono);font-size:7.5px;color:var(--muted);margin-bottom:8px}
+.qa-a{font-family:var(--sans);font-size:12.5px;color:var(--sub);line-height:1.5;margin-bottom:8px;padding:8px 10px;background:var(--bg3);border-radius:var(--r);border-left:2px solid var(--goldBd)}
+.qa-a.pending{color:var(--muted);font-style:italic;border-left-color:var(--bdr)}
+.qa-compose{border:1px solid var(--bdr);border-radius:var(--r);padding:14px 16px;background:var(--bg2);margin-top:16px}
+.qa-compose-lbl{font-family:var(--mono);font-size:8px;letter-spacing:.24em;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+.qa-textarea{width:100%;background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r);padding:9px 12px;color:var(--text);font-size:13px;outline:none;resize:vertical;min-height:72px;margin-bottom:8px;transition:border-color .15s}
+.qa-textarea:focus{border-color:var(--goldBd)}
+.qa-submit{font-family:var(--mono);font-size:8px;letter-spacing:.22em;text-transform:uppercase;padding:8px 14px;border:1px solid var(--goldBd);border-radius:var(--r);color:var(--gold);background:var(--goldW);transition:all .15s;cursor:pointer}
+.qa-submit:hover{background:rgba(200,170,118,.14)}
+/* PROFILE */
+.profile-body{padding:22px 28px;max-width:600px}
+.pf-section{margin-bottom:22px;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;background:var(--card)}
+.pf-hd{padding:10px 14px;border-bottom:1px solid var(--bdr);background:var(--bg2);font-family:var(--mono);font-size:8px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase}
+.pf-body{padding:14px 16px}
+.pf-row{display:flex;align-items:baseline;gap:12px;padding:6px 0;border-bottom:1px solid var(--bdr)}
+.pf-row:last-child{border-bottom:0}
+.pf-lbl{font-family:var(--mono);font-size:8px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;width:140px;flex-shrink:0}
+.pf-val{font-family:var(--sans);font-size:13px;color:var(--text)}
+.spec-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.spec-tag{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:var(--r);border:1px solid var(--goldBd);color:var(--goldD);background:var(--goldW)}
+/* ADD DEAL PANEL */
+.add-deal-banner{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--goldW);border-bottom:1px solid var(--goldBd);cursor:pointer;transition:background .15s}
+.add-deal-banner:hover{background:rgba(200,170,118,.12)}
+.adb-icon{font-size:16px;flex-shrink:0}
+.adb-text{flex:1;font-family:var(--sans);font-size:13px;color:var(--text)}
+.adb-sub{font-family:var(--mono);font-size:8px;color:var(--goldD);margin-top:1px}
+.adb-arrow{font-family:var(--mono);font-size:11px;color:var(--goldD)}
+/* SUBMIT DEAL MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:none;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:24px;width:480px;max-width:94vw;max-height:90vh;overflow-y:auto}
+.modal-title{font-family:var(--serif);font-style:italic;font-size:26px;color:var(--text);margin-bottom:16px}
+.modal-lbl{font-family:var(--mono);font-size:7.5px;letter-spacing:.24em;color:var(--muted);text-transform:uppercase;margin-bottom:4px;display:block;margin-top:10px}
+.modal-input{width:100%;padding:8px 11px;background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r);color:var(--text);font-family:var(--mono);font-size:12px;outline:none;display:block;transition:border-color .15s}
+.modal-input:focus{border-color:var(--goldBd)}
+.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-btns{display:flex;gap:8px;margin-top:18px}
+.modal-submit{padding:9px 18px;border:1px solid var(--goldBd);border-radius:var(--r);font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);background:var(--goldW);cursor:pointer;transition:all .15s}
+.modal-submit:hover{background:rgba(200,170,118,.14)}
+.modal-cancel{padding:9px 14px;border:1px solid var(--bdr);border-radius:var(--r);font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);background:transparent;cursor:pointer}
+@media(max-width:900px){.two-pane{grid-template-columns:1fr}.fees-grid{grid-template-columns:1fr}}
+
+/* DASHBOARD */
+.dash-kpis{display:grid;grid-template-columns:repeat(5,1fr);background:var(--bg2);border-bottom:1px solid var(--bdr)}
+.dk{padding:13px 20px;border-right:1px solid var(--bdr)}
+.dk:last-child{border-right:0}
+.dk-lbl{font-family:var(--mono);font-size:7.5px;letter-spacing:.32em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.dk-val{font-family:var(--serif);font-style:italic;font-size:26px;line-height:1;color:var(--goldB);letter-spacing:-.01em;margin-bottom:3px}
+.dk-sub{font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--sub)}
+.dk-sub.up{color:var(--green)}.dk-sub.amber{color:var(--amber)}
+.dash-body{display:grid;grid-template-columns:1fr 320px;min-height:calc(100vh - 100px)}
+.dash-main{border-right:1px solid var(--bdr);padding:20px 24px;overflow-y:auto}
+.dash-side{padding:18px 20px;overflow-y:auto}
+.deal-pipeline-cards{display:flex;flex-direction:column;gap:14px}
+.dpc{border:1px solid var(--bdr);border-radius:var(--r);background:var(--card);overflow:hidden;transition:border-color .2s;cursor:pointer}
+.dpc:hover{border-color:var(--goldBd)}
+.dpc-head{display:flex;align-items:flex-start;justify-content:space-between;padding:14px 16px 10px;border-bottom:1px solid var(--bdr)}
+.dpc-name{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--text);line-height:1;margin-bottom:4px}
+.dpc-sub{font-family:var(--mono);font-size:8px;letter-spacing:.12em;color:var(--muted)}
+.dpc-badge-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.dpc-stage-track{padding:10px 16px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:0}
+.dpc-body{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--bdr)}
+.dpc-cell{padding:10px 14px;border-right:1px solid var(--bdr)}
+.dpc-cell:last-child{border-right:0}
+.dpc-cl{font-family:var(--mono);font-size:7px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.dpc-cv{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--text)}
+.dpc-cv.gold{color:var(--goldB)}.dpc-cv.green{color:var(--green)}.dpc-cv.amber{color:var(--amber)}.dpc-cv.muted{color:var(--muted)}
+.dpc-cv-sub{font-family:var(--mono);font-size:8px;color:var(--muted);margin-top:2px}
+.dpc-foot{padding:10px 14px;display:flex;align-items:center;gap:10px;background:var(--bg2)}
+.dpc-next{flex:1}
+.dpc-next-lbl{font-family:var(--mono);font-size:7px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.dpc-next-txt{font-family:var(--sans);font-size:12px;color:var(--sub)}
+.dpc-action-btn{font-family:var(--mono);font-size:8px;letter-spacing:.18em;text-transform:uppercase;padding:6px 12px;border:1px solid var(--goldBd);border-radius:var(--r);color:var(--gold);background:var(--goldW);flex-shrink:0;transition:all .15s}
+.dpc-action-btn:hover{background:rgba(200,170,118,.14)}
+.dpc-action-btn.gray{color:var(--muted);border-color:var(--bdr);background:transparent}
+.dpc-dr-bar{height:3px;background:var(--bg4);border-radius:1px;overflow:hidden;margin-top:5px}
+.dpc-dr-fill{height:100%;background:var(--gold);border-radius:1px;transition:width .6s ease}
+/* ACTIONS SIDEBAR */
+.action-items{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.ai-item{border:1px solid var(--bdr);border-radius:var(--r);padding:11px 13px;background:var(--card);transition:border-color .15s;cursor:pointer}
+.ai-item:hover{border-color:var(--goldBd)}
+.ai-item.urgent{border-color:var(--amberBd);background:var(--amberW)}
+.ai-item.info{border-color:var(--blueBd);background:var(--blueW)}
+.ai-item.ok{border-color:var(--greenB);background:var(--greenW);cursor:default}
+.ai-top{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.ai-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.ai-dot.urgent{background:var(--amber)}.ai-dot.info{background:var(--blue)}.ai-dot.ok{background:var(--green)}
+.ai-label{font-family:var(--mono);font-size:8px;letter-spacing:.16em;text-transform:uppercase}
+.ai-label.urgent{color:var(--amber)}.ai-label.info{color:var(--blue)}.ai-label.ok{color:var(--green)}
+.ai-deal{font-family:var(--mono);font-size:7.5px;color:var(--muted);margin-left:auto;flex-shrink:0}
+.ai-text{font-family:var(--sans);font-size:12.5px;color:var(--text);line-height:1.4}
+.ai-cta{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--goldD);margin-top:6px;display:block}
+/* ACTIVITY FEED SIDEBAR */
+.af-item{display:flex;align-items:baseline;gap:9px;padding:7px 0;border-bottom:1px solid var(--bdr)}
+.af-item:last-child{border-bottom:0}
+.af-who{font-family:var(--mono);font-size:8.5px;font-weight:500;color:var(--goldD);width:28px;flex-shrink:0}
+.af-what{flex:1;font-family:var(--sans);font-size:12px;color:var(--sub);line-height:1.4}
+.af-what strong{color:var(--text)}
+.af-ts{font-family:var(--mono);font-size:7.5px;color:var(--muted);flex-shrink:0}
+/* CARRY SNAPSHOT */
+.carry-snap{border:1px solid var(--goldBd);border-radius:var(--r);background:rgba(200,170,118,.04);padding:14px 15px;margin-bottom:20px}
+.cs-title{font-family:var(--mono);font-size:7.5px;letter-spacing:.28em;color:var(--goldD);text-transform:uppercase;margin-bottom:10px}
+.cs-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--bdr)}
+.cs-row:last-child{border-bottom:0}
+.cs-lbl{font-family:var(--sans);font-size:12.5px;color:var(--sub)}
+.cs-val{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--text)}
+.cs-val.gold{color:var(--goldB)}.cs-val.green{color:var(--green)}.cs-val.muted{color:var(--muted)}
+@media(max-width:1000px){.dash-body{grid-template-columns:1fr}.dash-main{border-right:0}.dash-kpis{grid-template-columns:repeat(3,1fr)}}
+
+/* MOBILE */
+@media(max-width:900px){
+  .nav-tabs{display:none}
+  .ham-btn{display:flex}
+  .adv-chip{display:none}
+  .ghost-btn{display:none}
+  .two-pane{display:block}
+  .lp{border-right:0;border-bottom:1px solid var(--bdr);max-height:240px}
+  .rp{min-height:auto}
+  .fees-grid{grid-template-columns:1fr}
+  .ioi-summary{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .nav{padding:0 14px}
+  .ioi-summary{grid-template-columns:1fr}
+  .wf-head,.wf-row{grid-template-columns:1fr 80px 90px}
+  .wf-head span:nth-child(n+4),.wf-row>*:nth-child(n+4){display:none}
+  .modal{width:96vw;padding:16px}
+}
+.ham-btn{display:none;width:34px;height:34px;border:1px solid var(--bdr);border-radius:var(--r);background:var(--bg2);flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;flex-shrink:0}
+.ham-line{width:16px;height:1.5px;background:var(--sub);border-radius:1px}
+.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500}
+.mob-overlay.open{display:block}
+.mob-drawer{position:fixed;top:0;right:0;bottom:0;width:240px;background:var(--bg2);border-left:1px solid var(--bdr);z-index:501;transform:translateX(100%);transition:transform .28s cubic-bezier(.25,.1,.25,1);padding:16px;display:flex;flex-direction:column;gap:3px;overflow-y:auto}
+.mob-drawer.open{transform:translateX(0)}
+.mob-tab{padding:11px 14px;font-family:var(--mono);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);border-radius:var(--r);cursor:pointer;transition:all .15s;border:0;background:transparent;text-align:left;width:100%}
+.mob-tab:hover{background:var(--bg3);color:var(--sub)}.mob-tab.active{background:var(--goldW);color:var(--gold)}
+.mob-close{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--muted);padding:10px 14px;border:1px solid var(--bdr);border-radius:var(--r);cursor:pointer;text-align:center;margin-top:auto;background:transparent;transition:all .15s}
+.mob-close:hover{color:var(--sub)}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="seal"><em>Au</em></div>
+    <span class="wordmark">GP Advisor Portal</span>
+  </div>
+  <div class="nav-tabs">
+    <button class="ntab active" data-v="dashboard" onclick="switchView(this.dataset.v)">Dashboard</button>
+    <button class="ntab" data-v="deals" onclick="switchView(this.dataset.v)">My Deals</button>
+    <button class="ntab" data-v="dataroom" onclick="switchView(this.dataset.v)">Data Room<span class="pip on"></span></button>
+    <button class="ntab" data-v="iois" onclick="switchView(this.dataset.v)">Interest &amp; IOIs</button>
+    <button class="ntab" data-v="fees" onclick="switchView(this.dataset.v)">Fees &amp; Carry</button>
+    <button class="ntab" data-v="profile" onclick="switchView(this.dataset.v)">Firm Profile</button>
+  </div>
+  <div class="nav-r">
+    <span class="adv-chip">Apex Credit · M. Park</span>
+    <button class="icon-btn" onclick="toggleTheme()" id="theme-icon">🌙</button>
+    <button class="ghost-btn" onclick="doLogout()" style="font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--muted);padding:6px 12px;border:1px solid var(--bdr);border-radius:var(--r);text-transform:uppercase;cursor:pointer;background:transparent">SIGN OUT</button><button class="ham-btn" onclick="openMobDrawer()" aria-label="Menu"><div class="ham-line"></div><div class="ham-line"></div><div class="ham-line"></div></button>
+  </div>
+</nav>
+
+<div class="mob-overlay" id="mob-overlay" onclick="closeMobDrawer()"></div>
+<div class="mob-drawer" id="mob-drawer">
+  <button class="mob-tab active" data-v="dashboard" onclick="mobNav('dashboard')">Dashboard</button>
+  <button class="mob-tab" data-v="deals" onclick="mobNav('deals')">My Deals</button>
+  <button class="mob-tab" data-v="dataroom" onclick="mobNav('dataroom')">Data Room</button>
+  <button class="mob-tab" data-v="iois" onclick="mobNav('iois')">Interest &amp; IOIs</button>
+  <button class="mob-tab" data-v="fees" onclick="mobNav('fees')">Fees &amp; Carry</button>
+  <button class="mob-tab" data-v="profile" onclick="mobNav('profile')">Firm Profile</button>
+  <button class="mob-tab" onclick="doLogout();closeMobDrawer()" style="margin-top:auto;color:var(--muted)">Sign Out</button>
+  <button class="mob-close" onclick="closeMobDrawer()">Close &times;</button>
+</div>
+
+
+<!-- DASHBOARD VIEW -->
+<div id="view-dashboard" class="view active">
+  <div class="dash-kpis">
+    <div class="dk"><div class="dk-lbl">Deals in Pipeline</div><div class="dk-val">2</div><div class="dk-sub">1 active · 1 in review</div></div>
+    <div class="dk"><div class="dk-lbl">Total IOI Volume</div><div class="dk-val">$4.8<span style="font-size:14px">M</span></div><div class="dk-sub up">11 IOIs · Pacific Credit III</div></div>
+    <div class="dk"><div class="dk-lbl">TACC Allocation</div><div class="dk-val">$1.2<span style="font-size:14px">M</span></div><div class="dk-sub">80% of target raise</div></div>
+    <div class="dk"><div class="dk-lbl">Expected Intro Fee</div><div class="dk-val">$12<span style="font-size:14px">K</span></div><div class="dk-sub amber">Payable on Q3 close</div></div>
+    <div class="dk"><div class="dk-lbl">Data Room Health</div><div class="dk-val">43<span style="font-size:14px">%</span></div><div class="dk-sub amber">7 documents outstanding</div></div>
+  </div>
+  <div class="dash-body">
+    <div class="dash-main">
+      <div class="sh">Deal Pipeline</div>
+      <div class="deal-pipeline-cards" id="dash-pipeline"></div>
+    </div>
+    <div class="dash-side">
+      <div class="sh">Action Required</div>
+      <div class="action-items" id="dash-actions"></div>
+      <div class="sh">Carry Outlook</div>
+      <div class="carry-snap">
+        <div class="cs-title">Pacific Credit III · Base Scenario</div>
+        <div class="cs-row"><span class="cs-lbl">TACC Alloc.</span><span class="cs-val gold">$1.2M</span></div>
+        <div class="cs-row"><span class="cs-lbl">Target Gross IRR</span><span class="cs-val">10–13%</span></div>
+        <div class="cs-row"><span class="cs-lbl">Your Carry Share</span><span class="cs-val">10% of GP carry</span></div>
+        <div class="cs-row"><span class="cs-lbl">Intro Fee (on close)</span><span class="cs-val gold">$12,000</span></div>
+        <div class="cs-row"><span class="cs-lbl">Carry (base @ 10%)</span><span class="cs-val green">$1,440</span></div>
+        <div class="cs-row"><span class="cs-lbl">Total (base case)</span><span class="cs-val green">$13,440</span></div>
+        <div class="cs-row"><span class="cs-lbl">Close Target</span><span class="cs-val muted">Q3 2026</span></div>
+      </div>
+      <div class="sh">Recent Activity</div>
+      <div id="dash-activity" style="border:1px solid var(--bdr);border-radius:var(--r);padding:0 12px;background:var(--card)"></div>
+    </div>
+  </div>
+</div>
+
+<!-- DEALS VIEW -->
+<div id="view-deals" class="view">
+  <div class="two-pane">
+    <div class="lp">
+      <div class="lp-head"><span class="lp-title">My Deals</span><span class="lp-ct" id="dl-ct">2 deals</span></div>
+      <div class="add-deal-banner" onclick="openModal()">
+        <span class="adb-icon">＋</span>
+        <div><div class="adb-text">Submit a new deal</div><div class="adb-sub">Teaser required · TACC review within 5 days</div></div>
+        <span class="adb-arrow">→</span>
+      </div>
+      <div class="lp-list" id="dl-list"></div>
+    </div>
+    <div class="rp" id="dp-pane">
+      <div style="display:flex;align-items:center;justify-content:center;min-height:320px;font-family:var(--serif);font-style:italic;font-size:20px;color:var(--muted)">Select a deal</div>
+    </div>
+  </div>
+</div>
+
+<!-- DATA ROOM VIEW -->
+<div id="view-dataroom" class="view">
+  <div style="padding:20px 24px" id="dr-content">
+    <div style="font-family:var(--serif);font-style:italic;font-size:20px;color:var(--muted)">Select a deal to view data room</div>
+  </div>
+</div>
+
+<!-- IOIs VIEW -->
+<div id="view-iois" class="view">
+  <div style="padding:20px 24px" id="ioi-content">
+    <div style="font-family:var(--serif);font-style:italic;font-size:20px;color:var(--muted)">Select a deal to view interest</div>
+  </div>
+</div>
+
+<!-- FEES & CARRY VIEW -->
+<div id="view-fees" class="view">
+  <div class="fees-body">
+    <div class="sh">Fee &amp; Carry Summary · Apex Credit Management</div>
+    <div class="fees-grid">
+      <div class="fee-panel">
+        <div class="fp-head"><div class="fp-title">Introduction Fee</div></div>
+        <div class="fp-body">
+          <div class="fee-line"><span class="fee-lbl">Structure</span><span class="fee-val">Deal-by-deal · on close</span></div>
+          <div class="fee-line"><span class="fee-lbl">Pacific Credit III</span><span class="fee-val gold">1.0% on $1.2M alloc.</span></div>
+          <div class="fee-line"><span class="fee-lbl">Expected Amount</span><span class="fee-val green">$12,000</span></div>
+          <div class="fee-line"><span class="fee-lbl">Close Target</span><span class="fee-val">Q3 2026</span></div>
+          <div class="fee-line"><span class="fee-lbl">Payment Status</span><span class="fee-status pend">Pending Close</span></div>
+          <div class="fee-line"><span class="fee-lbl">Payment Method</span><span class="fee-val muted">Wire · USD · SG bank</span></div>
+        </div>
+      </div>
+      <div class="fee-panel">
+        <div class="fp-head"><div class="fp-title">Carry Participation</div></div>
+        <div class="fp-body">
+          <div class="fee-line"><span class="fee-lbl">Structure</span><span class="fee-val">Sub-allocation of fund carry</span></div>
+          <div class="fee-line"><span class="fee-lbl">Fund Carry Rate</span><span class="fee-val gold">20% above 8% hurdle</span></div>
+          <div class="fee-line"><span class="fee-lbl">Your Share</span><span class="fee-val green">10% of GP carry (Pacific III)</span></div>
+          <div class="fee-line"><span class="fee-lbl">Hurdle Rate</span><span class="fee-val">8% preferred return</span></div>
+          <div class="fee-line"><span class="fee-lbl">Catch-Up</span><span class="fee-val">100% GP catch-up after hurdle</span></div>
+          <div class="fee-line"><span class="fee-lbl">Carry Status</span><span class="fee-status na">Not Yet Crystallised</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="sh">Carry Waterfall · Pacific Credit III · $1.2M Commitment</div>
+    <div class="waterfall">
+      <div class="wf-head"><span>Scenario</span><span>Gross IRR</span><span>GP Carry (20%)</span><span>Your Share (10%)</span><span>Net to LPs</span></div>
+      <div class="wf-row"><span class="wf-scenario">Base · target</span><span class="wf-gross">10%</span><span class="wf-gp-carry">$14,400</span><span class="wf-your-carry">$1,440</span><span class="wf-net">$115,200</span></div>
+      <div class="wf-row"><span class="wf-scenario">Mid case</span><span class="wf-gross">13%</span><span class="wf-gp-carry">$28,800</span><span class="wf-your-carry">$2,880</span><span class="wf-net">$129,600</span></div>
+      <div class="wf-row"><span class="wf-scenario">Upside case</span><span class="wf-gross">16%</span><span class="wf-gp-carry">$48,000</span><span class="wf-your-carry">$4,800</span><span class="wf-net">$148,800</span></div>
+      <div class="wf-row total"><span class="wf-scenario">Intro fee + carry (mid)</span><span class="wf-gross">—</span><span class="wf-gp-carry" style="color:var(--goldB)">—</span><span class="wf-your-carry" style="color:var(--goldB)">$14,880</span><span class="wf-net">Total gross to advisor</span></div>
+    </div>
+    <div class="carry-note">
+      Carry calculation assumes 3-year hold, full deployment of $1.2M allotment, and 100% catch-up provision after LP preferred return. Figures are illustrative and subject to final subscription agreement, fund audit, and distribution waterfall terms (PPM §12). TACC retains the right to adjust carry split on a deal-by-deal basis subject to side-letter framework. All amounts in USD.
+    </div>
+    <div class="sh" style="margin-top:4px">Transaction History</div>
+    <div style="border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden">
+      <div style="display:grid;grid-template-columns:110px 1fr 120px 100px;padding:7px 14px;border-bottom:1px solid var(--bdr);background:var(--bg3)">
+        <span style="font-family:var(--mono);font-size:7px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase">Date</span>
+        <span style="font-family:var(--mono);font-size:7px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase">Description</span>
+        <span style="font-family:var(--mono);font-size:7px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase">Amount</span>
+        <span style="font-family:var(--mono);font-size:7px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase">Status</span>
+      </div>
+      <div style="padding:22px;text-align:center;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--muted)">No transactions yet · fees payable on first close</div>
+    </div>
+  </div>
+</div>
+
+<!-- FIRM PROFILE VIEW -->
+<div id="view-profile" class="view">
+  <div class="profile-body">
+    <div class="sh">Firm Profile · Apex Credit Management</div>
+    <div class="pf-section">
+      <div class="pf-hd">Entity Details</div>
+      <div class="pf-body">
+        <div class="pf-row"><span class="pf-lbl">Legal Name</span><span class="pf-val">Apex Credit Management Pte. Ltd.</span></div>
+        <div class="pf-row"><span class="pf-lbl">Registration</span><span class="pf-val">202512345K · Singapore</span></div>
+        <div class="pf-row"><span class="pf-lbl">Primary Contact</span><span class="pf-val">M. Park · m.park@apexcredit.sg</span></div>
+        <div class="pf-row"><span class="pf-lbl">Secondary Contact</span><span class="pf-val">J. Kim · j.kim@apexcredit.sg</span></div>
+        <div class="pf-row"><span class="pf-lbl">Advisor Code</span><span class="pf-val" style="font-family:var(--mono);color:var(--gold)">TACC-ADV-2501-4421</span></div>
+        <div class="pf-row"><span class="pf-lbl">Onboarded</span><span class="pf-val">Jan 14, 2025</span></div>
+        <div class="pf-row"><span class="pf-lbl">MAS Licence</span><span class="pf-val">CMS101234 · Capital Markets Services</span></div>
+      </div>
+    </div>
+    <div class="pf-section">
+      <div class="pf-hd">Deal Specialisation</div>
+      <div class="pf-body">
+        <div class="pf-row"><span class="pf-lbl">Primary Focus</span><span class="pf-val">Asia-Pacific private credit · mid-market</span></div>
+        <div class="pf-row"><span class="pf-lbl">Typical Ticket</span><span class="pf-val">$500K – $5M · per deal</span></div>
+        <div class="pf-row"><span class="pf-lbl">Target Return</span><span class="pf-val">10–14% gross IRR · 2–4 year hold</span></div>
+        <div class="pf-row"><span class="pf-lbl">Structures</span><span class="pf-val">Senior secured, unitranche, mezzanine, revolver</span></div>
+        <div style="padding:10px 0">
+          <div class="spec-tags"><span class="spec-tag">Private Credit</span><span class="spec-tag">Unitranche</span><span class="spec-tag">Restructuring</span><span class="spec-tag">Asia-Pacific</span><span class="spec-tag">Mid-Market</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:10px 14px;border:1px solid var(--goldBd);border-radius:var(--r);background:var(--goldW);font-family:var(--mono);font-size:8px;letter-spacing:.12em;color:var(--goldD)">
+      To update firm details, AML documentation, or banking information, contact <strong style="color:var(--gold)">ops@tacc.sg</strong>
+    </div>
+  </div>
+</div>
+
+<!-- SUBMIT DEAL MODAL -->
+<div class="modal-overlay" id="deal-modal">
+  <div class="modal">
+    <div class="modal-title">Submit a Deal</div>
+    <div class="modal-row">
+      <div><label class="modal-lbl">Deal Name</label><input class="modal-input" id="nf-name" placeholder="e.g. Pacific Credit IV"></div>
+      <div><label class="modal-lbl">Asset Class</label>
+        <select class="modal-input" id="nf-ac" style="padding:7px 11px"><option>Credit</option><option>PE</option><option>RE</option><option>Infra</option></select>
+      </div>
+    </div>
+    <div class="modal-row">
+      <div><label class="modal-lbl">Target Raise (USD)</label><input class="modal-input" id="nf-raise" placeholder="e.g. $2,000,000"></div>
+      <div><label class="modal-lbl">Target IRR</label><input class="modal-input" id="nf-irr" placeholder="e.g. 10–13%"></div>
+    </div>
+    <div class="modal-row">
+      <div><label class="modal-lbl">Geography</label><input class="modal-input" id="nf-geo" placeholder="e.g. Asia-Pacific"></div>
+      <div><label class="modal-lbl">Hold Period</label><input class="modal-input" id="nf-hold" placeholder="e.g. 2–4 yrs"></div>
+    </div>
+    <label class="modal-lbl">Deal Description (1–2 sentences)</label>
+    <textarea class="modal-input" id="nf-desc" rows="3" placeholder="Describe the opportunity..."></textarea>
+    <label class="modal-lbl">Upload Teaser (PDF)</label>
+    <div style="border:1px dashed var(--goldBd);border-radius:var(--r);padding:16px;text-align:center;cursor:pointer;background:var(--goldW);margin-top:4px" onclick="alert('File picker')">
+      <div style="font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;color:var(--goldD);text-transform:uppercase">Drop teaser PDF or click to upload</div>
+      <div style="font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:3px">Required · max 20MB</div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-submit" onclick="submitDeal()">Submit Deal →</button>
+      <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+    <div style="margin-top:12px;font-family:var(--sans);font-size:11px;color:var(--muted);line-height:1.5">TACC will review your submission within 5 business days. You will receive an email confirmation once your deal enters the review queue. Submission does not guarantee approval or listing.</div>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+let _advisor=null, DEALS=[], CDEAL=null, CTAB='overview';
+
+// ── API ───────────────────────────────────────────────────────────────────────
+async function apiFetch(url,opts={}){
+  const r=await fetch(url,{credentials:'same-origin',...opts});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(j.message||j.error||('HTTP '+r.status));
+  return j;
+}
+function toast(msg,kind=''){
+  let el=document.getElementById('adv-toast');
+  if(!el){el=document.createElement('div');el.id='adv-toast';
+    el.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 18px;background:var(--bg4);border:1px solid var(--bdr);font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:0;transition:all .25s;z-index:999;border-radius:var(--r)';
+    document.body.appendChild(el);}
+  const col=kind==='ok'?'var(--green)':kind==='err'?'var(--red)':'var(--amber)';
+  el.textContent=msg;el.style.borderColor=col;el.style.color=col;el.style.opacity='1';
+  setTimeout(()=>el.style.opacity='0',3000);
+}
+
+// ── SESSION + LOAD ────────────────────────────────────────────────────────────
+function showAdvisorLogin(msg){
+  // Show inline login panel, hide app content
+  let panel=document.getElementById('adv-login-panel');
+  if(!panel){
+    panel=document.createElement('div');
+    panel.id='adv-login-panel';
+    panel.style.cssText='position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+    panel.innerHTML=`<div style="width:100%;max-width:380px;border:1px solid var(--goldBd);padding:32px;background:var(--bg2)">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.36em;color:var(--gold);text-transform:uppercase;margin-bottom:6px">GP ADVISOR PORTAL</div>
+      <div style="font-family:var(--serif);font-style:italic;font-size:28px;color:var(--text);margin-bottom:24px">Sign <em style="color:var(--gold)">in.</em></div>
+      <div id="adv-login-err" style="display:none;background:rgba(176,94,86,.1);border:1px solid rgba(176,94,86,.28);color:#e07070;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;padding:10px 12px;margin-bottom:14px"></div>
+      <div style="margin-bottom:11px"><label style="font-family:var(--mono);font-size:7.5px;letter-spacing:.26em;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px">EMAIL</label>
+        <input id="adv-login-email" type="email" placeholder="you@firm.com" style="width:100%;background:var(--bg3);border:1px solid var(--bdr);color:var(--text);font-family:var(--mono);font-size:13px;padding:10px 12px;outline:none;box-sizing:border-box"></div>
+      <div style="margin-bottom:18px"><label style="font-family:var(--mono);font-size:7.5px;letter-spacing:.26em;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px">PASSWORD</label>
+        <input id="adv-login-pw" type="password" placeholder="••••••••" style="width:100%;background:var(--bg3);border:1px solid var(--bdr);color:var(--text);font-family:var(--mono);font-size:13px;padding:10px 12px;outline:none;box-sizing:border-box"></div>
+      <button id="adv-login-btn" onclick="submitAdvisorLogin()" style="width:100%;padding:12px;background:var(--gold);color:var(--bg);font-family:var(--mono);font-size:9px;letter-spacing:.28em;text-transform:uppercase;border:0;cursor:pointer">SIGN IN →</button>
+      <div style="margin-top:16px;font-family:var(--mono);font-size:8px;letter-spacing:.14em;color:var(--muted);text-align:center">Contact your Aurum partner for access</div>
+    </div>`;
+    document.body.appendChild(panel);
+    document.getElementById('adv-login-pw').addEventListener('keydown',e=>{if(e.key==='Enter')submitAdvisorLogin();});
+  }
+  panel.style.display='flex';
+  if(msg){const err=document.getElementById('adv-login-err');if(err){err.textContent=msg;err.style.display='block';}}
+  const lg=document.getElementById('loading-gate');if(lg)lg.style.display='none';
+}
+
+async function submitAdvisorLogin(){
+  const email=(document.getElementById('adv-login-email').value||'').trim();
+  const password=(document.getElementById('adv-login-pw').value||'').trim();
+  const btn=document.getElementById('adv-login-btn');
+  const err=document.getElementById('adv-login-err');
+  if(!email||!password){if(err){err.textContent='Email and password required';err.style.display='block';}return;}
+  btn.textContent='SIGNING IN…';btn.disabled=true;
+  try{
+    const r=await fetch('/api/advisor/login',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+    const j=await r.json().catch(()=>({}));
+    if(r.ok&&j.ok){
+      const panel=document.getElementById('adv-login-panel');if(panel)panel.style.display='none';
+      await checkSession();await loadDeals();if(DEALS.length)setTimeout(()=>pickDeal(DEALS[0].id),80);
+    }else{
+      if(err){err.textContent=j.error||'Invalid credentials';err.style.display='block';}
+      btn.textContent='SIGN IN →';btn.disabled=false;
+    }
+  }catch(e){if(err){err.textContent='Network error — try again';err.style.display='block';}btn.textContent='SIGN IN →';btn.disabled=false;}
+}
+
+async function checkSession(){
+  try{
+    const j=await apiFetch('/api/advisor/me');
+    if(!j.ok) throw new Error('no session');
+    _advisor=j.advisor;
+    const isAdmin = j.role === 'admin';
+
+    // Chip label
+    const chip=document.querySelector('.adv-chip');
+    if(chip){
+      if(isAdmin){
+        chip.textContent='PARTNER VIEW';
+        chip.style.color='var(--gold)';
+        chip.style.borderColor='var(--goldBd)';
+      } else {
+        chip.textContent=(_advisor.name||_advisor.firm||'Advisor').split(' ')[0]+' · '+(_advisor.firm||'Advisor');
+      }
+    }
+
+    // Hide new-deal button for admin (read-only view)
+    const addBtn=document.getElementById('add-deal-btn')||document.querySelector('[onclick*="showNewDeal"]');
+    if(addBtn && isAdmin) addBtn.style.display='none';
+
+    document.getElementById('loading-gate')&&(document.getElementById('loading-gate').style.display='none');
+    const panel=document.getElementById('adv-login-panel');if(panel)panel.style.display='none';
+    return j;
+  }catch{showAdvisorLogin();throw new Error('not authenticated');}
+}
+
+async function doLogout(){
+  try{await apiFetch('/api/advisor/logout',{method:'POST'});}catch{}
+  showAdvisorLogin('You have been signed out.');
+}
+
+async function loadDeals(){
+  const j=await apiFetch('/api/advisor/deals');
+  DEALS=j.deals||[];
+  renderDList();
+  buildDashboard();
+  if(CDEAL){const refreshed=DEALS.find(d=>d.id===CDEAL.id);if(refreshed){CDEAL=refreshed;buildDealPane(refreshed);}}
+}
+
+// ── THEME + MOBILE ────────────────────────────────────────────────────────────
+function toggleTheme(){const h=document.documentElement,d=h.getAttribute('data-theme')==='dark';h.setAttribute('data-theme',d?'light':'dark');document.getElementById('theme-icon').textContent=d?'☀️':'🌙';}
+function openMobDrawer(){document.getElementById('mob-overlay').classList.add('open');document.getElementById('mob-drawer').classList.add('open');}
+function closeMobDrawer(){document.getElementById('mob-overlay').classList.remove('open');document.getElementById('mob-drawer').classList.remove('open');}
+function mobNav(v){switchView(v);document.querySelectorAll('.mob-tab').forEach(b=>b.classList.toggle('active',b.dataset&&b.dataset.v===v));closeMobDrawer();}
+
+// ── DEAL LIST ─────────────────────────────────────────────────────────────────
+const DSC={review:{lbl:'REVIEW',c:'var(--amber)',bd:'var(--amberBd)',bg:'var(--amberW)'},live:{lbl:'LIVE',c:'var(--blue)',bd:'var(--blueBd)',bg:'var(--blueW)'},ioi:{lbl:'IOI',c:'var(--goldB)',bd:'var(--gold)',bg:'rgba(200,170,118,.1)'},dd:{lbl:'DD',c:'var(--blue)',bd:'var(--blueBd)',bg:'var(--blueW)'},terms:{lbl:'TERMS',c:'var(--goldB)',bd:'var(--goldBd)',bg:'rgba(200,170,118,.08)'},close:{lbl:'CLOSED',c:'var(--green)',bd:'var(--greenB)',bg:'var(--greenW)'},declined:{lbl:'DECLINED',c:'var(--red)',bd:'var(--redB)',bg:'var(--redW)'}};
+const D6=['Review','Live','IOI','DD','Terms','Close'];
+const D6IDX={review:0,live:1,ioi:2,dd:3,terms:4,close:5};
+function acCls(ac){if(ac==='PE')return'ac-pe';if(ac==='RE')return'ac-re';if(ac==='Credit')return'ac-cr';return'ac-in';}
+
+function renderDList(){
+  $('dl-ct').textContent=DEALS.length+' deal'+(DEALS.length!==1?'s':'');
+  $('dl-list').innerHTML=DEALS.map(d=>{const sc=DSC[d.stage]||DSC.review;return`<div class="dl-item" id="di-${d.id}" onclick="pickDeal('${d.id}')">
+    <div class="dl-name">${d.name}</div>
+    <div class="dl-firm">${d.sector||d.ac} · ${d.geo||'—'}</div>
+    <div class="dl-bot"><span class="dl-code">${d.id}</span><span class="s-badge" style="color:${sc.c};border-color:${sc.bd};background:${sc.bg}">${sc.lbl}</span></div>
+  </div>`}).join('');
+}
+
+function pickDeal(id){
+  document.querySelectorAll('.dl-item').forEach(e=>e.classList.remove('sel'));
+  $('di-'+id)&&$('di-'+id).classList.add('sel');
+  CDEAL=DEALS.find(x=>x.id===id)||null;
+  CTAB='overview';
+  if(CDEAL){buildDealPane(CDEAL);buildDataRoom(CDEAL);buildIOIs(CDEAL);}
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────────────────
+const ACTIONS_STATIC=[
+  {type:'info',deal:null,label:'Data room',text:'Keep your documents up to date to advance through each stage.',cta:'Go to Data Room →',view:'dataroom'},
+];
+const ACTIVITY_STATIC=[
+  {who:'SYS',what:'Portal loaded — connect your deals via the deals tab',ts:'just now'},
+];
+
+function buildDashboard(){
+  // KPI strip from real deals
+  const active=DEALS.filter(d=>['live','ioi','dd','terms'].includes(d.stage));
+  const totalIOIs=DEALS.reduce((s,d)=>s+(d.ioi_count||0),0);
+  const ks=$('dash-kpis')&&document.querySelectorAll('.dk');
+  if(ks&&ks.length>=5){
+    ks[0].querySelector('.dk-val').textContent=DEALS.length;
+    ks[1].querySelector('.dk-val').innerHTML=totalIOIs>0?totalIOIs:DEALS.length?'0':'—';
+    ks[2].querySelector('.dk-val').textContent=active.length;
+    // fees + data room pct unchanged (static for now)
+  }
+
+  // Pipeline cards
+  const pipeEl=$('dash-pipeline');
+  if(pipeEl){
+    if(!DEALS.length){
+      pipeEl.innerHTML='<div style="font-family:var(--serif);font-style:italic;font-size:18px;color:var(--muted);padding:16px 0">No deals submitted yet. Use the Add button to submit your first deal.</div>';
+    } else {
+      pipeEl.innerHTML=DEALS.map(d=>{
+        const sc=DSC[d.stage]||DSC.review,si=D6IDX[d.stage]??-1;
+        let st='';D6.forEach((s,i)=>{if(i>0)st+=`<div style="flex:1;height:1px;background:${i<=si?'var(--goldBd)':'var(--bdr)'}"></div>`;const c=i<si?'done':i===si?'curr':'';st+=`<div style="width:9px;height:9px;border-radius:50%;flex-shrink:0;border:1px solid ${c==='curr'?'var(--goldB)':c==='done'?'var(--goldBd)':'var(--bdr)'};background:${c==='curr'?'var(--gold)':c==='done'?'var(--goldD)':'var(--bg4)'};${c==='curr'?'box-shadow:0 0 8px rgba(200,170,118,.4)':''}"></div>`;});
+        const docPct=estimateDocPct(d);
+        return`<div class="dpc" onclick="pickDeal('${d.id}');switchView('deals')">
+          <div class="dpc-head"><div><div class="dpc-name">${d.name}</div><div class="dpc-sub">${d.id} · ${d.sector||d.ac}</div></div>
+            <div class="dpc-badge-wrap"><span class="s-badge" style="color:${sc.c};border-color:${sc.bd};background:${sc.bg}">${sc.lbl}</span><span class="dl-ac ${acCls(d.ac)}">${d.ac}</span></div></div>
+          <div class="dpc-stage-track" style="display:flex;align-items:center;gap:0;padding:10px 16px;border-bottom:1px solid var(--bdr)">${st}</div>
+          <div class="dpc-body">
+            <div class="dpc-cell"><div class="dpc-cl">Raise</div><div class="dpc-cv gold">$${fmNum(d.raise_usd||0)}</div></div>
+            <div class="dpc-cell"><div class="dpc-cl">IOIs</div><div class="dpc-cv ${(d.ioi_count||0)>0?'gold':'muted'}">${d.ioi_count||'—'}</div></div>
+            <div class="dpc-cell"><div class="dpc-cl">Docs</div><div class="dpc-cv ${docPct>=80?'green':docPct>=40?'amber':'muted'}">${docPct>0?docPct+'%':'—'}</div><div style="height:3px;background:var(--bg4);border-radius:1px;overflow:hidden;margin-top:4px"><div style="height:100%;width:${docPct}%;background:var(--gold);border-radius:1px"></div></div></div>
+            <div class="dpc-cell"><div class="dpc-cl">Next</div><div class="dpc-cv amber" style="font-size:10px">${nextGate(d.stage)}</div></div>
+          </div>
+          <div class="dpc-foot"><div class="dpc-next"><div class="dpc-next-lbl">Next action</div><div class="dpc-next-txt">${nextActionText(d)}</div></div>
+            <button class="dpc-action-btn" onclick="event.stopPropagation();pickDeal('${d.id}');switchView('deals')">Open →</button></div>
+        </div>`}).join('');
+    }
+  }
+
+  // Actions
+  const actEl=$('dash-actions');
+  if(actEl){
+    const items=[...ACTIONS_STATIC];
+    DEALS.forEach(d=>{
+      if(d.qa_pending>0) items.unshift({type:'urgent',deal:d.name,label:'Q&A Pending',text:d.qa_pending+' question'+(d.qa_pending!==1?'s':'')+' awaiting your response for '+d.name,cta:'Answer in My Deals →',view:'deals'});
+    });
+    actEl.innerHTML=items.map(a=>`<div class="ai-item ${a.type}" onclick="${a.view?`pickDeal(DEALS[0]&&DEALS[0].id);switchView('${a.view}')`:''}" style="${a.view?'':'cursor:default'}">
+      <div class="ai-top"><div class="ai-dot ${a.type}"></div><span class="ai-label ${a.type}">${a.label}</span>${a.deal?`<span class="ai-deal">${a.deal}</span>`:''}  </div>
+      <div class="ai-text">${a.text}</div>${a.cta?`<span class="ai-cta">${a.cta}</span>`:''}</div>`).join('');
+  }
+
+  // Activity
+  const actFeedEl=$('dash-activity');
+  if(actFeedEl){
+    const events=[];
+    DEALS.forEach(d=>(d.audit||[]).slice(-3).forEach(a=>events.push({who:_advisor&&_advisor.firm?_advisor.firm.slice(0,4).toUpperCase():'ADV',what:`<strong>${d.name}</strong> — ${a.action.replace(/_/g,' ')}`,ts:a.at?new Date(a.at).toLocaleDateString('en-CA'):'—'})));
+    if(!events.length) events.push(...ACTIVITY_STATIC);
+    actFeedEl.innerHTML=events.slice(0,6).map(a=>`<div class="af-item"><span class="af-who">${a.who}</span><span class="af-what">${a.what}</span><span class="af-ts">${a.ts}</span></div>`).join('');
+  }
+}
+
+function fmNum(n){return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?Math.round(n/1e3)+'K':String(Math.round(n));}
+function estimateDocPct(d){const have=(d.docs||[]).filter(doc=>doc.url||doc.approved).length;const needed=3;return Math.min(100,Math.round(have/needed*100));}
+function nextGate(stage){const map={review:'Approval',live:'Open IOI',ioi:'Due Diligence',dd:'Term Sheet',terms:'Close'};return map[stage]||stage;}
+function nextActionText(d){
+  const map={review:'TACC is reviewing your submission.',live:'IOI window open — awaiting member indications.',ioi:'Due diligence in progress — ensure VDR is complete.',dd:'Complete remaining data room documents.',terms:'Term sheet issued — awaiting final subscriptions.'};
+  if(d.stage==='declined') return 'Deal declined. Contact TACC for feedback.';
+  return map[d.stage]||'—';
+}
+
+// ── DEAL DETAIL ────────────────────────────────────────────────────────────────
+function buildDealPane(d){
+  const pane=$('dp-pane');if(!pane)return;
+  const sc=DSC[d.stage]||DSC.review,si=D6IDX[d.stage]??-1;
+  let st='<div class="stage-track" style="display:flex;align-items:center;gap:0;padding:10px 0;overflow-x:auto">';
+  D6.forEach((s,i)=>{if(i>0)st+=`<div class="sp-line ${i<=si?'done':''}"></div>`;const c=i<si?'done':i===si?'curr':'';st+=`<div class="sp-dot ${c}" title="${s}"></div>`;});
+  st+='</div><div style="display:flex;align-items:center;gap:0;padding:0;overflow-x:auto">';
+  D6.forEach((s,i)=>{if(i>0)st+=`<div style="flex:1"></div>`;st+=`<div style="display:flex;flex-direction:column;align-items:center;min-width:50px"><div style="font-family:var(--mono);font-size:7px;letter-spacing:.14em;color:${i===si?'var(--gold)':'var(--muted)'};text-transform:uppercase">${s}</div></div>`;});
+  st+='</div>';
+
+  const gates={review:[{desc:'TACC internal review',owner:'TACC',done:false},{desc:'CIM required to advance',owner:'ADV',done:estimateDocPct(d)>50}],
+    live:[{desc:'IOI window opened by TACC',owner:'TACC',done:true},{desc:'CIM uploaded and approved',owner:'ADV',done:(d.docs||[]).some(x=>x.approved)}],
+    dd:[{desc:'VDR complete',owner:'ADV',done:false},{desc:'TACC credit review',owner:'TACC',done:false}],
+    terms:[{desc:'Term sheet countersigned',owner:'BOTH',done:false}]};
+  const gateSteps=(gates[d.stage]||[]).map(s=>`<div class="gs-row"><div class="gs-dot ${s.done?'done':'todo'}"></div><div class="gs-label">${s.desc}</div><span class="gs-owner">${s.owner}</span></div>`).join('');
+  const gateCard=gateSteps?`<div class="gate-card" style="margin-bottom:14px"><div class="gc-head"><span class="gc-title">Next Gate</span><span class="gc-gate">${nextGate(d.stage).toUpperCase()} →</span></div><div class="gate-steps">${gateSteps}</div></div>`:'';
+
+  const qaHtml=(d.qa||[]).length?(d.qa||[]).map(q=>`<div class="qa-item"><div class="qa-q">${q.question}</div><div class="qa-from">Answered ${q.published_at?new Date(q.published_at).toLocaleDateString('en-CA'):'—'}</div><div class="qa-a">${q.answer||'<em style="color:var(--muted)">Awaiting TACC response</em>'}</div></div>`).join('')
+    :'<div style="font-family:var(--serif);font-style:italic;color:var(--muted);padding:12px 0">No Q&A yet.</div>';
+
+  const tabs=[['overview','Overview'],['terms','Terms'],['process','Process & Gate'],['qa','Q&A ('+((d.qa||[]).length)+')']];
+  const tabBodies={
+    overview:`<div class="sh">Deal Summary</div><p style="font-family:var(--sans);font-size:13.5px;color:var(--sub);line-height:1.6;margin-bottom:16px">${d.name} · ${d.sector||d.ac} · ${d.geo||'—'} · $${fmNum(d.raise_usd||0)} raise · ${d.ret||'—'}</p><div class="sh">Audit Log</div><div style="border:1px solid var(--bdr);border-radius:var(--r);padding:0 12px;background:var(--bg3)">${(d.audit||[]).map(a=>`<div style="display:flex;align-items:baseline;gap:10px;padding:6px 0;border-bottom:1px solid var(--bdr)"><span style="font-family:var(--mono);font-size:8.5px;color:var(--goldD);width:40px;flex-shrink:0">${(a.actor||'—').slice(0,8)}</span><span style="flex:1;font-family:var(--sans);font-size:12.5px;color:var(--sub)">${a.action.replace(/_/g,' ')}</span><span style="font-family:var(--mono);font-size:8px;color:var(--muted);flex-shrink:0">${a.at?new Date(a.at).toLocaleDateString('en-CA'):'—'}</span></div>`).join('')||'<div style="padding:10px;color:var(--muted);font-style:italic;font-family:var(--serif);font-size:13px">No events yet</div>'}</div>`,
+    terms:`<div class="sh">Deal Terms</div><div class="tg"><div class="tg-row"><div class="tg-cell"><div class="tgl">Raise</div><div class="tgv gold">$${fmNum(d.raise_usd||0)}</div></div><div class="tg-cell"><div class="tgl">Min Ticket</div><div class="tgv">$${fmNum(d.min_usd||0)}</div></div><div class="tg-cell"><div class="tgl">Return</div><div class="tgv green">${d.ret||'—'}</div></div></div><div class="tg-row"><div class="tg-cell"><div class="tgl">Hold</div><div class="tgv">${d.hold||'—'}</div></div><div class="tg-cell"><div class="tgl">Vehicle</div><div class="tgv">${d.vehicle||'—'}</div></div><div class="tg-cell"><div class="tgl">Carry</div><div class="tgv">${d.carry||'—'}</div></div></div></div>`,
+    process:gateCard+`<div class="sh" style="margin-top:4px">Stage History</div><div style="font-family:var(--mono);font-size:9px;color:var(--sub);padding:10px 12px;border:1px solid var(--bdr);border-radius:var(--r)">Current stage: <strong style="color:var(--goldB)">${(d.stage||'review').toUpperCase()}</strong></div>`,
+    qa:`<div class="sh">Q&A Thread</div><div class="qa-thread">${qaHtml}</div>
+      <div class="qa-compose"><div class="qa-compose-lbl">Submit a Question</div>
+      <textarea class="qa-textarea" id="qa-input-${d.id}" placeholder="Your question for the TACC team..."></textarea>
+      <button class="qa-submit" onclick="submitQA('${d.id}')">Submit Question →</button></div>`,
+  };
+  pane.innerHTML=`<div class="dp-inner">
+    <div class="dp-hdr">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px">
+        <div><div class="dp-title">${d.name}</div><div class="dp-meta"><span>${d.id}</span><span class="dp-sep">·</span><span class="dl-ac ${acCls(d.ac)}">${d.ac}</span><span class="dp-sep">·</span><span>${d.geo||'—'}</span></div></div>
+        <div class="dp-badge" style="color:${sc.c};border-color:${sc.bd};background:${sc.bg};flex-shrink:0;margin-top:4px">${sc.lbl}</div>
+      </div>
+      ${st}
+    </div>
+    <div class="sub-tabs">${tabs.map(([t,l])=>`<button class="stab ${t===CTAB?'on':''}" onclick="switchTab2('${d.id}','${t}')">${l}</button>`).join('')}</div>
+    ${tabs.map(([t])=>`<div class="tab-body ${t===CTAB?'on':''}" id="tb-${d.id}-${t}">${tabBodies[t]||''}</div>`).join('')}
+  </div>`;
+}
+
+function switchTab2(id,tab){CTAB=tab;document.querySelectorAll('.stab').forEach(b=>{const m=b.getAttribute('onclick').match(/'([^']+)'$/);if(m)b.classList.toggle('on',m[1]===tab)});document.querySelectorAll('.tab-body').forEach(b=>b.classList.remove('on'));$('tb-'+id+'-'+tab)&&$('tb-'+id+'-'+tab).classList.add('on');}
+
+// ── DATA ROOM ─────────────────────────────────────────────────────────────────
+function buildDataRoom(d){
+  const el=$('dr-content');if(!el)return;
+  const DOC_REQS=[
+    {cat:'01 · Corporate',files:['Certificate of Incorporation','Entity Structure Chart','Regulatory Licence / CMS','Directors Register']},
+    {cat:'02 · Financials',files:['3-Year Audited Accounts','Management Accounts YTD','3-Year Projections','Cap Table (latest)']},
+    {cat:'03 · Deal Docs',files:['Information Memorandum / CIM','Management Deck','Term Sheet (indicative)','Subscription Agreement Draft']},
+    {cat:'04 · Legal',files:['AML / KYC on issuer','Material Litigation Disclosure']},
+  ];
+  const uploaded=(d.docs||[]).map(doc=>doc.label);
+  const total=DOC_REQS.reduce((s,c)=>s+c.files.length,0);
+  const have=uploaded.length;
+  const pct=Math.min(100,Math.round(have/total*100));
+  el.innerHTML=`<div style="display:flex;align-items:baseline;gap:12px;margin-bottom:14px">
+    <div style="font-family:var(--serif);font-style:italic;font-size:22px;color:var(--text)">${d.name} · Data Room</div></div>
+    <div class="dr-completion"><div class="dr-pct">${pct}%</div><div style="flex:1"><div class="dr-track"><div class="dr-track-fill" id="dr-fill-${d.id}" style="width:0%"></div></div><div class="dr-msg">${have} of ${total} files uploaded · ${total-have} still required</div></div></div>
+    ${DOC_REQS.map(cat=>`<div class="dr-section"><div class="dr-section-hd">${cat.cat}</div><div class="dr-table">${cat.files.map(f=>{const ok=uploaded.includes(f);return`<div class="dr-row"><div class="dr-dot ${ok?'ok':'miss'}"></div><div class="dr-name">${f}</div><span class="dr-badge ${ok?'ok':'miss'}">${ok?'UPLOADED':'REQUIRED'}</span>${ok?`<button class="dr-btn">VIEW</button>`:`<button class="dr-btn" onclick="doUploadDoc('${d.id}','${f}')">UPLOAD</button>`}</div>`}).join('')}</div></div>`).join('')}`;
+  setTimeout(()=>{const f=$('dr-fill-'+d.id);if(f)f.style.width=pct+'%';},200);
+}
+
+async function doUploadDoc(dealId,docLabel){
+  const url=prompt('Paste the document URL (must be https://):');
+  if(!url||!/^https?:\/\//.test(url)){if(url)toast('HTTPS URL required','err');return;}
+  try{
+    await apiFetch('/api/advisor/deals',{method:'PUT', // not yet implemented, future endpoint
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({deal_id:dealId,action:'upload_doc',label:docLabel,url})});
+    toast('Document submitted for TACC review','ok');
+    await loadDeals();
+  }catch(e){
+    // Graceful fallback: show what would happen
+    toast('Document URL noted — wiring in Phase 4b','warn');
+  }
+}
+
+// ── IOI TRACKER ───────────────────────────────────────────────────────────────
+function buildIOIs(d){
+  const el=$('ioi-content');if(!el)return;
+  if(!(d.ioi_count>0)){el.innerHTML=`<div style="padding:20px 24px"><div style="font-family:var(--serif);font-style:italic;font-size:22px;color:var(--text);margin-bottom:6px">${d.name}</div><div style="font-family:var(--serif);font-style:italic;font-size:18px;color:var(--muted)">No IOIs yet — stage is ${(d.stage||'review').toUpperCase()}</div></div>`;return;}
+  const fillPct=d.fill_pct||0;
+  el.innerHTML=`<div style="padding:20px 24px">
+    <div style="font-family:var(--serif);font-style:italic;font-size:22px;color:var(--text);margin-bottom:16px">${d.name} · Interest Tracker</div>
+    <div class="anon-notice">TACC does not disclose individual member identities to advisors. Aggregate count and volume figures only.</div>
+    <div class="ioi-summary">
+      <div class="ioi-card"><div class="ioi-lbl">Total IOIs</div><div class="ioi-val">${d.ioi_count||0}</div><div class="ioi-sub">qualified indications</div></div>
+      <div class="ioi-card"><div class="ioi-lbl">TACC Allocation</div><div class="ioi-val" style="font-size:22px">${d.alloc_usd>0?'$'+fmNum(d.alloc_usd):'TBD'}</div><div class="ioi-sub">confirmed by TACC</div></div>
+      <div class="ioi-card"><div class="ioi-lbl">Fill Rate</div><div class="ioi-val" style="color:var(--green)">${fillPct}%</div><div class="ioi-sub">of target raise</div></div>
+      <div class="ioi-card"><div class="ioi-lbl">Stage</div><div class="ioi-val" style="font-size:18px">${(d.stage||'review').toUpperCase()}</div><div class="ioi-sub">current deal stage</div></div>
+    </div>
+    <div class="ioi-bar-wrap"><div class="ioi-bar-hdr"><span>Allocation fill</span><span style="color:var(--gold)">${fillPct}%</span></div>
+    <div class="ioi-bar"><div class="ioi-bar-fill" id="ioi-fill-${d.id}" style="width:0%"></div></div></div>
+  </div>`;
+  setTimeout(()=>{const f=$('ioi-fill-'+d.id);if(f)f.style.width=fillPct+'%';},200);
+}
+
+// ── SUBMIT Q&A ────────────────────────────────────────────────────────────────
+async function submitQA(dealId){
+  const ta=$('qa-input-'+dealId);
+  if(!ta||!ta.value.trim()){ta&&ta.focus();return;}
+  toast('Q&A submitted — TACC will respond within 2 business days','ok');
+  ta.value='';
+  // Future: POST /api/advisor/deals with action:'submit_qa'
+}
+
+// ── DEAL SUBMISSION MODAL ─────────────────────────────────────────────────────
+function openModal(){$('deal-modal').classList.add('open');}
+function closeModal(){$('deal-modal').classList.remove('open');}
+$('deal-modal')&&$('deal-modal').addEventListener('click',e=>{if(e.target===$('deal-modal'))closeModal();});
+
+async function submitDeal(){
+  const name=$('nf-name')&&$('nf-name').value.trim();
+  if(!name){$('nf-name')&&$('nf-name').focus();return;}
+  try{
+    const body={
+      name, ac:$('nf-ac')&&$('nf-ac').value||'Credit',
+      raise_usd:parseFloat(($('nf-raise')&&$('nf-raise').value||'0').replace(/[^0-9.]/g,''))||0,
+      ret:$('nf-irr')&&$('nf-irr').value||'',
+      hold:$('nf-hold')&&$('nf-hold').value||'',
+      geo:$('nf-geo')&&$('nf-geo').value||'',
+      description:$('nf-desc')&&$('nf-desc').value||'',
+    };
+    await apiFetch('/api/advisor/deals',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    toast('Deal submitted — TACC will review within 5 business days','ok');
+    closeModal();
+    await loadDeals();
+  }catch(e){toast('Error: '+e.message,'err');}
+}
+
+// ── VIEW ROUTING ───────────────────────────────────────────────────────────────
+function switchView(v){
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.ntab').forEach(x=>x.classList.remove('active'));
+  const el=$('view-'+v);if(el)el.classList.add('active');
+  document.querySelectorAll('.ntab').forEach(b=>{if(b.dataset.v===v)b.classList.add('active');});
+  if(v==='dataroom'&&CDEAL) buildDataRoom(CDEAL);
+  if(v==='iois'&&CDEAL) buildIOIs(CDEAL);
+  if(v==='dashboard') buildDashboard();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+(async function init(){
+  // Add loading gate if not present
+  if(!document.getElementById('loading-gate')){
+    const lg=document.createElement('div');
+    lg.id='loading-gate';
+    lg.style.cssText='position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px';
+    lg.innerHTML='<div style="width:18px;height:18px;border:2px solid var(--bdr);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite"></div><div style="font-family:var(--mono);font-size:9px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase">Verifying session&hellip;</div>';
+    document.body.appendChild(lg);
+  }
+  try{
+    await checkSession();
+    await loadDeals();
+    if(DEALS.length) setTimeout(()=>pickDeal(DEALS[0].id),80);
+  }catch{
+    // checkSession already showed the login panel
+  }
+})();
+</script>
+</body>
+</html>
