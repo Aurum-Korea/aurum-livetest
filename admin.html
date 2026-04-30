@@ -750,6 +750,92 @@ input,textarea,select{font-family:inherit;color:inherit}
   .dp-grid{grid-template-columns:1fr}
   .dp-wrap{padding:14px}
 }
+
+/* ── FUND HERO — redesigned top KPI section ── */
+.fund-hero{border-bottom:1px solid var(--border);background:var(--bg2)}
+.fund-hero-primary{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border)}
+.fhp{padding:20px 24px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:6px}
+.fhp:last-child{border-right:0}
+.fhp.hl{background:rgba(197,165,114,0.05)}
+.fhp-lbl{font-family:var(--mono);font-size:7px;letter-spacing:.28em;color:var(--goldDeep);text-transform:uppercase}
+.fhp-val{font-family:var(--serif);font-style:italic;font-size:38px;color:var(--text);line-height:1;letter-spacing:-.015em}
+.fhp-val.gold{color:var(--goldB)}.fhp-val.green{color:var(--green)}.fhp-val.red{color:var(--red)}
+.fhp-sub{font-family:var(--mono);font-size:8px;color:var(--sub)}
+.fund-hero-secondary{display:grid;grid-template-columns:repeat(4,1fr)}
+.fhs{padding:11px 24px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
+.fhs:last-child{border-right:0}
+.fhs-lbl{font-family:var(--mono);font-size:6.5px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
+.fhs-val{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--text);line-height:1}
+.fhs-val.gold{color:var(--goldB)}.fhs-val.green{color:var(--green)}.fhs-val.red{color:var(--red)}
+.fhs-sub{font-family:var(--mono);font-size:7.5px;color:var(--sub)}
+.fhs-delta{font-family:var(--mono);font-size:7.5px}.fhs-delta.up{color:var(--green)}.fhs-delta.dn{color:var(--red)}
+@media(max-width:900px){
+  .fund-hero-primary{grid-template-columns:1fr 1fr}
+  .fhp:nth-child(2){border-right:0}
+  .fhp:nth-child(3){border-top:1px solid var(--border)}
+  .fund-hero-secondary{grid-template-columns:1fr 1fr}
+  .fhs:nth-child(2),.fhs:nth-child(4){border-right:0}
+  .fhs:nth-child(3),.fhs:nth-child(4){border-top:1px solid var(--border)}
+}
+
+/* ── APPROVAL QUEUE — redesigned ── */
+.aq-stage-bar{display:flex;border-bottom:1px solid var(--goldBd);background:var(--bg2);overflow-x:auto;min-height:60px}
+.aq-stage-node{flex:1;min-width:80px;padding:12px 10px;border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative}
+.aq-stage-node:last-child{border-right:0}
+.aq-stage-node.act{background:rgba(197,165,114,0.06)}
+.aq-stage-lbl{font-family:var(--mono);font-size:6.5px;letter-spacing:.24em;color:var(--muted);text-transform:uppercase;text-align:center}
+.aq-stage-lbl.act{color:var(--gold)}.aq-stage-lbl.done{color:var(--goldD)}
+.aq-stage-ct{font-family:var(--serif);font-style:italic;font-size:26px;color:var(--text);line-height:1}
+.aq-stage-ct.act{color:var(--goldB)}.aq-stage-ct.done{color:var(--green)}.aq-stage-ct.zero{font-size:18px;color:var(--muted)}
+.aq-stage-pip{position:absolute;top:7px;right:9px;width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 5px rgba(184,131,58,.7)}
+.aq-stage-arr{color:var(--border);font-family:var(--mono);font-size:10px;display:flex;align-items:center;padding-bottom:14px;flex-shrink:0;padding-left:2px;padding-right:2px}
+
+/* Action items */
+.aq-act-item{display:grid;grid-template-columns:56px 1fr auto;gap:18px;align-items:start;padding:20px 24px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
+.aq-act-item:hover{background:rgba(255,255,255,.015)}
+.aq-act-item.nda{border-left:3px solid var(--amber);background:rgba(184,131,58,0.04)}
+.aq-act-item.nda:hover{background:rgba(184,131,58,0.07)}
+.aq-act-item.ioi{border-left:3px solid var(--gold);background:rgba(197,165,114,0.04)}
+.aq-act-item.ioi:hover{background:rgba(197,165,114,0.07)}
+.aq-act-item.wire{border-left:3px solid var(--blue);background:var(--blueW)}
+.aq-act-item.wire:hover{background:rgba(91,133,184,0.12)}
+.aq-act-item.cleared{border-left:3px solid var(--green);background:var(--greenW)}
+.aq-act-step{display:flex;flex-direction:column;align-items:center;gap:5px;padding-top:2px}
+.aq-act-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:7.5px;letter-spacing:.08em;font-weight:500;flex-shrink:0}
+.aq-act-icon.nda{border:1px solid var(--amberBd);color:var(--amber);background:var(--amberW)}
+.aq-act-icon.ioi{border:1px solid var(--goldBd);color:var(--goldB);background:var(--goldW)}
+.aq-act-icon.wire{border:1px solid var(--blueBd);color:var(--blue);background:var(--blueW)}
+.aq-act-icon.cleared{border:1px solid var(--greenBd);color:var(--green);background:var(--greenW)}
+.aq-act-icon-lbl{font-family:var(--mono);font-size:5.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;text-align:center}
+.aq-act-body{display:flex;flex-direction:column;gap:5px}
+.aq-act-name{font-family:var(--serif);font-size:20px;color:var(--text);line-height:1;margin-bottom:1px}
+.aq-act-step-lbl{font-family:var(--mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;line-height:1.4}
+.aq-act-step-lbl.amber{color:var(--amber)}.aq-act-step-lbl.gold{color:var(--goldD)}.aq-act-step-lbl.blue{color:var(--blue)}
+.aq-act-desc{font-family:var(--serifKr);font-size:12px;color:var(--sub);font-weight:300;line-height:1.55}
+.aq-act-meta{font-family:var(--mono);font-size:7px;letter-spacing:.08em;color:var(--muted)}
+.aq-act-btns{display:flex;flex-direction:column;gap:7px;align-items:flex-end;flex-shrink:0;padding-top:2px}
+.aq-act-ts{font-family:var(--mono);font-size:7px;color:var(--muted);white-space:nowrap}
+
+/* Pipeline rows */
+.aq-pipe-row{display:grid;grid-template-columns:210px 1fr 130px;gap:14px;align-items:center;padding:14px 24px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
+.aq-pipe-row:hover{background:rgba(255,255,255,.013)}
+.aq-pipe-row.sel{background:var(--goldW);border-left:2px solid var(--gold);padding-left:22px}
+.aq-pipe-name{font-family:var(--serif);font-size:15px;color:var(--text);margin-bottom:2px}
+.aq-pipe-meta{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:.06em;display:flex;gap:8px;flex-wrap:wrap}
+.aq-wf{display:flex;align-items:center;gap:0}
+.aq-wf-s{display:flex;flex-direction:column;align-items:center;gap:3px}
+.aq-wf-d{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.aq-wf-d.done{background:var(--goldD)}.aq-wf-d.curr{background:var(--goldB);box-shadow:0 0 6px rgba(197,165,114,.5)}.aq-wf-d.todo{background:var(--card);border:1px solid var(--muted)}
+.aq-wf-l{font-family:var(--mono);font-size:5.5px;letter-spacing:.08em;text-transform:uppercase}
+.aq-wf-l.done,.aq-wf-l.curr{color:var(--goldD)}.aq-wf-l.todo{color:var(--muted)}
+.aq-wf-ln{height:1px;width:14px;margin-bottom:10px;flex-shrink:0}
+.aq-wf-ln.done{background:var(--goldD)}.aq-wf-ln.todo{background:var(--border)}
+.aq-pipe-actions{display:flex;flex-direction:column;gap:5px;align-items:flex-end}
+@media(max-width:640px){
+  .aq-act-item{grid-template-columns:40px 1fr}.aq-act-btns{display:none}
+  .aq-pipe-row{grid-template-columns:1fr auto}.aq-wf{display:none}
+  .fund-hero-primary{grid-template-columns:1fr 1fr}.fhp-val{font-size:28px}
+}
 </style>
 </head>
 <body>
@@ -814,15 +900,52 @@ input,textarea,select{font-family:inherit;color:inherit}
     <div class="cmd-status" id="f-cmd-status"><em>Loading fund state…</em></div>
     <div class="cmd-ts" id="f-cmd-ts">—</div>
   </div>
-  <div class="kpi-row">
-    <div class="kpi-cell grp"><div class="kpi-lbl">Fund NAV</div><div class="kpi-val gold" id="f-nav">—</div><div class="kpi-sub">net of facility</div></div>
-    <div class="kpi-cell"><div class="kpi-lbl">Gold held</div><div class="kpi-val" id="f-gold-val">—</div><div class="kpi-sub" id="f-gold-usd">—</div></div>
-    <div class="kpi-cell"><div class="kpi-lbl">Unrealised P&L</div><div class="kpi-val green" id="f-gold-gain">—</div><div class="kpi-delta up" id="f-gold-gain-pct">—</div></div>
-    <div class="kpi-cell grp"><div class="kpi-lbl">LTV available</div><div class="kpi-val green" id="f-avail">—</div><div class="kpi-sub" id="f-avail-sub">—</div></div>
-    <div class="kpi-cell"><div class="kpi-lbl">Deployed</div><div class="kpi-val" id="f-deployed">—</div><div class="kpi-sub" id="f-deployed-sub">—</div></div>
-    <div class="kpi-cell"><div class="kpi-lbl">SORA cost</div><div class="kpi-val red" id="f-sora">—</div><div class="kpi-sub">4.85% · daily accrual</div></div>
-    <div class="kpi-cell grp"><div class="kpi-lbl">Net yield</div><div class="kpi-val green" id="f-net-yield">—</div><div class="kpi-sub">/yr after SORA</div></div>
-    <div class="kpi-cell"><div class="kpi-lbl">Cohort</div><div class="kpi-val" id="f-cohort" style="font-family:var(--mono);font-style:normal;font-size:20px;color:var(--goldB)">—/100</div><div class="kpi-sub">seats · Q3 2026</div></div>
+  <!-- Fund hero KPIs — primary 4 + secondary 4 -->
+  <div class="fund-hero">
+    <div class="fund-hero-primary">
+      <div class="fhp hl">
+        <div class="fhp-lbl">Fund NAV</div>
+        <div class="fhp-val gold" id="f-nav">—</div>
+        <div class="fhp-sub">net of facility · all members</div>
+      </div>
+      <div class="fhp">
+        <div class="fhp-lbl">Gold Position</div>
+        <div class="fhp-val" id="f-gold-val">—</div>
+        <div class="fhp-sub" id="f-gold-usd">—</div>
+      </div>
+      <div class="fhp hl">
+        <div class="fhp-lbl">LTV Available</div>
+        <div class="fhp-val green" id="f-avail">—</div>
+        <div class="fhp-sub" id="f-avail-sub">—</div>
+      </div>
+      <div class="fhp">
+        <div class="fhp-lbl">Net Yield</div>
+        <div class="fhp-val green" id="f-net-yield">—</div>
+        <div class="fhp-sub">/yr after SORA drag</div>
+      </div>
+    </div>
+    <div class="fund-hero-secondary">
+      <div class="fhs">
+        <div class="fhs-lbl">Unrealised P&amp;L</div>
+        <div class="fhs-val green" id="f-gold-gain">—</div>
+        <div class="fhs-delta up" id="f-gold-gain-pct">—</div>
+      </div>
+      <div class="fhs">
+        <div class="fhs-lbl">Deployed</div>
+        <div class="fhs-val" id="f-deployed">—</div>
+        <div class="fhs-sub" id="f-deployed-sub">—</div>
+      </div>
+      <div class="fhs">
+        <div class="fhs-lbl">SORA Cost</div>
+        <div class="fhs-val red" id="f-sora">—</div>
+        <div class="fhs-sub">4.85% · daily accrual</div>
+      </div>
+      <div class="fhs">
+        <div class="fhs-lbl">Cohort</div>
+        <div class="fhs-val" id="f-cohort" style="font-family:var(--mono);font-style:normal;font-size:18px;color:var(--goldB)">—/100</div>
+        <div class="fhs-sub">seats · Q3 2026 soft close</div>
+      </div>
+    </div>
   </div>
 
   <!-- ── DAILY STRIP ── -->
@@ -1015,39 +1138,58 @@ input,textarea,select{font-family:inherit;color:inherit}
 
 <!-- ═══ VIEW: OPERATIONS ═══ -->
 <div id="view-ops" class="view">
-  <div class="ops-body">
-    <div class="ops-main">
-      <div class="sec-hd"><span class="sec-title">Action Queue</span><span class="sec-ct" id="aq-ct">—</span></div>
-      <div id="aq-list"></div>
-      <div style="height:1px;background:var(--border)"></div>
-      <div class="sec-hd"><span class="sec-title">Approval Pipeline · Inbound</span><span class="sec-ct" id="funnel-ct">—</span></div>
-      <div style="padding:6px 10px;border-bottom:1px solid var(--border);display:flex;gap:4px;flex-wrap:wrap;background:var(--bg2)" id="funnel-filters">
-        <button class="ff-btn on" onclick="setFunnelFilter('all',this)">ALL</button>
-        <button class="ff-btn" onclick="setFunnelFilter('action',this)">ACTION</button>
-        <button class="ff-btn" onclick="setFunnelFilter('pending',this)">PENDING</button>
-        <button class="ff-btn" onclick="setFunnelFilter('closed',this)">CLOSED</button>
-      </div>
-      <div id="funnel-list"></div>
-    </div>
-    <div class="ops-side" id="ops-side">
-      <!-- Default panel: admitted members + activity -->
-      <div id="ops-side-default">
-        <div class="sec-hd"><span class="sec-title">Admitted Members</span><span class="sec-ct" id="members-ct-side">—</span></div>
-        <div id="members-side-list"></div>
-        <div style="height:1px;background:var(--border)"></div>
-        <div class="sec-hd"><span class="sec-title">Activity · Last 48h</span></div>
-        <div id="activity-feed"></div>
-      </div>
-      <!-- Lead detail panel: shown when a funnel lead is selected -->
-      <div id="ops-side-detail" style="display:none;overflow-y:auto;height:100%">
-        <div style="padding:10px 18px;background:var(--bg2);border-bottom:1px solid var(--goldBd);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10">
-          <span style="font-family:var(--mono);font-size:7.5px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase">Lead Detail</span>
-          <button onclick="clearOpsLead()" style="font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;color:var(--goldD);background:none;border:1px solid var(--goldBd);padding:4px 11px;cursor:pointer;transition:all .15s">← Back</button>
-        </div>
-        <div id="ops-detail-pane"></div>
-      </div>
-    </div>
+
+  <!-- Membership pipeline stage bar -->
+  <div class="aq-stage-bar" id="aq-stage-bar">
+    <div style="padding:18px 20px;font-family:var(--serif);font-style:italic;color:var(--muted)">Loading…</div>
   </div>
+
+  <!-- Actions required -->
+  <div style="border-bottom:1px solid var(--border)">
+    <div class="sec-hd" style="background:rgba(184,131,58,0.04);border-bottom:1px solid var(--amberBd)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="sec-title" style="color:var(--amber)">Actions Required</span>
+        <span style="font-family:var(--mono);font-size:6.5px;letter-spacing:.18em;padding:2px 7px;border:1px solid var(--amberBd);color:var(--amber);background:var(--amberW)" id="aq-ct">—</span>
+      </div>
+      <span style="font-family:var(--mono);font-size:7.5px;color:var(--muted)">NDA review · IOI verification · wire clearance</span>
+    </div>
+    <div id="aq-list"></div>
+  </div>
+
+  <!-- Full membership pipeline -->
+  <div>
+    <div class="sec-hd" style="position:sticky;top:48px;z-index:20;background:var(--bg2)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="sec-title">Membership Pipeline</span>
+        <span class="sec-ct" id="funnel-ct">—</span>
+      </div>
+      <div style="display:flex;gap:0;border:1px solid var(--border)" id="funnel-filters">
+        <button class="ff-btn on" onclick="setFunnelFilter('all',this)">All</button>
+        <button class="ff-btn" onclick="setFunnelFilter('action',this)">Needs Action</button>
+        <button class="ff-btn" onclick="setFunnelFilter('pending',this)">Pending</button>
+        <button class="ff-btn" onclick="setFunnelFilter('closed',this)">Closed</button>
+      </div>
+    </div>
+    <div id="funnel-list"></div>
+  </div>
+
+  <!-- Hidden: admitted members & activity feed (populated by JS) -->
+  <div id="ops-side-default" style="display:none">
+    <div class="sec-hd"><span class="sec-title">Admitted Members</span><span class="sec-ct" id="members-ct-side">—</span></div>
+    <div id="members-side-list"></div>
+    <div class="sec-hd"><span class="sec-title">Activity · Last 48h</span></div>
+    <div id="activity-feed"></div>
+  </div>
+
+  <!-- Applicant detail slide-over -->
+  <div id="ops-side-detail" style="display:none;position:fixed;right:0;top:48px;bottom:0;width:500px;background:var(--bg);border-left:1px solid var(--goldBd);overflow-y:auto;z-index:150;box-shadow:-12px 0 40px rgba(0,0,0,.55)">
+    <div style="padding:12px 20px;background:var(--bg2);border-bottom:1px solid var(--goldBd);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10">
+      <span style="font-family:var(--mono);font-size:7.5px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase">Applicant Detail</span>
+      <button onclick="clearOpsLead()" style="font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;color:var(--goldD);background:none;border:1px solid var(--goldBd);padding:4px 11px;cursor:pointer;transition:all .15s">✕ Close</button>
+    </div>
+    <div id="ops-detail-pane"></div>
+  </div>
+
 </div>
 
 <!-- ═══ VIEW: MEMBERS ═══ -->
@@ -1884,7 +2026,7 @@ function renderFundTab() {
   const gain = f.now - f.cost;
   $('f-gold-gain').textContent    = (gain>=0?'+':'') + fmUsd(gain);
   $('f-gold-gain-pct').textContent = (gain>=0?'+':'') + (f.cost>0?(gain/f.cost*100).toFixed(1):0) + '% vs cost';
-  $('f-gold-gain').className      = 'kpi-val ' + (gain>=0?'green':'red');
+  $('f-gold-gain').className      = 'fhs-val ' + (gain>=0?'green':'red');
   $('f-avail').textContent        = fmUsd(f.av);
   $('f-deployed').textContent     = fmUsd(f.dep);
   const _util = f.ceil>0 ? Math.round((f.drawn||f.dep)/f.ceil*100) : 0;
@@ -2194,7 +2336,7 @@ function renderFundPL() {
 }
 
 // ══════════════════════════════════════════════════
-// OPS VIEW
+// OPS VIEW — Regulatory Membership Approval
 // ══════════════════════════════════════════════════
 function renderOpsView() {
   const f=state._fundTotals||fundStats();
@@ -2203,94 +2345,136 @@ function renderOpsView() {
   const funnel=_allFunnel.filter(l=>{
     const sk=funnelStage(l).key;
     if(_funnelFilter==='action') return sk==='nda_review'||sk==='ioi';
-    if(_funnelFilter==='pending') return ['code_sent','wire_pending','new'].includes(sk);
+    if(_funnelFilter==='pending') return ['code_sent','wire_pending','new','kyc'].includes(sk);
     if(_funnelFilter==='closed') return !!l.declined_at;
-    return true;
+    return !l.declined_at;
   });
 
-  // Pulse
   const USD=state.liveSpot?.usd_krw||1382;
-  let statusH='<em>Awaiting first member.</em>';
-  if(f.admittedCount>0){
-    statusH=f.av>500_000_000?`<em>Capital ready.</em> ${fmUsd(f.av)} available to deploy.`:`<em>${pctOf(f.dep,f.dep+f.av)}% deployed.</em> ${state.deals.filter(d=>d.deployed_usd>0).length} deals live.`;
-  }
-  if($('f-cmd-status'))$('f-cmd-status').innerHTML=statusH;
-  const _pulseDetail=`MAY 2026 · FOUNDING COHORT · ${f.admittedCount} OF 100 SEATS ADMITTED · SOFT CLOSE EST. Q3 2026`;
-  if($('f-cmd-ts'))$('f-cmd-ts').textContent=_pulseDetail;
-  if($('pk-kilo')){$('pk-kilo').textContent=f.kg.toFixed(2);$('pk-kilo-sub').textContent='kg · '+f.admittedCount+' member'+(f.admittedCount===1?'':'s');}
-  if($('pk-nav'))$('pk-nav').textContent=fmUsd(f.nav);
-  const funnelActions=funnel.filter(l=>funnelStage(l).key==='nda_review'||funnelStage(l).key==='ioi').length;
-  if($('pk-inbound')){$('pk-inbound').textContent=funnel.length; $('pk-inbound-sub').textContent=funnel.length+' inbound · '+funnelActions+' need action';}
-  if($('pk-fac')){$('pk-fac').textContent=fmUsd(f.dep); $('pk-fac-sub').textContent='drawn · '+fmUsd(f.av)+' available';}
-  if($('pk-cohort'))$('pk-cohort').textContent=f.admittedCount+'/100';
-  if(funnelActions>0){$('pip-ops').style.display='';if($('pk-inbound-pill'))$('pk-inbound-pill').textContent=funnelActions+' need action';}
-  else {$('pip-ops').style.display='none';}
 
-  // Action queue — leads with pending actions
-  const queue=funnel.filter(l=>{const s=funnelStage(l);return ['nda_review','ioi','wire_pending'].includes(s.key);});
-  const cleared=admitted.filter(l=>l.wire?.cleared_at && new Date(l.wire.cleared_at) > new Date(Date.now()-7*86400000));
-  $('aq-ct').textContent=(queue.length+cleared.length)+' item'+(queue.length+cleared.length===1?'':'s');
+  // ── Nav badge
+  const funnelActions=_allFunnel.filter(l=>{const sk=funnelStage(l).key;return sk==='nda_review'||sk==='ioi';}).length;
+  if(funnelActions>0) $('pip-ops').style.display='';
+  else $('pip-ops').style.display='none';
+
+  // ── Stage pipeline bar
+  const stageKeys=['new','code_sent','nda_review','kyc','ioi','wire_pending'];
+  const stageLbls2={new:'New Inquiry',code_sent:'Code Issued',nda_review:'NDA Review',kyc:'KYC · Pending IOI',ioi:'IOI Verify',wire_pending:'Wire Pending'};
+  const stageNeedsAction={nda_review:true,ioi:true};
+  const stageCts={};
+  stageKeys.forEach(k=>stageCts[k]=0);
+  _allFunnel.filter(l=>!l.declined_at).forEach(l=>{const sk=funnelStage(l).key;if(stageCts[sk]!==undefined)stageCts[sk]++;});
+  let stageBarHtml='';
+  stageKeys.forEach((k,i)=>{
+    const ct=stageCts[k]||0;
+    const isAct=stageNeedsAction[k]&&ct>0;
+    const ctCls=ct===0?'zero':isAct?'act':'';
+    const lblCls=ct>0?(isAct?'act':'done'):'';
+    stageBarHtml+=(i>0?'<div class="aq-stage-arr">›</div>':'');
+    stageBarHtml+=`<div class="aq-stage-node ${isAct?'act':''}">
+      ${isAct?'<div class="aq-stage-pip"></div>':''}
+      <div class="aq-stage-ct ${ctCls}">${ct}</div>
+      <div class="aq-stage-lbl ${lblCls}">${stageLbls2[k]}</div>
+    </div>`;
+  });
+  stageBarHtml+=`<div class="aq-stage-arr">→</div><div class="aq-stage-node">
+    <div class="aq-stage-ct ${admitted.length>0?'done':'zero'}">${admitted.length}</div>
+    <div class="aq-stage-lbl ${admitted.length>0?'done':''}">Admitted</div>
+  </div>`;
+  const stageBarEl=$('aq-stage-bar');
+  if(stageBarEl)stageBarEl.innerHTML=stageBarHtml;
+
+  // ── Actions required
+  const queue=_allFunnel.filter(l=>!l.declined_at).filter(l=>['nda_review','ioi','wire_pending'].includes(funnelStage(l).key));
+  const recentCleared=admitted.filter(l=>l.wire?.cleared_at&&new Date(l.wire.cleared_at)>new Date(Date.now()-7*86400000));
+  const totalAct=queue.length+recentCleared.length;
+  $('aq-ct').textContent=totalAct+' item'+(totalAct===1?'':'s');
 
   let aqHtml='';
   queue.forEach(l=>{
     const s=funnelStage(l);
-    const cls=s.key==='nda_review'?'urgent':'action';
-    const dot=s.key==='nda_review'?'urgent':'action';
-    const eyeCls=s.key==='nda_review'?'urgent':'action';
-    const eyeText=s.key==='nda_review'?'NDA · Awaiting Partner Review':s.key==='ioi'?'IOI · Verification + LTV Decision':'Wire · Instructions Sent';
-    const bodyText=s.key==='nda_review'?`${esc(l.name)} — NDA uploaded, pending sign-off`
-      :s.key==='ioi'?`${esc(l.name)} — IOI submitted ${l.ioi?.amount_krw?fmKrw(l.ioi.amount_krw):''} · set LTV and send wire instructions`
-      :`${esc(l.name)} — wire instructions sent, awaiting clearance`;
-    const actions=s.key==='nda_review'
-      ?`<button class="btn-action primary sm" onclick="openNdaModal('${l.id}')">Approve NDA →</button><button class="btn-action danger sm" onclick="apiAction('${l.id}','decline')">Decline</button>`
-      :s.key==='ioi'
-      ?`<button class="btn-action primary sm" onclick="openIoiModal('${l.id}')">Set LTV + Send Wire →</button>`
-      :`<button class="btn-action sm" onclick="apiAction('${l.id}','mark_wired')">Mark In-Flight</button><button class="btn-action primary sm" onclick="apiAction('${l.id}','mark_cleared')">Mark Cleared →</button>`;
-    aqHtml+=`<div class="aq-item ${cls}" onclick="pickOpsLead('${l.id}')" style="cursor:pointer">
-      <div class="aq-dot ${dot}"></div>
-      <div class="aq-body"><div class="aq-eye ${eyeCls}">${eyeText}</div><div class="aq-text">${bodyText}</div><div class="aq-actions">${actions}</div></div>
-      <span class="aq-ts">${l.submitted_at_ms?new Date(l.submitted_at_ms).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'—'}</span>
+    const isNda=s.key==='nda_review',isIoi=s.key==='ioi',isWire=s.key==='wire_pending';
+    const cls=isNda?'nda':isIoi?'ioi':'wire';
+    const iconLbl=isNda?'NDA':isIoi?'IOI':'WIRE';
+    const stepLbl=isNda?'Step 2 · NDA Review':isIoi?'Step 4 · IOI · LTV Decision':'Step 5 · Wire Clearance';
+    const stepCls=isNda?'amber':isIoi?'gold':'blue';
+    const desc=isNda
+      ?`NDA submitted — awaiting partner sign-off. Approval unlocks KYC portal access and moves the applicant to IOI stage.`
+      :isIoi
+      ?`IOI submitted${l.ioi?.amount_krw?' · '+fmKrw(l.ioi.amount_krw):''} · Set the approved LTV ceiling and send wire instructions to complete regulatory onboarding.`
+      :`Wire instructions sent${l.wire?.instructions_sent_at?' '+fmDate(l.wire.instructions_sent_at):''}. Confirm receipt to trigger admission and activate the LTV facility.`;
+    const btns=isNda
+      ?`<button class="btn-action primary sm" onclick="event.stopPropagation();openNdaModal('${l.id}')">Approve NDA →</button><button class="btn-action danger sm" onclick="event.stopPropagation();apiAction('${l.id}','decline')">Decline</button>`
+      :isIoi
+      ?`<button class="btn-action primary sm" onclick="event.stopPropagation();openIoiModal('${l.id}')">Set LTV + Wire →</button>`
+      :`<button class="btn-action sm" onclick="event.stopPropagation();apiAction('${l.id}','mark_wired')">In-Flight</button><button class="btn-action primary sm" onclick="event.stopPropagation();apiAction('${l.id}','mark_cleared')">Cleared → Admit</button>`;
+    const ts=l.submitted_at_ms?new Date(l.submitted_at_ms).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'—';
+    aqHtml+=`<div class="aq-act-item ${cls}" onclick="pickOpsLead('${l.id}')">
+      <div class="aq-act-step">
+        <div class="aq-act-icon ${cls}">${iconLbl}</div>
+        <div class="aq-act-icon-lbl">${isNda?'NDA':isIoi?'IOI':'Wire'}</div>
+      </div>
+      <div class="aq-act-body">
+        <div class="aq-act-name">${esc(l.name)}</div>
+        <div class="aq-act-step-lbl ${stepCls}">${stepLbl}</div>
+        <div class="aq-act-desc">${desc}</div>
+        <div class="aq-act-meta">${esc(COUNTRY_LBL[l.country]||l.country||'—')} · ${esc(TIER_SHORT[l.wealth]||l.wealth||'—')} · Submitted ${ts}</div>
+      </div>
+      <div class="aq-act-btns">${btns}<span class="aq-act-ts">${ts}</span></div>
     </div>`;
   });
-  if(cleared.length){
-    aqHtml+=`<div class="aq-item ok"><div class="aq-dot ok"></div><div class="aq-body"><div class="aq-eye ok">Wire · Cleared This Week</div><div class="aq-text">${cleared.map(l=>esc(l.name)).join(', ')} — admission email sent</div></div></div>`;
+  if(recentCleared.length){
+    aqHtml+=`<div class="aq-act-item cleared">
+      <div class="aq-act-step"><div class="aq-act-icon cleared">✓</div><div class="aq-act-icon-lbl">Done</div></div>
+      <div class="aq-act-body">
+        <div class="aq-act-step-lbl" style="color:var(--green)">Wire Cleared This Week</div>
+        <div class="aq-act-desc">${recentCleared.map(l=>esc(l.name)).join(', ')} — admitted · email sent · LTV facility activated.</div>
+      </div>
+      <div class="aq-act-btns"></div>
+    </div>`;
   }
-  if(!aqHtml)aqHtml='<div style="padding:16px 20px;font-family:var(--serif);font-style:italic;color:var(--muted)">No pending actions.</div>';
+  if(!aqHtml) aqHtml='<div style="padding:22px 24px;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--muted)">No pending actions · all applicants progressing through the pipeline.</div>';
   $('aq-list').innerHTML=aqHtml;
 
-  // Inbound funnel pipeline (compact rows)
-  $('funnel-ct').textContent=funnel.length+' prospects';
+  // ── Membership pipeline rows
+  $('funnel-ct').textContent=funnel.length+' prospect'+(funnel.length!==1?'s':'');
+  const WF_STAGES=['Code','NDA','KYC','IOI','Wire'];
+  const WF_IDX={code_sent:0,nda_review:1,kyc:2,ioi:3,wire_pending:4};
   $('funnel-list').innerHTML=funnel.map(l=>{
     const s=funnelStage(l);
-    const stages=['Code','NDA','KYC','IOI','Wire'];
-    const curr={code_sent:0,nda_review:1,kyc:2,ioi:3,wire_pending:4}[s.key]??0;
-    const track=stages.map((st,i)=>{
-      const cls=i<curr?'done':i===curr?'curr':'todo';
-      const line=i<stages.length-1?`<div class="st-line ${i<curr?'done':'todo'}"></div>`:'';
-      return `<div class="st-node"><div class="st-dot ${cls}"></div><div class="st-lbl ${cls}">${st}</div></div>${line}`;
+    const currIdx=WF_IDX[s.key]??0;
+    const selCls=state._selectedOpsLead===l.id?' sel':'';
+    const wfTrack=WF_STAGES.map((st,i)=>{
+      const cls=i<currIdx?'done':i===currIdx?'curr':'todo';
+      const line=i<WF_STAGES.length-1?`<div class="aq-wf-ln ${i<currIdx?'done':'todo'}"></div>`:'';
+      return `<div class="aq-wf-s"><div class="aq-wf-d ${cls}"></div><div class="aq-wf-l ${cls}">${st}</div></div>${line}`;
     }).join('');
-    const selCls = state._selectedOpsLead===l.id?' style="background:var(--goldW);border-left:2px solid var(--gold)"':'';
-    return `<div class="lead-item" onclick="pickOpsLead('${l.id}')" style="cursor:pointer;transition:background .12s"${selCls}>
+    const actionBtn=s.key==='nda_review'
+      ?`<button class="btn-action primary sm" onclick="event.stopPropagation();openNdaModal('${l.id}')">Review NDA</button>`
+      :s.key==='ioi'
+      ?`<button class="btn-action primary sm" onclick="event.stopPropagation();openIoiModal('${l.id}')">Verify IOI</button>`
+      :s.key==='wire_pending'
+      ?`<button class="btn-action sm" onclick="event.stopPropagation();apiAction('${l.id}','mark_cleared')">Mark Cleared</button>`
+      :'';
+    return `<div class="aq-pipe-row${selCls}" onclick="pickOpsLead('${l.id}')">
       <div>
-        <div class="lead-name">${esc(l.name)}</div>
-        <div class="lead-meta"><span>${TIER_SHORT[l.wealth]||l.wealth||'—'}</span><span>${COUNTRY_LBL[l.country]||l.country||'—'}</span>${l.submitted_at_ms?`<span>${fmDate(new Date(l.submitted_at_ms).toISOString())}</span>`:''}</div>
-        <div class="stage-track">${track}</div>
+        <div class="aq-pipe-name">${esc(l.name)}</div>
+        <div class="aq-pipe-meta">
+          <span>${esc(COUNTRY_LBL[l.country]||l.country||'—')}</span>
+          <span>${esc(TIER_SHORT[l.wealth]||l.wealth||'—')}</span>
+          ${l.submitted_at_ms?`<span>${fmDate(new Date(l.submitted_at_ms).toISOString())}</span>`:''}
+        </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end">
-        <span class="badge ${s.cls}">${s.label}</span>
-        ${s.key==='nda_review'?`<button class="btn-action sm" onclick="event.stopPropagation();openNdaModal('${l.id}')">Review NDA</button>`:''}
-        ${s.key==='ioi'?`<button class="btn-action sm" onclick="event.stopPropagation();openIoiModal('${l.id}')">Verify IOI</button>`:''}
-        ${s.key==='wire_pending'?`<button class="btn-action sm" onclick="event.stopPropagation();apiAction('${l.id}','mark_cleared')">Mark Cleared</button>`:''}
-      </div>
+      <div class="aq-wf">${wfTrack}</div>
+      <div class="aq-pipe-actions"><span class="badge ${s.cls}">${s.label}</span>${actionBtn}</div>
     </div>`;
-  }).join('')||'<div style="padding:16px 20px;font-family:var(--serif);font-style:italic;color:var(--muted)">No prospects in pipeline.</div>';
+  }).join('')||'<div style="padding:22px 24px;font-family:var(--serif);font-style:italic;color:var(--muted)">No prospects in pipeline.</div>';
 
-  // Admitted members (side panel)
+  // ── Admitted members & activity (hidden backing store)
   $('members-ct-side').textContent=admitted.length+' member'+(admitted.length===1?'':'s');
   $('members-side-list').innerHTML=admitted.map(l=>{
-    const c=calc(l);const depPct=c.ltvCeil>0?Math.round(c.dep/c.ltvCeil*100):0;
-    return `<div class="mbr-card">
-      <div class="mbr-top"><div class="mbr-name"><em>${esc(l.name)}</em></div><span class="badge badge-ok">Admitted</span></div>
+    const c=calc(l);const depPct=c.ceil>0?Math.round(c.dep/c.ceil*100):0;
+    return `<div class="mbr-card"><div class="mbr-top"><div class="mbr-name"><em>${esc(l.name)}</em></div><span class="badge badge-ok">Admitted</span></div>
       <div class="mbr-wired">${fmUsd(l.wire?.amount_krw||0)} · LTV ${Math.round(c.ltvP*100)}%</div>
       <div class="mbr-kg">${c.kg.toFixed(2)} <span>kg</span></div>
       <div class="ltv-bar"><div class="ltv-fill" style="width:${depPct}%"></div></div>
@@ -2298,20 +2482,13 @@ function renderOpsView() {
       ${(l.positions||[]).length?`<div style="display:flex;gap:3px;flex-wrap:wrap">${(l.positions||[]).map(p=>`<span class="dtag">${esc((p.deal_name||'').slice(0,12))}</span>`).join('')}</div>`:''}
     </div>`;
   }).join('')||'<div style="padding:14px 16px;font-family:var(--serif);font-style:italic;color:var(--muted)">No admitted members yet.</div>';
-
-  // Activity feed (last 10 state changes across leads)
-  const events=[];
+  const actEvents=[];
   state.leads.forEach(l=>{
-    if(l.wire?.cleared_at) events.push({ts:new Date(l.wire.cleared_at).getTime(),who:'SYS',what:`<strong>${esc(l.name)}</strong> wire cleared · gold order placed`});
-    if(l.ioi?.submitted_at) events.push({ts:new Date(l.ioi.submitted_at).getTime(),who:'SYS',what:`<strong>${esc(l.name)}</strong> IOI submitted · ${l.ioi.amount_krw?fmKrw(l.ioi.amount_krw):''}`});
+    if(l.wire?.cleared_at) actEvents.push({ts:new Date(l.wire.cleared_at).getTime(),who:'SYS',what:`<strong>${esc(l.name)}</strong> wire cleared · gold order placed`});
+    if(l.ioi?.submitted_at) actEvents.push({ts:new Date(l.ioi.submitted_at).getTime(),who:'SYS',what:`<strong>${esc(l.name)}</strong> IOI submitted · ${l.ioi.amount_krw?fmKrw(l.ioi.amount_krw):''}`});
   });
-  events.sort((a,b)=>b.ts-a.ts);
-  $('activity-feed').innerHTML=events.slice(0,8).map(e=>`
-    <div class="feed-item">
-      <span class="fi-who">${e.who}</span>
-      <span class="fi-what">${e.what}</span>
-      <span class="fi-ts">${new Date(e.ts).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>
-    </div>`).join('')||'<div style="padding:10px 16px;font-family:var(--serif);font-style:italic;color:var(--muted)">No activity yet.</div>';
+  actEvents.sort((a,b)=>b.ts-a.ts);
+  $('activity-feed').innerHTML=actEvents.slice(0,8).map(e=>`<div class="feed-item"><span class="fi-who">${e.who}</span><span class="fi-what">${e.what}</span><span class="fi-ts">${new Date(e.ts).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span></div>`).join('')||'<div style="padding:10px 16px;font-family:var(--serif);font-style:italic;color:var(--muted)">No activity yet.</div>';
 }
 
 // ══════════════════════════════════════════════════
@@ -2367,18 +2544,14 @@ function pickOpsLead(id) {
   state._selectedOpsLead = id;
   const lead = state.leads.find(l => l.id === id);
   if (!lead) return;
-  // Show detail pane, hide default
-  $('ops-side-default').style.display = 'none';
-  $('ops-side-detail').style.display   = '';
+  $('ops-side-detail').style.display = '';
   renderFunnelDetailOps(lead);
-  // Highlight in funnel list
   renderOpsView();
 }
 
 function clearOpsLead() {
   state._selectedOpsLead = null;
-  $('ops-side-detail').style.display  = 'none';
-  $('ops-side-default').style.display = '';
+  $('ops-side-detail').style.display = 'none';
   renderOpsView();
 }
 
