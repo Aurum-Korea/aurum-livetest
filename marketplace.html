@@ -1,0 +1,953 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deal Marketplace · Aurum Century Club</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;--bg2:#0c0c0c;--bg3:#0e0c09;
+  --card:#0f0d0a;--card2:#131210;--card3:#161412;
+  --text:#e8e3d8;--sub:#aaa39a;--muted:#6b655e;--dim:#2a2825;
+  --gold:#C5A572;--goldB:#E3C187;--goldD:#8a7d6b;
+  --goldBd:rgba(197,165,114,.22);--goldBdS:rgba(197,165,114,.50);
+  --goldW:rgba(197,165,114,.04);--goldWS:rgba(197,165,114,.10);--goldGlow:rgba(197,165,114,.18);
+  --border:rgba(255,255,255,.07);--b2:rgba(255,255,255,.11);
+  --green:#5a9e72;--greenW:rgba(90,158,114,.08);--greenBd:rgba(90,158,114,.28);
+  --amber:#b8833a;--amberW:rgba(184,131,58,.08);--amberBd:rgba(184,131,58,.28);
+  --red:#b05e56;--redW:rgba(176,94,86,.07);--redBd:rgba(176,94,86,.24);
+  --blue:#5b85b8;--blueW:rgba(91,133,184,.08);--blueBd:rgba(91,133,184,.26);
+  --serif:'Cormorant Garamond',Georgia,serif;--mono:'JetBrains Mono',monospace;--sans:'Outfit',system-ui,sans-serif;
+  --r:2px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
+input,select,textarea{font-family:var(--mono);background:var(--bg);color:var(--text);border:1px solid var(--border);outline:none;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--goldBdS)}
+a{color:inherit;text-decoration:none}
+
+/* ── NAV ── */
+.nav{height:48px;background:rgba(10,10,10,.96);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;position:sticky;top:0;z-index:50;backdrop-filter:blur(12px)}
+.seal{width:26px;height:26px;border:1px solid var(--goldBd);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:12px;color:var(--gold);flex-shrink:0}
+.nav-t{font-family:var(--mono);font-size:7.5px;letter-spacing:.28em;color:var(--sub);text-transform:uppercase}
+.nav-s{font-family:var(--mono);font-size:6px;letter-spacing:.16em;color:var(--goldD);text-transform:uppercase;margin-top:2px}
+.nav-tabs{display:flex;border:1px solid var(--border);overflow:hidden;margin-left:6px}
+.ntab{padding:7px 13px;font-family:var(--mono);font-size:7px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);border-right:1px solid var(--border);cursor:pointer;background:transparent;transition:all .14s}
+.ntab:last-child{border-right:0}.ntab.on{color:var(--gold);background:var(--goldW)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:7px}
+.chip{font-family:var(--mono);font-size:7px;color:var(--goldD);padding:4px 10px;border:1px solid var(--goldBd);background:var(--goldW)}
+.btn-ghost{font-family:var(--mono);font-size:7px;color:var(--muted);padding:5px 9px;border:1px solid var(--border);transition:all .14s}
+.btn-ghost:hover{color:var(--goldD);border-color:var(--goldBd)}
+
+/* ── FILTER BAR ── */
+.filter-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fb-lbl{font-family:var(--mono);font-size:6.5px;letter-spacing:.20em;color:var(--muted);text-transform:uppercase;flex-shrink:0}
+.fpill{font-family:var(--mono);font-size:6px;letter-spacing:.10em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--border);cursor:pointer;color:var(--muted);background:transparent;transition:all .12s;border-radius:20px;white-space:nowrap}
+.fpill.on{color:var(--goldD);border-color:var(--goldBd);background:var(--goldW)}
+.fb-sep{width:1px;height:18px;background:var(--border);margin:0 2px;flex-shrink:0}
+.srch{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);padding:5px 10px;margin-left:auto}
+.srch input{border:none;background:transparent;font-family:var(--mono);font-size:11px;color:var(--text);width:140px}
+.srch input::placeholder{color:var(--muted)}
+
+/* ── BROWSE LAYOUT ── */
+.browse-wrap{display:flex;min-height:calc(100vh - 98px)}
+.left-rail{width:200px;flex-shrink:0;border-right:1px solid var(--border);padding:14px 12px;background:var(--bg2)}
+.grid-area{flex:1;padding:18px 20px}
+.lr-hd{font-family:var(--mono);font-size:7px;letter-spacing:.24em;color:var(--goldD);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.lr-sec{margin-bottom:12px}
+.lr-sec-t{font-family:var(--mono);font-size:6.5px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.lr-chk-row{display:flex;align-items:center;gap:7px;padding:3px 0;cursor:pointer}
+.lrchk{width:11px;height:11px;border:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--bg);transition:all .14s}
+.lrchk.on{background:var(--goldW);border-color:var(--goldBd)}.lrchk.on::after{content:'✓';font-size:7px;color:var(--goldB)}
+.lrchk-lbl{font-family:var(--mono);font-size:7.5px;color:var(--sub)}
+.range-row{display:flex;align-items:center;gap:5px;margin-bottom:5px}
+.range-inp{width:48px;padding:4px 6px;font-family:var(--mono);font-size:10px;text-align:right;border-radius:var(--r)}
+.range-sep{font-family:var(--mono);font-size:8px;color:var(--muted)}
+
+/* Grid */
+.grid-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.grid-title{font-family:var(--serif);font-size:22px;color:var(--text)}
+.grid-ct{font-family:var(--mono);font-size:7.5px;color:var(--muted);margin-left:6px}
+.sort-row{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:7px;color:var(--muted)}
+.sort-row select{border:1px solid var(--border);padding:4px 7px;font-family:var(--mono);font-size:10px;background:var(--card);color:var(--text)}
+.deals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+
+/* Deal card */
+.dc{background:var(--card);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:all .18s;position:relative}
+.dc:hover{border-color:var(--goldBd);transform:translateY(-1px)}
+.dc-badges{display:flex;gap:4px;flex-wrap:wrap;padding:12px 12px 0}
+.badge{font-family:var(--mono);font-size:5.5px;letter-spacing:.12em;text-transform:uppercase;padding:2px 6px;border:1px solid}
+.b-credit{color:var(--blue);border-color:var(--blueBd);background:var(--blueW)}
+.b-pe{color:var(--goldB);border-color:var(--goldBdS);background:var(--goldW)}
+.b-re{color:var(--green);border-color:var(--greenBd);background:var(--greenW)}
+.b-infra,.b-equity,.b-special{color:var(--sub);border-color:var(--border)}
+.b-geo{color:var(--muted);border-color:var(--border)}
+.b-hot{color:var(--amber);border-color:var(--amberBd);background:var(--amberW)}
+.dc-body{padding:10px 12px 8px;flex:1}
+.dc-name{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--text);margin-bottom:3px;line-height:1.15}
+.dc-orig{font-family:var(--mono);font-size:6.5px;color:var(--muted);margin-bottom:7px}
+.dc-summary{font-family:var(--serif);font-size:12px;color:var(--sub);font-weight:300;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.dc-metrics{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2)}
+.dcm{padding:7px 10px;border-right:1px solid var(--border)}
+.dcm:last-child{border-right:0}
+.dcm-lbl{font-family:var(--mono);font-size:5.5px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.dcm-val{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--text);line-height:1}
+.dcm-val.gold{color:var(--goldD)}.dcm-val.green{color:var(--green)}.dcm-val.blue{color:var(--blue)}
+.dcm-sub{font-family:var(--mono);font-size:5.5px;color:var(--muted);margin-top:1px}
+.dc-raise{padding:8px 12px;border-bottom:1px solid var(--border)}
+.dc-raise-hdr{display:flex;justify-content:space-between;font-family:var(--mono);font-size:6.5px;color:var(--muted);margin-bottom:4px}
+.dc-raise-sub{font-family:var(--mono);font-size:6px;letter-spacing:.14em;text-transform:uppercase;padding:2px 6px;border:1px solid var(--amberBd);color:var(--amber);background:var(--amberW);display:inline-block;margin-top:3px}
+.dc-bar{height:4px;background:var(--dim);overflow:hidden;border-radius:2px}
+.dc-fill{height:100%;background:linear-gradient(90deg,var(--goldD),var(--goldB));transition:width .5s;border-radius:2px}
+.dc-foot{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:var(--bg3)}
+.dc-iois{font-family:var(--mono);font-size:7px;color:var(--muted)}
+.dc-cta{font-family:var(--mono);font-size:6.5px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border:1px solid var(--goldBd);color:var(--goldD);background:var(--goldW);transition:all .14s}
+.dc-cta:hover{background:var(--goldWS)}.dc-cta.done{color:var(--green);border-color:var(--greenBd);background:var(--greenW)}
+.dc-min-ticket{font-family:var(--mono);font-size:6.5px;color:var(--muted);padding:5px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.dc-min-ticket strong{color:var(--goldD)}
+
+/* ── DEAL PAGE ── */
+#deal-page{display:none;min-height:100vh}
+.deal-back{display:flex;align-items:center;gap:6px;padding:8px 20px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color .14s;background:var(--bg2)}
+.deal-back:hover{color:var(--goldD)}
+.deal-hero{padding:22px 24px;border-bottom:1px solid var(--border);background:var(--bg3)}
+.dh-crumb{font-family:var(--mono);font-size:6.5px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:10px;display:flex;gap:5px;align-items:center}
+.dh-badges{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap}
+.dh-title{font-family:var(--serif);font-style:italic;font-size:32px;color:var(--text);line-height:1.1;margin-bottom:4px}
+.dh-sub{font-family:var(--mono);font-size:7.5px;color:var(--muted);margin-bottom:16px}
+.dh-metrics{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--border);overflow:hidden}
+.dhm{padding:11px 14px;border-right:1px solid var(--border);background:var(--card)}
+.dhm:last-child{border-right:0}
+.dhm-lbl{font-family:var(--mono);font-size:6px;letter-spacing:.20em;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.dhm-val{font-family:var(--serif);font-style:italic;font-size:21px;color:var(--goldB);line-height:1}
+.dhm-val.green{color:var(--green)}.dhm-val.amber{color:var(--amber)}
+.dhm-sub{font-family:var(--mono);font-size:6.5px;color:var(--muted);margin-top:2px}
+.deal-body-wrap{display:grid;grid-template-columns:1fr 300px}
+.deal-main{padding:22px 24px;border-right:1px solid var(--border)}
+.deal-side{padding:16px;background:var(--bg2);display:flex;flex-direction:column;gap:12px}
+
+/* Sections */
+.dsec{font-family:var(--mono);font-size:7.5px;letter-spacing:.26em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;margin-top:20px}
+.dsec:first-child{margin-top:0}
+.dsec-note{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:.06em;text-transform:none}
+
+/* Summary */
+.deal-summary-text{font-family:var(--serif);font-size:14.5px;color:var(--sub);font-weight:300;line-height:1.75;margin-bottom:14px}
+
+/* Highlights */
+.hl-list{display:grid;gap:5px;margin-bottom:0}
+.hl{display:flex;gap:9px;padding:8px 11px;border:1px solid var(--border);background:var(--card)}
+.hl-dot{width:5px;height:5px;border-radius:50%;background:var(--goldD);flex-shrink:0;margin-top:5px}
+.hl-text{font-family:var(--sans);font-size:12.5px;color:var(--sub);line-height:1.5}
+.hl-text strong{color:var(--text);font-weight:500}
+
+/* Timeline */
+.tl{padding-left:18px;position:relative;margin-bottom:0}
+.tl::before{content:'';position:absolute;left:6px;top:4px;bottom:4px;width:1px;background:var(--border)}
+.tl-item{position:relative;padding:0 0 14px 18px}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{position:absolute;left:-13px;top:2px;width:9px;height:9px;border-radius:50%}
+.tl-dot.done{background:var(--goldD);border:1px solid var(--gold)}.tl-dot.curr{background:var(--goldB);box-shadow:0 0 7px var(--goldGlow)}.tl-dot.future{background:var(--card2);border:1px solid var(--muted)}
+.tl-label{font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.10em;text-transform:uppercase;margin-bottom:1px}
+.tl-label.done{color:var(--goldD)}.tl-label.curr{color:var(--goldB)}.tl-label.future{color:var(--muted)}
+.tl-date{font-family:var(--mono);font-size:7px;color:var(--muted);margin-bottom:2px}
+.tl-desc{font-family:var(--serif);font-size:12.5px;color:var(--sub);font-weight:300;line-height:1.5}
+.tl-tag{display:inline-block;font-family:var(--mono);font-size:6px;letter-spacing:.10em;text-transform:uppercase;padding:2px 6px;border:1px solid var(--greenBd);color:var(--green);background:var(--greenW);margin-top:3px}
+
+/* Returns table */
+.rt{border:1px solid var(--border);overflow:hidden;margin-bottom:0}
+.rt-row{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;padding:7px 12px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:7.5px}
+.rt-row:last-child{border-bottom:0}.rt-row.hd{background:var(--card2);font-size:6px;letter-spacing:.14em;color:var(--goldD);text-transform:uppercase}
+.rt-row.hl{background:var(--goldW);border-color:var(--goldBd)}
+.rtn{text-align:right}.rtn.gold{color:var(--goldB)}.rtn.green{color:var(--green)}.rtn.muted{color:var(--muted)}
+
+/* Documents */
+.doc-hub{border:1px solid var(--border);overflow:hidden}
+.dh-hd{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--card2);border-bottom:1px solid var(--border)}
+.dh-title{font-family:var(--mono);font-size:7px;letter-spacing:.20em;color:var(--gold);text-transform:uppercase}
+.dh-prog{font-family:var(--mono);font-size:7.5px;color:var(--sub);display:flex;align-items:center;gap:5px}
+.dh-bar{width:40px;height:2px;background:var(--dim)}.dh-fill{height:100%;background:var(--gold)}
+.doc-sec-hd{padding:5px 12px;font-family:var(--mono);font-size:6px;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid var(--border)}
+.doc-sec-hd.pub{color:var(--green);background:rgba(90,158,114,.04)}
+.doc-sec-hd.gated{color:var(--amber);background:rgba(184,131,58,.04)}
+.doc-sec-hd.open{color:var(--blue);background:rgba(91,133,184,.04)}
+.doc-row{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--border)}
+.doc-row:last-child{border-bottom:0}
+.doc-icon{width:26px;height:30px;border:1px solid var(--border);background:var(--card2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:6.5px;color:var(--muted);flex-shrink:0}
+.doc-icon.pdf{border-color:var(--redBd);color:var(--red);background:var(--redW)}.doc-icon.xlsx{border-color:var(--greenBd);color:var(--green);background:var(--greenW)}.doc-icon.pptx{border-color:var(--amberBd);color:var(--amber);background:var(--amberW)}
+.doc-name{flex:1;font-family:var(--mono);font-size:8px;color:var(--text)}
+.doc-meta{font-family:var(--mono);font-size:6.5px;color:var(--muted);margin-top:1px}
+.doc-size{font-family:var(--mono);font-size:6.5px;color:var(--muted);flex-shrink:0}
+.doc-action{font-family:var(--mono);font-size:6.5px;letter-spacing:.10em;text-transform:uppercase;padding:4px 8px;border:1px solid;flex-shrink:0;cursor:pointer;text-decoration:none;display:inline-block}
+.da-dl{color:var(--goldD);border-color:var(--goldBd);background:var(--goldW)}.da-locked{color:var(--muted);border-color:var(--border);cursor:not-allowed;opacity:.5}.da-pending{color:var(--amber);border-color:var(--amberBd)}
+
+/* Sidebar - capital raise */
+.rc-card{border:1px solid var(--goldBd);background:var(--goldW);padding:12px}
+.rc-title{font-family:var(--mono);font-size:7px;letter-spacing:.22em;color:var(--goldD);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--goldBd);display:flex;justify-content:space-between;align-items:center}
+.rc-title-r{color:var(--amber);letter-spacing:.08em;text-transform:none}
+.rc-big{font-family:var(--serif);font-style:italic;font-size:26px;color:var(--goldB);line-height:1;margin-bottom:2px}
+.rc-sub{font-family:var(--mono);font-size:7px;color:var(--muted);margin-bottom:8px}
+.rc-bar{height:8px;background:var(--dim);overflow:hidden;border-radius:4px;margin-bottom:6px;position:relative}
+.rc-fill-ioi{position:absolute;top:0;left:0;height:100%;background:var(--goldD);border-radius:4px;transition:width .6s}
+.rc-fill-conf{position:absolute;top:0;left:0;height:100%;background:var(--goldB);border-radius:4px;transition:width .6s}
+.rc-bar-lbls{display:flex;justify-content:space-between;font-family:var(--mono);font-size:6.5px;color:var(--muted);margin-bottom:6px}
+.rc-sub-pct{font-family:var(--mono);font-size:8.5px;font-weight:600;margin-bottom:6px}
+.rc-stats{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px}
+.rc-stat{background:var(--card2);padding:6px 8px;border:1px solid var(--border)}
+.rc-stat-l{font-family:var(--mono);font-size:5.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.rc-stat-v{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--goldB);line-height:1}
+.rc-stat-v.green{color:var(--green)}.rc-stat-v.amber{color:var(--amber)}
+.rc-legend{display:flex;gap:10px;font-family:var(--mono);font-size:6px;color:var(--muted)}
+.rc-leg-dot{width:7px;height:7px;border-radius:2px;display:inline-block;margin-right:3px;vertical-align:middle}
+
+/* Countdown */
+.cd-card{border:1px solid var(--amberBd);background:var(--amberW);padding:11px;text-align:center}
+.cd-title{font-family:var(--mono);font-size:6px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:7px}
+.cd-timer{display:flex;justify-content:center;gap:8px;align-items:baseline}
+.cd-num{font-family:var(--serif);font-style:italic;font-size:26px;color:var(--amber);line-height:1}
+.cd-lbl{font-family:var(--mono);font-size:5.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);opacity:.6}
+.cd-sep{font-family:var(--serif);font-size:20px;color:var(--amber);opacity:.3}
+
+/* IOI count */
+.ioi-stat{border:1px solid var(--border);background:var(--card);padding:10px 12px;display:flex;align-items:center;justify-content:space-between}
+.ioi-stat-n{font-family:var(--serif);font-style:italic;font-size:26px;color:var(--goldB)}
+.ioi-stat-lbl{font-family:var(--mono);font-size:7px;color:var(--muted);text-align:right}
+
+/* CTA button */
+.deal-cta{width:100%;padding:12px;font-family:var(--mono);font-size:8px;letter-spacing:.20em;text-transform:uppercase;color:var(--bg);background:var(--gold);border:none;cursor:pointer;transition:background .14s}
+.deal-cta:hover{background:var(--goldB)}.deal-cta.submitted{color:var(--green);background:var(--greenW);border:1px solid var(--greenBd);cursor:default}
+.deal-cta.funded{color:var(--blue);background:var(--blueW);border:1px solid var(--blueBd);cursor:default}
+.cta-note{font-family:var(--mono);font-size:6.5px;color:var(--muted);text-align:center;line-height:1.65;margin-top:4px}
+
+/* IOI form */
+.ioi-form{border:1px solid var(--goldBd);background:var(--goldW);padding:14px}
+.if-title{font-family:var(--mono);font-size:7px;letter-spacing:.20em;color:var(--goldD);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--goldBd)}
+.if-lbl{font-family:var(--mono);font-size:7px;letter-spacing:.18em;color:var(--goldD);text-transform:uppercase;display:block;margin-bottom:3px;margin-top:8px}
+.if-lbl:first-of-type{margin-top:0}
+.if-inp{width:100%;padding:8px 10px;font-size:12px}
+.if-sel{width:100%;padding:8px 10px;font-size:11px;appearance:none}
+.if-ta{width:100%;padding:8px 10px;font-size:12.5px;font-family:var(--serif);resize:none;min-height:50px}
+.if-ack{display:flex;gap:7px;padding:5px 0;cursor:pointer;align-items:flex-start}
+.if-chk{width:13px;height:13px;border:1px solid var(--goldBd);background:var(--goldW);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.if-chk.on::after{content:'✓';font-size:7.5px;color:var(--goldB)}
+.if-ack-lbl{font-family:var(--mono);font-size:7px;color:var(--sub);line-height:1.55}
+.if-submit{width:100%;margin-top:10px;padding:10px;font-family:var(--mono);font-size:7.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--bg);background:var(--gold);border:none;cursor:pointer;transition:background .14s}
+.if-submit:hover{background:var(--goldB)}.if-submit:disabled{opacity:.35;cursor:not-allowed}
+.if-hint{font-family:var(--mono);font-size:6.5px;color:var(--muted);text-align:center;margin-top:5px;line-height:1.55}
+.if-err{font-family:var(--mono);font-size:7.5px;color:var(--red);padding:5px 8px;border:1px solid var(--redBd);background:var(--redW);margin-bottom:6px;display:none}
+.if-err.show{display:block}
+
+/* Status banners */
+.status-banner{display:flex;gap:9px;padding:10px 12px;border:1px solid;margin-bottom:10px}
+.sb-green{border-color:var(--greenBd);background:var(--greenW)}.sb-amber{border-color:var(--amberBd);background:var(--amberW)}.sb-blue{border-color:var(--blueBd);background:var(--blueW)}
+.sb-icon{font-size:15px;flex-shrink:0}.sb-title{font-family:var(--mono);font-size:7px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:3px}
+.sb-green .sb-title{color:var(--green)}.sb-amber .sb-title{color:var(--amber)}.sb-blue .sb-title{color:var(--blue)}
+.sb-text{font-family:var(--serif);font-size:12.5px;color:var(--text);font-weight:300;line-height:1.55}
+
+/* Subscription + Wire section */
+.sub-panel{border:1px solid var(--blueBd);background:var(--blueW);padding:12px;margin-bottom:10px}
+.sp-title{font-family:var(--mono);font-size:7px;letter-spacing:.20em;color:var(--blue);text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--blueBd)}
+.sp-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(91,133,184,.12);font-family:var(--mono);font-size:8px}
+.sp-row:last-child{border-bottom:0}.sp-lbl{color:var(--muted)}.sp-val{color:var(--text);font-weight:500}
+.sp-val.blue{color:var(--blue)}.sp-val.green{color:var(--green)}.sp-val.amber{color:var(--amber)}
+
+/* Position panel */
+.pos-panel{border:1px solid var(--greenBd);background:var(--greenW);padding:12px}
+.pp-title{font-family:var(--mono);font-size:7px;letter-spacing:.20em;color:var(--green);text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--greenBd)}
+.pp-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(90,158,114,.12);font-family:var(--mono);font-size:8px}
+.pp-row:last-child{border-bottom:0}.pp-lbl{color:var(--muted)}.pp-val.green{color:var(--green)}.pp-val.gold{color:var(--goldB)}
+
+/* Watermark notice */
+.wm-notice{display:flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--border);background:var(--card2);font-family:var(--mono);font-size:7px;color:var(--muted);margin-bottom:10px}
+
+/* Audit log */
+.audit{border:1px solid var(--border);overflow:hidden;margin-top:10px}
+.audit-hd{padding:6px 11px;font-family:var(--mono);font-size:7px;letter-spacing:.18em;color:var(--goldD);text-transform:uppercase;background:var(--card2);border-bottom:1px solid var(--border)}
+.at-row{display:flex;align-items:center;gap:8px;padding:6px 11px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:7px}
+.at-row:last-child{border-bottom:0}
+.at-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.at-dot.view{background:var(--blue)}.at-dot.dl{background:var(--goldD)}.at-dot.ioi{background:var(--green)}.at-dot.wire{background:var(--amber)}
+.at-who{color:var(--goldD);font-weight:600;flex-shrink:0;width:110px;overflow:hidden;text-overflow:ellipsis}.at-what{flex:1;color:var(--sub)}.at-ts{color:var(--muted);flex-shrink:0}
+
+/* Portfolio view */
+.port-wrap{max-width:860px;margin:0 auto;padding:24px}
+.port-title{font-family:var(--serif);font-style:italic;font-size:28px;margin-bottom:4px}
+.port-sub{font-family:var(--mono);font-size:7.5px;color:var(--muted);margin-bottom:20px;letter-spacing:.10em}
+.pos-card{background:var(--card);border:1px solid var(--border);margin-bottom:10px;overflow:hidden}
+.pc-hd{padding:11px 14px;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:space-between}
+.pc-name{font-family:var(--serif);font-style:italic;font-size:17px}
+.pc-status{font-family:var(--mono);font-size:6.5px;letter-spacing:.12em;text-transform:uppercase;padding:2px 7px;border:1px solid var(--greenBd);color:var(--green);background:var(--greenW)}
+.pc-body{padding:11px 14px;display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:8px;color:var(--muted)}
+.pc-body span{color:var(--goldD)}
+
+/* Login */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:24px}
+.login-box{width:100%;max-width:400px;border:1px solid var(--goldBd);background:var(--card);padding:36px}
+.login-seal{width:40px;height:40px;border:1px solid var(--goldBd);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--gold);margin:0 auto 18px}
+.login-tabs{display:flex;border:1px solid var(--border);overflow:hidden;margin-bottom:18px}
+.lt{flex:1;padding:8px;font-family:var(--mono);font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-right:1px solid var(--border);text-align:center;cursor:pointer;transition:all .14s}
+.lt:last-child{border-right:0}.lt.on{color:var(--gold);background:var(--goldW)}
+.ll{font-family:var(--mono);font-size:7px;letter-spacing:.20em;color:var(--goldD);text-transform:uppercase;display:block;margin-bottom:4px;margin-top:12px}
+.li{width:100%;padding:9px 11px;font-size:12.5px}
+.lb{width:100%;margin-top:16px;padding:11px;font-family:var(--mono);font-size:8px;letter-spacing:.20em;text-transform:uppercase;color:var(--bg);background:var(--gold);border:none;cursor:pointer;transition:background .14s}
+.lb:hover{background:var(--goldB)}.lerr{font-family:var(--mono);font-size:7.5px;color:var(--red);text-align:center;margin-top:8px;min-height:14px}
+.lnote{font-family:var(--mono);font-size:7px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.8}
+
+/* Loader / Toast */
+#loader{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;transition:opacity .4s .2s}
+#loader.done{opacity:0;pointer-events:none}
+.loader-seal{width:34px;height:34px;border:1px solid var(--goldBd);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--goldD);animation:lp 1.6s ease-in-out infinite}
+@keyframes lp{0%,100%{opacity:.15}50%{opacity:1}}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(8px);font-family:var(--mono);font-size:8px;letter-spacing:.18em;text-transform:uppercase;padding:8px 18px;border:1px solid var(--border);background:var(--card2);color:var(--sub);opacity:0;transition:all .25s;pointer-events:none;z-index:9999;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.ok{color:var(--green);border-color:var(--greenBd);background:var(--greenW)}.toast.err{color:var(--red);border-color:var(--redBd);background:var(--redW)}
+
+@media(max-width:900px){
+  .browse-wrap{flex-direction:column}.left-rail{display:none}
+  .deal-body-wrap{grid-template-columns:1fr}.deal-side{border-top:1px solid var(--border)}
+  .dh-metrics{grid-template-columns:repeat(3,1fr)}.dhm:nth-child(n+4){border-top:1px solid var(--border)}
+  .deals-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="loader"><div class="loader-seal"><em>Au</em></div></div>
+
+<!-- LOGIN -->
+<div id="login-screen" style="display:none">
+<div class="login-wrap"><div class="login-box">
+  <div class="login-seal"><em>Au</em></div>
+  <div style="font-family:var(--mono);font-size:7px;letter-spacing:.30em;color:var(--goldD);text-transform:uppercase;text-align:center;margin-bottom:6px">Aurum Century Club</div>
+  <div style="font-family:var(--serif);font-style:italic;font-size:26px;text-align:center;margin-bottom:3px">Deal Marketplace</div>
+  <div style="font-family:var(--mono);font-size:7px;letter-spacing:.10em;color:var(--muted);text-align:center;margin-bottom:22px">Members & advisors only</div>
+  <div class="login-tabs">
+    <div class="lt on" onclick="switchLT('member',this)">Member</div>
+    <div class="lt" onclick="switchLT('advisor',this)">Advisor</div>
+    <div class="lt" onclick="switchLT('admin',this)">Partner</div>
+  </div>
+  <div id="lf-member">
+    <label class="ll">Invite Code</label>
+    <input class="li" id="li-code" type="text" placeholder="TACC-XXXXXX" oninput="this.value=this.value.toUpperCase()">
+    <button class="lb" onclick="doMemberLogin()">View Deals →</button>
+    <div class="lerr" id="m-err"></div>
+    <div class="lnote">TACC admitted members only · NDA required</div>
+  </div>
+  <div id="lf-advisor" style="display:none">
+    <form onsubmit="doAdvLogin(event)">
+      <label class="ll">Email</label>
+      <input class="li" id="li-adv-email" type="email" autocomplete="email" placeholder="you@yourfirm.com">
+      <label class="ll">Password</label>
+      <input class="li" id="li-adv-pw" type="password" placeholder="••••••••">
+      <button class="lb" type="submit" id="adv-lb-btn">Sign in →</button>
+    </form>
+    <div class="lerr" id="adv-err"></div>
+  </div>
+  <div id="lf-admin" style="display:none">
+    <form onsubmit="doAdminLogin(event)">
+      <label class="ll">Partner Email</label>
+      <input class="li" id="li-admin-email" type="email" autocomplete="email" placeholder="partner@tacc.sg">
+      <label class="ll">Password</label>
+      <input class="li" id="li-admin-pw" type="password" placeholder="••••••••">
+      <button class="lb" type="submit" id="admin-lb-btn">Sign in as Partner →</button>
+    </form>
+    <div class="lerr" id="admin-err"></div>
+    <div class="lnote">TACC partners only · Same credentials as the Partner Portal</div>
+  </div>
+</div></div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+<nav class="nav">
+  <a href="/main"><div class="seal"><em>Au</em></div></a>
+  <div style="display:flex;flex-direction:column;line-height:1"><span class="nav-t">Deal Marketplace</span><span class="nav-s">Aurum Century Club</span></div>
+  <div class="nav-tabs">
+    <button class="ntab on" onclick="showView('browse',this)">Browse Deals</button>
+    <button class="ntab" onclick="showView('portfolio',this)">My Portfolio</button>
+  </div>
+  <div class="nav-right">
+    <span class="chip" id="nav-chip">—</span>
+    <button class="btn-ghost" onclick="reloadDeals()">↻</button>
+    <button class="btn-ghost" onclick="doLogout()">Sign out</button>
+  </div>
+</nav>
+
+<!-- BROWSE VIEW -->
+<div id="view-browse">
+  <div class="filter-bar">
+    <span class="fb-lbl">Class</span>
+    <div style="display:flex;gap:4px;flex-wrap:wrap" id="class-filters">
+      <button class="fpill on" data-c="all" onclick="setCF('all',this)">All</button>
+      <button class="fpill" data-c="credit" onclick="setCF('credit',this)">Credit</button>
+      <button class="fpill" data-c="pe" onclick="setCF('pe',this)">Pre-IPO</button>
+      <button class="fpill" data-c="re" onclick="setCF('re',this)">Real Estate</button>
+      <button class="fpill" data-c="infra" onclick="setCF('infra',this)">Infra</button>
+      <button class="fpill" data-c="equity" onclick="setCF('equity',this)">Growth Equity</button>
+    </div>
+    <div class="fb-sep"></div>
+    <span class="fb-lbl">Geo</span>
+    <div style="display:flex;gap:4px;flex-wrap:wrap" id="geo-filters">
+      <button class="fpill on" data-g="all" onclick="setGF('all',this)">All</button>
+      <button class="fpill" data-g="sg" onclick="setGF('sg',this)">Singapore</button>
+      <button class="fpill" data-g="sea" onclick="setGF('sea',this)">SE Asia</button>
+      <button class="fpill" data-g="apac" onclick="setGF('apac',this)">Asia-Pac</button>
+    </div>
+    <div class="srch">
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="4" stroke="#6b655e" stroke-width="1.2"/><path d="M8.5 8.5l2 2" stroke="#6b655e" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <input type="search" id="search-inp" placeholder="Search…" oninput="renderGrid()">
+    </div>
+  </div>
+  <div class="browse-wrap">
+    <div class="left-rail">
+      <div class="lr-hd">Refine</div>
+      <div class="lr-sec"><div class="lr-sec-t">IRR Target</div>
+        <div class="range-row"><input class="range-inp" id="irr-min" type="number" min="0" placeholder="0" oninput="renderGrid()"><span class="range-sep">–</span><input class="range-inp" id="irr-max" type="number" placeholder="50" oninput="renderGrid()"><span class="range-sep">%</span></div>
+      </div>
+      <div class="lr-sec"><div class="lr-sec-t">Term</div>
+        <div class="lr-chk-row" onclick="toggleLR('lt-short',this)"><div class="lrchk" id="lt-short"></div><span class="lrchk-lbl">≤ 12 months</span></div>
+        <div class="lr-chk-row" onclick="toggleLR('lt-mid',this)"><div class="lrchk" id="lt-mid"></div><span class="lrchk-lbl">13–36 months</span></div>
+        <div class="lr-chk-row" onclick="toggleLR('lt-long',this)"><div class="lrchk" id="lt-long"></div><span class="lrchk-lbl">36 months +</span></div>
+      </div>
+      <div class="lr-sec"><div class="lr-sec-t">Return Type</div>
+        <div class="lr-chk-row" onclick="toggleLR('rt-fixed',this)"><div class="lrchk" id="rt-fixed"></div><span class="lrchk-lbl">Fixed coupon</span></div>
+        <div class="lr-chk-row" onclick="toggleLR('rt-equity',this)"><div class="lrchk" id="rt-equity"></div><span class="lrchk-lbl">Equity upside</span></div>
+        <div class="lr-chk-row" onclick="toggleLR('rt-hybrid',this)"><div class="lrchk" id="rt-hybrid"></div><span class="lrchk-lbl">Hybrid</span></div>
+      </div>
+      <button onclick="clearLR()" style="font-family:var(--mono);font-size:7px;color:var(--muted);text-decoration:underline;border:none;background:none;cursor:pointer;padding:4px 0;margin-top:6px">Clear all</button>
+    </div>
+    <div class="grid-area">
+      <div class="grid-hdr">
+        <div style="display:flex;align-items:baseline;gap:6px"><span class="grid-title">Current Deals</span><span class="grid-ct" id="grid-ct">—</span></div>
+        <div class="sort-row">Sort: <select id="sort-sel" onchange="renderGrid()"><option value="newest">Newest</option><option value="irr">IRR ↓</option><option value="alloc">Allocation ↓</option><option value="term">Term ↑</option></select></div>
+      </div>
+      <div class="deals-grid" id="deals-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- DEAL PAGE -->
+<div id="deal-page">
+  <div class="deal-back" onclick="showView('browse',document.querySelector('.ntab'))">← Back to all deals</div>
+  <div id="deal-page-content"></div>
+</div>
+
+<!-- PORTFOLIO VIEW -->
+<div id="view-portfolio" style="display:none">
+  <div class="port-wrap">
+    <div class="port-title">My Portfolio</div>
+    <div class="port-sub">Deal positions, IOIs, and activity</div>
+    <div id="portfolio-content"></div>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// TACC DEAL MARKETPLACE · Production
+// ═══════════════════════════════════════════
+const $ = id => document.getElementById(id);
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmU = n => !n?'—':n>=1e6?'$'+(n/1e6).toFixed(2)+'M':n>=1e3?'$'+Math.round(n/1e3)+'K':'$'+n.toLocaleString();
+const fmD = ts => !ts?'—':new Date(ts).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+const fmDS = ts => !ts?'—':new Date(ts).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+
+const TYPE_LABELS   = {credit:'Private Credit',pe:'Pre-IPO Equity',re:'Real Estate',infra:'Infrastructure',equity:'Growth Equity',special:'Special Situations',venture:'Venture',structured:'Structured Product'};
+const GEO_LABELS    = {sg:'Singapore',sea:'Southeast Asia',apac:'Asia-Pacific',china:'Greater China',india:'India',jp_kr:'Japan/Korea',global:'Global'};
+const STRUCT_LABELS = {senior_secured:'Senior Secured',mezzanine:'Mezzanine',bridge:'Bridge',equity_secondary:'Equity Secondary',primary_equity:'Primary Equity',co_invest:'Co-Invest',spv:'SPV',revenue_based:'Rev-Based'};
+const RETURN_LABELS = {fixed_coupon:'Fixed Coupon',variable_pik:'Variable/PIK',equity_upside:'Equity Upside',hybrid:'Hybrid'};
+
+let S = {
+  role: null, user: null, deals: [], myIois: {},
+  classF: 'all', geoF: 'all', lrFilters: {},
+  selDeal: null,
+  ioiAcks: {},
+};
+
+function toast(msg,k=''){const t=$('toast');t.textContent=msg;t.className='toast show '+k;clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2800);}
+async function api(method,url,body){
+  const o={method,headers:{'Content-Type':'application/json'},credentials:'same-origin'};
+  if(body!==undefined) o.body=JSON.stringify(body);
+  const r=await fetch(url,o);let j=null;try{j=await r.json();}catch{}
+  if(!r.ok) throw new Error((j&&j.error)||'HTTP '+r.status);
+  return j;
+}
+
+// ── Init ─────────────────────────────────
+(async function(){
+  try{
+    // 1. Try admin cookie first — /api/me reads aurum_admin
+    const adminMe=await api('GET','/api/me').catch(()=>null);
+    if(adminMe?.ok){
+      S.role='partner';
+      S.user={name:adminMe.id||'Partner',firm:'TACC Partners',email:adminMe.email||''};
+      await reloadDeals();showApp();return;
+    }
+    // 2. Try advisor cookie
+    const adv=await api('GET','/api/advisor/me').catch(()=>null);
+    if(adv?.ok){S.role='advisor';S.user=adv.advisor;await reloadDeals();showApp();return;}
+    // 3. Try member cookie (aurum_access) — marketplace endpoint accepts it
+    const mkt=await api('GET','/api/deals/marketplace').catch(()=>null);
+    if(mkt?.ok){S.role='member';S.user={name:'Member'};S.deals=mkt.deals||[];showApp();return;}
+    // 4. No session — show login
+    showLogin();
+  }catch{showLogin();}
+})();
+
+function showLogin(){$('loader').className='done';$('login-screen').style.display='';}
+async function showApp(){
+  $('loader').className='done';$('login-screen').style.display='none';$('app').style.display='';
+  $('nav-chip').textContent=S.user?.firm||S.user?.name||'—';
+  if(!S.deals.length) await reloadDeals();
+  renderGrid();renderPortfolio();
+}
+async function reloadDeals(){
+  try{const j=await api('GET','/api/deals/marketplace');S.deals=j.deals||[];renderGrid();}
+  catch(e){toast('Refresh failed','err');}
+}
+
+// ── Auth ─────────────────────────────────
+function switchLT(mode,btn){
+  document.querySelectorAll('.lt').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  $('lf-member').style.display=mode==='member'?'':'none';
+  $('lf-advisor').style.display=mode==='advisor'?'':'none';
+  $('lf-admin').style.display=mode==='admin'?'':'none';
+}
+async function doMemberLogin(){
+  const code=($('li-code')?.value||'').trim();if(!code){$('m-err').textContent='Enter your invite code.';return;}
+  $('m-err').textContent='';
+  try{const j=await api('POST','/api/verify-code',{code});if(!j?.ok)throw new Error(j?.error||'Invalid code');
+    const mkt=await api('GET','/api/deals/marketplace').catch(()=>({deals:[]}));
+    S.role='member';S.user={name:'Member',code};S.deals=mkt.deals||[];showApp();
+  }catch(e){$('m-err').textContent=e.message;}
+}
+async function doAdvLogin(e){
+  e.preventDefault();const btn=$('adv-lb-btn');$('adv-err').textContent='';btn.disabled=true;btn.textContent='Signing in…';
+  try{const j=await api('POST','/api/advisor/login',{email:$('li-adv-email').value.trim(),password:$('li-adv-pw').value});
+    if(!j.ok)throw new Error(j.error||'failed');S.role='advisor';S.user=j.advisor;showApp();
+  }catch(e){$('adv-err').textContent=e.message;btn.disabled=false;btn.textContent='Sign in →';}
+}
+async function doAdminLogin(e){
+  e.preventDefault();const btn=$('admin-lb-btn');$('admin-err').textContent='';btn.disabled=true;btn.textContent='Signing in…';
+  try{
+    const j=await api('POST','/api/login',{email:$('li-admin-email').value.trim(),password:$('li-admin-pw').value});
+    if(!j.ok)throw new Error(j.error||'Invalid credentials');
+    S.role='partner';S.user={name:'Partner',firm:'TACC',email:$('li-admin-email').value.trim()};
+    await reloadDeals();showApp();
+  }catch(err){$('admin-err').textContent=err.message;btn.disabled=false;btn.textContent='Sign in as Partner →';}
+}
+async function doLogout(){try{if(S.role==='advisor')await api('POST','/api/advisor/logout');}catch{}S.role=null;S.user=null;S.deals=[];$('app').style.display='none';showLogin();}
+
+// ── Views ─────────────────────────────────
+function showView(id,btn){
+  ['browse','portfolio'].forEach(v=>{
+    $('view-'+v)&&($('view-'+v).style.display=v===id?'':'none');
+  });
+  $('deal-page').style.display='none';
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  if(id==='portfolio') renderPortfolio();
+}
+
+// ── Filters ───────────────────────────────
+function setCF(c,btn){S.classF=c;document.querySelectorAll('[data-c]').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderGrid();}
+function setGF(g,btn){S.geoF=g;document.querySelectorAll('[data-g]').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderGrid();}
+function toggleLR(id){S.lrFilters[id]=!S.lrFilters[id];const el=$(id);if(el)el.className='lrchk'+(S.lrFilters[id]?' on':'');renderGrid();}
+function clearLR(){S.lrFilters={};document.querySelectorAll('.lrchk').forEach(c=>c.className='lrchk');$('irr-min').value='';$('irr-max').value='';renderGrid();}
+
+// ── Grid ──────────────────────────────────
+function renderGrid(){
+  let deals=S.deals;
+  if(S.classF!=='all') deals=deals.filter(d=>d.type===S.classF);
+  if(S.geoF!=='all') deals=deals.filter(d=>d.geography===S.geoF);
+  const irrMin=parseFloat($('irr-min')?.value||0)||0;
+  const irrMax=parseFloat($('irr-max')?.value||0)||99;
+  if(irrMin>0) deals=deals.filter(d=>(d.target_irr||0)>=irrMin);
+  if(irrMax>0&&irrMax<99) deals=deals.filter(d=>(d.target_irr||0)<=irrMax);
+  if(S.lrFilters['lt-short']) deals=deals.filter(d=>(d.term_months||12)<=12);
+  if(S.lrFilters['lt-mid']) deals=deals.filter(d=>(d.term_months||12)>12&&(d.term_months||12)<=36);
+  if(S.lrFilters['lt-long']) deals=deals.filter(d=>(d.term_months||12)>36);
+  if(S.lrFilters['rt-fixed']) deals=deals.filter(d=>d.return_type==='fixed_coupon');
+  if(S.lrFilters['rt-equity']) deals=deals.filter(d=>d.return_type==='equity_upside');
+  if(S.lrFilters['rt-hybrid']) deals=deals.filter(d=>d.return_type==='hybrid');
+  const q=($('search-inp')?.value||'').toLowerCase();
+  if(q) deals=deals.filter(d=>(d.name||'').toLowerCase().includes(q)||(d.notes||'').toLowerCase().includes(q));
+  const sort=$('sort-sel')?.value||'newest';
+  if(sort==='irr') deals=[...deals].sort((a,b)=>(b.target_irr||0)-(a.target_irr||0));
+  else if(sort==='alloc') deals=[...deals].sort((a,b)=>(b.target_alloc_usd||0)-(a.target_alloc_usd||0));
+  else if(sort==='term') deals=[...deals].sort((a,b)=>(a.term_months||99)-(b.term_months||99));
+
+  $('grid-ct').textContent=deals.length+' deal'+(deals.length!==1?'s':'');
+  const el=$('deals-grid');
+  if(!deals.length){el.innerHTML='<div style="grid-column:1/-1;padding:40px;text-align:center;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--muted)">No deals match your filters.</div>';return;}
+  el.innerHTML=deals.map(d=>renderCard(d)).join('');
+}
+
+function renderCard(d){
+  const alloc=d.target_alloc_usd||0;
+  const filled=d.deployed_usd||0;
+  const confPct=alloc>0?Math.min(100,Math.round(filled/alloc*100)):0;
+  const ioiAgg=d.ioi_agg_usd||0;
+  const ioiPct=alloc>0?Math.min(400,Math.round(ioiAgg/alloc*100)):0;
+  const iois=d.ioi_count||0;
+  const myIoi=S.myIois[d.id];
+  const isHot=ioiPct>150;
+  return `<div class="dc" onclick="openDeal('${esc(d.id)}')">
+    <div class="dc-badges">
+      <span class="badge b-${d.type||'credit'}">${TYPE_LABELS[d.type]||d.type||'—'}</span>
+      ${d.geography?`<span class="badge b-geo">${GEO_LABELS[d.geography]||d.geography}</span>`:''}
+      ${isHot?`<span class="badge b-hot">Hot · ${ioiPct}% indicated</span>`:''}
+    </div>
+    <div class="dc-body">
+      <div class="dc-name">${esc(d.name)}</div>
+      <div class="dc-orig">${esc(d.originator||d.advisor_firm||'—')}</div>
+      <div class="dc-summary">${esc(d.notes||'—')}</div>
+    </div>
+    <div class="dc-metrics">
+      <div class="dcm"><div class="dcm-lbl">Target IRR</div><div class="dcm-val gold">${d.target_irr?d.target_irr+'%':'—'}</div><div class="dcm-sub">${RETURN_LABELS[d.return_type]||'—'}</div></div>
+      <div class="dcm"><div class="dcm-lbl">Term</div><div class="dcm-val">${d.term_months||'—'}</div><div class="dcm-sub">months</div></div>
+      <div class="dcm"><div class="dcm-lbl">Round</div><div class="dcm-val blue">${alloc?fmU(alloc):'—'}</div><div class="dcm-sub">TACC alloc.</div></div>
+    </div>
+    ${d.min_ticket_usd?`<div class="dc-min-ticket"><span>Min. ticket</span><strong>${fmU(d.min_ticket_usd)}</strong></div>`:''}
+    ${alloc?`<div class="dc-raise">
+      <div class="dc-raise-hdr"><span>Confirmed ${confPct}%</span><span>${fmU(filled)} / ${fmU(alloc)}</span></div>
+      <div class="dc-bar"><div class="dc-fill" style="width:${confPct}%"></div></div>
+      ${ioiPct>0?`<div class="dc-raise-sub">↑ ${ioiPct}% indicated · ${iois} IOI${iois!==1?'s':''}</div>`:''}
+    </div>`:''}
+    <div class="dc-foot" onclick="event.stopPropagation()">
+      <span class="dc-iois">${iois} indication${iois!==1?'s':''} received</span>
+      <button class="dc-cta ${myIoi?'done':''}" onclick="openDeal('${esc(d.id)}')">${myIoi?'✓ IOI Submitted':'View Deal →'}</button>
+    </div>
+  </div>`;
+}
+
+// ── Deal Page ─────────────────────────────
+async function openDeal(id){
+  const d=S.deals.find(x=>x.id===id);if(!d) return;
+  S.selDeal=id;
+  // Check IOI status
+  try{
+    const st=await api('GET',`/api/deal/ioi-status?deal_id=${encodeURIComponent(id)}`);
+    if(st.my_ioi){S.myIois[id]=st.my_ioi;}
+  }catch{}
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('on'));
+  $('view-browse').style.display='none';
+  $('view-portfolio').style.display='none';
+  $('deal-page').style.display='block';
+  renderDealPage(d);
+  window.scrollTo(0,0);
+}
+
+function renderDealPage(d){
+  const myIoi=S.myIois[d.id];
+  const hasDR=!!(myIoi?.data_room_access);
+  const isSubed=!!(myIoi?.subscription_sent_at);
+  const isFunded=myIoi?.status==='funded';
+  const alloc=d.target_alloc_usd||0;
+  const filled=d.deployed_usd||0;
+  const confPct=alloc>0?Math.min(100,Math.round(filled/alloc*100)):0;
+  const ioiAgg=d.ioi_agg_usd||0;
+  const ioiPct=alloc>0?Math.round(ioiAgg/alloc*100):0;
+
+  // Timeline (custom — Answer B Q6)
+  const timeline=d.timeline||defaultTimeline(d);
+  const tlHtml=timeline.map(m=>{
+    const cls=m.status||'future';
+    return `<div class="tl-item"><div class="tl-dot ${cls}"></div>
+      <div class="tl-label ${cls}">${esc(m.label)}${cls==='curr'?' · ← Now':''}</div>
+      <div class="tl-date">${esc(m.date||'—')}</div>
+      ${m.description?`<div class="tl-desc">${esc(m.description)}</div>`:''}
+      ${cls==='done'?`<div class="tl-tag">Completed</div>`:''}
+    </div>`;
+  }).join('');
+
+  // Returns
+  const irr=d.target_irr||0;const term=d.term_months||12;const yrs=term/12;
+  function calc(rate,inv){const end=inv*Math.pow(1+rate/100,yrs);const couponTotal=inv*rate/100*yrs;return{end,couponTotal};}
+  const scenarios=[{label:'Base · contracted',rate:irr},{label:'Target · GP projected',rate:irr,hl:true},{label:'Upside · early redemption',rate:irr*1.05},{label:'Conservative · 3mo delay',rate:irr*0.85,muted:true}];
+  const retRows=scenarios.map(s=>{
+    const{end,couponTotal}=calc(s.rate,100000);
+    const rowCls=s.hl?'rt-row hl':'rt-row';const nc=s.muted?'muted':s.hl?'gold':'';
+    return `<div class="${rowCls}"><span${s.muted?' style="color:var(--muted)"':''}>${s.label}</span><span class="rtn ${nc}">${s.rate.toFixed(1)}%</span><span class="rtn ${nc}">$100,000</span><span class="rtn ${nc}">${fmU(Math.round(couponTotal/yrs))}/yr</span><span class="rtn ${nc}">${fmU(Math.round(end))}</span></div>`;
+  }).join('');
+
+  // Documents
+  const docs=d.documents_v2||[];
+  const docRows=buildDocRows(d,docs,hasDR);
+
+  // Sidebar
+  const sideHtml=buildSidebar(d,myIoi,ioiPct,confPct,alloc,filled);
+
+  $('deal-page-content').innerHTML=`
+    <div class="deal-hero">
+      <div class="dh-crumb">Marketplace <span style="color:var(--dim)">›</span> ${TYPE_LABELS[d.type]||d.type} <span style="color:var(--dim)">›</span> ${GEO_LABELS[d.geography]||d.geography||'—'}</div>
+      <div class="dh-badges">
+        <span class="badge b-${d.type||'credit'}">${TYPE_LABELS[d.type]||d.type||'—'}</span>
+        ${d.deal_structure?`<span class="badge b-geo">${STRUCT_LABELS[d.deal_structure]||d.deal_structure}</span>`:''}
+        ${d.geography?`<span class="badge b-geo">${GEO_LABELS[d.geography]||d.geography}</span>`:''}
+        <span class="badge" style="color:var(--green);border-color:var(--greenBd);background:var(--greenW);animation:lp 2s infinite">● IOI Open</span>
+      </div>
+      <div class="dh-title">${esc(d.name)}</div>
+      <div class="dh-sub">${esc(d.originator||d.advisor_firm||'—')} · ${esc(d.id)} · Published ${fmDS(d.created_at)}</div>
+      <div class="dh-metrics">
+        <div class="dhm"><div class="dhm-lbl">Target IRR</div><div class="dhm-val">${d.target_irr?d.target_irr+'%':'—'}</div><div class="dhm-sub">${RETURN_LABELS[d.return_type]||'—'}</div></div>
+        <div class="dhm"><div class="dhm-lbl">Term</div><div class="dhm-val">${d.term_months||'—'}<span style="font-family:var(--mono);font-size:13px"> mo</span></div><div class="dhm-sub">from first draw</div></div>
+        <div class="dhm"><div class="dhm-lbl">Min Ticket</div><div class="dhm-val amber">${d.min_ticket_usd?fmU(d.min_ticket_usd):'—'}</div><div class="dhm-sub">max ${d.max_ticket_usd?fmU(d.max_ticket_usd):'open'}</div></div>
+        <div class="dhm"><div class="dhm-lbl">Round</div><div class="dhm-val green">${fmU(alloc)}</div><div class="dhm-sub">TACC allocation</div></div>
+        <div class="dhm"><div class="dhm-lbl">Hurdle Rate</div><div class="dhm-val">${d.hurdle_rate||8}%</div><div class="dhm-sub">20% carry above</div></div>
+      </div>
+    </div>
+    <div class="deal-body-wrap">
+      <div class="deal-main">
+        <div class="dsec">Deal Summary</div>
+        <div class="deal-summary-text">${esc(d.notes||'No description available.')}</div>
+        <div class="dsec">Key Highlights</div>
+        <div class="hl-list">
+          ${d.target_irr?`<div class="hl"><div class="hl-dot"></div><div class="hl-text"><strong>Target Return</strong> — ${d.target_irr}% gross IRR · ${RETURN_LABELS[d.return_type]||'income'} · ${d.term_months||'—'}-month investment term</div></div>`:''}
+          ${d.deal_structure?`<div class="hl"><div class="hl-dot"></div><div class="hl-text"><strong>Structure</strong> — ${STRUCT_LABELS[d.deal_structure]||d.deal_structure} · Funding via ${(d.funding_source||'LTV').toUpperCase()} facility</div></div>`:''}
+          ${ioiPct>0?`<div class="hl"><div class="hl-dot"></div><div class="hl-text"><strong>IOI Momentum</strong> — ${d.ioi_count||0} expressions of interest received · ${ioiPct}% of round indicated · TACC allocates at close</div></div>`:''}
+          ${d.deployed_usd>0?`<div class="hl"><div class="hl-dot"></div><div class="hl-text"><strong>Deployment</strong> — ${fmU(d.deployed_usd)} confirmed · ${confPct}% of round filled · ${fmU(alloc-filled)} remaining</div></div>`:''}
+        </div>
+        <div class="dsec">Deal Timeline <span class="dsec-note">Custom milestones</span></div>
+        <div class="tl">${tlHtml}</div>
+        <div class="dsec">Return Scenarios</div>
+        <div class="rt">
+          <div class="rt-row hd"><span>Scenario</span><span class="rtn">Gross IRR</span><span class="rtn">$100K Investment</span><span class="rtn">Annual Coupon</span><span class="rtn">Total Return</span></div>
+          ${retRows}
+        </div>
+        <div class="dsec">Documents <span class="dsec-note">${hasDR?'Data room open':'Submit IOI to unlock data room'}</span></div>
+        ${hasDR?`<div class="wm-notice"><span style="width:5px;height:5px;border-radius:50%;background:var(--goldD);flex-shrink:0"></span>Documents watermarked with your email + timestamp on every download. Do not forward or distribute.</div>`:''}
+        ${docRows}
+        ${hasDR&&(myIoi?.data_room_accessed_at)?`
+        <div class="dsec">Your Access Log</div>
+        <div class="audit">
+          <div class="audit-hd">Activity</div>
+          <div class="at-row"><div class="at-dot ioi"></div><div class="at-who">${esc((myIoi.investor_email||'').split('@')[0])}</div><div class="at-what">IOI submitted — ${fmU(myIoi.amount_usd)}</div><div class="at-ts">${fmDS(myIoi.submitted_at)}</div></div>
+          <div class="at-row"><div class="at-dot view"></div><div class="at-who">${esc((myIoi.investor_email||'').split('@')[0])}</div><div class="at-what">Data room access granted automatically</div><div class="at-ts">${fmDS(myIoi.data_room_granted_at)}</div></div>
+          ${myIoi.data_room_accessed_at?`<div class="at-row"><div class="at-dot dl"></div><div class="at-who">${esc((myIoi.investor_email||'').split('@')[0])}</div><div class="at-what">First document downloaded</div><div class="at-ts">${fmDS(myIoi.data_room_accessed_at)}</div></div>`:''}
+        </div>`:''}
+        ${isSubed||isFunded?buildSubSection(d,myIoi):''}
+      </div>
+      <div class="deal-side">${sideHtml}</div>
+    </div>`;
+}
+
+function buildDocRows(d,docs,hasDR){
+  if(!docs.length) return `<div style="font-family:var(--serif);font-style:italic;color:var(--muted);padding:12px 0">No documents uploaded yet.</div>`;
+  const pubDocs=docs.filter(x=>x.access_level==='public');
+  const ioiDocs=docs.filter(x=>x.access_level==='ioi');
+  const mkRow=(doc,unlocked)=>{
+    const ext=doc.content_type==='application/pdf'?'pdf':doc.content_type?.includes('sheet')||doc.name?.endsWith('.xlsx')?'xlsx':'pptx';
+    const sz=doc.size_bytes>0?Math.round(doc.size_bytes/1024/1024*10)/10+' MB':'—';
+    const action=unlocked
+      ?`<a class="doc-action da-dl" href="/api/deal/doc?deal_id=${encodeURIComponent(d.id)}&doc_id=${encodeURIComponent(doc.id)}" download>↓ Download</a>`
+      :`<span class="doc-action da-locked">🔒 Locked</span>`;
+    return `<div class="doc-row">
+      <div class="doc-icon ${ext}">${ext.toUpperCase()}</div>
+      <div style="flex:1"><div class="doc-name">${esc(doc.name)}</div><div class="doc-meta">Uploaded ${fmDS(doc.uploaded_at)}${doc.size_bytes?' · '+sz:''}</div></div>
+      <div class="doc-size">${sz}</div>${action}
+    </div>`;
+  };
+  let html='<div class="doc-hub">';
+  html+=`<div class="dh-hd"><span class="dh-title">Document Hub</span><span class="dh-prog">${hasDR?'100%':'Public only'} <div class="dh-bar"><div class="dh-fill" style="width:${hasDR?100:Math.round(pubDocs.length/docs.length*100)}%"></div></div></span></div>`;
+  if(pubDocs.length){html+=`<div class="doc-sec-hd pub">Public · Available now</div>`;pubDocs.forEach(doc=>html+=mkRow(doc,true));}
+  if(ioiDocs.length){
+    html+=`<div class="doc-sec-hd ${hasDR?'open':'gated'}">${hasDR?'✓ Data Room · Access Granted':'🔒 Data Room · Submit IOI to unlock'}</div>`;
+    ioiDocs.forEach(doc=>html+=mkRow(doc,hasDR));
+  }
+  html+='</div>';
+  return html;
+}
+
+function buildSidebar(d,myIoi,ioiPct,confPct,alloc,filled){
+  const isFunded=myIoi?.status==='funded';
+  const isSubed=!!(myIoi?.subscription_sent_at);
+  const hasDR=!!(myIoi?.data_room_access);
+  let html='';
+
+  // Capital raise
+  html+=`<div class="rc-card">
+    <div class="rc-title">Capital Raise <span class="rc-title-r">${d.data_room?.closing_date?'Closes '+fmDS(d.data_room.closing_date):'IOI Open'}</span></div>
+    <div class="rc-big">${fmU(alloc)}</div>
+    <div class="rc-sub">Total round · TACC allocation</div>
+    <div class="rc-bar-lbls"><span>Confirmed: ${confPct}%</span><span>Indicated: ${ioiPct}%</span></div>
+    <div class="rc-bar" style="height:10px">
+      <div class="rc-fill-ioi" style="width:${Math.min(100,ioiPct)}%"></div>
+      <div class="rc-fill-conf" style="width:${confPct}%"></div>
+    </div>
+    ${ioiPct>100?`<div class="rc-sub-pct" style="color:var(--amber)">${ioiPct}% of round indicated</div>`:''}
+    <div class="rc-stats">
+      <div class="rc-stat"><div class="rc-stat-l">Confirmed</div><div class="rc-stat-v">${fmU(filled)}</div></div>
+      <div class="rc-stat"><div class="rc-stat-l">Remaining</div><div class="rc-stat-v amber">${fmU(alloc-filled)}</div></div>
+      <div class="rc-stat"><div class="rc-stat-l">IOIs</div><div class="rc-stat-v">${d.ioi_count||0}</div></div>
+      <div class="rc-stat"><div class="rc-stat-l">Indicated</div><div class="rc-stat-v green">${fmU(d.ioi_agg_usd||0)}</div></div>
+    </div>
+    <div class="rc-legend"><span><span class="rc-leg-dot" style="background:var(--goldB)"></span>Confirmed</span><span><span class="rc-leg-dot" style="background:var(--goldD)"></span>Indicated</span></div>
+  </div>`;
+
+  // Countdown (placeholder — needs real closing_date)
+  if(d.data_room?.closing_date){
+    const diff=new Date(d.data_room.closing_date)-Date.now();
+    if(diff>0){
+      const days=Math.floor(diff/86400000),hrs=Math.floor((diff%86400000)/3600000),mins=Math.floor((diff%3600000)/60000);
+      html+=`<div class="cd-card"><div class="cd-title">IOI Window Closes In</div>
+        <div class="cd-timer">
+          <div><div class="cd-num">${days}</div><div class="cd-lbl">Days</div></div><div class="cd-sep">:</div>
+          <div><div class="cd-num">${hrs}</div><div class="cd-lbl">Hrs</div></div><div class="cd-sep">:</div>
+          <div><div class="cd-num">${mins}</div><div class="cd-lbl">Min</div></div>
+        </div></div>`;
+    }
+  }
+
+  // IOI count (no amounts — Answer B Q5)
+  html+=`<div class="ioi-stat">
+    <div><div class="ioi-stat-n">${d.ioi_count||0}</div><div style="font-family:var(--mono);font-size:6.5px;color:var(--muted)">expression${(d.ioi_count||0)!==1?'s':''} of interest</div></div>
+    <div class="ioi-stat-lbl">${ioiPct>0?ioiPct+'% of<br>round<br>indicated':''}</div>
+  </div>`;
+
+  // CTA / form
+  if(isFunded){
+    html+=`<button class="deal-cta funded">✓ Position Open</button>`;
+  } else if(hasDR && !myIoi){
+    html+=`<button class="deal-cta submitted" disabled>✓ IOI Submitted</button>`;
+  } else if(myIoi){
+    html+=`<button class="deal-cta submitted" disabled>✓ IOI Submitted — ${fmU(myIoi.amount_usd)}</button>`;
+    html+=`<div class="cta-note">Data room unlocked · Documents available above</div>`;
+  } else {
+    html+=`<div class="ioi-form" id="ioi-form-${d.id}">
+      <div class="if-title">Indicate Interest · Non-Binding</div>
+      <div class="if-err" id="ioi-err-${d.id}"></div>
+      <label class="if-lbl">Indicative Amount (USD) *</label>
+      <input class="if-inp" id="ioi-amt-${d.id}" type="number" min="${d.min_ticket_usd||0}" placeholder="${d.min_ticket_usd?fmU(d.min_ticket_usd)+' min':'e.g. 100000'}">
+      ${d.min_ticket_usd?`<div style="font-family:var(--mono);font-size:6.5px;color:var(--muted);margin-top:3px">Min: ${fmU(d.min_ticket_usd)} · Max: ${d.max_ticket_usd?fmU(d.max_ticket_usd):'open'}</div>`:''}
+      <label class="if-lbl">Funding Source</label>
+      <select class="if-sel" id="ioi-funding-${d.id}">
+        <option value="ltv">LTV — borrow against my gold allocation</option>
+        <option value="reserve">Reserve — commit fresh capital</option>
+      </select>
+      <label class="if-lbl">Notes (optional)</label>
+      <textarea class="if-ta" id="ioi-notes-${d.id}" rows="2" placeholder="Questions, conditions, or context for TACC partners…"></textarea>
+      <div style="margin-top:10px">
+        <div class="if-ack" onclick="toggleIAck('ia1-${d.id}')"><div class="if-chk" id="ia1-${d.id}"></div><span class="if-ack-lbl">This IOI is non-binding. Final allocation at TACC's discretion. Subject to LP documentation and deal close.</span></div>
+        <div class="if-ack" onclick="toggleIAck('ia2-${d.id}')"><div class="if-chk" id="ia2-${d.id}"></div><span class="if-ack-lbl">Submitting this IOI grants me immediate access to the deal data room. Documents are watermarked with my identity.</span></div>
+        <div class="if-ack" onclick="toggleIAck('ia3-${d.id}')"><div class="if-chk" id="ia3-${d.id}"></div><span class="if-ack-lbl">I am a qualified investor or accredited investor under the Securities and Futures Act (Singapore).</span></div>
+      </div>
+      <button class="if-submit" id="ioi-btn-${d.id}" onclick="submitIOI('${esc(d.id)}')">Submit IOI & Unlock Data Room →</button>
+      <div class="if-hint">Auto-approved · Data room opens immediately after submission</div>
+    </div>`;
+  }
+
+  return html;
+}
+
+function buildSubSection(d,myIoi){
+  if(!myIoi) return '';
+  const isFunded=myIoi.status==='funded';
+  let html=`<div class="dsec">Subscription & Settlement</div>`;
+  if(isFunded){
+    html+=`<div class="status-banner sb-green"><span class="sb-icon">✓</span><div><div class="sb-title">Position Open · Wire Confirmed</div><div class="sb-text">Your position of ${fmU(myIoi.amount_usd)} in ${esc(d.name)} is active. Wire cleared ${fmDS(myIoi.wire_cleared_at)}. Position added to your portfolio.</div></div></div>`;
+    html+=`<div class="pos-panel"><div class="pp-title">Position Details</div>
+      <div class="pp-row"><span class="pp-lbl">Deal</span><span class="pp-val gold">${esc(d.name)}</span></div>
+      <div class="pp-row"><span class="pp-lbl">Amount</span><span class="pp-val gold">${fmU(myIoi.amount_usd)}</span></div>
+      <div class="pp-row"><span class="pp-lbl">Target IRR</span><span class="pp-val green">${d.target_irr||'—'}%</span></div>
+      <div class="pp-row"><span class="pp-lbl">Term</span><span class="pp-val">${d.term_months||'—'} months</span></div>
+      <div class="pp-row"><span class="pp-lbl">Opened</span><span class="pp-val">${fmDS(myIoi.position_created_at)}</span></div>
+    </div>`;
+  } else if(myIoi.wire_issued_at){
+    html+=`<div class="status-banner sb-amber"><span class="sb-icon">⟳</span><div><div class="sb-title">Wire Instructions Issued</div><div class="sb-text">Wire instructions for ${fmU(myIoi.amount_usd)} sent to ${esc(myIoi.investor_email)} on ${fmDS(myIoi.wire_issued_at)}. Reference: ${esc(myIoi.wire_ref||'—')}.</div></div></div>`;
+    html+=`<div class="sub-panel"><div class="sp-title">Wire Details</div>
+      <div class="sp-row"><span class="sp-lbl">Amount</span><span class="sp-val blue">${fmU(myIoi.amount_usd)}</span></div>
+      <div class="sp-row"><span class="sp-lbl">Reference</span><span class="sp-val">${esc(myIoi.wire_ref||'—')}</span></div>
+      <div class="sp-row"><span class="sp-lbl">Status</span><span class="sp-val amber">Awaiting clearance</span></div>
+      ${myIoi.wire_instructions?`<div class="sp-row"><span class="sp-lbl">Instructions</span><span class="sp-val" style="font-size:7.5px">${esc(myIoi.wire_instructions.slice(0,80))}</span></div>`:''}
+    </div>`;
+  } else if(myIoi.subscription_sent_at){
+    html+=`<div class="status-banner sb-blue"><span class="sb-icon">§</span><div><div class="sb-title">Allocation Confirmed · Subscription Pending</div><div class="sb-text">TACC partners have confirmed your allocation of ${fmU(myIoi.amount_usd)}. Subscription documents available below. Review, sign, and return to proceed to wire.</div></div></div>`;
+    const subDocs=d.subscription_docs||[];
+    if(subDocs.length){
+      html+=`<div class="doc-hub">`;
+      html+=`<div class="dh-hd"><span class="dh-title">Subscription Documents</span><span style="font-family:var(--mono);font-size:7px;color:var(--blue)">Sign & return</span></div>`;
+      subDocs.forEach(sd=>{
+        html+=`<div class="doc-row"><div class="doc-icon pdf">PDF</div><div style="flex:1"><div class="doc-name">${esc(sd.name)}</div><div class="doc-meta">Uploaded ${fmDS(sd.uploaded_at)}</div></div><a class="doc-action da-dl" href="/api/deal/doc?deal_id=${encodeURIComponent(d.id)}&doc_id=${encodeURIComponent(sd.id)}" download>↓ Download</a></div>`;
+      });
+      html+=`</div>`;
+    }
+  }
+  return html;
+}
+
+// ── IOI Actions ───────────────────────────
+const ioiAckState={};
+function toggleIAck(id){ioiAckState[id]=!ioiAckState[id];const el=$(id);if(el)el.className='if-chk'+(ioiAckState[id]?' on':'');}
+
+async function submitIOI(dealId){
+  const amt=parseFloat($('ioi-amt-'+dealId)?.value||0);
+  const d=S.deals.find(x=>x.id===dealId);
+  const errEl=$('ioi-err-'+dealId);
+  errEl.classList.remove('show');
+
+  if(!amt||amt<1000){errEl.textContent='Please enter a valid amount (minimum $1,000).';errEl.classList.add('show');return;}
+  if(d?.min_ticket_usd&&amt<d.min_ticket_usd){errEl.textContent=`Minimum ticket is ${fmU(d.min_ticket_usd)}.`;errEl.classList.add('show');return;}
+
+  const a1=ioiAckState['ia1-'+dealId],a2=ioiAckState['ia2-'+dealId],a3=ioiAckState['ia3-'+dealId];
+  if(!a1||!a2||!a3){errEl.textContent='Please confirm all three acknowledgments.';errEl.classList.add('show');return;}
+
+  const btn=$('ioi-btn-'+dealId);btn.disabled=true;btn.textContent='Submitting…';
+  try{
+    const j=await api('POST','/api/deal/ioi',{
+      deal_id:dealId,amount_usd:amt,
+      notes:$('ioi-notes-'+dealId)?.value||'',
+      funding_source:$('ioi-funding-'+dealId)?.value||'ltv',
+    });
+    if(!j.ok) throw new Error(j.error||'submit failed');
+    S.myIois[dealId]=j.my_ioi;
+    // Update deal stats
+    const idx=S.deals.findIndex(x=>x.id===dealId);if(idx>=0)S.deals[idx]=j.deal;
+    renderDealPage(j.deal);
+    toast('IOI submitted · Data room unlocked immediately','ok');
+  }catch(e){errEl.textContent=e.message;errEl.classList.add('show');btn.disabled=false;btn.textContent='Submit IOI & Unlock Data Room →';}
+}
+
+// ── Portfolio ─────────────────────────────
+function renderPortfolio(){
+  const myIds=Object.keys(S.myIois);
+  if(!myIds.length){$('portfolio-content').innerHTML='<div style="font-family:var(--serif);font-style:italic;color:var(--muted);padding:24px 0">No IOIs submitted yet. Browse deals to express interest.</div>';return;}
+  $('portfolio-content').innerHTML=myIds.map(id=>{
+    const d=S.deals.find(x=>x.id===id),ioi=S.myIois[id];if(!d) return '';
+    const statusLabel={pending:'IOI Submitted',approved:'Allocation Confirmed',funded:'Position Open'}[ioi.status]||'IOI Submitted';
+    return `<div class="pos-card" onclick="openDeal('${esc(id)}');document.querySelector('.ntab').click()" style="cursor:pointer">
+      <div class="pc-hd"><span class="pc-name">${esc(d.name)}</span><span class="pc-status">${statusLabel}</span></div>
+      <div class="pc-body">
+        <span>Indicated: <span>${fmU(ioi.amount_usd)}</span></span>
+        <span>Submitted: <span>${fmDS(ioi.submitted_at)}</span></span>
+        <span>IRR target: <span>${d.target_irr?d.target_irr+'%':'—'}</span></span>
+        <span>Term: <span>${d.term_months||'—'} mo</span></span>
+        <span>Data room: <span>${ioi.data_room_access?'✓ Open':'Pending'}</span></span>
+        ${ioi.status==='funded'?`<span>Position: <span>Active</span></span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Default timeline ──────────────────────
+function defaultTimeline(d){
+  const now=new Date();
+  return [
+    {label:'Deal Submitted',date:d.created_at?fmD(d.created_at):'—',status:'done',description:`Submitted by ${d.advisor_firm||'advisor'}. Review initiated.`},
+    {label:'Partner Approval',date:d.stage_entered_at?fmD(d.stage_entered_at):'—',status:['live','ioi','dd','terms','close'].includes(d.stage)?'done':'future',description:'Credit committee review. CIM assessed. Allocation confirmed.'},
+    {label:'IOI Window Open',date:'Now open',status:'curr',description:'Members may submit indicative IOIs. Data room opens on submission.'},
+    {label:'IOI Close & Allocation',date:d.data_room?.closing_date?fmD(d.data_room.closing_date):'TBD',status:'future',description:'IOI window closes. TACC finalises allocation. Subscription docs issued.'},
+    {label:'Funding Date',date:'Est. '+new Date(now.getTime()+45*86400000).toLocaleDateString('en-US',{month:'short',year:'numeric'}),status:'future',description:'Capital called. Wire instructions issued. Position opened.'},
+    {label:'Expected Maturity',date:d.term_months?'Est. '+new Date(now.getTime()+((d.term_months||12)+1.5)*30*86400000).toLocaleDateString('en-US',{month:'short',year:'numeric'}):'TBD',status:'future',description:'Full principal + final coupon. Exit via refinance or asset sale.'},
+  ];
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('deal-page').style.display!=='none'){showView('browse',document.querySelector('.ntab'));}});
+</script>
+</body>
+</html>
